@@ -1,0 +1,30 @@
+.category {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+
+	.articles {
+		width: calc(80% - 20px);
+		margin-right: 20px;
+
+		.no-info {
+			text-align: center;
+		}
+	}
+
+	.right-bar {
+		width: 20%;
+	}
+
+	@media (max-width: 1000px) {
+		flex-direction: column;
+
+		.right-bar {
+			display: none;
+		}
+
+		.articles {
+			width: 100%;
+		}
+	}
+}

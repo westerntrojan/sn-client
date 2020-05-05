@@ -1,0 +1,57 @@
+.comment {
+	display: flex;
+	align-items: flex-start;
+	word-wrap: break-word;
+
+	.avatar {
+		margin-right: 10px;
+	}
+
+	.content {
+		flex: 1;
+		padding: 0;
+
+		.info {
+			display: flex;
+			align-items: center;
+			margin-bottom: 5px;
+
+			.username {
+				margin-right: 10px;
+			}
+
+			.date {
+				opacity: 0.6;
+			}
+		}
+
+		.text {
+			margin-bottom: 10px;
+		}
+
+		.actions {
+			display: flex;
+			align-items: center;
+
+			.assessment {
+				display: flex;
+				align-items: center;
+				margin-right: 10px;
+
+				.likes-number {
+					margin-right: 10px;
+				}
+			}
+		}
+	}
+
+	.action-icon {
+		opacity: 0;
+	}
+
+	&:hover {
+		.action-icon {
+			opacity: 1;
+		}
+	}
+}

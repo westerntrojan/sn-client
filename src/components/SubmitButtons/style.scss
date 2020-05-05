@@ -1,0 +1,12 @@
+.contained-button,
+.text-button {
+	position: relative;
+	width: -moz-max-content;
+	width: fit-content;
+	display: flex;
+	justify-content: center;
+
+	.loader {
+		position: absolute;
+	}
+}

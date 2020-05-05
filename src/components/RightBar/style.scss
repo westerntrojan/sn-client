@@ -1,0 +1,13 @@
+.right-bar {
+	@media (max-width: 1000px) {
+		position: static;
+
+		.top-tags {
+			margin-bottom: 0;
+		}
+
+		.top-articles {
+			display: none;
+		}
+	}
+}

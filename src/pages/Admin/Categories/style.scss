@@ -1,0 +1,28 @@
+.categories {
+	display: flex;
+	justify-content: space-between;
+
+	.category-list,
+	.category-form {
+		width: 50%;
+	}
+
+	.category-list {
+		margin-right: 20px;
+	}
+}
+
+@media (max-width: 1000px) {
+	.categories {
+		flex-direction: column;
+
+		.category-list,
+		.category-form {
+			width: 100%;
+		}
+
+		.category-list {
+			margin-bottom: 20px;
+		}
+	}
+}

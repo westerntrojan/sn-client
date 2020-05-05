@@ -1,0 +1,31 @@
+.main {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+
+	.articles {
+		width: calc(80% - 20px);
+
+		.no-info {
+			text-align: center;
+		}
+	}
+
+	.right-bar {
+		width: 20%;
+	}
+
+	@media (max-width: 1000px) {
+		flex-direction: column;
+
+		.right-bar {
+			order: -1;
+			width: 100%;
+			margin-bottom: 20px;
+		}
+
+		.articles {
+			width: 100%;
+		}
+	}
+}

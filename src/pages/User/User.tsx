@@ -1,0 +1,99 @@
+import React, {useState, useEffect} from 'react';
+import {useSelector, useDispatch, shallowEqual} from 'react-redux';
+import {useParams, useHistory} from 'react-router';
+import {Helmet} from 'react-helmet';
+
+import './style.scss';
+import PageLoader from '@components/PageLoader';
+import {RemoveUserModal} from '@components/modals';
+import UserInfo from './components/UserInfo';
+import UserActions from './components/UserActions';
+import UserStatistics from './components/UserStatistics';
+import RemovedAvatar from './components/removed/RemovedAvatar';
+import RemovedInfo from './components/removed/RemovedInfo';
+import callApi from '@utils/callApi';
+import {removeUser} from '@store/app/actions';
+import {notFound} from '@store/app/actions';
+import {RootState} from '@store/types';
+import {IUserStatistics, IFetchData} from './types';
+
+const API = '/users';
+
+const User: React.FC = () => {
+	const {userLink} = useParams();
+	const history = useHistory();
+
+	const [user, setUser] = useState<IUserStatistics | null>(null);
+	const [removeModal, setRemoveModal] = useState(false);
+	const [loading, setLoading] = useState(true);
+
+	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		const fetchUser = async (): Promise<void> => {
+			const data: IFetchData = await callApi.get(`${API}/${userLink}`);
+
+			if (data.success) {
+				setUser(data.user);
+
+				setLoading(false);
+			} else {
+				dispatch(notFound());
+			}
+		};
+		fetchUser();
+	}, [userLink, dispatch, history]);
+
+	const openRemoveModal = (): void => {
+		setRemoveModal(true);
+	};
+
+	const handleRemove = async (): Promise<void> => {
+		if (user) {
+			await dispatch(removeUser(user._id));
+		}
+
+		history.push('/');
+	};
+
+	if (loading) {
+		return <PageLoader />;
+	}
+
+	return (
+		<section className='user'>
+			<Helmet>
+				<title>
+					{user ? `${user.firstName} ${user.lastName}`.trim() : 'User'} /{' '}
+					{process.env.REACT_APP_TITLE}
+				</title>
+			</Helmet>
+
+			{user && !user.isRemoved && (
+				<div className='user-data'>
+					<UserActions auth={auth} user={user} remove={openRemoveModal} />
+					<div className='user-subdata'>
+						<UserInfo user={user} />
+						<UserStatistics user={user} />
+					</div>
+				</div>
+			)}
+
+			{user && user.isRemoved && (
+				<div className='user-data'>
+					<RemovedAvatar />
+					<RemovedInfo user={user} />
+				</div>
+			)}
+
+			<RemoveUserModal
+				open={removeModal}
+				closeModal={(): void => setRemoveModal(false)}
+				action={handleRemove}
+			/>
+		</section>
+	);
+};
+
+export default User;

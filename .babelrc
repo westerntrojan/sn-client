@@ -1,0 +1,40 @@
+{
+	"presets": ["react-app"],
+	"plugins": [
+		[
+			"babel-plugin-root-import",
+			{
+				"paths": [
+					{
+						"rootPathPrefix": "&",
+						"rootPathSuffix": "src"
+					},
+					{
+						"rootPathPrefix": "@components",
+						"rootPathSuffix": "src/components"
+					},
+					{
+						"rootPathPrefix": "@pages",
+						"rootPathSuffix": "src/pages"
+					},
+					{
+						"rootPathPrefix": "@store",
+						"rootPathSuffix": "src/store"
+					},
+					{
+						"rootPathPrefix": "@utils",
+						"rootPathSuffix": "src/utils"
+					},
+					{
+						"rootPathPrefix": "@selectors",
+						"rootPathSuffix": "src/selectors"
+					},
+					{
+						"rootPathPrefix": "@App",
+						"rootPathSuffix": "src/App"
+					}
+				]
+			}
+		]
+	]
+}

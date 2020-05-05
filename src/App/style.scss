@@ -1,0 +1,95 @@
+* {
+	padding: 0;
+	margin: 0;
+}
+
+.form {
+	display: flex;
+	flex-direction: column;
+}
+
+.button {
+	width: -moz-max-content;
+	width: fit-content;
+	color: white !important;
+}
+
+.buttons {
+	display: flex;
+	button {
+		margin-right: 10px;
+	}
+}
+
+.small {
+	font-size: 14px !important;
+	opacity: 0.8;
+}
+
+.avatar {
+	color: white !important;
+}
+
+html,
+body {
+	width: 100%;
+	height: 100%;
+}
+
+#root {
+	width: 100%;
+	min-height: 100vh;
+	display: flex;
+	justify-content: center;
+
+	main.content {
+		width: 100%;
+		max-width: 1400px;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		padding: 20px;
+
+		.route-section {
+			height: 100%;
+		}
+	}
+
+	.bottom-panel {
+		z-index: 1000;
+		position: fixed;
+		bottom: 0;
+		left: 0;
+	}
+}
+
+// animation for react-router
+.fade-enter {
+	opacity: 0.01;
+}
+
+.fade-enter.fade-enter-active {
+	opacity: 1;
+	transition: opacity 200ms ease-in;
+}
+
+.fade-exit {
+	opacity: 1;
+}
+
+.fade-exit.fade-exit-active {
+	opacity: 0.01;
+	transition: opacity 200ms ease-in;
+}
+
+div.transition-group {
+	position: relative;
+	flex: 1;
+}
+
+section.route-section {
+	position: absolute;
+	width: 100%;
+	top: 0;
+	left: 0;
+}
