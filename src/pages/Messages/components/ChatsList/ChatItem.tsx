@@ -1,7 +1,6 @@
 import React from 'react';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
@@ -14,7 +13,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
-import {userAvatar} from '@utils/users';
+import UserAvatar from '@components/avatars/UserAvatar';
 import {IChat} from '@pages/Messages/types';
 import {relativeDate} from '@utils/app';
 
@@ -65,13 +64,7 @@ const ChatItem: React.FC<Props> = ({chat, openRemoveChatModal}) => {
 				className={classes.root}
 			>
 				<ListItemAvatar>
-					<Avatar
-						src={chat.user.avatar.images[0]}
-						style={{backgroundColor: chat.user.avatar.color}}
-						className='avatar'
-					>
-						{userAvatar(chat.user)}
-					</Avatar>
+					<UserAvatar user={chat.user} />
 				</ListItemAvatar>
 
 				<ListItemText

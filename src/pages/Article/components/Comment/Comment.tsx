@@ -5,7 +5,6 @@ import Typography from '@material-ui/core/Typography';
 import {Link as RouterLink} from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 import classNames from 'classnames';
-import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
@@ -15,7 +14,8 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
 import './style.scss';
-import {userLink, userAvatar} from '@utils/users';
+import UserAvatar from '@components/avatars/UserAvatar';
+import {userLink} from '@utils/users';
 import {IComment} from '@store/types';
 
 type Props = {
@@ -46,13 +46,7 @@ const Comment: React.FC<Props> = ({comment, auth, handleLike, handleDislike, han
 	return (
 		<div className={classNames('comment')}>
 			<Link underline='none' component={RouterLink} to={userLink(comment.user)} color='inherit'>
-				<Avatar
-					className='avatar'
-					src={comment.user.avatar.images[0]}
-					style={{backgroundColor: comment.user.avatar.color}}
-				>
-					{userAvatar(comment.user)}
-				</Avatar>
+				<UserAvatar user={comment.user} />
 			</Link>
 
 			<CardContent className='content'>

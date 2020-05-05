@@ -8,9 +8,9 @@ import {makeStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 import classNames from 'classnames';
-import Avatar from '@material-ui/core/Avatar';
 
-import {userLink, userAvatar} from '@utils/users';
+import UserAvatar from '@components/avatars/UserAvatar';
+import {userLink} from '@utils/users';
 import {IMessage} from '@pages/Chat/types';
 
 const useStyles = makeStyles(theme => ({
@@ -61,13 +61,7 @@ const Message: React.FC<Props> = ({message}) => {
 	return (
 		<div className={classNames('message', classes.root)}>
 			<Link underline='none' component={RouterLink} to={userLink(message.user)} color='inherit'>
-				<Avatar
-					className={classNames(classes.avatar, 'avatar')}
-					src={message.user.avatar.images[0]}
-					style={{backgroundColor: message.user.avatar.color}}
-				>
-					{userAvatar(message.user)}
-				</Avatar>
+				<UserAvatar user={message.user} className={classes.avatar} />
 			</Link>
 			<Card>
 				<CardContent>

@@ -4,9 +4,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import {useHistory} from 'react-router';
-import Avatar from '@material-ui/core/Avatar';
 import {makeStyles} from '@material-ui/core/styles';
-import classNames from 'classnames';
 import {Link as RouterLink} from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 import Skeleton from '@material-ui/lab/Skeleton';
@@ -16,7 +14,8 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
 import PointsLoader from '@components/PointsLoader';
-import {userLink, userAvatar} from '@utils/users';
+import UserAvatar from '@components/avatars/UserAvatar';
+import {userLink} from '@utils/users';
 import Context, {IContext} from '@pages/UsersChat/context';
 
 const useStyles = makeStyles(theme => ({
@@ -114,13 +113,7 @@ const Header: React.FC = () => {
 
 				{user ? (
 					<Link underline='none' component={RouterLink} to={userLink(user)} color='inherit'>
-						<Avatar
-							src={user.avatar.images[0]}
-							className={classNames(classes.avatar, 'avatar')}
-							style={{backgroundColor: user.avatar.color}}
-						>
-							{userAvatar(user)}
-						</Avatar>
+						<UserAvatar user={user} className={classes.avatar} />
 					</Link>
 				) : (
 					<Skeleton variant='circle' width={40} height={40} />

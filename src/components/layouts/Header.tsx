@@ -13,7 +13,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import Avatar from '@material-ui/core/Avatar';
 import classNames from 'classnames';
 import {useLocation} from 'react-router';
 import PaletteIcon from '@material-ui/icons/Palette';
@@ -23,7 +22,8 @@ import {AuthState} from '@store/auth/types';
 import KeyboardIcon from '@material-ui/icons/Keyboard';
 import SettingsIcon from '@material-ui/icons/Settings';
 
-import {userLink, userAvatar} from '@utils/users';
+import UserAvatar from '@components/avatars/UserAvatar';
+import {userLink} from '@utils/users';
 import {SearchFocus} from '@utils/hotKeys';
 
 const useStyles = makeStyles(theme => ({
@@ -304,14 +304,11 @@ const Header: React.FC<Props> = ({
 									<SettingsIcon />
 								</IconButton>
 								{auth.isAuth ? (
-									<Avatar
-										className={classNames(classes.avatar, 'avatar')}
-										style={{backgroundColor: auth.user.avatar.color}}
-										src={auth.user.avatar.images[0]}
+									<UserAvatar
+										user={auth.user}
+										className={classes.avatar}
 										onClick={handleProfileMenuOpen}
-									>
-										{userAvatar(auth.user)}
-									</Avatar>
+									/>
 								) : (
 									<Link
 										underline='none'

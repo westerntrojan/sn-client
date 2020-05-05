@@ -4,24 +4,22 @@ import TextField from '@material-ui/core/TextField';
 import {useSnackbar} from 'notistack';
 import Button from '@material-ui/core/Button';
 import classNames from 'classnames';
-import Avatar from '@material-ui/core/Avatar';
-import PersonIcon from '@material-ui/icons/Person';
 
 import {useHistory} from 'react-router';
 
 import {ContainedButton} from '@components/SubmitButtons';
-import {userAvatar} from '@utils/users';
+import {UserAvatar, NotAuthAvatar} from '@components/avatars';
 import {IUser} from '@store/types';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles({
 	root: {
 		display: 'flex',
 	},
-	avatar: {
-		marginRight: 10,
-	},
 	form: {
 		flex: 1,
+	},
+	avatar: {
+		marginRight: 10,
 	},
 	input: {
 		marginBottom: '20px',
@@ -33,7 +31,7 @@ const useStyles = makeStyles(() => ({
 	cancelButton: {
 		marginRight: 10,
 	},
-}));
+});
 
 type Props = {
 	auth: {
@@ -115,17 +113,9 @@ const CommentForm: React.FC<Props> = ({auth, handleSubmit}) => {
 	return (
 		<div className={classNames('comment-form', classes.root)}>
 			{auth.isAuth ? (
-				<Avatar
-					className={classNames('avatar', classes.avatar)}
-					src={auth.user.avatar.images[0]}
-					style={{backgroundColor: auth.user.avatar.color}}
-				>
-					{userAvatar(auth.user)}
-				</Avatar>
+				<UserAvatar user={auth.user} className={classes.avatar} />
 			) : (
-				<Avatar className={classNames('avatar', classes.avatar)}>
-					<PersonIcon />
-				</Avatar>
+				<NotAuthAvatar className={classes.avatar} />
 			)}
 			<div className={classNames('form', classes.form)}>
 				<TextField
