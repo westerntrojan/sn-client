@@ -25,6 +25,7 @@ import {
 	sortCommentsByNewestFirst,
 } from '@store/articles/actions';
 import {useArticle} from '@utils/hooks';
+import ZoomTooltip from '@components/tooltips/ZoomTooltip';
 
 const Article: React.FC = () => {
 	const {slug} = useParams();
@@ -162,10 +163,11 @@ const Article: React.FC = () => {
 								{article.comments.length} Comments
 							</Typography>
 
-							<Button size='small' startIcon={<SortIcon />} onClick={openSortMenu}>
-								Sort by
-							</Button>
-
+							<ZoomTooltip title='Sort comments'>
+								<Button size='small' startIcon={<SortIcon />} onClick={openSortMenu}>
+									Sort by
+								</Button>
+							</ZoomTooltip>
 							<Menu
 								anchorEl={anchorEl}
 								keepMounted

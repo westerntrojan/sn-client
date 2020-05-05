@@ -24,6 +24,7 @@ import {userLink} from '@utils/users';
 import {IArticle} from '@store/types';
 import {AuthState} from '@store/auth/types';
 import {ImageModal} from '@components/modals';
+import ZoomTooltip from '@components/tooltips/ZoomTooltip';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -122,11 +123,13 @@ const FullArticle: React.FC<Props> = ({article, auth, handleLike, handleRemove})
 				<div className={classes.mainContent}>
 					<Typography variant='h5' className={classes.title}>
 						{article.title}
-						<CopyToClipboard text={window.location.href} onCopy={_handleClickCopyLink}>
-							<IconButton color='primary'>
-								<LinkIcon className={classes.linkIcon} />
-							</IconButton>
-						</CopyToClipboard>
+						<ZoomTooltip title='Copy link'>
+							<CopyToClipboard text={window.location.href} onCopy={_handleClickCopyLink}>
+								<IconButton color='primary'>
+									<LinkIcon className={classes.linkIcon} />
+								</IconButton>
+							</CopyToClipboard>
+						</ZoomTooltip>
 					</Typography>
 					<Typography>{article.text}</Typography>
 				</div>

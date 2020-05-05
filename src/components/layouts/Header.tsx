@@ -21,10 +21,12 @@ import {useTheme} from '@material-ui/core/styles';
 import {AuthState} from '@store/auth/types';
 import KeyboardIcon from '@material-ui/icons/Keyboard';
 import SettingsIcon from '@material-ui/icons/Settings';
+import NotificationsIcon from '@material-ui/icons/Notifications';
 
 import UserAvatar from '@components/avatars/UserAvatar';
 import {userLink} from '@utils/users';
 import {SearchFocus} from '@utils/hotKeys';
+import ZoomTooltip from '@components/tooltips/ZoomTooltip';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -154,11 +156,6 @@ const Header: React.FC<Props> = ({
 		setAnchorEl(e.currentTarget);
 	};
 
-	const handleExit = (): void => {
-		handleMenuClose();
-		exit();
-	};
-
 	const handleFoucs = (): void => {
 		if (searchRef.current) {
 			searchRef.current.focus();
@@ -183,7 +180,15 @@ const Header: React.FC<Props> = ({
 			<Link underline='none' component={RouterLink} to={userLink(auth.user)} color={'inherit'}>
 				<MenuItem onClick={handleMenuClose}>My profile</MenuItem>
 			</Link>
-			<MenuItem onClick={handleExit}>Exit</MenuItem>
+
+			<MenuItem
+				onClick={(): void => {
+					exit();
+					handleMenuClose();
+				}}
+			>
+				Exit
+			</MenuItem>
 		</Menu>
 	);
 
@@ -208,11 +213,17 @@ const Header: React.FC<Props> = ({
 							<p>My profile</p>
 						</MenuItem>
 					</Link>
+					<MenuItem onClick={(): void => console.log('notification')}>
+						<IconButton>
+							<NotificationsIcon />
+						</IconButton>
+						<p>Notification</p>
+					</MenuItem>
 					<MenuItem onClick={handleAppearance}>
 						<IconButton>
 							<PaletteIcon />
 						</IconButton>
-						<p>Appearance</p>
+						<p>Change theme</p>
 					</MenuItem>
 					<MenuItem onClick={(): void => console.log('settings')}>
 						<IconButton>
@@ -220,7 +231,12 @@ const Header: React.FC<Props> = ({
 						</IconButton>
 						<p>Settings</p>
 					</MenuItem>
-					<MenuItem onClick={handleExit}>
+					<MenuItem
+						onClick={(): void => {
+							handleMenuClose();
+							exit();
+						}}
+					>
 						<IconButton>
 							<ExitToAppIcon />
 						</IconButton>
@@ -233,7 +249,13 @@ const Header: React.FC<Props> = ({
 						<IconButton>
 							<PaletteIcon />
 						</IconButton>
-						<p>Appearance</p>
+						<p>Change theme</p>
+					</MenuItem>
+					<MenuItem onClick={(): void => console.log('settings')}>
+						<IconButton>
+							<SettingsIcon />
+						</IconButton>
+						<p>Settings</p>
 					</MenuItem>
 					<Link
 						underline='none'
@@ -245,7 +267,7 @@ const Header: React.FC<Props> = ({
 							<IconButton>
 								<AccountCircle />
 							</IconButton>
-							<p>Auth</p>
+							<p>Sign in</p>
 						</MenuItem>
 					</Link>
 				</div>
@@ -290,36 +312,55 @@ const Header: React.FC<Props> = ({
 						<div className={classes.grow} />
 						<div className={classes.sectionDesktop}>
 							<div className={classes.rightSide}>
-								<IconButton onClick={openHotKeysModal} color='inherit' className={classes.white}>
-									<KeyboardIcon />
-								</IconButton>
-								<IconButton onClick={handleAppearance} color='inherit' className={classes.white}>
-									<PaletteIcon />
-								</IconButton>
-								<IconButton
-									onClick={(): void => console.log('settings')}
-									color='inherit'
-									className={classes.white}
-								>
-									<SettingsIcon />
-								</IconButton>
-								{auth.isAuth ? (
-									<UserAvatar
-										user={auth.user}
-										className={classes.avatar}
-										onClick={handleProfileMenuOpen}
-									/>
-								) : (
-									<Link
-										underline='none'
-										component={RouterLink}
-										to={{pathname: '/auth', state: {from: location}}}
-										color={'inherit'}
+								<ZoomTooltip title='Hot keys'>
+									<IconButton onClick={openHotKeysModal} color='inherit' className={classes.white}>
+										<KeyboardIcon />
+									</IconButton>
+								</ZoomTooltip>
+								<ZoomTooltip title='Change theme'>
+									<IconButton onClick={handleAppearance} color='inherit' className={classes.white}>
+										<PaletteIcon />
+									</IconButton>
+								</ZoomTooltip>
+								<ZoomTooltip title='Settings'>
+									<IconButton
+										onClick={(): void => console.log('settings')}
+										color='inherit'
+										className={classes.white}
 									>
-										<IconButton color='inherit' className={classes.white}>
-											<AccountCircle />
-										</IconButton>
-									</Link>
+										<SettingsIcon />
+									</IconButton>
+								</ZoomTooltip>
+								{auth.isAuth ? (
+									<>
+										<ZoomTooltip title='Notification'>
+											<IconButton
+												onClick={(): void => console.log('notification')}
+												color='inherit'
+												className={classes.white}
+											>
+												<NotificationsIcon />
+											</IconButton>
+										</ZoomTooltip>
+										<UserAvatar
+											user={auth.user}
+											className={classes.avatar}
+											onClick={handleProfileMenuOpen}
+										/>
+									</>
+								) : (
+									<ZoomTooltip title='Sign in'>
+										<Link
+											underline='none'
+											component={RouterLink}
+											to={{pathname: '/auth', state: {from: location}}}
+											color={'inherit'}
+										>
+											<IconButton color='inherit' className={classes.white}>
+												<AccountCircle />
+											</IconButton>
+										</Link>
+									</ZoomTooltip>
 								)}
 							</div>
 						</div>

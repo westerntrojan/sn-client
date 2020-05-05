@@ -13,6 +13,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import {useSnackbar} from 'notistack';
 
+import ZoomTooltip from '@components/tooltips/ZoomTooltip';
 import {IUser} from '@store/types';
 
 const useStyles = makeStyles(() => ({
@@ -59,11 +60,13 @@ const UserInfo: React.FC<Props> = ({user}) => {
 				<div className={classes.titleBlock}>
 					<Typography variant='h5'>
 						{`${user.firstName} ${user.lastName}`.trim()}
-						<CopyToClipboard text={window.location.href} onCopy={_handleClickCopyLink}>
-							<IconButton color='primary'>
-								<LinkIcon className={classes.linkIcon} />
-							</IconButton>
-						</CopyToClipboard>
+						<ZoomTooltip title='Copy link'>
+							<CopyToClipboard text={window.location.href} onCopy={_handleClickCopyLink}>
+								<IconButton color='primary'>
+									<LinkIcon className={classes.linkIcon} />
+								</IconButton>
+							</CopyToClipboard>
+						</ZoomTooltip>
 					</Typography>
 
 					<Typography variant='subtitle2' color='primary'>

@@ -36,6 +36,7 @@ const useStyles = makeStyles({
 		alignItems: 'center',
 		borderBottomLeftRadius: 4,
 		borderBottomRightRadius: 4,
+		border: '1px solid red',
 	},
 	loadingBox: {
 		position: 'absolute',

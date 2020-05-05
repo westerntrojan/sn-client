@@ -16,6 +16,7 @@ import classNames from 'classnames';
 
 import {userLink} from '@utils/users';
 import {IArticle} from '@store/types';
+import ZoomTooltip from '@components/tooltips/ZoomTooltip';
 
 const useStyles = makeStyles({
 	root: {
@@ -72,6 +73,8 @@ type Props = {
 const SmallArticle: React.FC<Props> = ({article}) => {
 	const classes = useStyles();
 
+	const userFullName = `${article.user.firstName} ${article.user.lastName}`.trim();
+
 	return (
 		<Card className={classNames('small-article', classes.root)}>
 			{article.image && (
@@ -117,16 +120,18 @@ const SmallArticle: React.FC<Props> = ({article}) => {
 				</div>
 
 				<div className={classes.info}>
-					<Typography className={'small'}>
-						<Link
-							underline='none'
-							component={RouterLink}
-							to={userLink(article.user)}
-							color='inherit'
-						>
-							{`${article.user.firstName} ${article.user.lastName}`.trim()}
-						</Link>
-					</Typography>
+					<ZoomTooltip title={userFullName} placement='top'>
+						<Typography className={'small'}>
+							<Link
+								underline='none'
+								component={RouterLink}
+								to={userLink(article.user)}
+								color='inherit'
+							>
+								{userFullName}
+							</Link>
+						</Typography>
+					</ZoomTooltip>
 
 					<div className={classes.statistics}>
 						<Typography className={classes.views}>

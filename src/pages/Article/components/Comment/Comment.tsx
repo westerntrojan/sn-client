@@ -15,6 +15,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 import './style.scss';
 import UserAvatar from '@components/avatars/UserAvatar';
+import ZoomTooltip from '@components/tooltips/ZoomTooltip';
 import {userLink} from '@utils/users';
 import {IComment} from '@store/types';
 
@@ -71,9 +72,11 @@ const Comment: React.FC<Props> = ({comment, auth, handleLike, handleDislike, han
 
 				<div className='actions'>
 					<div className='assessment'>
-						<IconButton color='default' onClick={(): void => handleLike(comment._id)}>
-							<ThumbUpIcon fontSize='small' />
-						</IconButton>
+						<ZoomTooltip title='Like'>
+							<IconButton color='default' onClick={(): void => handleLike(comment._id)}>
+								<ThumbUpIcon fontSize='small' />
+							</IconButton>
+						</ZoomTooltip>
 
 						{Boolean(comment.likes) && (
 							<Typography variant='body2' className='likes-number'>
@@ -81,9 +84,11 @@ const Comment: React.FC<Props> = ({comment, auth, handleLike, handleDislike, han
 							</Typography>
 						)}
 
-						<IconButton color='default' onClick={(): void => handleDislike(comment._id)}>
-							<ThumbDownIcon fontSize='small' />
-						</IconButton>
+						<ZoomTooltip title='Dislike'>
+							<IconButton color='default' onClick={(): void => handleDislike(comment._id)}>
+								<ThumbDownIcon fontSize='small' />
+							</IconButton>
+						</ZoomTooltip>
 					</div>
 
 					<Button size='small'>Reply</Button>
