@@ -3,6 +3,7 @@ import {useSelector, shallowEqual} from 'react-redux';
 import {Helmet} from 'react-helmet';
 import socketIoClient from 'socket.io-client';
 import {useSnackbar} from 'notistack';
+import {useHistory} from 'react-router-dom';
 
 import './style.scss';
 import Canvas from './components/Canvas';
@@ -19,6 +20,8 @@ const Chat: React.FC = () => {
 	const [removed, setRemoved] = useState(false);
 
 	const {enqueueSnackbar} = useSnackbar();
+
+	const history = useHistory();
 
 	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
 
@@ -65,11 +68,13 @@ const Chat: React.FC = () => {
 		socketInit();
 		socketListeners();
 
+		console.log(history);
+
 		return (): void => {
 			socket.disconnect();
 			socket.close();
 		};
-	}, [socketInit, socketListeners]);
+	}, [socketInit, socketListeners, history]);
 
 	const handleRemoveMessages = (messages: string[]): void => {
 		socket.emit('remove_messages', messages);

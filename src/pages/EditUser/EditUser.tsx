@@ -6,7 +6,6 @@ import {Helmet} from 'react-helmet';
 import callApi from '@utils/callApi';
 import {verify} from '@store/auth/actions';
 import {getArticles} from '@store/articles/actions';
-import {notFound} from '@store/app/actions';
 import UserForm from './components/UserForm';
 import {RootState} from '@store/types';
 import {IFetchData} from './types';
@@ -27,14 +26,12 @@ const EditUser: React.FC = () => {
 		const fetchUser = async (): Promise<void> => {
 			const data: IFetchData = await callApi.get(`${API}/${userLink}`);
 
-			if (data.success) {
+			if (data.user) {
 				if (data.user._id === auth.user._id || auth.isAdmin) {
 					setUser(data.user);
 				} else {
 					history.goBack();
 				}
-			} else {
-				dispatch(notFound());
 			}
 		};
 		fetchUser();

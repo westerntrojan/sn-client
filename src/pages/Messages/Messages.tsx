@@ -46,7 +46,7 @@ const Messages: React.FC = () => {
 	const handleSearch = (text: string): void => setQuery(text);
 
 	const handleRemoveChat = async (): Promise<void> => {
-		const data: IRemoveChatData = await callApi.delete(`${API}/remove/${chatId}`);
+		const data: IRemoveChatData = await callApi.delete(`${API}/${chatId}`);
 
 		if (data.success) {
 			setChats(chats.filter((chat: IChat) => chat._id !== chatId));

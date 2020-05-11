@@ -48,7 +48,6 @@ const Categories: React.FC = () => {
 		dispatch(moveCategory(categoryId));
 
 		const key = enqueueSnackbar('Сategory deleted successfully', {
-			variant: 'success',
 			action: (
 				<Button
 					onClick={(): void => {
@@ -56,6 +55,7 @@ const Categories: React.FC = () => {
 
 						closeSnackbar(key);
 					}}
+					color='primary'
 				>
 					Cancel
 				</Button>

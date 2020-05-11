@@ -22,21 +22,20 @@ type Props = {
 const Navigation: React.FC<Props> = ({auth}) => {
 	const location = useLocation();
 
+	const activeRoute = (routeName: string): boolean => {
+		return location.pathname === routeName ? true : false;
+	};
+
 	return (
 		<>
 			<List>
-				<ListItem button selected={location.pathname === '/'} component={RouterLink} to={'/'}>
+				<ListItem button component={RouterLink} to={'/'} selected={activeRoute('/')}>
 					<ListItemIcon>
 						<HomeIcon />
 					</ListItemIcon>
 					<ListItemText primary={'Home'} />
 				</ListItem>
-				<ListItem
-					button
-					selected={location.pathname === '/chat'}
-					component={RouterLink}
-					to={'/chat'}
-				>
+				<ListItem button component={RouterLink} to={'/chat'} selected={activeRoute('/chat')}>
 					<ListItemIcon>
 						<ForumIcon />
 					</ListItemIcon>
@@ -51,9 +50,9 @@ const Navigation: React.FC<Props> = ({auth}) => {
 					<List>
 						<ListItem
 							button
-							selected={location.pathname === '/article/add'}
 							component={RouterLink}
 							to={'/article/add'}
+							selected={activeRoute('/article/add')}
 						>
 							<ListItemIcon>
 								<AddBoxIcon />
@@ -63,9 +62,9 @@ const Navigation: React.FC<Props> = ({auth}) => {
 
 						<ListItem
 							button
-							selected={location.pathname === '/messages'}
 							component={RouterLink}
 							to={'/messages'}
+							selected={activeRoute('/messages')}
 						>
 							<ListItemIcon>
 								<MessageIcon />
@@ -81,12 +80,7 @@ const Navigation: React.FC<Props> = ({auth}) => {
 					<Divider />
 
 					<List>
-						<ListItem
-							button
-							selected={location.pathname === '/admin'}
-							component={RouterLink}
-							to={'/admin'}
-						>
+						<ListItem button component={RouterLink} to={'/admin'} selected={activeRoute('/admin')}>
 							<ListItemIcon>
 								<Dashboard />
 							</ListItemIcon>

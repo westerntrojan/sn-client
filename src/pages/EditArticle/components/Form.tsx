@@ -208,8 +208,8 @@ const ArticleForm: React.FC<Props> = ({article, handleSubmit}) => {
 				<Dropzone
 					imagePreview={imagePreview}
 					loadingImage={loadingImage}
-					handleImageChange={handleChangeImage}
-					handleImageRemove={handleRemoveImage}
+					handleChangeImage={handleChangeImage}
+					handleRemoveImage={handleRemoveImage}
 				/>
 				<ChipInput
 					label='Tags'

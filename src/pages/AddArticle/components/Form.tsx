@@ -183,8 +183,8 @@ const ArticleForm: React.FC<Props> = ({handleSubmit}) => {
 				<Dropzone
 					imagePreview={imagePreview}
 					loadingImage={loadingImage}
-					handleImageChange={handleChangeImage}
-					handleImageRemove={handleRemoveImage}
+					handleChangeImage={handleChangeImage}
+					handleRemoveImage={handleRemoveImage}
 				/>
 				<ChipInput
 					label='Tags'

@@ -13,7 +13,6 @@ import RemovedAvatar from './components/removed/RemovedAvatar';
 import RemovedInfo from './components/removed/RemovedInfo';
 import callApi from '@utils/callApi';
 import {removeUser} from '@store/app/actions';
-import {notFound} from '@store/app/actions';
 import {RootState} from '@store/types';
 import {IUserStatistics, IFetchData} from './types';
 
@@ -34,13 +33,9 @@ const User: React.FC = () => {
 		const fetchUser = async (): Promise<void> => {
 			const data: IFetchData = await callApi.get(`${API}/${userLink}`);
 
-			if (data.success) {
-				setUser(data.user);
+			setUser(data.user);
 
-				setLoading(false);
-			} else {
-				dispatch(notFound());
-			}
+			setLoading(false);
 		};
 		fetchUser();
 	}, [userLink, dispatch, history]);

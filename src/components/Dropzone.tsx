@@ -27,15 +27,15 @@ const useStyles = makeStyles({
 type Props = {
 	imagePreview: string;
 	loadingImage: boolean;
-	handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	handleImageRemove: () => void;
+	handleChangeImage: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	handleRemoveImage: () => void;
 };
 
 const Dropzone: React.FC<Props> = ({
 	imagePreview,
 	loadingImage,
-	handleImageChange,
-	handleImageRemove,
+	handleChangeImage,
+	handleRemoveImage,
 }) => {
 	const classes = useStyles();
 
@@ -48,14 +48,14 @@ const Dropzone: React.FC<Props> = ({
 					endIcon={<DeleteIcon />}
 					loading={loadingImage}
 					color='secondary'
-					onClick={handleImageRemove}
+					onClick={handleRemoveImage}
 				>
 					Remove image
 				</ContainedButton>
 			) : (
 				<ContainedButton endIcon={<BackupIcon />} component='label' loading={loadingImage}>
 					Upload image
-					<input type='file' style={{display: 'none'}} onChange={handleImageChange} />
+					<input type='file' style={{display: 'none'}} onChange={handleChangeImage} />
 				</ContainedButton>
 			)}
 

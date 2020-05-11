@@ -25,6 +25,7 @@ const useStyles = makeStyles({
 		width: '100%',
 		height: '100%',
 		fontSize: 60,
+		overflow: 'hidden',
 	},
 	addAvatar: {
 		position: 'absolute',
@@ -36,7 +37,7 @@ const useStyles = makeStyles({
 		alignItems: 'center',
 		borderBottomLeftRadius: 4,
 		borderBottomRightRadius: 4,
-		border: '1px solid red',
+		backgroundColor: 'rgba(0, 0, 0, .6)',
 	},
 	loadingBox: {
 		position: 'absolute',

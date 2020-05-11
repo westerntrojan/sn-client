@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect, useCallback, useContext} from 'react';
+import React, {useState, useRef, useEffect, useCallback} from 'react';
 import SendIcon from '@material-ui/icons/Send';
 import MicNoneIcon from '@material-ui/icons/MicNone';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
@@ -8,8 +8,6 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import Zoom from '@material-ui/core/Zoom';
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
-
-import Context, {IContext} from '@pages/Chat/context';
 
 const useStyles = makeStyles({
 	root: {
@@ -41,16 +39,19 @@ const useStyles = makeStyles({
 	},
 });
 
-const Form: React.FC = () => {
-	const classes = useStyles();
+type Props = {
+	handleSubmit: (object: any) => void;
+	handleChangeImage: (e: React.ChangeEvent<HTMLInputElement>) => void;
+};
 
-	const {handleSubmitMessage}: IContext = useContext(Context);
+const Form: React.FC<Props> = ({handleSubmit, handleChangeImage}) => {
+	const classes = useStyles();
 
 	const [loading, setLoading] = useState(false);
 	const [text, setText] = useState('');
 	const [icon, setIcon] = useState(0);
 
-	const buttonRef = useRef<HTMLButtonElement>(null);
+	const buttonRef = useRef<HTMLLabelElement>(null);
 	const [buttonWidth, setButtonWidth] = useState(0);
 
 	const validate = useCallback(() => {
@@ -77,9 +78,11 @@ const Form: React.FC = () => {
 
 	const _handleSubmit = (): void => {
 		setLoading(true);
+
 		if (text.trim()) {
-			handleSubmitMessage(text);
+			handleSubmit({type: 'text', text});
 		}
+
 		setText('');
 		setLoading(false);
 		setIcon(0);
@@ -96,9 +99,12 @@ const Form: React.FC = () => {
 			className={classes.root}
 			style={{paddingLeft: buttonWidth + 10, paddingRight: buttonWidth * 2 + 10}}
 		>
-			<IconButton className={classes.attachButton} ref={buttonRef}>
+			<IconButton className={classes.attachButton} ref={buttonRef} component='label'>
 				<AttachFileIcon className={classes.attachIcon} />
+
+				<input type='file' style={{display: 'none'}} onChange={handleChangeImage} />
 			</IconButton>
+
 			<InputBase
 				className={classes.input}
 				multiline

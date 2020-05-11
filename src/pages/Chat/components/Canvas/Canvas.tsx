@@ -1,17 +1,20 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
 import Paper from '@material-ui/core/Paper';
 import {makeStyles} from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
+import {useSnackbar} from 'notistack';
 
 import Loader from '@components/Loader';
 import {RemoveMessageModal} from '@components/modals';
 import Header from './Header';
 import Message from './Message';
+import MyMessage from './MyMessage';
 import Form from './Form';
+import ImageModal from './ImageModal';
 import AlterHeader from '@components/chats/AlterHeader';
-import MyMessage from '@components/chats/MyMessage';
 import ForNotAuth from '@components/ForNotAuth';
 import {IMessage} from '@pages/Chat/types';
+import Context, {IContext} from '@pages/Chat/context';
 
 const useStyles = makeStyles({
 	root: {
@@ -49,6 +52,12 @@ const Canvas: React.FC<Props> = ({messages, auth, removed, loading, handleRemove
 	const [alterHeader, setAlterHeader] = useState(false);
 	const [selectedMessages, setSelectedMessages] = useState<string[]>([]);
 	const [removeMessagesModal, setRemoveMessagesModal] = useState(false);
+	const [image, setImage] = useState<File | null>(null);
+	const [imageModal, setImageModal] = useState(false);
+
+	const {handleSubmitMessage}: IContext = useContext(Context);
+
+	const {enqueueSnackbar} = useSnackbar();
 
 	useEffect(() => {
 		if (!removed && messagesEndRef.current) {
@@ -82,6 +91,49 @@ const Canvas: React.FC<Props> = ({messages, auth, removed, loading, handleRemove
 		setSelectedMessages([]);
 		closeAlterHeader();
 		setRemoveMessagesModal(false);
+	};
+
+	const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>): void => {
+		if (e.target.files) {
+			const types = ['image/jpg', 'image/png', 'image/jpeg'];
+
+			const file = e.target.files[0];
+
+			if (!types.includes(file.type)) {
+				enqueueSnackbar('Invalid file type (only: jpg, png, jpeg)', {variant: 'error'});
+
+				return;
+			}
+
+			if (file.size > 5 * 1024 * 1024) {
+				enqueueSnackbar('Invalid file size (max: 5MB)', {variant: 'error'});
+
+				return;
+			}
+
+			setImage(file);
+			setImageModal(true);
+		}
+	};
+
+	const handleSubmit = (data: any): void => {
+		if (data.type === 'image') {
+			// data - {type: 'image'}
+
+			const message = {...data, image};
+
+			console.log(message);
+		} else if (data.type === 'image_text') {
+			// data - {type: 'image', caption: string}
+
+			const message = {...data, image};
+
+			console.log(message);
+		} else {
+			// data - {type: 'text', text: string}
+
+			handleSubmitMessage(data);
+		}
 	};
 
 	return (
@@ -128,7 +180,7 @@ const Canvas: React.FC<Props> = ({messages, auth, removed, loading, handleRemove
 			{auth.isAuth ? (
 				<>
 					<Divider />
-					<Form />
+					<Form handleSubmit={handleSubmit} handleChangeImage={handleChangeImage} />
 				</>
 			) : (
 				<ForNotAuth text={'Only full users can using chat.'} />
@@ -139,6 +191,12 @@ const Canvas: React.FC<Props> = ({messages, auth, removed, loading, handleRemove
 				open={removeMessagesModal}
 				action={removeMessages}
 				closeModal={(): void => setRemoveMessagesModal(false)}
+			/>
+			<ImageModal
+				open={imageModal}
+				image={image}
+				handleSubmit={handleSubmit}
+				closeModal={(): void => setImageModal(false)}
 			/>
 		</Paper>
 	);

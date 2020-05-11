@@ -71,7 +71,7 @@ const CategoryForm: React.FC<Props> = ({handleSubmit}) => {
 			return;
 		}
 
-		enqueueSnackbar('Category added', {variant: 'success'});
+		enqueueSnackbar('Category added');
 		setTitle('');
 		setDesc('');
 	};

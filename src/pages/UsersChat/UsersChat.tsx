@@ -133,7 +133,7 @@ const UsersChat: React.FC = () => {
 	};
 
 	const handleClearHistory = async (): Promise<void> => {
-		const data: IClearHistoryData = await callApi.delete(`${API}/remove/messages/${chatId}`);
+		const data: IClearHistoryData = await callApi.delete(`${API}/messages/${chatId}`);
 
 		if (data.success) {
 			setMessages([]);

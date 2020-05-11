@@ -100,8 +100,8 @@ class ChatClass extends Component<Props, State> {
 		socket.emit('remove_messages', messages);
 	};
 
-	handleSubmitMessage = (text: string): void => {
-		socket.emit('new_message', {user: this.props.auth.user._id, text});
+	handleSubmitMessage = (message: any): void => {
+		socket.emit('new_message', {user: this.props.auth.user._id, ...message});
 	};
 
 	render(): React.ReactNode {

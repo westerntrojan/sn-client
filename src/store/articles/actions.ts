@@ -3,7 +3,6 @@ import {createAction} from '@reduxjs/toolkit';
 import callApi from '@utils/callApi';
 import {AppThunk} from '@store/types';
 import * as types from './types';
-import {NOT_FOUND} from '@store/app/types';
 
 const API = '/articles';
 
@@ -43,18 +42,12 @@ export const getArticles = (): AppThunk => async (dispatch): Promise<void> => {
 export const getArticle = (slug: string): AppThunk => async (dispatch): Promise<void> => {
 	const data = await callApi.get(`${API}/${slug}`);
 
-	if (data.success) {
-		dispatch({
-			type: types.GET_ARTICLE,
-			payload: {
-				article: data.article,
-			},
-		});
-	} else {
-		dispatch({
-			type: NOT_FOUND,
-		});
-	}
+	dispatch({
+		type: types.GET_ARTICLE,
+		payload: {
+			article: data.article,
+		},
+	});
 };
 
 export const addArticle = (article: FormData): AppThunk => async (dispatch): Promise<object> => {

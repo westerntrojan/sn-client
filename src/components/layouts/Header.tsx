@@ -22,6 +22,9 @@ import {AuthState} from '@store/auth/types';
 import KeyboardIcon from '@material-ui/icons/Keyboard';
 import SettingsIcon from '@material-ui/icons/Settings';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import Button from '@material-ui/core/Button';
+import blue from '@material-ui/core/colors/blue';
+import Badge from '@material-ui/core/Badge';
 
 import UserAvatar from '@components/avatars/UserAvatar';
 import {userLink} from '@utils/users';
@@ -34,6 +37,11 @@ const useStyles = makeStyles(theme => ({
 	},
 	grow: {
 		flexGrow: 1,
+	},
+	signInButton: {
+		marginLeft: 10,
+		color: blue[900],
+		borderColor: blue[900],
 	},
 	avatar: {
 		marginLeft: 10,
@@ -339,7 +347,9 @@ const Header: React.FC<Props> = ({
 												color='inherit'
 												className={classes.white}
 											>
-												<NotificationsIcon />
+												<Badge badgeContent={17} color='secondary'>
+													<NotificationsIcon />
+												</Badge>
 											</IconButton>
 										</ZoomTooltip>
 										<UserAvatar
@@ -349,18 +359,20 @@ const Header: React.FC<Props> = ({
 										/>
 									</>
 								) : (
-									<ZoomTooltip title='Sign in'>
-										<Link
-											underline='none'
-											component={RouterLink}
-											to={{pathname: '/auth', state: {from: location}}}
-											color={'inherit'}
+									<Link
+										underline='none'
+										component={RouterLink}
+										to={{pathname: '/auth', state: {from: location}}}
+										color={'inherit'}
+									>
+										<Button
+											variant='outlined'
+											className={classes.signInButton}
+											startIcon={<AccountCircle />}
 										>
-											<IconButton color='inherit' className={classes.white}>
-												<AccountCircle />
-											</IconButton>
-										</Link>
-									</ZoomTooltip>
+											Sign in
+										</Button>
+									</Link>
 								)}
 							</div>
 						</div>
