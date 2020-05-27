@@ -1,13 +1,11 @@
 import callApi from '@utils/callApi';
-import * as types from './types';
 import {AppThunk} from '@store/types';
-
-const API = '/auth';
+import * as types from './types';
 
 export const login = (user: object): AppThunk => async (dispatch): Promise<object> => {
-	const data = await callApi.post(`${API}/login`, user);
+	const data = await callApi.post('/auth/login', user);
 
-	if (data.user) {
+	if (data.success) {
 		localStorage.setItem('token', data.token);
 
 		dispatch({
@@ -22,14 +20,18 @@ export const login = (user: object): AppThunk => async (dispatch): Promise<objec
 	return data;
 };
 
-export const register = (user: object): AppThunk => async (dispatch): Promise<object> => {
-	const data = await callApi.post(`${API}/register`, user);
+export const sendCode = (userId: string, code: string): AppThunk => async (
+	dispatch,
+): Promise<object> => {
+	const data = await callApi.post('/auth/login/code', {userId, code});
 
-	if (data.user) {
+	console.log(data);
+
+	if (data.success) {
 		localStorage.setItem('token', data.token);
 
 		dispatch({
-			type: types.REGISTER,
+			type: types.LOGIN,
 			payload: {
 				user: data.user,
 				token: data.token,
@@ -40,25 +42,23 @@ export const register = (user: object): AppThunk => async (dispatch): Promise<ob
 	return data;
 };
 
-export const exit = (): AppThunk => async (dispatch): Promise<void> => {
-	const token = localStorage.getItem('token');
+export const exit = (): types.AuthActionTypes => {
+	localStorage.removeItem('token');
 
-	if (token) {
-		await callApi.get(`${API}/logout/${token}`);
-
-		localStorage.removeItem('token');
-	}
-
-	dispatch({
+	return {
 		type: types.EXIT,
-	});
+	};
 };
 
 export const verify = (): AppThunk => async (dispatch): Promise<void> => {
 	const token = localStorage.getItem('token');
 
 	if (token) {
-		const data = await callApi.get(`${API}/verify/${token}`);
+		const data = await callApi.get('/auth/verify', {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
 
 		if (data.success) {
 			dispatch({
@@ -67,11 +67,7 @@ export const verify = (): AppThunk => async (dispatch): Promise<void> => {
 					user: data.user,
 				},
 			});
-		} else {
-			dispatch(exit());
 		}
-	} else {
-		dispatch(exit());
 	}
 };
 
@@ -101,6 +97,18 @@ export const removeAvatar = (userId: string, imageUrl: string): AppThunk => asyn
 			payload: {
 				image: data.image,
 			},
+		});
+	}
+};
+
+export const twoFactorAuth = (): AppThunk => async (dispatch, getState): Promise<void> => {
+	const userId = getState().auth.user._id;
+
+	const data = await callApi.get(`/users/two_factor_auth/${userId}`);
+
+	if (data.success) {
+		dispatch({
+			type: types.TWO_FACTOR_AUTH,
 		});
 	}
 };

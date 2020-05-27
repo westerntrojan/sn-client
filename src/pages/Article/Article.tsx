@@ -2,7 +2,7 @@ import React, {useState, useEffect, useCallback} from 'react';
 import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import {Helmet} from 'react-helmet';
 import Typography from '@material-ui/core/Typography';
-import {useParams, useHistory} from 'react-router';
+import {useParams} from 'react-router';
 import SortIcon from '@material-ui/icons/Sort';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
@@ -24,12 +24,14 @@ import {
 	sortCommentsByTopArticles,
 	sortCommentsByNewestFirst,
 } from '@store/articles/actions';
-import {useArticle} from '@utils/hooks';
+import {useArticle, useRedirect} from '@utils/hooks';
 import ZoomTooltip from '@components/tooltips/ZoomTooltip';
+import Context from './context';
 
 const Article: React.FC = () => {
 	const {slug} = useParams();
-	const history = useHistory();
+
+	const redirectTo = useRedirect();
 
 	const [removeArticleModal, setRemoveArticleModal] = useState(false);
 	const [loading, setLoading] = useState(true);
@@ -81,7 +83,7 @@ const Article: React.FC = () => {
 
 			setRemoveArticleModal(false);
 
-			history.push('/');
+			redirectTo('/');
 		}
 	};
 
@@ -89,15 +91,13 @@ const Article: React.FC = () => {
 		await dispatch(removeComment(commentId));
 	};
 
-	const handleSubmitCommentForm = async (text: string): Promise<any> => {
+	const handleSubmitComment = async (comment: {parentId?: string; text: string}): Promise<any> => {
 		if (article) {
-			const data: any = await dispatch(
-				addComment({text, articleId: article._id, user: auth.user._id}),
+			const data = await dispatch(
+				addComment({...comment, articleId: article._id, user: auth.user._id}),
 			);
 
-			if (data.errors) {
-				return data.errors[0];
-			}
+			return data;
 		}
 	};
 
@@ -119,7 +119,7 @@ const Article: React.FC = () => {
 
 	const handleAddCommentLike = async (commentId: string): Promise<void> => {
 		if (!auth.isAuth) {
-			return history.push('/auth');
+			return redirectTo('/auth');
 		}
 
 		if (article) {
@@ -129,7 +129,7 @@ const Article: React.FC = () => {
 
 	const handleAddCommentDislike = async (commentId: string): Promise<void> => {
 		if (!auth.isAuth) {
-			return history.push('/auth');
+			return redirectTo('/auth');
 		}
 
 		if (article) {
@@ -149,51 +149,51 @@ const Article: React.FC = () => {
 				</title>
 			</Helmet>
 
-			{article && (
-				<>
-					<FullArticle
-						article={article}
-						auth={auth}
-						handleLike={handleLike}
-						handleRemove={openRemoveArticleModal}
-					/>
-					<div className='comments'>
-						<div className='comments-title'>
-							<Typography variant='h5' className='caption'>
-								{article.comments.length} Comments
-							</Typography>
+			<Context.Provider value={{auth, submitReply: handleSubmitComment}}>
+				{article && (
+					<>
+						<FullArticle
+							article={article}
+							handleLike={handleLike}
+							handleRemove={openRemoveArticleModal}
+						/>
+						<div className='comments'>
+							<div className='comments-title'>
+								<Typography variant='h5' className='caption'>
+									{article.comments.length} Comments
+								</Typography>
 
-							<ZoomTooltip title='Sort comments'>
-								<Button size='small' startIcon={<SortIcon />} onClick={openSortMenu}>
-									Sort by
-								</Button>
-							</ZoomTooltip>
-							<Menu
-								anchorEl={anchorEl}
-								keepMounted
-								open={Boolean(anchorEl)}
-								onClose={closeSortMenu}
-							>
-								<MenuItem onClick={_handleTopCommentsSort}>Top Comments</MenuItem>
-								<MenuItem onClick={_handleNewestFirstSort}>Newest first</MenuItem>
-							</Menu>
+								<ZoomTooltip title='Sort comments'>
+									<Button size='small' startIcon={<SortIcon />} onClick={openSortMenu}>
+										Sort by
+									</Button>
+								</ZoomTooltip>
+								<Menu
+									anchorEl={anchorEl}
+									keepMounted
+									open={Boolean(anchorEl)}
+									onClose={closeSortMenu}
+								>
+									<MenuItem onClick={_handleTopCommentsSort}>Top Comments</MenuItem>
+									<MenuItem onClick={_handleNewestFirstSort}>Newest first</MenuItem>
+								</Menu>
+							</div>
+
+							<CommentForm submit={handleSubmitComment} />
+
+							{article.comments.map((comment: IComment) => (
+								<Comment
+									comment={comment}
+									key={comment._id}
+									handleLike={handleAddCommentLike}
+									handleDislike={handleAddCommentDislike}
+									handleRemove={handleRemoveComment}
+								/>
+							))}
 						</div>
-
-						<CommentForm auth={auth} handleSubmit={handleSubmitCommentForm} />
-
-						{article.comments.map((comment: IComment) => (
-							<Comment
-								comment={comment}
-								key={comment._id}
-								auth={auth}
-								handleLike={handleAddCommentLike}
-								handleDislike={handleAddCommentDislike}
-								handleRemove={handleRemoveComment}
-							/>
-						))}
-					</div>
-				</>
-			)}
+					</>
+				)}
+			</Context.Provider>
 
 			<RemoveModal
 				open={removeArticleModal}

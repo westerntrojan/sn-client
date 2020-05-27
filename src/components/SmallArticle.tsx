@@ -111,13 +111,11 @@ const SmallArticle: React.FC<Props> = ({article}) => {
 				</Typography>
 			</CardContent>
 			<CardActions className={classes.actions}>
-				<div className={'buttons'}>
-					<Link underline='none' component={RouterLink} to={`/article/${article.slug}`}>
-						<Button size='small' variant='contained' color='primary' className='button'>
-							Learn More
-						</Button>
-					</Link>
-				</div>
+				<Link underline='none' component={RouterLink} to={`/article/${article.slug}`}>
+					<Button size='small' variant='contained' color='primary' className='button'>
+						Learn More
+					</Button>
+				</Link>
 
 				<div className={classes.info}>
 					<ZoomTooltip title={userFullName} placement='top'>

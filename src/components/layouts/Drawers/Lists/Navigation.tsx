@@ -10,7 +10,7 @@ import ForumIcon from '@material-ui/icons/Forum';
 import Dashboard from '@material-ui/icons/Dashboard';
 import Divider from '@material-ui/core/Divider';
 import {Link as RouterLink} from 'react-router-dom';
-import MessageIcon from '@material-ui/icons/Message';
+import PersonIcon from '@material-ui/icons/Person';
 
 type Props = {
 	auth: {
@@ -67,7 +67,7 @@ const Navigation: React.FC<Props> = ({auth}) => {
 							selected={activeRoute('/messages')}
 						>
 							<ListItemIcon>
-								<MessageIcon />
+								<PersonIcon />
 							</ListItemIcon>
 							<ListItemText primary={'Messages'} />
 						</ListItem>

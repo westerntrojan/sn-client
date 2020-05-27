@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch, shallowEqual} from 'react-redux';
-import {useLocation} from 'react-router';
 import {ThemeProvider} from '@material-ui/styles';
 import {makeStyles} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,25 +13,25 @@ import Header from '@components/layouts/Header';
 import {MainDrawer, AlterDrawer, MobileDrawer} from '@components/layouts/Drawers';
 import ThemePickerModal from '@components/layouts/ThemePickerModal';
 import HotKeysModal from '@components/layouts/HotKeysModal';
+import SettingsModal from '@components/layouts/SettingsModal';
 import ExitModal from '@components/layouts/ExitModal';
 import ScrollButton from '@components/ScrollButton';
 import PageLoader from '@components/PageLoader';
 import NotFound from '@components/NotFound';
 import {RootState} from '@store/types';
 import {exit} from '@store/auth/actions';
-import {loadApp, withDrawer, notDrawer} from '@store/app/actions';
-import {drawer, getCurrentTheme} from '@utils/app';
+import {loadApp} from '@store/app/actions';
+import {getCurrentTheme} from '@utils/app';
 import {ChangeDrawer, Exit} from '@utils/hotKeys';
 import {IArticle} from '@store/types';
 import callApi from '@utils/callApi';
+import GlobalCss from './GlobalCss';
 import Context from './context';
-import setting from './setting.json';
+import settings from './settings.json';
 
 const useStyles = makeStyles(theme => ({
 	toolbar: {...theme.mixins.toolbar},
-	snackbar: {
-		color: 'white',
-	},
+	snackbar: {},
 }));
 
 type Props = {
@@ -41,16 +40,15 @@ type Props = {
 
 const App: React.FC<Props> = ({children}) => {
 	const size = {
-		small: useMediaQuery(`(max-width:${setting.display.small})`),
-		large: useMediaQuery(`(min-width:${setting.display.large})`),
+		small: useMediaQuery(`(max-width:${settings.display.small})`),
+		large: useMediaQuery(`(min-width:${settings.display.large})`),
 	};
 
 	const classes = useStyles();
 
-	const location = useLocation();
-
 	const [themePickerModal, setThemePickerModal] = useState(false);
 	const [hotKeysModal, setHotKeysModal] = useState(false);
+	const [settingsModal, setSettingsModal] = useState(false);
 	const [exitModal, setExitModal] = useState(false);
 	const [alterDrawer, setAlterDrawer] = useState(false);
 	const [mobileDrawer, setMobileDrawer] = useState(false);
@@ -81,12 +79,6 @@ const App: React.FC<Props> = ({children}) => {
 	}, [dispatch]);
 
 	useEffect(() => {
-		if (drawer(location)) {
-			dispatch(withDrawer());
-		} else {
-			dispatch(notDrawer());
-		}
-
 		const _handleScroll = (): void => {
 			if (window.scrollY > 400) {
 				setScrollButton(true);
@@ -106,29 +98,13 @@ const App: React.FC<Props> = ({children}) => {
 		window.addEventListener('scroll', _handleScroll);
 		document.addEventListener('keydown', _handleKey);
 
-		return (): void => {
+		return function cleanup(): void {
 			window.removeEventListener('scroll', _handleScroll);
 			document.removeEventListener('keydown', _handleKey);
 		};
-	}, [dispatch, location]);
+	}, [dispatch]);
 
 	const executeScrollUp = (): void => window.scrollTo({top: 0, behavior: 'smooth'});
-
-	const openThemePickerModal = (): void => {
-		setThemePickerModal(true);
-	};
-
-	const openHotKeysModal = (): void => {
-		setHotKeysModal(true);
-	};
-
-	const openExitModal = (): void => {
-		setExitModal(true);
-	};
-
-	const closeExitModal = (): void => {
-		setExitModal(false);
-	};
 
 	const changeTheme = (palette: PaletteOptions): void => {
 		const theme = createMuiTheme({
@@ -149,7 +125,7 @@ const App: React.FC<Props> = ({children}) => {
 	};
 
 	const handleExit = (): void => {
-		closeExitModal();
+		setExitModal(false);
 
 		dispatch(exit());
 	};
@@ -157,22 +133,22 @@ const App: React.FC<Props> = ({children}) => {
 	return (
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
+			<GlobalCss />
 
 			<div id='root'>
 				<Header
 					auth={auth}
-					openDrawer={
-						size['large'] ? (app.drawer ? handleChangeDrawer : openMobileDrawer) : openMobileDrawer
-					}
-					openThemePickerModal={openThemePickerModal}
-					openHotKeysModal={openHotKeysModal}
-					exit={openExitModal}
+					openDrawer={size['large'] ? handleChangeDrawer : openMobileDrawer}
+					openThemePickerModal={(): void => setThemePickerModal(true)}
+					openHotKeysModal={(): void => setHotKeysModal(true)}
+					openSettingsModal={(): void => setSettingsModal(true)}
+					exit={(): void => setExitModal(true)}
 				/>
 
-				{app.drawer && size['large'] && (
+				{size['large'] && (
 					<>{alterDrawer ? <AlterDrawer auth={auth} /> : <MainDrawer auth={auth} />}</>
 				)}
-				{app.drawer && !size['large'] && !size['small'] && <AlterDrawer auth={auth} />}
+				{!size['large'] && !size['small'] && <AlterDrawer auth={auth} />}
 				<MobileDrawer
 					open={mobileDrawer}
 					closeDrawer={(): void => setMobileDrawer(false)}
@@ -202,13 +178,19 @@ const App: React.FC<Props> = ({children}) => {
 				</main>
 
 				<ScrollButton open={scrollButton} action={executeScrollUp} />
+
 				<ThemePickerModal
 					open={themePickerModal}
 					closeModal={(): void => setThemePickerModal(false)}
 					changeTheme={changeTheme}
 				/>
 				<HotKeysModal open={hotKeysModal} closeModal={(): void => setHotKeysModal(false)} />
-				<ExitModal open={exitModal} closeModal={closeExitModal} action={handleExit} />
+				<SettingsModal open={settingsModal} closeModal={(): void => setSettingsModal(false)} />
+				<ExitModal
+					open={exitModal}
+					closeModal={(): void => setExitModal(false)}
+					action={handleExit}
+				/>
 
 				<ChangeDrawer action={handleChangeDrawer} />
 				<Exit action={handleExit} />

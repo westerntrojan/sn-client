@@ -5,13 +5,13 @@ import Divider from '@material-ui/core/Divider';
 
 import Loader from '@components/Loader';
 import {RemoveMessageModal} from '@components/modals';
-import Header from './Header';
-import NewInfo from './NewInfo';
-import Message from './Message';
-import Form from './Form';
-import AlterHeader from '@components/chats/AlterHeader';
-import MyMessage from '@components/chats/MyMessage';
-import {IMessage} from '@pages/UsersChat/types';
+import Header from './components/Header';
+import NewInfo from './components/NewInfo';
+import Message from './components/Message';
+import Form from './components/Form';
+import AlterHeader from '@components/chat/AlterHeader';
+import MyMessage from '@components/chat/MyMessage';
+import {IMessage} from '@components/chat/types';
 
 const useStyles = makeStyles({
 	root: {

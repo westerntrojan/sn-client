@@ -40,7 +40,6 @@
 		"semi": ["error", "always"],
 		"no-param-reassign": "warn",
 		"no-var": "error",
-		"fp/no-loops": "error",
 		"max-depth": ["warn", 3],
 		"jsx-a11y/no-autofocus": "off",
 		"react/no-access-state-in-setstate": "warn",
@@ -49,6 +48,8 @@
 		"react/no-direct-mutation-state": "warn",
 		"react/prefer-stateless-function": "warn",
 		"react/jsx-no-target-blank": "warn",
+		"react-hooks/rules-of-hooks": "warn",
+		"react-hooks/exhaustive-deps": "warn",
 		"@typescript-eslint/camelcase": "off",
 		"@typescript-eslint/interface-name-prefix": "off",
 

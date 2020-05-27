@@ -1,12 +1,6 @@
-import {IUser} from '@store/types';
-
-export interface IMessage {
-	_id: string;
-	image: {
-		url: string;
-		caption: string;
-	};
-	user: IUser;
-	text: string;
-	created: string;
+export interface ISendingMessage {
+	type: 'text' | 'image' | 'image_caption';
+	image: File | null;
+	text?: string;
+	caption?: string;
 }

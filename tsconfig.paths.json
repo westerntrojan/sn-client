@@ -7,7 +7,6 @@
 			"@pages/*": ["src/pages/*"],
 			"@store/*": ["src/store/*"],
 			"@utils/*": ["src/utils/*"],
-			"@selectors/*": ["src/selectors/*"],
 			"@App/*": ["src/App/*"]
 		}
 	}

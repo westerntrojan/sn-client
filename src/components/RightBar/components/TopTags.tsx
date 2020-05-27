@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import {Link as RouterLink} from 'react-router-dom';
 
 import Loader from '@components/Loader';
-import Context, {IContext} from '@App/context';
+import Context from '@App/context';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
 const TopTags: React.FC = () => {
 	const classes = useStyles();
 
-	const {topTags, loading}: IContext = useContext(Context);
+	const {topTags, loading} = useContext(Context);
 
 	return (
 		<Paper className={classNames('top-tags', classes.root, {[classes.rootLoading]: loading})}>
@@ -52,7 +52,6 @@ const TopTags: React.FC = () => {
 					<Chip
 						label={`#${tag}`}
 						color='primary'
-						style={{color: 'white'}}
 						key={tag}
 						clickable
 						component={RouterLink}

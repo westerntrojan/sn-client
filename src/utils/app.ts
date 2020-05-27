@@ -1,6 +1,6 @@
 import {Theme} from '@material-ui/core';
 import {createMuiTheme} from '@material-ui/core/styles';
-import blue from '@material-ui/core/colors/blue';
+import deepPurple from '@material-ui/core/colors/deepPurple';
 import moment from 'moment';
 
 export const getCurrentTheme = (): Theme => {
@@ -13,29 +13,9 @@ export const getCurrentTheme = (): Theme => {
 	return createMuiTheme({
 		palette: {
 			type: 'light',
-			primary: blue,
+			primary: deepPurple,
 		},
 	});
-};
-
-export const drawer = (location: {pathname: string}): boolean => {
-	const pathname = location.pathname;
-	const withoutParams = pathname.slice(0, pathname.lastIndexOf('/'));
-
-	if (
-		pathname === '/' ||
-		pathname === '/chat' ||
-		pathname === '/article/add' ||
-		pathname === '/messages' ||
-		pathname === '/admin/dashboard' ||
-		pathname === '/admin' ||
-		withoutParams === '/category' ||
-		withoutParams === '/tag'
-	) {
-		return true;
-	}
-
-	return false;
 };
 
 export const relativeDate = (date: string): string => {

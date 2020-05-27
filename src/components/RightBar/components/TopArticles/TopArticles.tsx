@@ -7,7 +7,8 @@ import List from '@material-ui/core/List';
 
 import Article from './components/Article';
 import Loader from '@components/Loader';
-import Context, {IContext} from '@App/context';
+import Context from '@App/context';
+import {IArticle} from '@store/types';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -35,7 +36,7 @@ const useStyles = makeStyles(theme => ({
 const TopArticles: React.FC = () => {
 	const classes = useStyles();
 
-	const {topArticles, loading}: IContext = useContext(Context);
+	const {topArticles, loading} = useContext(Context);
 
 	return (
 		<Paper className={classNames('top-articles', classes.root, {[classes.rootLoading]: loading})}>
@@ -47,7 +48,7 @@ const TopArticles: React.FC = () => {
 
 			{!loading && (
 				<List className={classes.list}>
-					{topArticles.map(article => (
+					{topArticles.map((article: IArticle) => (
 						<Article article={article} key={article._id} />
 					))}
 				</List>

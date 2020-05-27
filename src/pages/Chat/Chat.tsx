@@ -3,12 +3,11 @@ import {useSelector, shallowEqual} from 'react-redux';
 import {Helmet} from 'react-helmet';
 import socketIoClient from 'socket.io-client';
 import {useSnackbar} from 'notistack';
-import {useHistory} from 'react-router-dom';
 
 import './style.scss';
 import Canvas from './components/Canvas';
 import {RootState} from '@store/types';
-import {IMessage} from './types';
+import {IMessage} from '@components/chat/types';
 import Context from './context';
 
 let socket: SocketIOClient.Socket;
@@ -20,8 +19,6 @@ const Chat: React.FC = () => {
 	const [removed, setRemoved] = useState(false);
 
 	const {enqueueSnackbar} = useSnackbar();
-
-	const history = useHistory();
 
 	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
 
@@ -68,20 +65,18 @@ const Chat: React.FC = () => {
 		socketInit();
 		socketListeners();
 
-		console.log(history);
-
-		return (): void => {
+		return function cleanup(): void {
 			socket.disconnect();
 			socket.close();
 		};
-	}, [socketInit, socketListeners, history]);
+	}, [socketInit, socketListeners]);
 
 	const handleRemoveMessages = (messages: string[]): void => {
 		socket.emit('remove_messages', messages);
 	};
 
-	const handleSubmitMessage = (text: string): void => {
-		socket.emit('new_message', {user: auth.user._id, text});
+	const handleSubmitMessage = (message: any): void => {
+		socket.emit('new_message', {user: auth.user._id, ...message});
 	};
 
 	return (

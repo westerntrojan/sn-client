@@ -18,8 +18,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import ForumIcon from '@material-ui/icons/Forum';
-import MessageIcon from '@material-ui/icons/Message';
-import classNames from 'classnames';
+import PersonIcon from '@material-ui/icons/Person';
 import {useTheme} from '@material-ui/core/styles';
 
 import Footer from './Footer';
@@ -33,9 +32,6 @@ const useStyles = makeStyles(theme => ({
 	},
 	menuButton: {
 		marginRight: theme.spacing(2),
-	},
-	white: {
-		color: 'white',
 	},
 }));
 
@@ -63,14 +59,14 @@ const MobileDrawer: React.FC<Props> = ({open, closeDrawer, auth}) => {
 					<Toolbar>
 						<IconButton
 							edge='start'
-							className={classNames(classes.menuButton, classes.white)}
+							className={classes.menuButton}
 							color='inherit'
 							aria-label='Close drawer'
 							onClick={closeDrawer}
 						>
 							<MenuIcon />
 						</IconButton>
-						<Typography variant='h5' noWrap onClick={closeDrawer} className={classes.white}>
+						<Typography variant='h5' noWrap onClick={closeDrawer}>
 							<Link underline='none' component={RouterLink} to='/' color={'inherit'}>
 								{title}
 							</Link>
@@ -132,7 +128,7 @@ const MobileDrawer: React.FC<Props> = ({open, closeDrawer, auth}) => {
 								onClick={closeDrawer}
 							>
 								<ListItemIcon>
-									<MessageIcon />
+									<PersonIcon />
 								</ListItemIcon>
 								<ListItemText primary={'Messages'} />
 							</ListItem>

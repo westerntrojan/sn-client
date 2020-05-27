@@ -7,7 +7,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import setting from '@App/setting.json';
+import settings from '@App/settings.json';
 
 type Props = {
 	open: boolean;
@@ -16,7 +16,7 @@ type Props = {
 
 const HotKeysModal: React.FC<Props> = ({open, closeModal}) => {
 	const size = {
-		large: useMediaQuery(`(min-width:${setting.display.large})`),
+		large: useMediaQuery(`(min-width:${settings.display.large})`),
 	};
 
 	const theme = useTheme();

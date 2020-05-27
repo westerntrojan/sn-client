@@ -26,19 +26,23 @@ export interface IUser {
 		images: string[];
 		color: string;
 	};
-	role: Role.ADMIN | Role.MODERATOR | Role.USER;
+	readonly role: Role.ADMIN | Role.MODERATOR | Role.USER;
 	likedArticles: string[];
-	isRemoved: boolean;
+	readonly isRemoved: boolean;
+	readonly emailVerified: boolean;
+	twoFactorAuth: boolean;
+	readonly created: string;
 }
 
 export interface IComment {
 	readonly _id: string;
 	readonly articleId: string;
-	text: string;
-	user: IUser;
+	readonly text: string;
+	readonly user: IUser;
 	likes: number;
 	dislikes: number;
-	created: string;
+	parentId: string | null;
+	readonly created: string;
 }
 
 export interface ICategory {
@@ -57,9 +61,9 @@ export interface IArticle {
 	tags: string[];
 	category: ICategory;
 	slug: string;
-	user: IUser;
+	readonly user: IUser;
 	views: number;
 	likes: number;
 	comments: IComment[];
-	created: string;
+	readonly created: string;
 }

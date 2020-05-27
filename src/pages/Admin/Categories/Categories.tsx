@@ -23,7 +23,7 @@ const Categories: React.FC = () => {
 	const {enqueueSnackbar, closeSnackbar} = useSnackbar();
 
 	useEffect(() => {
-		return (): void => {
+		return function cleanup(): void {
 			dispatch(removeCategory());
 		};
 	}, [dispatch]);

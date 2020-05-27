@@ -13,7 +13,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import classNames from 'classnames';
 import {useLocation} from 'react-router';
 import PaletteIcon from '@material-ui/icons/Palette';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -23,7 +22,6 @@ import KeyboardIcon from '@material-ui/icons/Keyboard';
 import SettingsIcon from '@material-ui/icons/Settings';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Button from '@material-ui/core/Button';
-import blue from '@material-ui/core/colors/blue';
 import Badge from '@material-ui/core/Badge';
 
 import UserAvatar from '@components/avatars/UserAvatar';
@@ -40,8 +38,6 @@ const useStyles = makeStyles(theme => ({
 	},
 	signInButton: {
 		marginLeft: 10,
-		color: blue[900],
-		borderColor: blue[900],
 	},
 	avatar: {
 		marginLeft: 10,
@@ -88,9 +84,9 @@ const useStyles = makeStyles(theme => ({
 		transition: theme.transitions.create('width'),
 		width: '100%',
 		[theme.breakpoints.up('sm')]: {
-			width: 140,
+			width: 160,
 			'&:focus': {
-				width: 200,
+				width: 220,
 			},
 		},
 	},
@@ -110,9 +106,6 @@ const useStyles = makeStyles(theme => ({
 			display: 'none',
 		},
 	},
-	white: {
-		color: 'white',
-	},
 }));
 
 type Props = {
@@ -120,6 +113,7 @@ type Props = {
 	openDrawer: () => void;
 	openThemePickerModal: () => void;
 	openHotKeysModal: () => void;
+	openSettingsModal: () => void;
 	exit: () => void;
 };
 
@@ -128,6 +122,7 @@ const Header: React.FC<Props> = ({
 	openDrawer,
 	openThemePickerModal,
 	openHotKeysModal,
+	openSettingsModal,
 	exit,
 }) => {
 	const classes = useStyles();
@@ -233,7 +228,7 @@ const Header: React.FC<Props> = ({
 						</IconButton>
 						<p>Change theme</p>
 					</MenuItem>
-					<MenuItem onClick={(): void => console.log('settings')}>
+					<MenuItem onClick={openSettingsModal}>
 						<IconButton>
 							<SettingsIcon />
 						</IconButton>
@@ -290,30 +285,29 @@ const Header: React.FC<Props> = ({
 					<Toolbar>
 						<IconButton
 							edge='start'
-							className={classNames(classes.menuButton, classes.white)}
+							className={classes.menuButton}
 							aria-label='Open drawer'
 							onClick={openDrawer}
 							color='inherit'
 						>
 							<MenuIcon />
 						</IconButton>
-						<Typography className={classNames(classes.title, classes.white)} variant='h5' noWrap>
+						<Typography className={classes.title} variant='h5' noWrap>
 							<Link underline='none' component={RouterLink} to='/' color={'inherit'}>
 								{title}
 							</Link>
 						</Typography>
-						<div className={classNames(classes.search, classes.white)}>
+						<div className={classes.search}>
 							<div className={classes.searchIcon}>
 								<SearchIcon />
 							</div>
 							<InputBase
-								placeholder='Search'
+								placeholder='Search ("/" to focus)'
 								classes={{
 									root: classes.inputRoot,
 									input: classes.inputInput,
 								}}
 								type='search'
-								inputProps={{'aria-label': 'Search'}}
 								inputRef={searchRef}
 							/>
 						</div>
@@ -321,32 +315,24 @@ const Header: React.FC<Props> = ({
 						<div className={classes.sectionDesktop}>
 							<div className={classes.rightSide}>
 								<ZoomTooltip title='Hot keys'>
-									<IconButton onClick={openHotKeysModal} color='inherit' className={classes.white}>
+									<IconButton onClick={openHotKeysModal} color='inherit'>
 										<KeyboardIcon />
 									</IconButton>
 								</ZoomTooltip>
 								<ZoomTooltip title='Change theme'>
-									<IconButton onClick={handleAppearance} color='inherit' className={classes.white}>
+									<IconButton onClick={handleAppearance} color='inherit'>
 										<PaletteIcon />
 									</IconButton>
 								</ZoomTooltip>
 								<ZoomTooltip title='Settings'>
-									<IconButton
-										onClick={(): void => console.log('settings')}
-										color='inherit'
-										className={classes.white}
-									>
+									<IconButton onClick={openSettingsModal} color='inherit'>
 										<SettingsIcon />
 									</IconButton>
 								</ZoomTooltip>
 								{auth.isAuth ? (
 									<>
 										<ZoomTooltip title='Notification'>
-											<IconButton
-												onClick={(): void => console.log('notification')}
-												color='inherit'
-												className={classes.white}
-											>
+											<IconButton onClick={(): void => console.log('notification')} color='inherit'>
 												<Badge badgeContent={17} color='secondary'>
 													<NotificationsIcon />
 												</Badge>
@@ -369,6 +355,7 @@ const Header: React.FC<Props> = ({
 											variant='outlined'
 											className={classes.signInButton}
 											startIcon={<AccountCircle />}
+											color='inherit'
 										>
 											Sign in
 										</Button>
@@ -383,7 +370,6 @@ const Header: React.FC<Props> = ({
 								aria-haspopup='true'
 								onClick={handleMobileMenuOpen}
 								color='inherit'
-								className={classes.white}
 							>
 								<MoreIcon />
 							</IconButton>

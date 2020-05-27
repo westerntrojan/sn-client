@@ -1,18 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import {Helmet} from 'react-helmet';
 import {Bar} from 'react-chartjs-2';
+
 import {IFetchData} from './types';
 
 import callApi from '@utils/callApi';
-
-const API = '/data';
 
 const Dashboard: React.FC = () => {
 	const [data, setData] = useState<IFetchData | null>(null);
 
 	useEffect(() => {
 		const fetchData = async (): Promise<void> => {
-			const data: IFetchData = await callApi.get(`${API}/statistics/articles`);
+			const data: IFetchData = await callApi.get('/data/statistics/articles');
 
 			setData(data);
 		};

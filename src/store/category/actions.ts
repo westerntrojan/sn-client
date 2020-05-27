@@ -2,13 +2,11 @@ import _ from 'lodash';
 import {createAction} from '@reduxjs/toolkit';
 
 import callApi from '@utils/callApi';
-import * as types from './types';
 import {AppThunk, ICategory} from '@store/types';
-
-const API = '/category';
+import * as types from './types';
 
 export const getCategory = (): AppThunk => async (dispatch): Promise<void> => {
-	const data = await callApi.get(API);
+	const data = await callApi.get('/categories');
 
 	dispatch({
 		type: types.GET_CATEGORY,
@@ -19,7 +17,7 @@ export const getCategory = (): AppThunk => async (dispatch): Promise<void> => {
 };
 
 export const addCategory = (category: object): AppThunk => async (dispatch): Promise<void> => {
-	const data = await callApi.post(API, category);
+	const data = await callApi.post('/categories', category);
 
 	if (data.category) {
 		dispatch({
@@ -34,7 +32,7 @@ export const addCategory = (category: object): AppThunk => async (dispatch): Pro
 };
 
 export const editCategory = (category: ICategory): AppThunk => async (dispatch): Promise<void> => {
-	const data = await callApi.put(`${API}/${category._id}`, category);
+	const data = await callApi.put(`/categories/${category._id}`, category);
 
 	if (data.category) {
 		dispatch({
@@ -64,7 +62,7 @@ export const removeCategory = (): AppThunk => async (dispatch, getState): Promis
 	const categories = getState().category.removedCategories.map(c => c._id);
 
 	if (!_.isEmpty(categories)) {
-		await callApi.post(`${API}/remove`, {categories});
+		await callApi.post('/categories/remove', {categories});
 
 		dispatch({
 			type: types.REMOVE_CATEGORY,

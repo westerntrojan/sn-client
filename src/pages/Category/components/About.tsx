@@ -4,9 +4,10 @@ import {makeStyles} from '@material-ui/styles';
 import IconButton from '@material-ui/core/IconButton';
 import Divider from '@material-ui/core/Divider';
 import MoreHoriz from '@material-ui/icons/MoreHoriz';
-import {ICategory} from '@store/types';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
 
-import SubscribeButton from '@components/SubscribeButton';
+import {ICategory} from '@store/types';
 
 const useStyles = makeStyles({
 	root: {
@@ -53,7 +54,14 @@ const About: React.FC<Props> = ({category}) => {
 					<IconButton>
 						<MoreHoriz />
 					</IconButton>
-					<SubscribeButton onClick={(): void => console.log('subscribe')} />
+					<Button
+						color='primary'
+						variant='contained'
+						startIcon={<AddIcon />}
+						onClick={(): void => console.log('subscribe')}
+					>
+						Subscribe
+					</Button>
 				</div>
 			</div>
 			<div className={classes.info}>

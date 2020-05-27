@@ -11,8 +11,6 @@ import {RootState} from '@store/types';
 import {IFetchData} from './types';
 import {IUser} from '@store/types';
 
-const API = '/users';
-
 const EditUser: React.FC = () => {
 	const {userLink} = useParams();
 	const history = useHistory();
@@ -24,7 +22,7 @@ const EditUser: React.FC = () => {
 
 	useEffect(() => {
 		const fetchUser = async (): Promise<void> => {
-			const data: IFetchData = await callApi.get(`${API}/${userLink}`);
+			const data: IFetchData = await callApi.get(`/users/${userLink}`);
 
 			if (data.user) {
 				if (data.user._id === auth.user._id || auth.isAdmin) {
@@ -38,7 +36,7 @@ const EditUser: React.FC = () => {
 	}, [userLink, dispatch, auth.user._id, auth.isAdmin, history]);
 
 	const handleSubmit = async (user: IUser): Promise<any> => {
-		const data: any = await callApi.put(`${API}/${user._id}`, user);
+		const data: any = await callApi.put(`/users/${user._id}`, user);
 
 		if (data.errors) {
 			return data.errors[0];

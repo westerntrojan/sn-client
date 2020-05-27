@@ -1,0 +1,15 @@
+.password-reset-verify {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+
+	.form {
+		flex: 1;
+		height: 100%;
+	}
+
+	.input {
+		margin-bottom: 20px;
+	}
+}

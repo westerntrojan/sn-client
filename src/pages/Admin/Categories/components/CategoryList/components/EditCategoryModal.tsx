@@ -10,8 +10,6 @@ import {useTheme, makeStyles} from '@material-ui/core/styles';
 import {useSnackbar} from 'notistack';
 
 import {ICategory} from '@store/types';
-import {SubmitModal} from '@utils/hotKeys';
-import {ContainedButton} from '@components/SubmitButtons';
 
 const useStyles = makeStyles({
 	input: {
@@ -131,15 +129,18 @@ const EditCategoryModal: React.FC<Props> = ({open, closeModal, category, handleS
 				/>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={closeModal} disabled={loading} color='primary'>
+				<Button color='primary' onClick={closeModal} disabled={loading}>
 					Cancel
 				</Button>
-				<ContainedButton loading={loading} disabled={disabledButton} onClick={_handleSubmit}>
+				<Button
+					color='primary'
+					variant='contained'
+					disabled={disabledButton || loading}
+					onClick={_handleSubmit}
+				>
 					Submit
-				</ContainedButton>
+				</Button>
 			</DialogActions>
-
-			<SubmitModal action={(): void => console.log('SubmitModal')} />
 		</Dialog>
 	);
 };

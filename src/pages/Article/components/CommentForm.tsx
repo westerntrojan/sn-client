@@ -1,15 +1,13 @@
-import React, {useState, useCallback, useEffect} from 'react';
+import React, {useState, useCallback, useEffect, useContext} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import {useSnackbar} from 'notistack';
 import Button from '@material-ui/core/Button';
 import classNames from 'classnames';
 
-import {useHistory} from 'react-router';
-
-import {ContainedButton} from '@components/SubmitButtons';
 import {UserAvatar, NotAuthAvatar} from '@components/avatars';
-import {IUser} from '@store/types';
+import {useRedirect} from '@utils/hooks';
+import Context from '@pages/Article/context';
 
 const useStyles = makeStyles({
 	root: {
@@ -22,27 +20,19 @@ const useStyles = makeStyles({
 		marginRight: 10,
 	},
 	input: {
-		marginBottom: '20px',
+		marginBottom: 10,
 	},
 	buttons: {
 		display: 'flex',
 		justifyContent: 'flex-end',
 	},
-	cancelButton: {
-		marginRight: 10,
-	},
 });
 
 type Props = {
-	auth: {
-		isAuth: boolean;
-		isAdmin: boolean;
-		user: IUser;
-	};
-	handleSubmit: (text: string) => void;
+	submit: (comment: {parentId?: string; text: string}) => any;
 };
 
-const CommentForm: React.FC<Props> = ({auth, handleSubmit}) => {
+const CommentForm: React.FC<Props> = ({submit}) => {
 	const classes = useStyles();
 
 	const [text, setText] = useState('');
@@ -50,7 +40,9 @@ const CommentForm: React.FC<Props> = ({auth, handleSubmit}) => {
 	const [disabledButton, setDisabledButton] = useState(true);
 	const [showButtons, setShowButtons] = useState(false);
 
-	const history = useHistory();
+	const {auth} = useContext(Context);
+
+	const redirectTo = useRedirect();
 
 	const {enqueueSnackbar} = useSnackbar();
 
@@ -82,18 +74,15 @@ const CommentForm: React.FC<Props> = ({auth, handleSubmit}) => {
 
 		setLoading(true);
 
-		const error: any = await handleSubmit(text);
+		const data: any = await submit({text});
 
-		if (error) {
-			setLoading(false);
-			enqueueSnackbar(error.msg, {variant: 'error'});
-
-			return;
+		if (data.success) {
+			setText('');
+		} else {
+			enqueueSnackbar(data.message, {variant: 'error'});
 		}
 
 		setLoading(false);
-		setText('');
-		enqueueSnackbar('Comment added', {variant: 'success'});
 	};
 
 	const _handlePressKeyTextarea = (target: React.KeyboardEvent): void => {
@@ -104,7 +93,7 @@ const CommentForm: React.FC<Props> = ({auth, handleSubmit}) => {
 
 	const _handleFocus = (): void => {
 		if (!auth.isAuth) {
-			return history.push('/auth');
+			return redirectTo('/auth');
 		}
 
 		setShowButtons(true);
@@ -133,13 +122,18 @@ const CommentForm: React.FC<Props> = ({auth, handleSubmit}) => {
 
 				{showButtons && (
 					<div className={classes.buttons}>
-						<Button className={classes.cancelButton} onClick={_handleCancel}>
+						<Button style={{marginRight: 10}} onClick={_handleCancel}>
 							Cancel
 						</Button>
 
-						<ContainedButton loading={loading} disabled={disabledButton} onClick={_handleSubmit}>
+						<Button
+							color='primary'
+							variant='contained'
+							disabled={disabledButton || loading}
+							onClick={_handleSubmit}
+						>
 							Submit
-						</ContainedButton>
+						</Button>
 					</div>
 				)}
 			</div>

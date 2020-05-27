@@ -4,7 +4,7 @@ import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import _ from 'lodash';
 
-import ChatItem from './ChatItem';
+import ChatItem from './components/ChatItem';
 import {IChat} from '@pages/Messages/types';
 
 const useStyles = makeStyles(theme => ({

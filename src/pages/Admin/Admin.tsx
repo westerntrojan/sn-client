@@ -10,6 +10,7 @@ import Loader from '@components/Loader';
 const useStyles = makeStyles({
 	root: {
 		flexGrow: 1,
+		width: '100%',
 	},
 });
 
@@ -19,10 +20,10 @@ const Categories = lazy(() => import('./Categories'));
 const Admin: React.FC = () => {
 	const classes = useStyles();
 
-	const [value, setValue] = useState(0);
+	const [tab, setTab] = useState(0);
 
-	const handleChange = (e: React.ChangeEvent<{}>, newValue: number): void => {
-		setValue(newValue);
+	const _handleChangeTab = (e: React.ChangeEvent<{}>, newValue: number): void => {
+		setTab(newValue);
 	};
 
 	return (
@@ -33,8 +34,8 @@ const Admin: React.FC = () => {
 
 			<Paper className={classes.root}>
 				<Tabs
-					value={value}
-					onChange={handleChange}
+					value={tab}
+					onChange={_handleChangeTab}
 					indicatorColor='primary'
 					textColor='primary'
 					variant='fullWidth'
@@ -43,18 +44,12 @@ const Admin: React.FC = () => {
 					<Tab label='categories' />
 				</Tabs>
 			</Paper>
-			<Suspense fallback={<Loader />}>
-				{value === 0 && (
-					<div style={{padding: 8 * 3}}>
-						<Dashboard />
-					</div>
-				)}
-				{value === 1 && (
-					<div style={{padding: 8 * 3}}>
-						<Categories />
-					</div>
-				)}
-			</Suspense>
+			<div style={{padding: 8 * 3}}>
+				<Suspense fallback={<Loader />}>
+					{tab === 0 && <Dashboard />}
+					{tab === 1 && <Categories />}
+				</Suspense>
+			</div>
 		</section>
 	);
 };

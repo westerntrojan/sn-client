@@ -3,8 +3,8 @@ import {makeStyles} from '@material-ui/styles';
 import BackupIcon from '@material-ui/icons/Backup';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Button from '@material-ui/core/Button';
 
-import {ContainedButton} from '@components/SubmitButtons';
 import {ImageModal} from '@components/modals';
 
 const useStyles = makeStyles({
@@ -44,19 +44,26 @@ const Dropzone: React.FC<Props> = ({
 	return (
 		<div className={classes.uploader}>
 			{imagePreview ? (
-				<ContainedButton
-					endIcon={<DeleteIcon />}
-					loading={loadingImage}
+				<Button
 					color='secondary'
+					variant='contained'
+					endIcon={<DeleteIcon />}
 					onClick={handleRemoveImage}
+					disabled={loadingImage}
 				>
 					Remove image
-				</ContainedButton>
+				</Button>
 			) : (
-				<ContainedButton endIcon={<BackupIcon />} component='label' loading={loadingImage}>
+				<Button
+					color='primary'
+					variant='contained'
+					endIcon={<BackupIcon />}
+					component='label'
+					disabled={loadingImage}
+				>
 					Upload image
 					<input type='file' style={{display: 'none'}} onChange={handleChangeImage} />
-				</ContainedButton>
+				</Button>
 			)}
 
 			{imagePreview && (

@@ -21,7 +21,7 @@ export const removeUser = (userId: string): AppThunk => async (
 ): Promise<void> => {
 	const data = await callApi.delete(`/users/${userId}`);
 
-	if (data.user) {
+	if (data.success) {
 		dispatch({
 			type: types.REMOVE_USER,
 			payload: {
@@ -35,8 +35,10 @@ export const removeUser = (userId: string): AppThunk => async (
 	}
 };
 
+export const appError = createAction(types.APP_ERROR, (error: Error) => ({
+	payload: {
+		error,
+	},
+}));
+
 export const notFound = createAction(types.NOT_FOUND);
-
-export const withDrawer = createAction(types.WITH_DRAWER);
-
-export const notDrawer = createAction(types.NOT_DRAWER);

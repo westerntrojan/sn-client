@@ -1,35 +1,44 @@
 import store from '../store';
-import {ERROR, NOT_FOUND} from '@store/app/types';
+import {AppActionTypes} from '@store/app/types';
+import {AuthActionTypes} from '@store/auth/types';
+import {appError, notFound} from '@store/app/actions';
+import {exit} from '@store/auth/actions';
+import {AxiosError} from 'axios';
 
-type AppError = {
-	type: string;
-	payload: {
-		error: object;
-	};
+const handle500Error = (error: AxiosError): AppActionTypes => {
+	return store.dispatch(appError(error));
 };
 
-export const handleError = (error: Error): AppError => {
+const handle404Error = (): AppActionTypes => {
+	return store.dispatch(notFound());
+};
+
+const handle401Error = (): AuthActionTypes => {
+	localStorage.removeItem('token');
+
+	return store.dispatch(exit());
+};
+
+export const handleNetworkError = (error: AxiosError): AppActionTypes | AuthActionTypes => {
 	if (process.env.NODE_ENV !== 'production') {
 		console.error(error);
 	}
 
-	return store.dispatch({
-		type: ERROR,
-		payload: {
-			error,
-		},
-	});
-};
+	if (error.response) {
+		const {status} = error.response;
 
-export const handleNotFound = (error: Error): AppError => {
-	if (process.env.NODE_ENV !== 'production') {
-		console.error(error);
+		if (status === 404) {
+			return handle404Error();
+		}
+
+		if (status === 401) {
+			return handle401Error();
+		}
 	}
 
-	return store.dispatch({
-		type: NOT_FOUND,
-		payload: {
-			error,
-		},
-	});
+	return handle500Error(error);
+};
+
+export const handleAppError = (error: Error): AppActionTypes => {
+	return store.dispatch(appError(error));
 };

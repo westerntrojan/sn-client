@@ -26,10 +26,6 @@
 						"rootPathSuffix": "src/utils"
 					},
 					{
-						"rootPathPrefix": "@selectors",
-						"rootPathSuffix": "src/selectors"
-					},
-					{
 						"rootPathPrefix": "@App",
 						"rootPathSuffix": "src/App"
 					}

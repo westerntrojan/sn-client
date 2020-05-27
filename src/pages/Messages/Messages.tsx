@@ -12,8 +12,6 @@ import callApi from '@utils/callApi';
 import {RootState} from '@store/types';
 import {IChat, IFetchData, IRemoveChatData} from './types';
 
-const API = '/chats';
-
 const Messages: React.FC = () => {
 	const [chatId, setChatId] = useState('');
 	const [query, setQuery] = useState('');
@@ -25,7 +23,7 @@ const Messages: React.FC = () => {
 
 	useEffect(() => {
 		const fetchChats = async (): Promise<void> => {
-			const data: IFetchData = await callApi.get(`${API}/${auth.user._id}`);
+			const data: IFetchData = await callApi.get(`/chats/${auth.user._id}`);
 
 			setChats(data.chats);
 			setLoading(false);
@@ -46,7 +44,7 @@ const Messages: React.FC = () => {
 	const handleSearch = (text: string): void => setQuery(text);
 
 	const handleRemoveChat = async (): Promise<void> => {
-		const data: IRemoveChatData = await callApi.delete(`${API}/${chatId}`);
+		const data: IRemoveChatData = await callApi.delete(`/chats/${chatId}`);
 
 		if (data.success) {
 			setChats(chats.filter((chat: IChat) => chat._id !== chatId));

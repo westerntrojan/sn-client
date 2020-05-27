@@ -4,12 +4,10 @@ import callApi from '@utils/callApi';
 import {AppThunk} from '@store/types';
 import * as types from './types';
 
-const API = '/articles';
-
 export const fetchArticles = (): AppThunk => async (dispatch, getState): Promise<void> => {
 	const skip = getState().articles.all.length;
 
-	const data = await callApi.get(`${API}?skip=${skip}`);
+	const data = await callApi.get(`/articles?skip=${skip}`);
 
 	if (data.articles.length < 10) {
 		dispatch({
@@ -29,7 +27,7 @@ export const fetchArticles = (): AppThunk => async (dispatch, getState): Promise
 };
 
 export const getArticles = (): AppThunk => async (dispatch): Promise<void> => {
-	const data = await callApi.get(`${API}?skip=10`);
+	const data = await callApi.get('/articles?skip=10');
 
 	dispatch({
 		type: types.GET_ARTICLES,
@@ -40,7 +38,7 @@ export const getArticles = (): AppThunk => async (dispatch): Promise<void> => {
 };
 
 export const getArticle = (slug: string): AppThunk => async (dispatch): Promise<void> => {
-	const data = await callApi.get(`${API}/${slug}`);
+	const data = await callApi.get(`/articles/${slug}`);
 
 	dispatch({
 		type: types.GET_ARTICLE,
@@ -51,7 +49,7 @@ export const getArticle = (slug: string): AppThunk => async (dispatch): Promise<
 };
 
 export const addArticle = (article: FormData): AppThunk => async (dispatch): Promise<object> => {
-	const data = await callApi.post(API, article);
+	const data = await callApi.post('/articles', article);
 
 	if (data.article) {
 		dispatch({
@@ -66,7 +64,7 @@ export const addArticle = (article: FormData): AppThunk => async (dispatch): Pro
 };
 
 export const editArticle = (formData: FormData): AppThunk => async (dispatch): Promise<object> => {
-	const data = await callApi.put(`${API}/${formData.get('articleId')}`, formData);
+	const data = await callApi.put(`/articles/${formData.get('articleId')}`, formData);
 
 	if (data.article) {
 		dispatch({
@@ -81,7 +79,7 @@ export const editArticle = (formData: FormData): AppThunk => async (dispatch): P
 };
 
 export const removeArticle = (articleId: string): AppThunk => async (dispatch): Promise<void> => {
-	await callApi.delete(`${API}/${articleId}`);
+	await callApi.delete(`/articles/${articleId}`);
 
 	dispatch({
 		type: types.REMOVE_ARTICLE,
@@ -92,7 +90,7 @@ export const removeArticle = (articleId: string): AppThunk => async (dispatch): 
 };
 
 export const addViews = (articleId: string): AppThunk => async (dispatch): Promise<void> => {
-	await callApi.get(`${API}/views/${articleId}`);
+	await callApi.get(`/articles/views/${articleId}`);
 
 	dispatch({
 		type: types.ADD_VIEWS,
@@ -105,7 +103,7 @@ export const addViews = (articleId: string): AppThunk => async (dispatch): Promi
 export const addLike = (articleId: string, userId: string): AppThunk => async (
 	dispatch,
 ): Promise<void> => {
-	const data = await callApi.get(`${API}/like/${articleId}/${userId}`);
+	const data = await callApi.get(`/articles/like/${articleId}/${userId}`);
 
 	if (data.success) {
 		dispatch({
@@ -125,9 +123,9 @@ export const addLike = (articleId: string, userId: string): AppThunk => async (
 };
 
 export const addComment = (newComment: object): AppThunk => async (dispatch): Promise<object> => {
-	const data = await callApi.post(`${API}/comments`, newComment);
+	const data = await callApi.post('/articles/comments', newComment);
 
-	if (data.comment) {
+	if (data.success) {
 		dispatch({
 			type: types.ADD_COMMENT,
 			payload: {
@@ -140,7 +138,7 @@ export const addComment = (newComment: object): AppThunk => async (dispatch): Pr
 };
 
 export const removeComment = (commentId: string): AppThunk => async (dispatch): Promise<void> => {
-	const data = await callApi.delete(`${API}/comments/${commentId}`);
+	const data = await callApi.delete(`/articles/comments/${commentId}`);
 
 	if (data.comment) {
 		dispatch({
@@ -155,7 +153,7 @@ export const removeComment = (commentId: string): AppThunk => async (dispatch): 
 export const addCommentLike = (articleId: string, commentId: string): AppThunk => async (
 	dispatch,
 ): Promise<void> => {
-	const data = await callApi.get(`${API}/comments/like/${commentId}`);
+	const data = await callApi.get(`/articles/comments/like/${commentId}`);
 
 	if (data.success) {
 		dispatch({
@@ -171,7 +169,7 @@ export const addCommentLike = (articleId: string, commentId: string): AppThunk =
 export const addCommentDislike = (articleId: string, commentId: string): AppThunk => async (
 	dispatch,
 ): Promise<void> => {
-	const data = await callApi.get(`${API}/comments/dislike/${commentId}`);
+	const data = await callApi.get(`/articles/comments/dislike/${commentId}`);
 
 	if (data.success) {
 		dispatch({

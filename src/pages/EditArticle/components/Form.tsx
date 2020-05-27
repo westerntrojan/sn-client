@@ -9,8 +9,8 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import {useSelector, shallowEqual} from 'react-redux';
 import {useSnackbar} from 'notistack';
+import Button from '@material-ui/core/Button';
 
-import {ContainedButton} from '@components/SubmitButtons';
 import Dropzone from '@components/Dropzone';
 import {IArticle, RootState} from '@store/types';
 import {IArticleInputs} from '@pages/EditArticle/types';
@@ -239,9 +239,14 @@ const ArticleForm: React.FC<Props> = ({article, handleSubmit}) => {
 					</Select>
 				</FormControl>
 
-				<ContainedButton loading={loading} disabled={disabledButton} onClick={_handleSubmit}>
+				<Button
+					color='primary'
+					variant='contained'
+					disabled={disabledButton || loading}
+					onClick={_handleSubmit}
+				>
 					Submit
-				</ContainedButton>
+				</Button>
 			</div>
 		</div>
 	);

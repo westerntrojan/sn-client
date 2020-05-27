@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {Helmet} from 'react-helmet';
 import {connect} from 'react-redux';
 import socketIoClient from 'socket.io-client';
@@ -8,7 +8,8 @@ import './style.scss';
 import Canvas from './components/Canvas';
 import {RootState} from '@store/types';
 import {AuthState} from '@store/auth/types';
-import {IMessage} from './types';
+import {IMessage} from '@components/chat/types';
+import {ISendingMessage} from './types';
 import Context from './context';
 
 let socket: SocketIOClient.Socket;
@@ -25,7 +26,7 @@ type State = {
 	removed: boolean;
 };
 
-class ChatClass extends Component<Props, State> {
+class ChatClass extends PureComponent<Props, State> {
 	state = {
 		activeUsers: 0,
 		messages: [],
@@ -38,10 +39,15 @@ class ChatClass extends Component<Props, State> {
 	};
 
 	componentDidMount(): void {
-		console.log('componentDidMount');
+		console.log('[ChatClass] componentDidMount');
 
-		// socketInit
-		socket = socketIoClient(`${process.env.REACT_APP_SOCKET}/main`);
+		socket = socketIoClient(`${process.env.REACT_APP_SOCKET}/main`, {
+			// autoConnect: false,
+			// reconnection: true,
+		});
+
+		// socket.open();
+
 		socket.on('error', this._handleError);
 		socket.on('user_error', this._handleError);
 
@@ -54,29 +60,31 @@ class ChatClass extends Component<Props, State> {
 
 			socket.emit('user_connect');
 
-			// socketListeners
 			socket.on('active_users', (count: number) => this.setState({activeUsers: count}));
 
 			if (this.state.loading) {
-				socket.on('pre_messages', (preMessages: IMessage[]) => {
-					this.setState({loading: false});
-					this.setState({messages: preMessages});
+				socket.on('pre_messages', (messages: IMessage[]) => {
+					this.setState({loading: false, messages});
 				});
 			}
 
 			socket.on('new_message', (message: IMessage) => {
 				if (message.user._id === this.props.auth.user._id) {
-					this.setState({removed: false});
+					this.setState(prevState => ({
+						removed: false,
+						messages: prevState.messages.concat(message),
+					}));
 				} else {
-					this.setState({removed: true});
+					this.setState(prevState => ({
+						removed: true,
+						messages: prevState.messages.concat(message),
+					}));
 				}
-
-				this.setState(prevState => ({messages: prevState.messages.concat(message)}));
 			});
-			socket.on('remove_messages', (removedMessages: string[]) => {
-				this.setState({removed: true});
 
+			socket.on('remove_messages', (removedMessages: string[]) => {
 				this.setState(prevState => ({
+					removed: true,
 					messages: prevState.messages.filter(
 						(message: IMessage) => !removedMessages.includes(message._id),
 					),
@@ -86,13 +94,12 @@ class ChatClass extends Component<Props, State> {
 	}
 
 	componentDidUpdate(): void {
-		console.log('componentDidUpdate');
+		console.log('[ChatClass] componentDidUpdate');
 	}
 
 	componentWillUnmount(): void {
-		console.log('componentWillUnmount');
+		console.log('[ChatClass] componentWillUnmount');
 
-		socket.disconnect();
 		socket.close();
 	}
 
@@ -100,8 +107,30 @@ class ChatClass extends Component<Props, State> {
 		socket.emit('remove_messages', messages);
 	};
 
-	handleSubmitMessage = (message: any): void => {
-		socket.emit('new_message', {user: this.props.auth.user._id, ...message});
+	handleSubmitMessage = async (message: ISendingMessage): Promise<void> => {
+		const user = this.props.auth.user._id;
+		const {type, text, image, caption} = message;
+
+		if (type === 'text' && text) {
+			socket.emit('new_message', {user, type, text});
+
+			return;
+		}
+
+		const formData = new FormData();
+		formData.append('user', user);
+		formData.append('type', type);
+
+		if (type === 'image' && image) {
+			formData.append('image', image);
+		}
+
+		if (type === 'image_caption' && image && caption) {
+			formData.append('image', image);
+			formData.append('caption', caption);
+		}
+
+		console.log(formData);
 	};
 
 	render(): React.ReactNode {

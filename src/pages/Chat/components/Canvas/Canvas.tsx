@@ -6,15 +6,15 @@ import {useSnackbar} from 'notistack';
 
 import Loader from '@components/Loader';
 import {RemoveMessageModal} from '@components/modals';
-import Header from './Header';
-import Message from './Message';
-import MyMessage from './MyMessage';
-import Form from './Form';
-import ImageModal from './ImageModal';
-import AlterHeader from '@components/chats/AlterHeader';
+import Header from './components/Header';
+import Message from './components/Message';
+import Form from './components/Form';
+import ImageModal from './components/ImageModal';
+import MyMessage from '@components/chat/MyMessage';
+import AlterHeader from '@components/chat/AlterHeader';
 import ForNotAuth from '@components/ForNotAuth';
-import {IMessage} from '@pages/Chat/types';
-import Context, {IContext} from '@pages/Chat/context';
+import {IMessage} from '@components/chat/types';
+import Context from '@pages/Chat/context';
 
 const useStyles = makeStyles({
 	root: {
@@ -26,7 +26,6 @@ const useStyles = makeStyles({
 		flex: 1,
 	},
 	messages: {
-		padding: '0 20px',
 		height: '100%',
 		overflow: 'auto',
 	},
@@ -52,10 +51,11 @@ const Canvas: React.FC<Props> = ({messages, auth, removed, loading, handleRemove
 	const [alterHeader, setAlterHeader] = useState(false);
 	const [selectedMessages, setSelectedMessages] = useState<string[]>([]);
 	const [removeMessagesModal, setRemoveMessagesModal] = useState(false);
-	const [image, setImage] = useState<File | null>(null);
+	const [imageFile, setImageFile] = useState<File | null>(null);
+	const [imagePreview, setImagePreview] = useState('');
 	const [imageModal, setImageModal] = useState(false);
 
-	const {handleSubmitMessage}: IContext = useContext(Context);
+	const {handleSubmitMessage} = useContext(Context);
 
 	const {enqueueSnackbar} = useSnackbar();
 
@@ -111,29 +111,25 @@ const Canvas: React.FC<Props> = ({messages, auth, removed, loading, handleRemove
 				return;
 			}
 
-			setImage(file);
+			setImageFile(file);
+
+			const reader = new FileReader();
+
+			reader.onload = (data: any): void => {
+				setImagePreview(data.target.result);
+			};
+
+			reader.readAsDataURL(file);
+
 			setImageModal(true);
 		}
 	};
 
 	const handleSubmit = (data: any): void => {
-		if (data.type === 'image') {
-			// data - {type: 'image'}
+		handleSubmitMessage({...data, image: imageFile});
 
-			const message = {...data, image};
-
-			console.log(message);
-		} else if (data.type === 'image_text') {
-			// data - {type: 'image', caption: string}
-
-			const message = {...data, image};
-
-			console.log(message);
-		} else {
-			// data - {type: 'text', text: string}
-
-			handleSubmitMessage(data);
-		}
+		setImageFile(null);
+		setImagePreview('');
 	};
 
 	return (
@@ -194,7 +190,7 @@ const Canvas: React.FC<Props> = ({messages, auth, removed, loading, handleRemove
 			/>
 			<ImageModal
 				open={imageModal}
-				image={image}
+				imagePreview={imagePreview}
 				handleSubmit={handleSubmit}
 				closeModal={(): void => setImageModal(false)}
 			/>

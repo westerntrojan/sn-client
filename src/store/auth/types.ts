@@ -6,12 +6,18 @@ export const VERIFY = 'auth/verify';
 export const EXIT = 'auth/exit';
 export const CHANGE_AVATAR = 'auth/changeAvatar';
 export const REMOVE_AVATAR = 'auth/removeAvatar';
+export const TWO_FACTOR_AUTH = 'auth/twoFactorAuth';
+
+type Exit = {
+	type: typeof EXIT;
+};
+
+export type AuthActionTypes = Exit;
 
 export type AuthState = {
 	isAuth: boolean;
 	isAdmin: boolean;
 	user: IUser;
-	token: string | null;
 };
 
 export const defaultUser = {
@@ -26,5 +32,8 @@ export const defaultUser = {
 	},
 	role: 2,
 	likedArticles: [''],
+	emailVerified: true,
+	twoFactorAuth: false,
 	isRemoved: false,
+	created: '',
 };

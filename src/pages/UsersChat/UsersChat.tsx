@@ -10,11 +10,11 @@ import Canvas from './components/Canvas';
 import callApi from '@utils/callApi';
 import {RemoveModal} from '@components/modals';
 import {RootState} from '@store/types';
-import {IMessage, IFetchData, IClearHistoryData} from './types';
+import {IMessage} from '@components/chat/types';
+import {IFetchData, IClearHistoryData} from './types';
 import {IUser} from '@store/types';
 import Context from './context';
 
-const API = '/chats';
 let socket: SocketIOClient.Socket;
 
 const UsersChat: React.FC = () => {
@@ -45,6 +45,7 @@ const UsersChat: React.FC = () => {
 		socket.on('connect', () => {
 			socket.emit('user_connect', {from: authUser._id, to: userId});
 		});
+
 		socket.on('chat_not_found', () => {
 			setIsNew(true);
 			setLoading(false);
@@ -90,7 +91,7 @@ const UsersChat: React.FC = () => {
 
 	useEffect(() => {
 		const fetchUser = async (): Promise<void> => {
-			const data: IFetchData = await callApi.get(`${API}/users/${userId}`);
+			const data: IFetchData = await callApi.get(`/users/${userId}`);
 
 			setUser(data.user);
 		};
@@ -99,8 +100,8 @@ const UsersChat: React.FC = () => {
 		socketInit();
 		socketListeners();
 
-		return (): void => {
-			socket.disconnect();
+		return function cleanup(): void {
+			socket.close();
 		};
 	}, [userId, socketInit, socketListeners]);
 
@@ -133,7 +134,7 @@ const UsersChat: React.FC = () => {
 	};
 
 	const handleClearHistory = async (): Promise<void> => {
-		const data: IClearHistoryData = await callApi.delete(`${API}/messages/${chatId}`);
+		const data: IClearHistoryData = await callApi.delete(`/chats/messages/${chatId}`);
 
 		if (data.success) {
 			setMessages([]);

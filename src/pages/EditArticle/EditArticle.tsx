@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useSelector, useDispatch, shallowEqual} from 'react-redux';
-import {useParams, useHistory} from 'react-router';
+import {useParams} from 'react-router';
 import {Helmet} from 'react-helmet';
 
 import PageLoader from '@components/PageLoader';
@@ -8,13 +8,13 @@ import Form from './components/Form';
 import {editArticle} from '@store/articles/actions';
 import {RootState} from '@store/types';
 import {IArticleInputs} from './types';
-import {useArticle} from '@utils/hooks';
+import {useArticle, useRedirect} from '@utils/hooks';
 
 const EditArticle: React.FC = () => {
 	const {slug} = useParams();
-	const history = useHistory();
 
 	const [article, setArticleSlug] = useArticle();
+	const redirectTo = useRedirect();
 
 	const authUser = useSelector((state: RootState) => state.auth.user, shallowEqual);
 	const dispatch = useDispatch();
@@ -47,7 +47,7 @@ const EditArticle: React.FC = () => {
 				return data.errors[0];
 			}
 
-			history.push(`/article/${data.article.slug}`);
+			redirectTo(`/article/${data.article.slug}`);
 		}
 	};
 

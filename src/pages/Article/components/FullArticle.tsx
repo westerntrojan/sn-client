@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import moment from 'moment';
 import {Link as RouterLink} from 'react-router-dom';
 import Link from '@material-ui/core/Link';
@@ -14,7 +14,6 @@ import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import LinkIcon from '@material-ui/icons/Link';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import Chip from '@material-ui/core/Chip';
-import {useHistory} from 'react-router';
 import IconButton from '@material-ui/core/IconButton';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import classNames from 'classnames';
@@ -22,9 +21,10 @@ import {useSnackbar} from 'notistack';
 
 import {userLink} from '@utils/users';
 import {IArticle} from '@store/types';
-import {AuthState} from '@store/auth/types';
 import {ImageModal} from '@components/modals';
 import ZoomTooltip from '@components/tooltips/ZoomTooltip';
+import {useRedirect} from '@utils/hooks';
+import Context from '@pages/Article/context';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -89,19 +89,28 @@ const useStyles = makeStyles(theme => ({
 
 type Props = {
 	article: IArticle;
-	auth: AuthState;
 	handleLike: () => void;
 	handleRemove: () => void;
 };
 
-const FullArticle: React.FC<Props> = ({article, auth, handleLike, handleRemove}) => {
+const FullArticle: React.FC<Props> = ({article, handleLike, handleRemove}) => {
 	const classes = useStyles();
 
 	const [imageModal, setImageModal] = useState(false);
 
-	const history = useHistory();
+	const {auth} = useContext(Context);
+
+	const redirectTo = useRedirect();
 
 	const {enqueueSnackbar} = useSnackbar();
+
+	const _handleLike = (): void => {
+		if (!auth.isAuth) {
+			return redirectTo('/auth');
+		}
+
+		handleLike();
+	};
 
 	const _handleClickCopyLink = (): void => {
 		enqueueSnackbar('Link copied successfully', {variant: 'success', preventDuplicate: true});
@@ -145,7 +154,6 @@ const FullArticle: React.FC<Props> = ({article, auth, handleLike, handleRemove})
 							<Chip
 								label={`#${tag}`}
 								color='primary'
-								style={{color: 'white'}}
 								clickable
 								component={RouterLink}
 								to={`/tag/${tag}`}
@@ -155,7 +163,7 @@ const FullArticle: React.FC<Props> = ({article, auth, handleLike, handleRemove})
 					</div>
 				)}
 				<div className={classes.likes}>
-					<IconButton onClick={auth.isAuth ? handleLike : (): void => history.push('/auth')}>
+					<IconButton onClick={_handleLike}>
 						{auth.user.likedArticles.includes(article._id) ? (
 							<FavoriteIcon color='primary' />
 						) : (
@@ -166,11 +174,17 @@ const FullArticle: React.FC<Props> = ({article, auth, handleLike, handleRemove})
 				</div>
 			</CardContent>
 			<CardActions className={classes.actions}>
-				<div className={'buttons'}>
+				<div>
 					{(auth.user && auth.user._id === article.user._id) || auth.isAdmin ? (
 						<>
 							<Link underline='none' component={RouterLink} to={`/article/${article.slug}/edit`}>
-								<Button size='small' color='primary' variant='contained' className='button'>
+								<Button
+									size='small'
+									color='primary'
+									variant='contained'
+									className='button'
+									style={{marginRight: 10}}
+								>
 									Edit
 								</Button>
 							</Link>

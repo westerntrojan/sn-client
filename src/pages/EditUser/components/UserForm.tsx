@@ -3,8 +3,8 @@ import {makeStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import classNames from 'classnames';
 import {useSnackbar} from 'notistack';
+import Button from '@material-ui/core/Button';
 
-import {ContainedButton} from '@components/SubmitButtons';
 import {IUser} from '@store/types';
 
 const useStyles = makeStyles(theme => ({
@@ -197,9 +197,14 @@ const UserForm: React.FC<Props> = ({user, handleSubmit}) => {
 					error={bio.length > 1000}
 				/>
 
-				<ContainedButton loading={loading} disabled={disabledButton} onClick={_handleSubmit}>
+				<Button
+					color='primary'
+					variant='contained'
+					disabled={disabledButton || loading}
+					onClick={_handleSubmit}
+				>
 					Submit
-				</ContainedButton>
+				</Button>
 			</div>
 		</div>
 	);

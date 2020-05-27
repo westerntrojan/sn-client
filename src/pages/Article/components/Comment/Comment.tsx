@@ -1,10 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import moment from 'moment';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import {Link as RouterLink} from 'react-router-dom';
 import Link from '@material-ui/core/Link';
-import classNames from 'classnames';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
@@ -12,29 +11,36 @@ import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import './style.scss';
+import ReplyForm from './components/ReplyForm';
+import SubComment from './components/SubComment';
 import UserAvatar from '@components/avatars/UserAvatar';
 import ZoomTooltip from '@components/tooltips/ZoomTooltip';
 import {userLink} from '@utils/users';
 import {IComment} from '@store/types';
+import {useRedirect} from '@utils/hooks';
+import Context from '@pages/Article/context';
 
 type Props = {
 	comment: IComment;
-	auth: {
-		isAuth: boolean;
-		isAdmin: boolean;
-		user: {
-			_id: string;
-		};
-	};
 	handleLike: (commentId: string) => void;
 	handleDislike: (commentId: string) => void;
 	handleRemove: (commentId: string) => void;
 };
 
-const Comment: React.FC<Props> = ({comment, auth, handleLike, handleDislike, handleRemove}) => {
+const Comment: React.FC<Props> = ({comment, handleLike, handleDislike, handleRemove}) => {
 	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+	const [replyForm, setReplyForm] = useState(false);
+	const [subComments, setSubComments] = useState(false);
+
+	const {auth} = useContext(Context);
+
+	const redirectTo = useRedirect();
+
+	const userName = `${comment.user.firstName} ${comment.user.lastName}`.trim();
 
 	const openMenu = (e: React.MouseEvent<HTMLButtonElement>): void => {
 		setAnchorEl(e.currentTarget);
@@ -45,7 +51,7 @@ const Comment: React.FC<Props> = ({comment, auth, handleLike, handleDislike, han
 	};
 
 	return (
-		<div className={classNames('comment')}>
+		<div className='comment'>
 			<Link underline='none' component={RouterLink} to={userLink(comment.user)} color='inherit'>
 				<UserAvatar user={comment.user} />
 			</Link>
@@ -59,7 +65,7 @@ const Comment: React.FC<Props> = ({comment, auth, handleLike, handleDislike, han
 							to={userLink(comment.user)}
 							color='inherit'
 						>
-							{`${comment.user.firstName} ${comment.user.lastName}`.trim()}
+							{userName}
 						</Link>
 					</Typography>
 
@@ -91,8 +97,53 @@ const Comment: React.FC<Props> = ({comment, auth, handleLike, handleDislike, han
 						</ZoomTooltip>
 					</div>
 
-					<Button size='small'>Reply</Button>
+					<Button
+						size='small'
+						onClick={(): void => {
+							if (!auth.isAuth) {
+								return redirectTo('/auth');
+							}
+
+							setReplyForm(true);
+						}}
+					>
+						Reply
+					</Button>
 				</div>
+
+				{replyForm && <ReplyForm comment={comment} handleClose={(): void => setReplyForm(false)} />}
+
+				<Button
+					size='small'
+					style={{marginBottom: 10}}
+					startIcon={subComments ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+					onClick={(): void => setSubComments(!subComments)}
+				>
+					{subComments ? 'Hide 12 replies' : 'View 12 replies'}
+				</Button>
+
+				{subComments && (
+					<div className='sub-comments'>
+						<SubComment
+							comment={comment}
+							handleLike={handleLike}
+							handleDislike={handleDislike}
+							handleRemove={handleRemove}
+						/>
+						<SubComment
+							comment={comment}
+							handleLike={handleLike}
+							handleDislike={handleDislike}
+							handleRemove={handleRemove}
+						/>
+						<SubComment
+							comment={comment}
+							handleLike={handleLike}
+							handleDislike={handleDislike}
+							handleRemove={handleRemove}
+						/>
+					</div>
+				)}
 			</CardContent>
 
 			<IconButton className='action-icon' onClick={openMenu}>

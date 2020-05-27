@@ -1,8 +1,8 @@
 import {createReducer} from '@reduxjs/toolkit';
 import _ from 'lodash';
 
-import * as types from './types';
 import {REMOVE_CATEGORY, EDIT_CATEGORY} from '@store/category/types';
+import * as types from './types';
 
 const initialState: types.ArticlesState = {
 	all: [],

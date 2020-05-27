@@ -7,7 +7,6 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {useTheme} from '@material-ui/core/styles';
 
-import {TextButton} from '@components/SubmitButtons';
 import {SubmitModal} from '@utils/hotKeys';
 
 type Props = {
@@ -48,9 +47,9 @@ const ExitModal: React.FC<Props> = ({open, action, closeModal}) => {
 				<Button onClick={closeModal} disabled={loading} color='primary'>
 					Cancel
 				</Button>
-				<TextButton color='secondary' disabled={loading} loading={loading} onClick={_handleAction}>
+				<Button color='secondary' disabled={loading} onClick={_handleAction}>
 					Exit
-				</TextButton>
+				</Button>
 			</DialogActions>
 
 			<SubmitModal action={_handleAction} />

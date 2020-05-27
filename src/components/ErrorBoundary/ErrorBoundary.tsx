@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 
 import './style.scss';
-import {handleError} from '@utils/errorHandlers';
+import {handleAppError} from '@utils/errorHandlers';
 import {RootState} from '@store/types';
 
 type Props = {
@@ -15,7 +15,7 @@ type Props = {
 
 class ErrorBoundary extends Component<Props> {
 	componentDidCatch(error: Error, errorInfo: object): void {
-		handleError(error);
+		handleAppError(error);
 	}
 
 	render(): React.ReactNode {

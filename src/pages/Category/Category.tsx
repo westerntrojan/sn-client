@@ -2,7 +2,7 @@ import React, {useState, useCallback, useEffect} from 'react';
 import {useParams} from 'react-router';
 import Typography from '@material-ui/core/Typography';
 import BottomScrollListener from 'react-bottom-scroll-listener';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 import {Helmet} from 'react-helmet';
 
 import './style.scss';
@@ -15,7 +15,6 @@ import {IArticle} from '@store/types';
 import {notFound} from '@store/app/actions';
 import {IFetchData} from './types';
 import {RootState} from '@store/types';
-import {categorySelector} from '@selectors/category';
 
 const Category: React.FC = () => {
 	const {slug} = useParams();
@@ -24,14 +23,19 @@ const Category: React.FC = () => {
 	const [loading, setLoading] = useState(true);
 	const [end, setEnd] = useState(false);
 
-	const category = useSelector((state: RootState) => categorySelector(state, String(slug)));
+	const category = useSelector(
+		(state: RootState) => state.category.all.find(c => c.slug === slug),
+		shallowEqual,
+	);
 	const dispatch = useDispatch();
 
 	const loadMore = useCallback(async () => {
 		if (category) {
 			const skip = articles.length;
 
-			const data: IFetchData = await callApi.get(`/category/${category._id}/articles?skip=${skip}`);
+			const data: IFetchData = await callApi.get(
+				`/categories/${category._id}/articles?skip=${skip}`,
+			);
 
 			if (data.articles.length < 10) {
 				setEnd(true);
@@ -43,7 +47,7 @@ const Category: React.FC = () => {
 
 	const getArticles = useCallback(async () => {
 		if (category) {
-			const data: IFetchData = await callApi.get(`/category/${category._id}/articles?skip=0`);
+			const data: IFetchData = await callApi.get(`/categories/${category._id}/articles?skip=0`);
 
 			if (data.articles.length < 10) {
 				setEnd(true);

@@ -1,61 +1,62 @@
 import React, {useState, Suspense, lazy} from 'react';
 import {useDispatch} from 'react-redux';
-import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import {Helmet} from 'react-helmet';
 
-import {login, register} from '@store/auth/actions';
+import './style.scss';
+import {login, sendCode} from '@store/auth/actions';
 import Loader from '@components/Loader';
+import callApi from '@utils/callApi';
 import {ILoginInputs, IRegisterInputs} from './types';
+import Context from './context';
 
-const LoginForm = lazy(() => import('./components/LoginForm'));
-const RegisterForm = lazy(() => import('./components/RegisterForm'));
-
-const useStyles = makeStyles(theme => ({
-	root: {
-		flexGrow: 1,
-	},
-}));
+const Login = lazy(() => import('./Login'));
+const Register = lazy(() => import('./Register'));
 
 const Auth: React.FC = () => {
-	const classes = useStyles();
-
-	const [value, setValue] = useState(0);
+	const [tab, setTab] = useState(0);
+	const [userId, setUserId] = useState('');
 
 	const dispatch = useDispatch();
 
-	const handleChange = (e: React.ChangeEvent<{}>, newValue: number): void => {
-		setValue(newValue);
+	const _handleChangeTab = (e: React.ChangeEvent<{}>, newValue: number): void => {
+		setTab(newValue);
 	};
 
-	const handleLoginSubmit = async (user: ILoginInputs): Promise<any> => {
+	const handleSubmitLogin = async (user: ILoginInputs): Promise<any> => {
 		const data: any = await dispatch(login(user));
 
-		if (data.errors) {
-			return data.errors[0];
+		if (data.twoFactorAuth) {
+			setUserId(data.userId);
 		}
+
+		return data;
 	};
 
-	const handleRegisterSubmit = async (user: IRegisterInputs): Promise<any> => {
-		const data: any = await dispatch(register(user));
+	const handleSubmitRegister = async (user: IRegisterInputs): Promise<any> => {
+		const data = await callApi.post('/auth/register', user);
 
-		if (data.errors) {
-			return data.errors[0];
-		}
+		return data;
+	};
+
+	const handleSubmitCode = async (code: string): Promise<any> => {
+		const data = await dispatch(sendCode(userId, code));
+
+		return data;
 	};
 
 	return (
-		<section className={classes.root}>
+		<section className='auth'>
 			<Helmet>
 				<title>Auth / {process.env.REACT_APP_TITLE}</title>
 			</Helmet>
 
-			<Paper className={classes.root}>
+			<Paper>
 				<Tabs
-					value={value}
-					onChange={handleChange}
+					value={tab}
+					onChange={_handleChangeTab}
 					indicatorColor='primary'
 					textColor='primary'
 					variant='fullWidth'
@@ -64,18 +65,14 @@ const Auth: React.FC = () => {
 					<Tab label='Register' />
 				</Tabs>
 			</Paper>
-			<Suspense fallback={<Loader />}>
-				{value === 0 && (
-					<div style={{padding: 8 * 3}}>
-						<LoginForm submit={handleLoginSubmit} />
-					</div>
-				)}
-				{value === 1 && (
-					<div style={{padding: 8 * 3}}>
-						<RegisterForm submit={handleRegisterSubmit} />
-					</div>
-				)}
-			</Suspense>
+			<div style={{padding: 8 * 3}} className='content'>
+				<Context.Provider value={{submitCode: handleSubmitCode}}>
+					<Suspense fallback={<Loader />}>
+						{tab === 0 && <Login submit={handleSubmitLogin} />}
+						{tab === 1 && <Register submit={handleSubmitRegister} />}
+					</Suspense>
+				</Context.Provider>
+			</div>
 		</section>
 	);
 };

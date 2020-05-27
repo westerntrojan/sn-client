@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch, shallowEqual} from 'react-redux';
-import {useParams, useHistory} from 'react-router';
+import {useParams} from 'react-router';
 import {Helmet} from 'react-helmet';
 
 import './style.scss';
@@ -15,30 +15,30 @@ import callApi from '@utils/callApi';
 import {removeUser} from '@store/app/actions';
 import {RootState} from '@store/types';
 import {IUserStatistics, IFetchData} from './types';
-
-const API = '/users';
+import {useRedirect} from '@utils/hooks';
 
 const User: React.FC = () => {
 	const {userLink} = useParams();
-	const history = useHistory();
 
 	const [user, setUser] = useState<IUserStatistics | null>(null);
 	const [removeModal, setRemoveModal] = useState(false);
 	const [loading, setLoading] = useState(true);
+
+	const redirectTo = useRedirect();
 
 	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		const fetchUser = async (): Promise<void> => {
-			const data: IFetchData = await callApi.get(`${API}/${userLink}`);
+			const data: IFetchData = await callApi.get(`/users/${userLink}`);
 
 			setUser(data.user);
 
 			setLoading(false);
 		};
 		fetchUser();
-	}, [userLink, dispatch, history]);
+	}, [userLink, dispatch]);
 
 	const openRemoveModal = (): void => {
 		setRemoveModal(true);
@@ -49,7 +49,7 @@ const User: React.FC = () => {
 			await dispatch(removeUser(user._id));
 		}
 
-		history.push('/');
+		redirectTo('/');
 	};
 
 	if (loading) {
