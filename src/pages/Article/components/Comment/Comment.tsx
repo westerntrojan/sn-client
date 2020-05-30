@@ -153,11 +153,11 @@ const Comment: React.FC<Props> = ({comment, handleLike, handleDislike, handleRem
 			<Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={closeMenu}>
 				{(auth.user && auth.user._id === comment.user._id) || auth.isAdmin ? (
 					<div>
-						<MenuItem onClick={(): void => console.log('Edit')}>Edit</MenuItem>
+						<MenuItem>Edit</MenuItem>
 						<MenuItem onClick={(): void => handleRemove(comment._id)}>Remove</MenuItem>
 					</div>
 				) : (
-					<MenuItem onClick={(): void => console.log('Report')}>Report</MenuItem>
+					<MenuItem>Report</MenuItem>
 				)}
 			</Menu>
 		</div>

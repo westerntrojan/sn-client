@@ -104,7 +104,7 @@ const UserForm: React.FC<Props> = ({user, handleSubmit}) => {
 
 		setLoading(true);
 
-		const error = await handleSubmit({
+		const data = await handleSubmit({
 			...user,
 			firstName,
 			lastName,
@@ -113,15 +113,13 @@ const UserForm: React.FC<Props> = ({user, handleSubmit}) => {
 			info: {bio},
 		});
 
-		if (error) {
-			setLoading(false);
-			enqueueSnackbar(error.msg, {variant: 'error'});
-
-			return;
+		if (data.success) {
+			enqueueSnackbar('User changed', {variant: 'success'});
+		} else {
+			enqueueSnackbar(data.message, {variant: 'error'});
 		}
 
 		setLoading(false);
-		enqueueSnackbar('User changed', {variant: 'error'});
 	};
 
 	const _handlePressKeyInput = (target: React.KeyboardEvent): void => {

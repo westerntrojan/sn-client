@@ -72,7 +72,7 @@ const Article: React.FC = () => {
 	};
 
 	const handleLike = (): void => {
-		if (article && auth) {
+		if (article) {
 			dispatch(addLike(article._id, auth.user._id));
 		}
 	};

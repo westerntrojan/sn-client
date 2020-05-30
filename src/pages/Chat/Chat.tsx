@@ -79,6 +79,10 @@ const Chat: React.FC = () => {
 		socket.emit('new_message', {user: auth.user._id, ...message});
 	};
 
+	const loadMore = (): void => {
+		console.log('loadMore');
+	};
+
 	return (
 		<section className='chat'>
 			<Helmet>
@@ -91,6 +95,7 @@ const Chat: React.FC = () => {
 					auth={auth}
 					removed={removed}
 					loading={loading}
+					loadMore={loadMore}
 					handleRemoveMessages={handleRemoveMessages}
 				/>
 			</Context.Provider>

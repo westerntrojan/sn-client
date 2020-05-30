@@ -7,6 +7,7 @@ export const EXIT = 'auth/exit';
 export const CHANGE_AVATAR = 'auth/changeAvatar';
 export const REMOVE_AVATAR = 'auth/removeAvatar';
 export const TWO_FACTOR_AUTH = 'auth/twoFactorAuth';
+export const REPLACE_USER = 'auth/replaceUser';
 
 type Exit = {
 	type: typeof EXIT;

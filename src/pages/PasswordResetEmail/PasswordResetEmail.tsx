@@ -32,8 +32,6 @@ const PasswordResetEmail: React.FC = () => {
 		} else {
 			enqueueSnackbar(data.message, {variant: 'error'});
 		}
-
-		console.log(email);
 	};
 
 	const _handleKeyPress = (e: React.KeyboardEvent): void => {

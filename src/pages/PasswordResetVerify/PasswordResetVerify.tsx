@@ -11,7 +11,7 @@ import Loader from '@components/Loader';
 
 const PasswordResetVerify: React.FC = () => {
 	const [verified, setVerified] = useState(false);
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(true);
 	const [password, setPassword] = useState('');
 	const [repeatPassword, setRepeatPassword] = useState('');
 	const [success, setSuccess] = useState(false);

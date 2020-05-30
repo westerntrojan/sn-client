@@ -27,7 +27,7 @@ export const fetchArticles = (): AppThunk => async (dispatch, getState): Promise
 };
 
 export const getArticles = (): AppThunk => async (dispatch): Promise<void> => {
-	const data = await callApi.get('/articles?skip=10');
+	const data = await callApi.get('/articles');
 
 	dispatch({
 		type: types.GET_ARTICLES,

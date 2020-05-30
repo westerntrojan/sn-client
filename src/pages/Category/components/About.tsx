@@ -54,12 +54,7 @@ const About: React.FC<Props> = ({category}) => {
 					<IconButton>
 						<MoreHoriz />
 					</IconButton>
-					<Button
-						color='primary'
-						variant='contained'
-						startIcon={<AddIcon />}
-						onClick={(): void => console.log('subscribe')}
-					>
+					<Button color='primary' variant='contained' startIcon={<AddIcon />}>
 						Subscribe
 					</Button>
 				</div>

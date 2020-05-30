@@ -1,6 +1,9 @@
+import {createAction} from '@reduxjs/toolkit';
+
 import callApi from '@utils/callApi';
 import {AppThunk} from '@store/types';
 import * as types from './types';
+import {IUser} from '@store/types';
 
 export const login = (user: object): AppThunk => async (dispatch): Promise<object> => {
 	const data = await callApi.post('/auth/login', user);
@@ -24,8 +27,6 @@ export const sendCode = (userId: string, code: string): AppThunk => async (
 	dispatch,
 ): Promise<object> => {
 	const data = await callApi.post('/auth/login/code', {userId, code});
-
-	console.log(data);
 
 	if (data.success) {
 		localStorage.setItem('token', data.token);
@@ -112,3 +113,9 @@ export const twoFactorAuth = (): AppThunk => async (dispatch, getState): Promise
 		});
 	}
 };
+
+export const replaceUser = createAction(types.REPLACE_USER, (user: IUser) => ({
+	payload: {
+		user,
+	},
+}));

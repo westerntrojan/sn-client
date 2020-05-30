@@ -31,11 +31,11 @@ body {
 
 	main.content {
 		width: 100%;
+		flex: 1;
 		max-width: 1800px;
-		height: 100%;
+		padding: 20px;
 		display: flex;
 		flex-direction: column;
-		padding: 20px;
 	}
 }
 

@@ -21,6 +21,9 @@ export default createReducer(initialState, {
 		state.isAdmin = false;
 		state.user = defaultUser;
 	},
+	[types.REPLACE_USER]: (state, action) => {
+		state.user = action.payload.user;
+	},
 	[types.CHANGE_AVATAR]: (state, action) => {
 		state.user.avatar.images = [action.payload.image, ...state.user.avatar.images];
 	},

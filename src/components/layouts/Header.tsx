@@ -216,7 +216,7 @@ const Header: React.FC<Props> = ({
 							<p>My profile</p>
 						</MenuItem>
 					</Link>
-					<MenuItem onClick={(): void => console.log('notification')}>
+					<MenuItem>
 						<IconButton>
 							<NotificationsIcon />
 						</IconButton>
@@ -254,7 +254,7 @@ const Header: React.FC<Props> = ({
 						</IconButton>
 						<p>Change theme</p>
 					</MenuItem>
-					<MenuItem onClick={(): void => console.log('settings')}>
+					<MenuItem onClick={openSettingsModal}>
 						<IconButton>
 							<SettingsIcon />
 						</IconButton>
@@ -332,7 +332,7 @@ const Header: React.FC<Props> = ({
 								{auth.isAuth ? (
 									<>
 										<ZoomTooltip title='Notification'>
-											<IconButton onClick={(): void => console.log('notification')} color='inherit'>
+											<IconButton color='inherit'>
 												<Badge badgeContent={17} color='secondary'>
 													<NotificationsIcon />
 												</Badge>

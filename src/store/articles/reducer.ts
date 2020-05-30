@@ -20,7 +20,7 @@ export default createReducer(initialState, {
 	},
 	[types.GET_ARTICLES]: (state, action) => {
 		state.all = action.payload.articles;
-		state.end = false;
+		state.end = action.payload.articles.length < 10;
 		state.cache = [];
 	},
 	[types.GET_ARTICLE]: (state, action) => {

@@ -3,6 +3,7 @@ import Paper from '@material-ui/core/Paper';
 import {makeStyles} from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import {useSnackbar} from 'notistack';
+// import _ from 'lodash';
 
 import Loader from '@components/Loader';
 import {RemoveMessageModal} from '@components/modals';
@@ -18,16 +19,20 @@ import Context from '@pages/Chat/context';
 
 const useStyles = makeStyles({
 	root: {
-		position: 'relative',
 		backgroundColor: 'rgba(0, 0, 0, 0.1)',
 		display: 'flex',
-		overflow: 'hidden',
 		flexDirection: 'column',
 		flex: 1,
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		width: '100%',
+		height: '100%',
 	},
 	messages: {
-		height: '100%',
 		overflow: 'auto',
+		flex: 1,
+		position: 'relative',
 	},
 });
 
@@ -41,27 +46,35 @@ type Props = {
 	};
 	removed: boolean;
 	loading: boolean;
+	loadMore: () => void;
 	handleRemoveMessages: (messages: string[]) => void;
 };
 
-const Canvas: React.FC<Props> = ({messages, auth, removed, loading, handleRemoveMessages}) => {
+const Canvas: React.FC<Props> = ({
+	messages,
+	auth,
+	removed,
+	loading,
+	loadMore,
+	handleRemoveMessages,
+}) => {
 	const classes = useStyles();
 
-	const messagesEndRef = useRef<HTMLDivElement>(null);
 	const [alterHeader, setAlterHeader] = useState(false);
 	const [selectedMessages, setSelectedMessages] = useState<string[]>([]);
 	const [removeMessagesModal, setRemoveMessagesModal] = useState(false);
 	const [imageFile, setImageFile] = useState<File | null>(null);
 	const [imagePreview, setImagePreview] = useState('');
 	const [imageModal, setImageModal] = useState(false);
+	const messagesContainer = useRef<HTMLDivElement>(null);
 
 	const {handleSubmitMessage} = useContext(Context);
 
 	const {enqueueSnackbar} = useSnackbar();
 
 	useEffect(() => {
-		if (!removed && messagesEndRef.current) {
-			messagesEndRef.current.scrollIntoView({block: 'end'});
+		if (!removed && messagesContainer.current) {
+			messagesContainer.current.scrollTop = messagesContainer.current.scrollHeight;
 		}
 	}, [messages, removed]);
 
@@ -132,6 +145,19 @@ const Canvas: React.FC<Props> = ({messages, auth, removed, loading, handleRemove
 		setImagePreview('');
 	};
 
+	const _handleMessagesScroll = (e: React.UIEvent<HTMLDivElement>): void => {
+		// scrollTop/Left - расстояние от верха/лево блока (можно переопределять)
+		// scrollWidth/Height - длина блока включая скролл
+		// clientWidth/Height, offsetWidth/Height - длина блока не включая скролл
+		// if (e.currentTarget.scrollTop === 0) {
+		// 	_.debounce(() => loadMore(), 200);
+		// 	if (messagesContainer.current) {
+		// 		messagesContainer.current.scrollTop = 200;
+		// 	}
+		// 	console.log(e.currentTarget.scrollTop);
+		// }
+	};
+
 	return (
 		<Paper className={classes.root}>
 			{alterHeader && selectedMessages.length ? (
@@ -146,7 +172,7 @@ const Canvas: React.FC<Props> = ({messages, auth, removed, loading, handleRemove
 
 			<Divider />
 
-			<div className={classes.messages}>
+			<div className={classes.messages} ref={messagesContainer} onScroll={_handleMessagesScroll}>
 				{loading && <Loader />}
 
 				{auth.user &&
@@ -169,8 +195,6 @@ const Canvas: React.FC<Props> = ({messages, auth, removed, loading, handleRemove
 				{!auth.user &&
 					messages &&
 					messages.map(message => <Message message={message} key={message._id} />)}
-
-				<div ref={messagesEndRef} />
 			</div>
 
 			{auth.isAuth ? (

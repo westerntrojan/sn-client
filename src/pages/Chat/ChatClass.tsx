@@ -21,7 +21,10 @@ type Props = {
 
 type State = {
 	activeUsers: number;
-	messages: IMessage[];
+	messages: {
+		all: IMessage[];
+		end: boolean;
+	};
 	loading: boolean;
 	removed: boolean;
 };
@@ -29,7 +32,10 @@ type State = {
 class ChatClass extends PureComponent<Props, State> {
 	state = {
 		activeUsers: 0,
-		messages: [],
+		messages: {
+			all: [],
+			end: false,
+		},
 		loading: true,
 		removed: false,
 	};
@@ -39,32 +45,25 @@ class ChatClass extends PureComponent<Props, State> {
 	};
 
 	componentDidMount(): void {
-		console.log('[ChatClass] componentDidMount');
-
-		socket = socketIoClient(`${process.env.REACT_APP_SOCKET}/main`, {
-			// autoConnect: false,
-			// reconnection: true,
-		});
-
-		// socket.open();
+		socket = socketIoClient(`${process.env.REACT_APP_SOCKET}/main`);
 
 		socket.on('error', this._handleError);
 		socket.on('user_error', this._handleError);
 
-		socket.on('disconnect', () => {
-			console.log('[ChatClass] disconnect');
-		});
-
 		socket.on('connect', () => {
-			console.log('[ChatClass] connect');
-
 			socket.emit('user_connect');
 
 			socket.on('active_users', (count: number) => this.setState({activeUsers: count}));
 
 			if (this.state.loading) {
 				socket.on('pre_messages', (messages: IMessage[]) => {
-					this.setState({loading: false, messages});
+					this.setState(prevState => ({
+						loading: false,
+						messages: {
+							...prevState.messages,
+							all: messages,
+						},
+					}));
 				});
 			}
 
@@ -72,34 +71,47 @@ class ChatClass extends PureComponent<Props, State> {
 				if (message.user._id === this.props.auth.user._id) {
 					this.setState(prevState => ({
 						removed: false,
-						messages: prevState.messages.concat(message),
+						messages: {
+							...prevState.messages,
+							all: prevState.messages.all.concat(message),
+						},
 					}));
 				} else {
 					this.setState(prevState => ({
 						removed: true,
-						messages: prevState.messages.concat(message),
+						messages: {
+							...prevState.messages,
+							all: prevState.messages.all.concat(message),
+						},
 					}));
 				}
+			});
+
+			socket.on('load_more', ({messages, end}: {messages: IMessage[]; end: boolean}) => {
+				this.setState(prevState => ({
+					removed: true,
+					messages: {
+						all: [...messages, ...prevState.messages.all],
+						end,
+					},
+				}));
 			});
 
 			socket.on('remove_messages', (removedMessages: string[]) => {
 				this.setState(prevState => ({
 					removed: true,
-					messages: prevState.messages.filter(
-						(message: IMessage) => !removedMessages.includes(message._id),
-					),
+					messages: {
+						...prevState.messages,
+						all: prevState.messages.all.filter(
+							(message: IMessage) => !removedMessages.includes(message._id),
+						),
+					},
 				}));
 			});
 		});
 	}
 
-	componentDidUpdate(): void {
-		console.log('[ChatClass] componentDidUpdate');
-	}
-
 	componentWillUnmount(): void {
-		console.log('[ChatClass] componentWillUnmount');
-
 		socket.close();
 	}
 
@@ -133,6 +145,12 @@ class ChatClass extends PureComponent<Props, State> {
 		console.log(formData);
 	};
 
+	loadMore = (): void => {
+		if (!this.state.messages.end) {
+			socket.emit('load_more', {skip: this.state.messages.all.length});
+		}
+	};
+
 	render(): React.ReactNode {
 		return (
 			<section className='chat'>
@@ -147,10 +165,11 @@ class ChatClass extends PureComponent<Props, State> {
 					}}
 				>
 					<Canvas
-						messages={this.state.messages}
+						messages={this.state.messages.all}
 						auth={this.props.auth}
 						removed={this.state.removed}
 						loading={this.state.loading}
+						loadMore={this.loadMore}
 						handleRemoveMessages={this.handleRemoveMessages}
 					/>
 				</Context.Provider>

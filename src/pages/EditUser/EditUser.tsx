@@ -4,12 +4,12 @@ import {useParams, useHistory} from 'react-router';
 import {Helmet} from 'react-helmet';
 
 import callApi from '@utils/callApi';
-import {verify} from '@store/auth/actions';
 import {getArticles} from '@store/articles/actions';
 import UserForm from './components/UserForm';
 import {RootState} from '@store/types';
 import {IFetchData} from './types';
 import {IUser} from '@store/types';
+import {replaceUser} from '@store/auth/actions';
 
 const EditUser: React.FC = () => {
 	const {userLink} = useParams();
@@ -38,16 +38,16 @@ const EditUser: React.FC = () => {
 	const handleSubmit = async (user: IUser): Promise<any> => {
 		const data: any = await callApi.put(`/users/${user._id}`, user);
 
-		if (data.errors) {
-			return data.errors[0];
+		if (data.success) {
+			setUser(data.user);
+
+			if (auth.user._id === user._id) {
+				dispatch(replaceUser(user));
+				dispatch(getArticles());
+			}
 		}
 
-		setUser(data.user);
-		dispatch(getArticles());
-
-		if (auth.user._id === user._id) {
-			dispatch(verify());
-		}
+		return data;
 	};
 
 	return (

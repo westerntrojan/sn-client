@@ -30,47 +30,76 @@ const Routes: React.FC = () => {
 
 	return (
 		<Route
-			render={({location}: {location: any}): React.ReactNode => (
-				<Suspense fallback={<PageLoader />}>
-					<Switch location={location}>
-						<Route exact path='/' component={Home} />
-						<Route path='/chat' component={Chat} />
-						<Route exact path='/user/:userLink' component={User} />
-						<PrivateRoute condition={auth.isAuth} redirectTo='/auth' path='/article/add'>
-							<AddArticle />
-						</PrivateRoute>
-						<Route exact path='/article/:slug' component={Article} />
-						<PrivateRoute condition={auth.isAuth} redirectTo='/auth' path='/article/:slug/edit'>
-							<EditArticle />
-						</PrivateRoute>
-						<PrivateRoute condition={auth.isAuth} redirectTo='/auth' path='/user/:userLink/edit'>
-							<EditUser />
-						</PrivateRoute>
-						<PrivateRoute condition={auth.isAuth} redirectTo='/auth' path='/messages'>
-							<Messages />
-						</PrivateRoute>
-						<PrivateRoute condition={auth.isAuth} redirectTo='/auth' path='/users-chat/:userId'>
-							<UsersChat />
-						</PrivateRoute>
-						<Route path='/admin' component={Admin} />
-						<Route path='/category/:slug' component={Category} />
-						<Route path='/tag/:slug' component={Tag} />
-						<PrivateRoute
-							condition={!auth.isAuth}
-							redirectTo={location.state && location.state.from.pathname}
-							path='/auth'
-						>
-							<Auth />
-						</PrivateRoute>
+			render={({location}: {location: any}): React.ReactNode => {
+				const from = location.state && location.state.from.pathname;
 
-						<Route path='/register/verify/:token' component={RegisterVerify} />
-						<Route path='/password_reset/email' component={PasswordResetEmail} />
-						<Route path='/password_reset/verify/:token' component={PasswordResetVerify} />
+				return (
+					<Suspense fallback={<PageLoader />}>
+						<Switch location={location}>
+							<Route exact path='/'>
+								<Home />
+							</Route>
+							<Route exact path='/user/:userLink'>
+								<User />
+							</Route>
+							<PrivateRoute path='/article/add' condition={auth.isAuth} redirectTo='/auth'>
+								<AddArticle />
+							</PrivateRoute>
+							<Route exact path='/article/:slug'>
+								<Article />
+							</Route>
 
-						<Route component={NotFound} />
-					</Switch>
-				</Suspense>
-			)}
+							<Route path='/chat'>
+								<Chat />
+							</Route>
+							<Route path='/category/:slug'>
+								<Category />
+							</Route>
+							<Route path='/tag/:slug'>
+								<Tag />
+							</Route>
+
+							<PrivateRoute path='/article/:slug/edit' condition={auth.isAuth} redirectTo='/auth'>
+								<EditArticle />
+							</PrivateRoute>
+							<PrivateRoute path='/user/:userLink/edit' condition={auth.isAuth} redirectTo='/auth'>
+								<EditUser />
+							</PrivateRoute>
+							<PrivateRoute path='/messages' condition={auth.isAuth} redirectTo='/auth'>
+								<Messages />
+							</PrivateRoute>
+							<PrivateRoute path='/users-chat/:userId' condition={auth.isAuth} redirectTo='/auth'>
+								<UsersChat />
+							</PrivateRoute>
+							<PrivateRoute path='/auth' condition={!auth.isAuth} redirectTo={from}>
+								<Auth />
+							</PrivateRoute>
+							<PrivateRoute path='/admin' condition={auth.isAdmin} redirectTo={from}>
+								<Admin />
+							</PrivateRoute>
+							<PrivateRoute
+								path='/register/verify/:token'
+								condition={!auth.isAuth}
+								redirectTo={from}
+							>
+								<RegisterVerify />
+							</PrivateRoute>
+							<PrivateRoute path='/password_reset/email' condition={!auth.isAuth} redirectTo={from}>
+								<PasswordResetEmail />
+							</PrivateRoute>
+							<PrivateRoute
+								path='/password_reset/verify/:token'
+								condition={!auth.isAuth}
+								redirectTo={from}
+							>
+								<PasswordResetVerify />
+							</PrivateRoute>
+
+							<Route component={NotFound} />
+						</Switch>
+					</Suspense>
+				);
+			}}
 		/>
 	);
 };

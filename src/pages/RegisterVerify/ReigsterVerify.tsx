@@ -9,7 +9,7 @@ import callApi from '@utils/callApi';
 
 const RegisterVerfiy: React.FC = () => {
 	const [verified, setVerified] = useState(false);
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(true);
 
 	const {token} = useParams();
 

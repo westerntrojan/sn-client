@@ -16,6 +16,8 @@ const useStyles = makeStyles({
 		alignItems: 'center',
 		position: 'relative',
 		backgroundColor: 'transparent',
+		borderTopLeftRadius: 0,
+		borderTopRightRadius: 0,
 	},
 	input: {
 		flex: 1,
