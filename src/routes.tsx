@@ -13,7 +13,7 @@ const EditArticle = lazy(() => import('./pages/EditArticle'));
 const EditUser = lazy(() => import('./pages/EditUser'));
 const User = lazy(() => import('./pages/User'));
 const Admin = lazy(() => import('./pages/Admin'));
-const Chat = lazy(() => import('./pages/Chat/ChatClass'));
+const Chat = lazy(() => import('./pages/Chat'));
 const Messages = lazy(() => import('./pages/Messages'));
 const UsersChat = lazy(() => import('./pages/UsersChat'));
 const Category = lazy(() => import('./pages/Category'));

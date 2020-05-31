@@ -59,11 +59,7 @@ const useStyles = makeStyles(theme => ({
 		maxWidth: 500,
 		width: '100%',
 	},
-	messageCreated: {
-		display: 'flex',
-		flexDirection: 'column',
-		alignItems: 'flex-end',
-	},
+	messageCreated: {},
 	imageMessageCreated: {
 		position: 'absolute',
 		color: 'white',
@@ -75,8 +71,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	actions: {
 		display: 'flex',
-		justifyContent: 'space-between',
-		alignItems: 'flex-end',
+		justifyContent: 'flex-end',
 
 		'& button': {
 			marginRight: '10px',

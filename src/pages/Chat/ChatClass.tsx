@@ -53,27 +53,27 @@ class ChatClass extends PureComponent<Props, State> {
 		socket.on('connect', () => {
 			socket.emit('user_connect');
 
-			socket.on('active_users', (count: number) => this.setState({activeUsers: count}));
+			socket.on('active_users', (data: {count: number}) =>
+				this.setState({activeUsers: data.count}),
+			);
 
-			if (this.state.loading) {
-				socket.on('pre_messages', (messages: IMessage[]) => {
-					this.setState(prevState => ({
-						loading: false,
-						messages: {
-							...prevState.messages,
-							all: messages,
-						},
-					}));
-				});
-			}
+			socket.on('pre_messages', (data: {preMessages: IMessage[]}) => {
+				this.setState(prevState => ({
+					loading: false,
+					messages: {
+						...prevState.messages,
+						all: data.preMessages,
+					},
+				}));
+			});
 
-			socket.on('new_message', (message: IMessage) => {
-				if (message.user._id === this.props.auth.user._id) {
+			socket.on('new_message', (data: {newMessage: IMessage}) => {
+				if (data.newMessage.user._id === this.props.auth.user._id) {
 					this.setState(prevState => ({
 						removed: false,
 						messages: {
 							...prevState.messages,
-							all: prevState.messages.all.concat(message),
+							all: prevState.messages.all.concat(data.newMessage),
 						},
 					}));
 				} else {
@@ -81,7 +81,7 @@ class ChatClass extends PureComponent<Props, State> {
 						removed: true,
 						messages: {
 							...prevState.messages,
-							all: prevState.messages.all.concat(message),
+							all: prevState.messages.all.concat(data.newMessage),
 						},
 					}));
 				}
@@ -97,13 +97,13 @@ class ChatClass extends PureComponent<Props, State> {
 				}));
 			});
 
-			socket.on('remove_messages', (removedMessages: string[]) => {
+			socket.on('remove_messages', (data: {removedMessages: string[]}) => {
 				this.setState(prevState => ({
 					removed: true,
 					messages: {
 						...prevState.messages,
 						all: prevState.messages.all.filter(
-							(message: IMessage) => !removedMessages.includes(message._id),
+							(message: IMessage) => !data.removedMessages.includes(message._id),
 						),
 					},
 				}));
@@ -115,39 +115,32 @@ class ChatClass extends PureComponent<Props, State> {
 		socket.close();
 	}
 
-	handleRemoveMessages = (messages: string[]): void => {
-		socket.emit('remove_messages', messages);
-	};
-
-	handleSubmitMessage = async (message: ISendingMessage): Promise<void> => {
-		const user = this.props.auth.user._id;
-		const {type, text, image, caption} = message;
-
-		if (type === 'text' && text) {
-			socket.emit('new_message', {user, type, text});
-
-			return;
-		}
-
-		const formData = new FormData();
-		formData.append('user', user);
-		formData.append('type', type);
-
-		if (type === 'image' && image) {
-			formData.append('image', image);
-		}
-
-		if (type === 'image_caption' && image && caption) {
-			formData.append('image', image);
-			formData.append('caption', caption);
-		}
-
-		console.log(formData);
-	};
-
 	loadMore = (): void => {
 		if (!this.state.messages.end) {
 			socket.emit('load_more', {skip: this.state.messages.all.length});
+		}
+	};
+
+	handleRemoveMessages = (removedMessages: string[]): void => {
+		socket.emit('remove_messages', {removedMessages});
+	};
+
+	handleSubmitMessage = async (newMessage: ISendingMessage): Promise<void> => {
+		const user = this.props.auth.user._id;
+		const {type, text, image, caption} = newMessage;
+
+		if (type === 'text') {
+			socket.emit('new_message', {newMessage: {user, type, text}});
+		} else {
+			const formData = new FormData();
+			formData.append('user', user);
+			formData.append('type', type);
+			if (image) {
+				formData.append('image', image);
+			}
+			formData.append('caption', caption);
+
+			console.log(formData);
 		}
 	};
 

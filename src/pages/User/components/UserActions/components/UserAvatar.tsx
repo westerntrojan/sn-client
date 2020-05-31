@@ -82,12 +82,12 @@ const UserAvatar: React.FC<Props> = ({auth, user}) => {
 			formData.append('userId', auth.user._id);
 			formData.append('avatar', e.target.files[0]);
 
-			const error: any = await dispatch(addAvatar(formData));
+			const data: any = await dispatch(addAvatar(formData));
 
 			setLoading(false);
 
-			if (error) {
-				enqueueSnackbar(error.msg, {variant: 'error'});
+			if (!data.success) {
+				enqueueSnackbar(data.message, {variant: 'error'});
 			}
 		}
 	};

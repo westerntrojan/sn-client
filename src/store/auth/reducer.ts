@@ -25,11 +25,11 @@ export default createReducer(initialState, {
 		state.user = action.payload.user;
 	},
 	[types.CHANGE_AVATAR]: (state, action) => {
-		state.user.avatar.images = [action.payload.image, ...state.user.avatar.images];
+		state.user.avatar.images = [action.payload.imageUrl, ...state.user.avatar.images];
 	},
 	[types.REMOVE_AVATAR]: (state, action) => {
 		state.user.avatar.images = state.user.avatar.images.filter(
-			image => image !== action.payload.image,
+			image => image !== action.payload.imageUrl,
 		);
 	},
 	[types.TWO_FACTOR_AUTH]: (state, action) => {

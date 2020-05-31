@@ -37,10 +37,6 @@ const Messages: React.FC = () => {
 		setChatId(chatId);
 	};
 
-	const closeRemoveChatModal = (): void => {
-		setRemoveChatModal(false);
-	};
-
 	const handleSearch = (text: string): void => setQuery(text);
 
 	const handleRemoveChat = async (): Promise<void> => {
@@ -49,7 +45,7 @@ const Messages: React.FC = () => {
 		if (data.success) {
 			setChats(chats.filter((chat: IChat) => chat._id !== chatId));
 
-			closeRemoveChatModal();
+			setRemoveChatModal(false);
 		}
 	};
 
@@ -71,7 +67,7 @@ const Messages: React.FC = () => {
 				open={removeChatModal}
 				text='Are you sure you want to remove this chat ?'
 				action={handleRemoveChat}
-				closeModal={closeRemoveChatModal}
+				closeModal={(): void => setRemoveChatModal(false)}
 			/>
 		</Paper>
 	);

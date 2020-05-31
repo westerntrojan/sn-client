@@ -109,10 +109,6 @@ const UsersChat: React.FC = () => {
 		setClearHistoryModal(true);
 	};
 
-	const closeClearHistoryModal = (): void => {
-		setClearHistoryModal(false);
-	};
-
 	const handleTyping = (): void => {
 		socket.emit('typing');
 	};
@@ -139,7 +135,7 @@ const UsersChat: React.FC = () => {
 		if (data.success) {
 			setMessages([]);
 
-			closeClearHistoryModal();
+			setClearHistoryModal(false);
 		}
 	};
 
@@ -175,7 +171,7 @@ const UsersChat: React.FC = () => {
 						open={clearHistoryModal}
 						text={`You definitely want to remove the correspondence with ${user.firstName} ${user.lastName}?`}
 						action={handleClearHistory}
-						closeModal={closeClearHistoryModal}
+						closeModal={(): void => setClearHistoryModal(false)}
 					/>
 				</>
 			)}

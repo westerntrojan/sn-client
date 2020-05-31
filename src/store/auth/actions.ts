@@ -75,16 +75,16 @@ export const verify = (): AppThunk => async (dispatch): Promise<void> => {
 export const addAvatar = (formData: FormData): AppThunk => async (dispatch): Promise<void> => {
 	const data = await callApi.post('/users/avatar', formData);
 
-	if (data.errors) {
-		return data.errors[0];
+	if (data.success) {
+		dispatch({
+			type: types.CHANGE_AVATAR,
+			payload: {
+				imageUrl: data.imageUrl,
+			},
+		});
 	}
 
-	dispatch({
-		type: types.CHANGE_AVATAR,
-		payload: {
-			image: data.image,
-		},
-	});
+	return data;
 };
 
 export const removeAvatar = (userId: string, imageUrl: string): AppThunk => async (
@@ -92,11 +92,11 @@ export const removeAvatar = (userId: string, imageUrl: string): AppThunk => asyn
 ): Promise<void> => {
 	const data = await callApi.post('/users/avatar/remove', {userId, imageUrl});
 
-	if (data.image) {
+	if (data.success) {
 		dispatch({
 			type: types.REMOVE_AVATAR,
 			payload: {
-				image: data.image,
+				imageUrl,
 			},
 		});
 	}
