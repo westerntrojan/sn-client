@@ -12,7 +12,7 @@ import UserStatistics from './components/UserStatistics';
 import RemovedAvatar from './components/removed/RemovedAvatar';
 import RemovedInfo from './components/removed/RemovedInfo';
 import callApi from '@utils/callApi';
-import {removeUser} from '@store/app/actions';
+import {removeUser} from '@store/auth/actions';
 import {RootState} from '@store/types';
 import {IUserStatistics, IFetchData} from './types';
 import {useRedirect} from '@utils/hooks';

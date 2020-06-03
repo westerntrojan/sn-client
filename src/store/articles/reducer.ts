@@ -8,6 +8,7 @@ const initialState: types.ArticlesState = {
 	all: [],
 	cache: [],
 	end: false,
+	article: null,
 };
 
 export default createReducer(initialState, {
@@ -135,6 +136,92 @@ export default createReducer(initialState, {
 				return {
 					...article,
 					comments: article.comments.filter(comment => comment._id !== action.payload.comment._id),
+				};
+			}
+
+			return article;
+		});
+	},
+	[types.ADD_REPLY]: (state, action) => {
+		state.all = state.all.map(article => {
+			if (article._id === action.payload.reply.articleId) {
+				const comments = article.comments.map(comment => {
+					if (comment._id === action.payload.reply.parentId) {
+						comment.replies.push(action.payload.reply);
+
+						return comment;
+					}
+
+					return comment;
+				});
+
+				return {
+					...article,
+					comments,
+				};
+			}
+
+			return article;
+		});
+		state.cache = state.cache.map(article => {
+			if (article._id === action.payload.reply.articleId) {
+				const comments = article.comments.map(comment => {
+					if (comment._id === action.payload.reply.parentId) {
+						comment.replies.push(action.payload.reply);
+
+						return comment;
+					}
+
+					return comment;
+				});
+
+				return {
+					...article,
+					comments,
+				};
+			}
+
+			return article;
+		});
+	},
+	[types.REMOVE_REPLY]: (state, action) => {
+		state.all = state.all.map(article => {
+			if (article._id === action.payload.reply.articleId) {
+				const comments = article.comments.map(comment => {
+					if (comment._id === action.payload.reply.parentId) {
+						return {
+							...comment,
+							replies: comment.replies.filter(reply => reply._id !== action.payload.reply._id),
+						};
+					}
+
+					return comment;
+				});
+
+				return {
+					...article,
+					comments,
+				};
+			}
+
+			return article;
+		});
+		state.cache = state.cache.map(article => {
+			if (article._id === action.payload.reply.articleId) {
+				const comments = article.comments.map(comment => {
+					if (comment._id === action.payload.reply.parentId) {
+						return {
+							...comment,
+							replies: comment.replies.filter(reply => reply._id !== action.payload.reply._id),
+						};
+					}
+
+					return comment;
+				});
+
+				return {
+					...article,
+					comments,
 				};
 			}
 

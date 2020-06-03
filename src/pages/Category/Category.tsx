@@ -78,9 +78,9 @@ const Category: React.FC = () => {
 			)}
 
 			<div className='articles'>
-				{loading && <Loader />}
-
 				{category && <About category={category} />}
+
+				{loading && <Loader />}
 
 				{!loading && !articles.length && (
 					<div className='no-info'>

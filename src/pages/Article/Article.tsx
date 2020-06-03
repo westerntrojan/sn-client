@@ -14,29 +14,23 @@ import {RemoveModal} from '@components/modals';
 import FullArticle from './components/FullArticle';
 import CommentForm from './components/CommentForm';
 import Comment from './components/Comment';
-import {addViews, removeArticle, addComment, removeComment} from '@store/articles/actions';
-import {RootState} from '@store/types';
-import {IComment} from '@store/types';
-import {
-	addLike,
-	addCommentLike,
-	addCommentDislike,
-	sortCommentsByTopArticles,
-	sortCommentsByNewestFirst,
-} from '@store/articles/actions';
 import {useArticle, useRedirect} from '@utils/hooks';
 import ZoomTooltip from '@components/tooltips/ZoomTooltip';
+import {RootState} from '@store/types';
+import {IComment} from '@store/types';
+import * as articleActions from '@store/articles/actions';
 import Context from './context';
 
 const Article: React.FC = () => {
 	const {slug} = useParams();
 
-	const redirectTo = useRedirect();
-
 	const [removeArticleModal, setRemoveArticleModal] = useState(false);
 	const [loading, setLoading] = useState(true);
 	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 	const [article, setArticleSlug] = useArticle();
+	const [commentsCount, setCommentsCount] = useState(0);
+
+	const redirectTo = useRedirect();
 
 	const openSortMenu = (e: React.MouseEvent<HTMLButtonElement>): void => {
 		setAnchorEl(e.currentTarget);
@@ -52,7 +46,7 @@ const Article: React.FC = () => {
 	const setViews = useCallback(() => {
 		if (loading) {
 			if (article) {
-				dispatch(addViews(article._id));
+				dispatch(articleActions.addViews(article._id));
 
 				setLoading(false);
 			}
@@ -67,19 +61,30 @@ const Article: React.FC = () => {
 		setViews();
 	}, [slug, setArticleSlug, setViews]);
 
+	useEffect(() => {
+		if (article) {
+			const commentsCount = article.comments.reduce(
+				(acc, comment) => acc + comment.replies.length + 1,
+				0,
+			);
+
+			setCommentsCount(commentsCount);
+		}
+	}, [article]);
+
 	const openRemoveArticleModal = (): void => {
 		setRemoveArticleModal(true);
 	};
 
 	const handleLike = (): void => {
 		if (article) {
-			dispatch(addLike(article._id, auth.user._id));
+			dispatch(articleActions.addLike(article._id, auth.user._id));
 		}
 	};
 
 	const handleRemoveArticle = async (): Promise<void> => {
 		if (article) {
-			await dispatch(removeArticle(article._id));
+			await dispatch(articleActions.removeArticle(article._id));
 
 			setRemoveArticleModal(false);
 
@@ -87,23 +92,37 @@ const Article: React.FC = () => {
 		}
 	};
 
-	const handleRemoveComment = async (commentId: string): Promise<void> => {
-		await dispatch(removeComment(commentId));
-	};
-
-	const handleSubmitComment = async (comment: {parentId?: string; text: string}): Promise<any> => {
+	const handleSubmitComment = async (comment: {text: string}): Promise<any> => {
 		if (article) {
 			const data = await dispatch(
-				addComment({...comment, articleId: article._id, user: auth.user._id}),
+				articleActions.addComment({...comment, articleId: article._id, user: auth.user._id}),
 			);
 
 			return data;
 		}
 	};
 
+	const handleRemoveComment = async (commentId: string): Promise<void> => {
+		await dispatch(articleActions.removeComment(commentId));
+	};
+
+	const handleSubmitReply = async (comment: {parentId: string; text: string}): Promise<any> => {
+		if (article) {
+			const data = await dispatch(
+				articleActions.addReply({...comment, articleId: article._id, user: auth.user._id}),
+			);
+
+			return data;
+		}
+	};
+
+	const handleRemoveReply = async (commentId: string): Promise<void> => {
+		await dispatch(articleActions.removeReply(commentId));
+	};
+
 	const _handleTopCommentsSort = (): void => {
 		if (article) {
-			dispatch(sortCommentsByTopArticles(article._id));
+			dispatch(articleActions.sortCommentsByTopArticles(article._id));
 		}
 
 		closeSortMenu();
@@ -111,7 +130,7 @@ const Article: React.FC = () => {
 
 	const _handleNewestFirstSort = (): void => {
 		if (article) {
-			dispatch(sortCommentsByNewestFirst(article._id));
+			dispatch(articleActions.sortCommentsByNewestFirst(article._id));
 		}
 
 		closeSortMenu();
@@ -123,7 +142,7 @@ const Article: React.FC = () => {
 		}
 
 		if (article) {
-			await dispatch(addCommentLike(article._id, commentId));
+			await dispatch(articleActions.addCommentLike(article._id, commentId));
 		}
 	};
 
@@ -133,7 +152,7 @@ const Article: React.FC = () => {
 		}
 
 		if (article) {
-			await dispatch(addCommentDislike(article._id, commentId));
+			await dispatch(articleActions.addCommentDislike(article._id, commentId));
 		}
 	};
 
@@ -149,7 +168,9 @@ const Article: React.FC = () => {
 				</title>
 			</Helmet>
 
-			<Context.Provider value={{auth, submitReply: handleSubmitComment}}>
+			<Context.Provider
+				value={{auth, submitReply: handleSubmitReply, removeReply: handleRemoveReply}}
+			>
 				{article && (
 					<>
 						<FullArticle
@@ -160,7 +181,7 @@ const Article: React.FC = () => {
 						<div className='comments'>
 							<div className='comments-title'>
 								<Typography variant='h5' className='caption'>
-									{article.comments.length} Comments
+									{commentsCount} Comments
 								</Typography>
 
 								<ZoomTooltip title='Sort comments'>
@@ -181,15 +202,17 @@ const Article: React.FC = () => {
 
 							<CommentForm submit={handleSubmitComment} />
 
-							{article.comments.map((comment: IComment) => (
-								<Comment
-									comment={comment}
-									key={comment._id}
-									handleLike={handleAddCommentLike}
-									handleDislike={handleAddCommentDislike}
-									handleRemove={handleRemoveComment}
-								/>
-							))}
+							<div className='comments-list'>
+								{article.comments.map((comment: IComment) => (
+									<Comment
+										key={comment._id}
+										comment={comment}
+										handleLike={handleAddCommentLike}
+										handleDislike={handleAddCommentDislike}
+										handleRemove={handleRemoveComment}
+									/>
+								))}
+							</div>
 						</div>
 					</>
 				)}

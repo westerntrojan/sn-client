@@ -34,6 +34,10 @@ export interface IUser {
 	readonly created: string;
 }
 
+export interface IReply extends IComment {
+	parentId: string;
+}
+
 export interface IComment {
 	readonly _id: string;
 	readonly articleId: string;
@@ -41,7 +45,8 @@ export interface IComment {
 	readonly user: IUser;
 	likes: number;
 	dislikes: number;
-	parentId: string | null;
+	readonly parentId: string | null;
+	replies: IReply[];
 	readonly created: string;
 }
 

@@ -1,6 +1,5 @@
 import React, {useState, useContext} from 'react';
 import moment from 'moment';
-import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import {Link as RouterLink} from 'react-router-dom';
 import Link from '@material-ui/core/Link';
@@ -16,26 +15,25 @@ import ReplyForm from './ReplyForm';
 import UserAvatar from '@components/avatars/UserAvatar';
 import ZoomTooltip from '@components/tooltips/ZoomTooltip';
 import {userLink} from '@utils/users';
-import {IComment} from '@store/types';
+import {IReply} from '@store/types';
 import {useRedirect} from '@utils/hooks';
 import Context from '@pages/Article/context';
 
 type Props = {
-	comment: IComment;
+	reply: IReply;
 	handleLike: (commentId: string) => void;
 	handleDislike: (commentId: string) => void;
-	handleRemove: (commentId: string) => void;
 };
 
-const SubComment: React.FC<Props> = ({comment, handleLike, handleDislike, handleRemove}) => {
+const Reply: React.FC<Props> = ({reply, handleLike, handleDislike}) => {
 	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 	const [replyForm, setReplyForm] = useState(false);
 
-	const {auth} = useContext(Context);
+	const {auth, removeReply} = useContext(Context);
 
 	const redirectTo = useRedirect();
 
-	const userName = `${comment.user.firstName} ${comment.user.lastName}`.trim();
+	const userName = `${reply.user.firstName} ${reply.user.lastName}`.trim();
 
 	const openMenu = (e: React.MouseEvent<HTMLButtonElement>): void => {
 		setAnchorEl(e.currentTarget);
@@ -46,47 +44,42 @@ const SubComment: React.FC<Props> = ({comment, handleLike, handleDislike, handle
 	};
 
 	return (
-		<div className='sub-comment'>
-			<Link underline='none' component={RouterLink} to={userLink(comment.user)} color='inherit'>
-				<UserAvatar user={comment.user} small />
+		<div className='reply'>
+			<Link underline='none' component={RouterLink} to={userLink(reply.user)} color='inherit'>
+				<UserAvatar user={reply.user} small />
 			</Link>
 
-			<CardContent className='content'>
+			<div className='content'>
 				<div className='info'>
 					<Typography className='username' variant='subtitle2'>
-						<Link
-							underline='none'
-							component={RouterLink}
-							to={userLink(comment.user)}
-							color='inherit'
-						>
+						<Link underline='none' component={RouterLink} to={userLink(reply.user)} color='inherit'>
 							{userName}
 						</Link>
 					</Typography>
 
 					<Typography variant='body2' className='date'>
-						{moment(comment.created).fromNow()}
+						{moment(reply.created).fromNow()}
 					</Typography>
 				</div>
 
-				<Typography className='text'>{comment.text}</Typography>
+				<Typography className='text'>{reply.text}</Typography>
 
 				<div className='actions'>
 					<div className='assessment'>
 						<ZoomTooltip title='Like'>
-							<IconButton color='default' onClick={(): void => handleLike(comment._id)}>
+							<IconButton color='default' onClick={(): void => handleLike(reply._id)}>
 								<ThumbUpIcon fontSize='small' />
 							</IconButton>
 						</ZoomTooltip>
 
-						{Boolean(comment.likes) && (
+						{Boolean(reply.likes) && (
 							<Typography variant='body2' className='likes-number'>
-								{comment.likes}
+								{reply.likes}
 							</Typography>
 						)}
 
 						<ZoomTooltip title='Dislike'>
-							<IconButton color='default' onClick={(): void => handleDislike(comment._id)}>
+							<IconButton color='default' onClick={(): void => handleDislike(reply._id)}>
 								<ThumbDownIcon fontSize='small' />
 							</IconButton>
 						</ZoomTooltip>
@@ -106,18 +99,24 @@ const SubComment: React.FC<Props> = ({comment, handleLike, handleDislike, handle
 					</Button>
 				</div>
 
-				{replyForm && <ReplyForm comment={comment} handleClose={(): void => setReplyForm(false)} />}
-			</CardContent>
+				{replyForm && (
+					<ReplyForm
+						parentId={reply.parentId}
+						comment={reply}
+						handleClose={(): void => setReplyForm(false)}
+					/>
+				)}
+			</div>
 
 			<IconButton className='action-icon' onClick={openMenu}>
 				<MoreVertIcon />
 			</IconButton>
 
 			<Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={closeMenu}>
-				{(auth.user && auth.user._id === comment.user._id) || auth.isAdmin ? (
+				{(auth.user && auth.user._id === reply.user._id) || auth.isAdmin ? (
 					<div>
 						<MenuItem>Edit</MenuItem>
-						<MenuItem onClick={(): void => handleRemove(comment._id)}>Remove</MenuItem>
+						<MenuItem onClick={(): void => removeReply(reply._id)}>Remove</MenuItem>
 					</div>
 				) : (
 					<MenuItem>Report</MenuItem>
@@ -127,4 +126,4 @@ const SubComment: React.FC<Props> = ({comment, handleLike, handleDislike, handle
 	);
 };
 
-export default SubComment;
+export default Reply;

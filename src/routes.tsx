@@ -31,7 +31,13 @@ const Routes: React.FC = () => {
 	return (
 		<Route
 			render={({location}: {location: any}): React.ReactNode => {
-				const from = location.state && location.state.from.pathname;
+				let from = location.state && location.state.from.pathname;
+
+				if (from) {
+					if (from.split('/').reverse()[1] === 'verify') {
+						from = '/';
+					}
+				}
 
 				return (
 					<Suspense fallback={<PageLoader />}>

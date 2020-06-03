@@ -3,7 +3,6 @@ import Paper from '@material-ui/core/Paper';
 import {makeStyles} from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import {useSnackbar} from 'notistack';
-// import _ from 'lodash';
 
 import Loader from '@components/Loader';
 import {RemoveMessageModal} from '@components/modals';
@@ -11,7 +10,6 @@ import Header from './components/Header';
 import Message from './components/Message';
 import Form from './components/Form';
 import ImageModal from './components/ImageModal';
-import DragDrop from './components/DragDrop';
 import MyMessage from '@components/chat/MyMessage';
 import AlterHeader from '@components/chat/AlterHeader';
 import ForNotAuth from '@components/ForNotAuth';
@@ -67,7 +65,6 @@ const Canvas: React.FC<Props> = ({
 	const [imageFile, setImageFile] = useState<File | null>(null);
 	const [imagePreview, setImagePreview] = useState('');
 	const [imageModal, setImageModal] = useState(false);
-	const [dragDrop, setDragDrop] = useState(false);
 	const messagesContainer = useRef<HTMLDivElement>(null);
 
 	const {handleSubmitMessage} = useContext(Context);
@@ -163,13 +160,7 @@ const Canvas: React.FC<Props> = ({
 	};
 
 	return (
-		<Paper
-			className={classes.root}
-			// onDragStart={(e): void => e.preventDefault()}
-			// onDragOver={(): void => console.log('onDragOver')}
-			// onDragEnter={(): void => console.log('onDragEnter')}
-			// onDragExit={(): void => console.log('onDragExit')}
-		>
+		<Paper className={classes.root}>
 			{alterHeader && selectedMessages.length ? (
 				<AlterHeader
 					selectedMessages={selectedMessages.length}
@@ -228,8 +219,6 @@ const Canvas: React.FC<Props> = ({
 				handleSubmit={handleSubmit}
 				closeModal={(): void => setImageModal(false)}
 			/>
-
-			<DragDrop visible={dragDrop} />
 		</Paper>
 	);
 };

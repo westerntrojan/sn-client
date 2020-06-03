@@ -13,10 +13,11 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import _ from 'lodash';
 
 import './style.scss';
 import ReplyForm from './components/ReplyForm';
-import SubComment from './components/SubComment';
+import Reply from './components/Reply';
 import UserAvatar from '@components/avatars/UserAvatar';
 import ZoomTooltip from '@components/tooltips/ZoomTooltip';
 import {userLink} from '@utils/users';
@@ -34,11 +35,13 @@ type Props = {
 const Comment: React.FC<Props> = ({comment, handleLike, handleDislike, handleRemove}) => {
 	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 	const [replyForm, setReplyForm] = useState(false);
-	const [subComments, setSubComments] = useState(false);
+	const [showReplies, setShowReplies] = useState(false);
 
 	const {auth} = useContext(Context);
 
 	const redirectTo = useRedirect();
+
+	const repliesCount = comment.replies.length;
 
 	const userName = `${comment.user.firstName} ${comment.user.lastName}`.trim();
 
@@ -111,38 +114,40 @@ const Comment: React.FC<Props> = ({comment, handleLike, handleDislike, handleRem
 					</Button>
 				</div>
 
-				{replyForm && <ReplyForm comment={comment} handleClose={(): void => setReplyForm(false)} />}
+				{replyForm && (
+					<ReplyForm
+						parentId={comment._id}
+						comment={comment}
+						handleClose={(): void => setReplyForm(false)}
+					/>
+				)}
 
-				<Button
-					size='small'
-					style={{marginBottom: 10}}
-					startIcon={subComments ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-					onClick={(): void => setSubComments(!subComments)}
-				>
-					{subComments ? 'Hide 12 replies' : 'View 12 replies'}
-				</Button>
+				{!_.isEmpty(comment.replies) && (
+					<>
+						<Button
+							size='small'
+							style={{marginBottom: 10}}
+							startIcon={showReplies ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+							onClick={(): void => setShowReplies(!showReplies)}
+						>
+							{showReplies
+								? `Hide ${repliesCount > 1 ? `${repliesCount} replies` : 'reply'}`
+								: `View ${repliesCount > 1 ? `${repliesCount} replies` : 'reply'}`}
+						</Button>
 
-				{subComments && (
-					<div className='sub-comments'>
-						<SubComment
-							comment={comment}
-							handleLike={handleLike}
-							handleDislike={handleDislike}
-							handleRemove={handleRemove}
-						/>
-						<SubComment
-							comment={comment}
-							handleLike={handleLike}
-							handleDislike={handleDislike}
-							handleRemove={handleRemove}
-						/>
-						<SubComment
-							comment={comment}
-							handleLike={handleLike}
-							handleDislike={handleDislike}
-							handleRemove={handleRemove}
-						/>
-					</div>
+						{showReplies && (
+							<div className='replies'>
+								{comment.replies.map(reply => (
+									<Reply
+										key={reply._id}
+										reply={reply}
+										handleLike={handleLike}
+										handleDislike={handleDislike}
+									/>
+								))}
+							</div>
+						)}
+					</>
 				)}
 			</CardContent>
 

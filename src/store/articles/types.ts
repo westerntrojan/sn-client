@@ -12,6 +12,8 @@ export const ADD_LIKE = 'articles/addLike';
 export const REMOVE_LIKE = 'articles/removeLike';
 export const ADD_COMMENT = 'articles/comments/add';
 export const REMOVE_COMMENT = 'articles/comments/remove';
+export const ADD_REPLY = 'articles/replies/add';
+export const REMOVE_REPLY = 'articles/replies/remove';
 export const ADD_COMMENT_LIKE = 'articles/comments/addLike';
 export const ADD_COMMENT_DISLIKE = 'articles/comments/addDislike';
 export const SORT_COMMENTS_BY_TOP_ARTICLES = 'articles/comments/sortByTopArticles';
@@ -21,4 +23,5 @@ export type ArticlesState = {
 	all: IArticle[];
 	end: boolean;
 	cache: IArticle[];
+	article: IArticle | null;
 };
