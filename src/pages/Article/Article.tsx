@@ -13,7 +13,7 @@ import PageLoader from '@components/PageLoader';
 import {RemoveModal} from '@components/modals';
 import FullArticle from './components/FullArticle';
 import CommentForm from './components/CommentForm';
-import Comment from './components/Comment';
+import CommentReplies from './components/CommentReplies';
 import {useArticle, useRedirect} from '@utils/hooks';
 import ZoomTooltip from '@components/tooltips/ZoomTooltip';
 import {RootState} from '@store/types';
@@ -204,7 +204,7 @@ const Article: React.FC = () => {
 
 							<div className='comments-list'>
 								{article.comments.map((comment: IComment) => (
-									<Comment
+									<CommentReplies
 										key={comment._id}
 										comment={comment}
 										handleLike={handleAddCommentLike}

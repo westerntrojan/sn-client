@@ -15,18 +15,20 @@ import {IMessage} from '@components/chat/types';
 
 const useStyles = makeStyles({
 	root: {
-		position: 'relative',
 		backgroundColor: 'rgba(0, 0, 0, 0.1)',
-		marginBottom: 20,
 		display: 'flex',
-		overflow: 'hidden',
 		flexDirection: 'column',
 		flex: 1,
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		width: '100%',
+		height: '100%',
 	},
 	messages: {
-		padding: '0 20px',
-		height: '100%',
 		overflow: 'auto',
+		flex: 1,
+		position: 'relative',
 	},
 });
 

@@ -79,6 +79,8 @@ export const editArticle = (formData: FormData): AppThunk => async (dispatch): P
 export const removeArticle = (articleId: string): AppThunk => async (dispatch): Promise<void> => {
 	await callApi.delete(`/articles/${articleId}`);
 
+	console.log('removeArticle');
+
 	dispatch({
 		type: types.REMOVE_ARTICLE,
 		payload: {
@@ -103,14 +105,14 @@ export const addLike = (articleId: string, userId: string): AppThunk => async (
 ): Promise<void> => {
 	const data = await callApi.get(`/articles/like/${articleId}/${userId}`);
 
-	if (data.success) {
+	if (data.add_like) {
 		dispatch({
 			type: types.ADD_LIKE,
 			payload: {
 				articleId,
 			},
 		});
-	} else {
+	} else if (data.remove_like) {
 		dispatch({
 			type: types.REMOVE_LIKE,
 			payload: {
