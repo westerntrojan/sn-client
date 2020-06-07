@@ -22,7 +22,7 @@ const Home: React.FC = () => {
 	};
 
 	return (
-		<section className='main'>
+		<section className='home'>
 			<Helmet>
 				<title>Home / {process.env.REACT_APP_TITLE}</title>
 			</Helmet>

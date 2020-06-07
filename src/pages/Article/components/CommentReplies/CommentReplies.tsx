@@ -1,4 +1,5 @@
 import React, {useState, useContext} from 'react';
+import _ from 'lodash';
 import moment from 'moment';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
@@ -11,9 +12,13 @@ import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import _ from 'lodash';
+import FlagIcon from '@material-ui/icons/Flag';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 
 import './style.scss';
 import ReplyForm from './components/ReplyForm';
@@ -27,12 +32,12 @@ import Context from '@pages/Article/context';
 
 type Props = {
 	comment: IComment;
-	handleLike: (commentId: string) => void;
-	handleDislike: (commentId: string) => void;
+	addLike: (commentId: string) => void;
+	addDislike: (commentId: string) => void;
 	handleRemove: (commentId: string) => void;
 };
 
-const CommentReplies: React.FC<Props> = ({comment, handleLike, handleDislike, handleRemove}) => {
+const CommentReplies: React.FC<Props> = ({comment, addLike, addDislike, handleRemove}) => {
 	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 	const [replyForm, setReplyForm] = useState(false);
 	const [showReplies, setShowReplies] = useState(false);
@@ -81,22 +86,22 @@ const CommentReplies: React.FC<Props> = ({comment, handleLike, handleDislike, ha
 					<Typography className='text'>{comment.text}</Typography>
 
 					<div className='actions'>
-						<div className='assessment'>
+						<div className='rating'>
 							<ZoomTooltip title='Like'>
-								<IconButton color='default' onClick={(): void => handleLike(comment._id)}>
-									<ThumbUpIcon fontSize='small' />
+								<IconButton color='default' onClick={(): void => addLike(comment._id)}>
+									<ThumbUpIcon />
 								</IconButton>
 							</ZoomTooltip>
 
 							{Boolean(comment.likes) && (
-								<Typography variant='body2' className='likes-number'>
+								<Typography variant='body2' style={{marginRight: 10}}>
 									{comment.likes}
 								</Typography>
 							)}
 
 							<ZoomTooltip title='Dislike'>
-								<IconButton color='default' onClick={(): void => handleDislike(comment._id)}>
-									<ThumbDownIcon fontSize='small' />
+								<IconButton color='default' onClick={(): void => addDislike(comment._id)}>
+									<ThumbDownIcon />
 								</IconButton>
 							</ZoomTooltip>
 						</div>
@@ -131,11 +136,34 @@ const CommentReplies: React.FC<Props> = ({comment, handleLike, handleDislike, ha
 				<Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={closeMenu}>
 					{(auth.user && auth.user._id === comment.user._id) || auth.isAdmin ? (
 						<div>
-							<MenuItem>Edit</MenuItem>
-							<MenuItem onClick={(): void => handleRemove(comment._id)}>Remove</MenuItem>
+							<MenuItem onClick={closeMenu}>
+								<ListItemIcon>
+									<EditIcon />
+								</ListItemIcon>
+								<ListItemText primary='Edit' />
+							</MenuItem>
+
+							<MenuItem onClick={(): void => handleRemove(comment._id)}>
+								<ListItemIcon>
+									<DeleteIcon />
+								</ListItemIcon>
+								<ListItemText primary='Remove' />
+							</MenuItem>
+
+							<MenuItem onClick={closeMenu}>
+								<ListItemIcon>
+									<FlagIcon />
+								</ListItemIcon>
+								<ListItemText primary='Report' />
+							</MenuItem>
 						</div>
 					) : (
-						<MenuItem>Report</MenuItem>
+						<MenuItem onClick={closeMenu}>
+							<ListItemIcon>
+								<FlagIcon />
+							</ListItemIcon>
+							<ListItemText primary='Report' />
+						</MenuItem>
 					)}
 				</Menu>
 			</div>
@@ -155,12 +183,7 @@ const CommentReplies: React.FC<Props> = ({comment, handleLike, handleDislike, ha
 
 						{showReplies &&
 							comment.replies.map(reply => (
-								<Reply
-									key={reply._id}
-									reply={reply}
-									handleLike={handleLike}
-									handleDislike={handleDislike}
-								/>
+								<Reply key={reply._id} reply={reply} addLike={addLike} addDislike={addDislike} />
 							))}
 					</>
 				)}

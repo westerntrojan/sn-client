@@ -9,7 +9,9 @@ export const EDIT_ARTICLE = 'articles/edit';
 export const REMOVE_ARTICLE = 'articles/remove';
 export const ADD_VIEWS = 'articles/addViews';
 export const ADD_LIKE = 'articles/addLike';
-export const REMOVE_LIKE = 'articles/removeLike';
+export const ADD_DISLIKE = 'articles/addDislike';
+export const ADD_TO_BOOKMARKS = 'articles/addToBookmarks';
+export const REMOVE_FROM_BOOKMARKS = 'articles/removeFromBookmars';
 export const ADD_COMMENT = 'articles/comments/add';
 export const REMOVE_COMMENT = 'articles/comments/remove';
 export const ADD_REPLY = 'articles/replies/add';
@@ -23,5 +25,4 @@ export type ArticlesState = {
 	all: IArticle[];
 	end: boolean;
 	cache: IArticle[];
-	article: IArticle | null;
 };

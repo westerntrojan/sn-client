@@ -10,6 +10,11 @@ import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import FlagIcon from '@material-ui/icons/Flag';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import ReplyForm from './ReplyForm';
 import UserAvatar from '@components/avatars/UserAvatar';
@@ -21,11 +26,11 @@ import Context from '@pages/Article/context';
 
 type Props = {
 	reply: IReply;
-	handleLike: (commentId: string) => void;
-	handleDislike: (commentId: string) => void;
+	addLike: (commentId: string) => void;
+	addDislike: (commentId: string) => void;
 };
 
-const Reply: React.FC<Props> = ({reply, handleLike, handleDislike}) => {
+const Reply: React.FC<Props> = ({reply, addLike, addDislike}) => {
 	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 	const [replyForm, setReplyForm] = useState(false);
 
@@ -65,10 +70,10 @@ const Reply: React.FC<Props> = ({reply, handleLike, handleDislike}) => {
 				<Typography className='text'>{reply.text}</Typography>
 
 				<div className='actions'>
-					<div className='assessment'>
+					<div className='rating'>
 						<ZoomTooltip title='Like'>
-							<IconButton color='default' onClick={(): void => handleLike(reply._id)}>
-								<ThumbUpIcon fontSize='small' />
+							<IconButton color='default' onClick={(): void => addLike(reply._id)}>
+								<ThumbUpIcon />
 							</IconButton>
 						</ZoomTooltip>
 
@@ -79,8 +84,8 @@ const Reply: React.FC<Props> = ({reply, handleLike, handleDislike}) => {
 						)}
 
 						<ZoomTooltip title='Dislike'>
-							<IconButton color='default' onClick={(): void => handleDislike(reply._id)}>
-								<ThumbDownIcon fontSize='small' />
+							<IconButton color='default' onClick={(): void => addDislike(reply._id)}>
+								<ThumbDownIcon />
 							</IconButton>
 						</ZoomTooltip>
 					</div>
@@ -115,11 +120,34 @@ const Reply: React.FC<Props> = ({reply, handleLike, handleDislike}) => {
 			<Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={closeMenu}>
 				{(auth.user && auth.user._id === reply.user._id) || auth.isAdmin ? (
 					<div>
-						<MenuItem>Edit</MenuItem>
-						<MenuItem onClick={(): void => removeReply(reply._id)}>Remove</MenuItem>
+						<MenuItem onClick={closeMenu}>
+							<ListItemIcon>
+								<EditIcon />
+							</ListItemIcon>
+							<ListItemText primary='Edit' />
+						</MenuItem>
+
+						<MenuItem onClick={(): void => removeReply(reply._id)}>
+							<ListItemIcon>
+								<DeleteIcon />
+							</ListItemIcon>
+							<ListItemText primary='Remove' />
+						</MenuItem>
+
+						<MenuItem onClick={closeMenu}>
+							<ListItemIcon>
+								<FlagIcon />
+							</ListItemIcon>
+							<ListItemText primary='Report' />
+						</MenuItem>
 					</div>
 				) : (
-					<MenuItem>Report</MenuItem>
+					<MenuItem onClick={closeMenu}>
+						<ListItemIcon>
+							<FlagIcon />
+						</ListItemIcon>
+						<ListItemText primary='Report' />
+					</MenuItem>
 				)}
 			</Menu>
 		</div>

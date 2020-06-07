@@ -1,5 +1,6 @@
 import {createReducer} from '@reduxjs/toolkit';
 
+import {RESET_APP} from '@store/app/types';
 import * as types from './types';
 
 const initialState: types.CategoryState = {
@@ -44,6 +45,10 @@ export default createReducer(initialState, {
 		}
 	},
 	[types.REMOVE_CATEGORY]: state => {
+		state.removedCategories = [];
+	},
+	[RESET_APP]: (state, action) => {
+		state.all = action.payload.categories;
 		state.removedCategories = [];
 	},
 });

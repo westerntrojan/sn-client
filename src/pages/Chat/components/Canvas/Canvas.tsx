@@ -66,6 +66,7 @@ const Canvas: React.FC<Props> = ({
 	const [imagePreview, setImagePreview] = useState('');
 	const [imageModal, setImageModal] = useState(false);
 	const messagesContainer = useRef<HTMLDivElement>(null);
+	const firstMessage = useRef<HTMLDivElement>(null);
 
 	const {handleSubmitMessage} = useContext(Context);
 
@@ -74,6 +75,10 @@ const Canvas: React.FC<Props> = ({
 	useEffect(() => {
 		if (!removed && messagesContainer.current) {
 			messagesContainer.current.scrollTop = messagesContainer.current.scrollHeight;
+		}
+
+		if (firstMessage.current) {
+			firstMessage.current.style.background = 'red';
 		}
 	}, [messages, removed]);
 
@@ -150,13 +155,14 @@ const Canvas: React.FC<Props> = ({
 		// scrollTop/Left - расстояние от верха/лево блока (можно переопределять)
 		// scrollWidth/Height - длина блока включая скролл
 		// clientWidth/Height, offsetWidth/Height - длина блока не включая скролл
-		// if (e.currentTarget.scrollTop === 0) {
-		// 	_.debounce(() => loadMore(), 200);
-		// 	if (messagesContainer.current) {
-		// 		messagesContainer.current.scrollTop = 200;
-		// 	}
-		// 	console.log(e.currentTarget.scrollTop);
-		// }
+
+		if (e.currentTarget.scrollTop === 0) {
+			loadMore();
+
+			// if (firstMessage.current) {
+			// 	firstMessage.current.scrollIntoView();
+			// }
+		}
 	};
 
 	return (
@@ -180,6 +186,19 @@ const Canvas: React.FC<Props> = ({
 					messages &&
 					messages.map(message => {
 						if (message.user._id === auth.user._id) {
+							if (message._id === messages[0]._id) {
+								return (
+									<div ref={firstMessage}>
+										<MyMessage
+											message={message}
+											key={message._id}
+											selectMessage={selectMessage}
+											alterHeader={alterHeader}
+										/>
+									</div>
+								);
+							}
+
 							return (
 								<MyMessage
 									message={message}

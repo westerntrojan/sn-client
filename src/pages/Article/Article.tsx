@@ -72,13 +72,33 @@ const Article: React.FC = () => {
 		}
 	}, [article]);
 
-	const openRemoveArticleModal = (): void => {
-		setRemoveArticleModal(true);
+	const handleAddArticleLike = async (): Promise<void> => {
+		if (!auth.isAuth) {
+			return redirectTo('/auth');
+		}
+
+		if (article) {
+			await dispatch(articleActions.addLike(article._id));
+		}
 	};
 
-	const handleLike = (): void => {
+	const handleAddArticleDislike = async (): Promise<void> => {
+		if (!auth.isAuth) {
+			return redirectTo('/auth');
+		}
+
 		if (article) {
-			dispatch(articleActions.addLike(article._id, auth.user._id));
+			await dispatch(articleActions.addDislike(article._id));
+		}
+	};
+
+	const handleAddArticleToBookmarks = async (): Promise<void> => {
+		if (!auth.isAuth) {
+			return redirectTo('/auth');
+		}
+
+		if (article) {
+			await dispatch(articleActions.addToBookmars(article._id, auth.user._id));
 		}
 	};
 
@@ -175,9 +195,12 @@ const Article: React.FC = () => {
 					<>
 						<FullArticle
 							article={article}
-							handleLike={handleLike}
-							handleRemove={openRemoveArticleModal}
+							addLike={handleAddArticleLike}
+							addDislike={handleAddArticleDislike}
+							addToBookmarks={handleAddArticleToBookmarks}
+							handleRemove={(): void => setRemoveArticleModal(true)}
 						/>
+
 						<div className='comments'>
 							<div className='comments-title'>
 								<Typography variant='h5' className='caption'>
@@ -207,8 +230,8 @@ const Article: React.FC = () => {
 									<CommentReplies
 										key={comment._id}
 										comment={comment}
-										handleLike={handleAddCommentLike}
-										handleDislike={handleAddCommentDislike}
+										addLike={handleAddCommentLike}
+										addDislike={handleAddCommentDislike}
 										handleRemove={handleRemoveComment}
 									/>
 								))}

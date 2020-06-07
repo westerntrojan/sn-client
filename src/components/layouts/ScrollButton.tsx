@@ -1,20 +1,15 @@
 import React from 'react';
-import DownIcon from '@material-ui/icons/KeyboardArrowDown';
-import Button from '@material-ui/core/Button';
+import UpIcon from '@material-ui/icons/KeyboardArrowUp';
 import Slide from '@material-ui/core/Slide';
 import {makeStyles} from '@material-ui/core/styles';
+import Fab from '@material-ui/core/Fab';
 
 const useStyles = makeStyles({
 	root: {
 		position: 'fixed',
 		right: 20,
 		bottom: 20,
-		width: 60,
-		height: 60,
-		zIndex: 1000,
-		borderRadius: 100,
-
-		border: '1px solid red',
+		zIndex: 999,
 	},
 });
 
@@ -28,9 +23,9 @@ const ScrollButton: React.FC<Props> = ({open, action}) => {
 
 	return (
 		<Slide in={open} direction='up'>
-			<Button color='primary' variant='contained' className={classes.root} onClick={action}>
-				<DownIcon fontSize='large' />
-			</Button>
+			<Fab color='primary' className={classes.root} onClick={action}>
+				<UpIcon fontSize='large' />
+			</Fab>
 		</Slide>
 	);
 };

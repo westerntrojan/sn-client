@@ -1,7 +1,7 @@
 import {createReducer} from '@reduxjs/toolkit';
 
 import {defaultUser} from './types';
-import {ADD_LIKE, REMOVE_LIKE} from '@store/articles/types';
+import {ADD_TO_BOOKMARKS, REMOVE_FROM_BOOKMARKS} from '@store/articles/types';
 import * as types from './types';
 
 const initialState: types.AuthState = {
@@ -35,11 +35,11 @@ export default createReducer(initialState, {
 	[types.TWO_FACTOR_AUTH]: (state, action) => {
 		state.user.twoFactorAuth = !state.user.twoFactorAuth;
 	},
-	[ADD_LIKE]: (state, action) => {
-		state.user.likedArticles = state.user.likedArticles.concat(action.payload.articleId);
+	[ADD_TO_BOOKMARKS]: (state, action) => {
+		state.user.bookmarks = state.user.bookmarks.concat(action.payload.articleId);
 	},
-	[REMOVE_LIKE]: (state, action) => {
-		state.user.likedArticles = state.user.likedArticles.filter(
+	[REMOVE_FROM_BOOKMARKS]: (state, action) => {
+		state.user.bookmarks = state.user.bookmarks.filter(
 			articleId => articleId !== action.payload.articleId,
 		);
 	},

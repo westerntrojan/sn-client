@@ -10,7 +10,7 @@ import ForumIcon from '@material-ui/icons/Forum';
 import Dashboard from '@material-ui/icons/Dashboard';
 import Divider from '@material-ui/core/Divider';
 import {Link as RouterLink} from 'react-router-dom';
-import PersonIcon from '@material-ui/icons/Person';
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 
 type Props = {
 	auth: {
@@ -22,20 +22,21 @@ type Props = {
 const Navigation: React.FC<Props> = ({auth}) => {
 	const location = useLocation();
 
-	const activeRoute = (routeName: string): boolean => {
-		return location.pathname === routeName ? true : false;
-	};
-
 	return (
 		<>
 			<List>
-				<ListItem button component={RouterLink} to={'/'} selected={activeRoute('/')}>
+				<ListItem button component={RouterLink} to={'/'} selected={location.pathname === '/'}>
 					<ListItemIcon>
 						<HomeIcon />
 					</ListItemIcon>
 					<ListItemText primary={'Home'} />
 				</ListItem>
-				<ListItem button component={RouterLink} to={'/chat'} selected={activeRoute('/chat')}>
+				<ListItem
+					button
+					component={RouterLink}
+					to={'/chat'}
+					selected={location.pathname === '/chat'}
+				>
 					<ListItemIcon>
 						<ForumIcon />
 					</ListItemIcon>
@@ -52,7 +53,7 @@ const Navigation: React.FC<Props> = ({auth}) => {
 							button
 							component={RouterLink}
 							to={'/article/add'}
-							selected={activeRoute('/article/add')}
+							selected={location.pathname === '/article/add'}
 						>
 							<ListItemIcon>
 								<AddBoxIcon />
@@ -64,10 +65,10 @@ const Navigation: React.FC<Props> = ({auth}) => {
 							button
 							component={RouterLink}
 							to={'/messages'}
-							selected={activeRoute('/messages')}
+							selected={location.pathname === '/messages'}
 						>
 							<ListItemIcon>
-								<PersonIcon />
+								<PeopleAltIcon />
 							</ListItemIcon>
 							<ListItemText primary={'Messages'} />
 						</ListItem>
@@ -80,7 +81,12 @@ const Navigation: React.FC<Props> = ({auth}) => {
 					<Divider />
 
 					<List>
-						<ListItem button component={RouterLink} to={'/admin'} selected={activeRoute('/admin')}>
+						<ListItem
+							button
+							component={RouterLink}
+							to={'/admin'}
+							selected={location.pathname === '/admin'}
+						>
 							<ListItemIcon>
 								<Dashboard />
 							</ListItemIcon>

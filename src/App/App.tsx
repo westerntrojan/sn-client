@@ -15,7 +15,8 @@ import ThemePickerModal from '@components/layouts/ThemePickerModal';
 import HotKeysModal from '@components/layouts/HotKeysModal';
 import SettingsModal from '@components/layouts/SettingsModal';
 import ExitModal from '@components/layouts/ExitModal';
-import ScrollButton from '@components/ScrollButton';
+import ScrollButton from '@components/layouts/ScrollButton';
+import AdminButton from '@components/layouts/AdminButton';
 import PageLoader from '@components/PageLoader';
 import NotFound from '@components/NotFound';
 import {RootState} from '@store/types';
@@ -176,6 +177,8 @@ const App: React.FC<Props> = ({children}) => {
 						</Context.Provider>
 					</SnackbarProvider>
 				</main>
+
+				{auth.isAdmin && <AdminButton />}
 
 				<ScrollButton open={scrollButton} action={executeScrollUp} />
 

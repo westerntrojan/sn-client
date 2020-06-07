@@ -10,7 +10,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import ListItemText from '@material-ui/core/ListItemText';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import ForumIcon from '@material-ui/icons/Forum';
-import PersonIcon from '@material-ui/icons/Person';
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 
 const useStyles = makeStyles(theme => ({
 	drawer: {
@@ -93,7 +93,7 @@ const AlterDrawer: React.FC<Props> = ({auth}) => {
 								to={'/messages'}
 							>
 								<ListItemIcon>
-									<PersonIcon />
+									<PeopleAltIcon />
 								</ListItemIcon>
 								<ListItemText primary={'Messages'} />
 							</ListItem>

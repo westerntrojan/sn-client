@@ -8,6 +8,9 @@ import {IconButton} from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import UserAvatar from './components/UserAvatar';
 import {userLink} from '@utils/users';
@@ -94,7 +97,12 @@ const UserActions: React.FC<Props> = ({auth, user, remove}) => {
 					</IconButton>
 
 					<Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={closeMenu}>
-						<MenuItem onClick={handleRemove}>Remove</MenuItem>
+						<MenuItem onClick={handleRemove}>
+							<ListItemIcon>
+								<DeleteIcon />
+							</ListItemIcon>
+							<ListItemText primary='Remove' />
+						</MenuItem>
 					</Menu>
 				</div>
 			) : null}

@@ -59,7 +59,7 @@ const UserForm: React.FC<Props> = ({user, handleSubmit}) => {
 				lastName !== user.lastName ||
 				username !== user.username ||
 				email !== user.email ||
-				bio !== (user.info ? user.info.bio : ''))
+				bio !== user.bio)
 		) {
 			setDisabledButton(false);
 		} else {
@@ -68,9 +68,7 @@ const UserForm: React.FC<Props> = ({user, handleSubmit}) => {
 	}, [firstName, lastName, username, email, bio, user]);
 
 	useEffect(() => {
-		if (user.info) {
-			setBio(user.info.bio);
-		}
+		setBio(user.bio);
 	}, [user]);
 
 	useEffect(() => {
@@ -110,7 +108,7 @@ const UserForm: React.FC<Props> = ({user, handleSubmit}) => {
 			lastName,
 			username,
 			email,
-			info: {bio},
+			bio,
 		});
 
 		if (data.success) {

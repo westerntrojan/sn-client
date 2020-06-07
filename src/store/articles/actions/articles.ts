@@ -100,21 +100,47 @@ export const addViews = (articleId: string): AppThunk => async (dispatch): Promi
 	});
 };
 
-export const addLike = (articleId: string, userId: string): AppThunk => async (
-	dispatch,
-): Promise<void> => {
-	const data = await callApi.get(`/articles/like/${articleId}/${userId}`);
+export const addLike = (articleId: string): AppThunk => async (dispatch): Promise<void> => {
+	const data = await callApi.get(`/articles/like/${articleId}`);
 
-	if (data.add_like) {
+	if (data.success) {
 		dispatch({
 			type: types.ADD_LIKE,
 			payload: {
 				articleId,
 			},
 		});
-	} else if (data.remove_like) {
+	}
+};
+
+export const addDislike = (articleId: string): AppThunk => async (dispatch): Promise<void> => {
+	const data = await callApi.get(`/articles/dislike/${articleId}`);
+
+	if (data.success) {
 		dispatch({
-			type: types.REMOVE_LIKE,
+			type: types.ADD_DISLIKE,
+			payload: {
+				articleId,
+			},
+		});
+	}
+};
+
+export const addToBookmars = (articleId: string, userId: string): AppThunk => async (
+	dispatch,
+): Promise<void> => {
+	const data = await callApi.get(`/articles/bookmarks/${articleId}/${userId}`);
+
+	if (data.add) {
+		dispatch({
+			type: types.ADD_TO_BOOKMARKS,
+			payload: {
+				articleId,
+			},
+		});
+	} else if (data.remove) {
+		dispatch({
+			type: types.REMOVE_FROM_BOOKMARKS,
 			payload: {
 				articleId,
 			},
