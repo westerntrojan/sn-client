@@ -5,21 +5,16 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import classNames from 'classnames';
 import Divider from '@material-ui/core/Divider';
-import {IconButton} from '@material-ui/core';
-import LinkIcon from '@material-ui/icons/Link';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import CopyToClipboard from 'react-copy-to-clipboard';
-import {useSnackbar} from 'notistack';
-
-import ZoomTooltip from '@components/tooltips/ZoomTooltip';
 import {IUser} from '@store/types';
 
 const useStyles = makeStyles(() => ({
 	root: {
 		width: '100%',
 		wordWrap: 'break-word',
+		whiteSpace: 'pre-wrap',
 		display: 'flex',
 		flexDirection: 'column',
 	},
@@ -48,26 +43,11 @@ type Props = {
 const UserInfo: React.FC<Props> = ({user}) => {
 	const classes = useStyles();
 
-	const {enqueueSnackbar} = useSnackbar();
-
-	const _handleClickCopyLink = (): void => {
-		enqueueSnackbar('Link copied successfully', {variant: 'success', preventDuplicate: true});
-	};
-
 	return (
 		<Card className={classNames('user-info', classes.root)}>
 			<CardContent>
 				<div className={classes.titleBlock}>
-					<Typography variant='h5'>
-						{`${user.firstName} ${user.lastName}`.trim()}
-						<ZoomTooltip title='Copy link'>
-							<CopyToClipboard text={window.location.href} onCopy={_handleClickCopyLink}>
-								<IconButton color='primary'>
-									<LinkIcon className={classes.linkIcon} />
-								</IconButton>
-							</CopyToClipboard>
-						</ZoomTooltip>
-					</Typography>
+					<Typography variant='h5'>{`${user.firstName} ${user.lastName}`.trim()}</Typography>
 
 					<Typography variant='subtitle2' color='primary'>
 						Online
@@ -76,23 +56,23 @@ const UserInfo: React.FC<Props> = ({user}) => {
 
 				<Divider />
 
-				{user.info ? (
+				{user.username || user.bio ? (
 					<div>
 						<List component='nav' aria-label='main mailbox folders'>
-							{user.info.bio && (
+							{user.username && (
 								<>
 									<ListItem>
-										<ListItemText primary='Bio' secondary={user.info.bio} />
+										<ListItemText primary='Username' secondary={user.username} />
 									</ListItem>
 
 									<Divider />
 								</>
 							)}
 
-							{user.username && (
+							{user.bio && (
 								<>
 									<ListItem>
-										<ListItemText primary='Username' secondary={user.username} />
+										<ListItemText primary='Bio' secondary={user.bio} />
 									</ListItem>
 
 									<Divider />

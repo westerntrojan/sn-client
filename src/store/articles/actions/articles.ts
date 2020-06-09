@@ -1,8 +1,6 @@
-import {createAction} from '@reduxjs/toolkit';
-
 import callApi from '@utils/callApi';
 import {AppThunk} from '@store/types';
-import * as types from './types';
+import * as types from '../types';
 
 export const fetchArticles = (): AppThunk => async (dispatch, getState): Promise<void> => {
 	const skip = getState().articles.all.length;
@@ -81,6 +79,8 @@ export const editArticle = (formData: FormData): AppThunk => async (dispatch): P
 export const removeArticle = (articleId: string): AppThunk => async (dispatch): Promise<void> => {
 	await callApi.delete(`/articles/${articleId}`);
 
+	console.log('removeArticle');
+
 	dispatch({
 		type: types.REMOVE_ARTICLE,
 		payload: {
@@ -100,10 +100,8 @@ export const addViews = (articleId: string): AppThunk => async (dispatch): Promi
 	});
 };
 
-export const addLike = (articleId: string, userId: string): AppThunk => async (
-	dispatch,
-): Promise<void> => {
-	const data = await callApi.get(`/articles/like/${articleId}/${userId}`);
+export const addLike = (articleId: string): AppThunk => async (dispatch): Promise<void> => {
+	const data = await callApi.get(`/articles/like/${articleId}`);
 
 	if (data.success) {
 		dispatch({
@@ -112,9 +110,15 @@ export const addLike = (articleId: string, userId: string): AppThunk => async (
 				articleId,
 			},
 		});
-	} else {
+	}
+};
+
+export const addDislike = (articleId: string): AppThunk => async (dispatch): Promise<void> => {
+	const data = await callApi.get(`/articles/dislike/${articleId}`);
+
+	if (data.success) {
 		dispatch({
-			type: types.REMOVE_LIKE,
+			type: types.ADD_DISLIKE,
 			payload: {
 				articleId,
 			},
@@ -122,72 +126,24 @@ export const addLike = (articleId: string, userId: string): AppThunk => async (
 	}
 };
 
-export const addComment = (newComment: object): AppThunk => async (dispatch): Promise<object> => {
-	const data = await callApi.post('/articles/comments', newComment);
-
-	if (data.success) {
-		dispatch({
-			type: types.ADD_COMMENT,
-			payload: {
-				comment: data.comment,
-			},
-		});
-	}
-
-	return data;
-};
-
-export const removeComment = (commentId: string): AppThunk => async (dispatch): Promise<void> => {
-	const data = await callApi.delete(`/articles/comments/${commentId}`);
-
-	if (data.comment) {
-		dispatch({
-			type: types.REMOVE_COMMENT,
-			payload: {
-				comment: data.comment,
-			},
-		});
-	}
-};
-
-export const addCommentLike = (articleId: string, commentId: string): AppThunk => async (
+export const addToBookmars = (articleId: string, userId: string): AppThunk => async (
 	dispatch,
 ): Promise<void> => {
-	const data = await callApi.get(`/articles/comments/like/${commentId}`);
+	const data = await callApi.get(`/articles/bookmarks/${articleId}/${userId}`);
 
-	if (data.success) {
+	if (data.add) {
 		dispatch({
-			type: types.ADD_COMMENT_LIKE,
+			type: types.ADD_TO_BOOKMARKS,
 			payload: {
 				articleId,
-				commentId,
+			},
+		});
+	} else if (data.remove) {
+		dispatch({
+			type: types.REMOVE_FROM_BOOKMARKS,
+			payload: {
+				articleId,
 			},
 		});
 	}
 };
-
-export const addCommentDislike = (articleId: string, commentId: string): AppThunk => async (
-	dispatch,
-): Promise<void> => {
-	const data = await callApi.get(`/articles/comments/dislike/${commentId}`);
-
-	if (data.success) {
-		dispatch({
-			type: types.ADD_COMMENT_DISLIKE,
-			payload: {
-				articleId,
-				commentId,
-			},
-		});
-	}
-};
-
-export const sortCommentsByTopArticles = createAction(
-	types.SORT_COMMENTS_BY_TOP_ARTICLES,
-	(articleId: string) => ({payload: {articleId}}),
-);
-
-export const sortCommentsByNewestFirst = createAction(
-	types.SORT_COMMENTS_BY_NEWEST_FIRST,
-	(articleId: string) => ({payload: {articleId}}),
-);

@@ -25,7 +25,7 @@ const ImageModal: React.FC<Props> = ({image, images, handleRemoveImage, closeMod
 				enableZoom
 				reactModalStyle={{
 					overlay: {
-						zIndex: 100000,
+						zIndex: 10000,
 					},
 				}}
 				toolbarButtons={[
@@ -59,7 +59,7 @@ const ImageModal: React.FC<Props> = ({image, images, handleRemoveImage, closeMod
 				enableZoom
 				reactModalStyle={{
 					overlay: {
-						zIndex: 100000,
+						zIndex: 10000,
 					},
 				}}
 				imageCaption={`${photoIndex + 1} of ${images.length}`}

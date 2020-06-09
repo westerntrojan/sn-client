@@ -18,8 +18,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import ForumIcon from '@material-ui/icons/Forum';
-import PersonIcon from '@material-ui/icons/Person';
 import {useTheme} from '@material-ui/core/styles';
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 
 import Footer from './Footer';
 
@@ -118,25 +118,25 @@ const MobileDrawer: React.FC<Props> = ({open, closeDrawer, auth}) => {
 									</ListItemIcon>
 									<ListItemText primary={'Add article'} />
 								</ListItem>
+								<ListItem
+									button
+									selected={location.pathname === '/messages'}
+									component={RouterLink}
+									to={'/messages'}
+									onClick={closeDrawer}
+								>
+									<ListItemIcon>
+										<PeopleAltIcon />
+									</ListItemIcon>
+									<ListItemText primary={'Messages'} />
+								</ListItem>
 							</List>
-
-							<ListItem
-								button
-								selected={location.pathname === '/messages'}
-								component={RouterLink}
-								to={'/messages'}
-								onClick={closeDrawer}
-							>
-								<ListItemIcon>
-									<PersonIcon />
-								</ListItemIcon>
-								<ListItemText primary={'Messages'} />
-							</ListItem>
 						</>
 					)}
 					{auth.isAdmin && (
 						<>
 							<Divider />
+
 							<List>
 								<ListItem
 									button

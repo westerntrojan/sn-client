@@ -18,12 +18,11 @@ const Messages = lazy(() => import('./pages/Messages'));
 const UsersChat = lazy(() => import('./pages/UsersChat'));
 const Category = lazy(() => import('./pages/Category'));
 const Tag = lazy(() => import('./pages/Tag'));
-const NotFound = lazy(() => import('./components/NotFound'));
-
 const Auth = lazy(() => import('./pages/Auth'));
 const RegisterVerify = lazy(() => import('./pages/RegisterVerify'));
 const PasswordResetEmail = lazy(() => import('./pages/PasswordResetEmail'));
 const PasswordResetVerify = lazy(() => import('./pages/PasswordResetVerify'));
+const NotFound = lazy(() => import('./components/NotFound'));
 
 const Routes: React.FC = () => {
 	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
@@ -31,7 +30,13 @@ const Routes: React.FC = () => {
 	return (
 		<Route
 			render={({location}: {location: any}): React.ReactNode => {
-				const from = location.state && location.state.from.pathname;
+				let from = location.state && location.state.from.pathname;
+
+				if (from) {
+					if (from.split('/').reverse()[1] === 'verify') {
+						from = '/';
+					}
+				}
 
 				return (
 					<Suspense fallback={<PageLoader />}>

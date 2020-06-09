@@ -10,12 +10,12 @@ import InputBase from '@material-ui/core/InputBase';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 import SearchIcon from '@material-ui/icons/Search';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import {useLocation} from 'react-router';
 import PaletteIcon from '@material-ui/icons/Palette';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import {useTheme} from '@material-ui/core/styles';
 import {AuthState} from '@store/auth/types';
 import KeyboardIcon from '@material-ui/icons/Keyboard';
@@ -23,6 +23,9 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Button from '@material-ui/core/Button';
 import Badge from '@material-ui/core/Badge';
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import UserAvatar from '@components/avatars/UserAvatar';
 import {userLink} from '@utils/users';
@@ -181,7 +184,12 @@ const Header: React.FC<Props> = ({
 			onClose={handleMenuClose}
 		>
 			<Link underline='none' component={RouterLink} to={userLink(auth.user)} color={'inherit'}>
-				<MenuItem onClick={handleMenuClose}>My profile</MenuItem>
+				<MenuItem onClick={handleMenuClose}>
+					<ListItemIcon>
+						<AccountBoxIcon />
+					</ListItemIcon>
+					<ListItemText primary='My account' />
+				</MenuItem>
 			</Link>
 
 			<MenuItem
@@ -190,7 +198,10 @@ const Header: React.FC<Props> = ({
 					handleMenuClose();
 				}}
 			>
-				Exit
+				<ListItemIcon>
+					<ExitToAppIcon />
+				</ListItemIcon>
+				<ListItemText primary='Sign out' />
 			</MenuItem>
 		</Menu>
 	);
@@ -210,29 +221,29 @@ const Header: React.FC<Props> = ({
 				<div>
 					<Link underline='none' component={RouterLink} to={userLink(auth.user)} color={'inherit'}>
 						<MenuItem onClick={handleMenuClose}>
-							<IconButton>
-								<AccountCircle />
-							</IconButton>
-							<p>My profile</p>
+							<ListItemIcon>
+								<AccountBoxIcon />
+							</ListItemIcon>
+							<ListItemText primary='My profile' />
 						</MenuItem>
 					</Link>
 					<MenuItem>
-						<IconButton>
+						<ListItemIcon>
 							<NotificationsIcon />
-						</IconButton>
-						<p>Notification</p>
+						</ListItemIcon>
+						<ListItemText primary='Notification' />
 					</MenuItem>
 					<MenuItem onClick={handleAppearance}>
-						<IconButton>
+						<ListItemIcon>
 							<PaletteIcon />
-						</IconButton>
-						<p>Change theme</p>
+						</ListItemIcon>
+						<ListItemText primary='Change theme' />
 					</MenuItem>
 					<MenuItem onClick={openSettingsModal}>
-						<IconButton>
+						<ListItemIcon>
 							<SettingsIcon />
-						</IconButton>
-						<p>Settings</p>
+						</ListItemIcon>
+						<ListItemText primary='Settings' />
 					</MenuItem>
 					<MenuItem
 						onClick={(): void => {
@@ -240,25 +251,25 @@ const Header: React.FC<Props> = ({
 							exit();
 						}}
 					>
-						<IconButton>
+						<ListItemIcon>
 							<ExitToAppIcon />
-						</IconButton>
-						<p>Exit</p>
+						</ListItemIcon>
+						<ListItemText primary='Sign out' />
 					</MenuItem>
 				</div>
 			) : (
 				<div>
 					<MenuItem onClick={handleAppearance}>
-						<IconButton>
+						<ListItemIcon>
 							<PaletteIcon />
-						</IconButton>
-						<p>Change theme</p>
+						</ListItemIcon>
+						<ListItemText primary='Change theme' />
 					</MenuItem>
 					<MenuItem onClick={openSettingsModal}>
-						<IconButton>
+						<ListItemIcon>
 							<SettingsIcon />
-						</IconButton>
-						<p>Settings</p>
+						</ListItemIcon>
+						<ListItemText primary='Settings' />
 					</MenuItem>
 					<Link
 						underline='none'
@@ -267,10 +278,10 @@ const Header: React.FC<Props> = ({
 						color='inherit'
 					>
 						<MenuItem onClick={handleMenuClose}>
-							<IconButton>
-								<AccountCircle />
-							</IconButton>
-							<p>Sign in</p>
+							<ListItemIcon>
+								<AccountBoxIcon />
+							</ListItemIcon>
+							<ListItemText primary='Sign in' />
 						</MenuItem>
 					</Link>
 				</div>
@@ -354,7 +365,7 @@ const Header: React.FC<Props> = ({
 										<Button
 											variant='outlined'
 											className={classes.signInButton}
-											startIcon={<AccountCircle />}
+											startIcon={<AccountCircleIcon />}
 											color='inherit'
 										>
 											Sign in

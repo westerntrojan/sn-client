@@ -33,11 +33,12 @@ const useStyles = makeStyles({
 });
 
 type Props = {
+	parentId: string;
 	comment: IComment;
 	handleClose: () => void;
 };
 
-const ReplyForm: React.FC<Props> = ({comment, handleClose}) => {
+const ReplyForm: React.FC<Props> = ({parentId, comment, handleClose}) => {
 	const classes = useStyles();
 
 	const [text, setText] = useState('');
@@ -83,7 +84,7 @@ const ReplyForm: React.FC<Props> = ({comment, handleClose}) => {
 
 		setLoading(true);
 
-		const data: any = submitReply({parentId: comment._id, text});
+		const data: any = await submitReply({parentId: parentId, text});
 
 		if (data.success) {
 			setText('');

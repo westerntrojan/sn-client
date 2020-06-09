@@ -34,7 +34,7 @@ const HotKeysModal: React.FC<Props> = ({open, closeModal}) => {
 						</ListItem>
 					)}
 					<ListItem>
-						<ListItemText primary='CTRL + Q' secondary='Exit' />
+						<ListItemText primary='CTRL + Q' secondary='Sign out' />
 					</ListItem>
 					<ListItem>
 						<ListItemText primary='/' secondary='Search focus' />

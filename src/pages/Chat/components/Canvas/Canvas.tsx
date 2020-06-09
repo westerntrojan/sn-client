@@ -3,7 +3,6 @@ import Paper from '@material-ui/core/Paper';
 import {makeStyles} from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import {useSnackbar} from 'notistack';
-// import _ from 'lodash';
 
 import Loader from '@components/Loader';
 import {RemoveMessageModal} from '@components/modals';
@@ -11,7 +10,6 @@ import Header from './components/Header';
 import Message from './components/Message';
 import Form from './components/Form';
 import ImageModal from './components/ImageModal';
-import DragDrop from './components/DragDrop';
 import MyMessage from '@components/chat/MyMessage';
 import AlterHeader from '@components/chat/AlterHeader';
 import ForNotAuth from '@components/ForNotAuth';
@@ -67,8 +65,8 @@ const Canvas: React.FC<Props> = ({
 	const [imageFile, setImageFile] = useState<File | null>(null);
 	const [imagePreview, setImagePreview] = useState('');
 	const [imageModal, setImageModal] = useState(false);
-	const [dragDrop, setDragDrop] = useState(false);
 	const messagesContainer = useRef<HTMLDivElement>(null);
+	const firstMessage = useRef<HTMLDivElement>(null);
 
 	const {handleSubmitMessage} = useContext(Context);
 
@@ -77,6 +75,10 @@ const Canvas: React.FC<Props> = ({
 	useEffect(() => {
 		if (!removed && messagesContainer.current) {
 			messagesContainer.current.scrollTop = messagesContainer.current.scrollHeight;
+		}
+
+		if (firstMessage.current) {
+			firstMessage.current.style.background = 'red';
 		}
 	}, [messages, removed]);
 
@@ -153,23 +155,18 @@ const Canvas: React.FC<Props> = ({
 		// scrollTop/Left - расстояние от верха/лево блока (можно переопределять)
 		// scrollWidth/Height - длина блока включая скролл
 		// clientWidth/Height, offsetWidth/Height - длина блока не включая скролл
-		// if (e.currentTarget.scrollTop === 0) {
-		// 	_.debounce(() => loadMore(), 200);
-		// 	if (messagesContainer.current) {
-		// 		messagesContainer.current.scrollTop = 200;
-		// 	}
-		// 	console.log(e.currentTarget.scrollTop);
-		// }
+
+		if (e.currentTarget.scrollTop === 0) {
+			loadMore();
+
+			// if (firstMessage.current) {
+			// 	firstMessage.current.scrollIntoView();
+			// }
+		}
 	};
 
 	return (
-		<Paper
-			className={classes.root}
-			// onDragStart={(e): void => e.preventDefault()}
-			// onDragOver={(): void => console.log('onDragOver')}
-			// onDragEnter={(): void => console.log('onDragEnter')}
-			// onDragExit={(): void => console.log('onDragExit')}
-		>
+		<Paper className={classes.root}>
 			{alterHeader && selectedMessages.length ? (
 				<AlterHeader
 					selectedMessages={selectedMessages.length}
@@ -189,6 +186,19 @@ const Canvas: React.FC<Props> = ({
 					messages &&
 					messages.map(message => {
 						if (message.user._id === auth.user._id) {
+							if (message._id === messages[0]._id) {
+								return (
+									<div ref={firstMessage}>
+										<MyMessage
+											message={message}
+											key={message._id}
+											selectMessage={selectMessage}
+											alterHeader={alterHeader}
+										/>
+									</div>
+								);
+							}
+
 							return (
 								<MyMessage
 									message={message}
@@ -228,8 +238,6 @@ const Canvas: React.FC<Props> = ({
 				handleSubmit={handleSubmit}
 				closeModal={(): void => setImageModal(false)}
 			/>
-
-			<DragDrop visible={dragDrop} />
 		</Paper>
 	);
 };

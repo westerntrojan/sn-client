@@ -1,7 +1,7 @@
 export const LOADING = 'app/loading';
 export const APP_ERROR = 'app/error';
 export const NOT_FOUND = 'app/notFound';
-export const REMOVE_USER = 'app/removeUser';
+export const RESET_APP = 'app/reset';
 
 type NotFound = {
 	type: typeof NOT_FOUND;

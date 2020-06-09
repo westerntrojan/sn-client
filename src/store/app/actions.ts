@@ -4,8 +4,8 @@ import {fetchArticles} from '@store/articles/actions';
 import {verify, exit} from '@store/auth/actions';
 import {getCategory} from '@store/category/actions';
 import {AppThunk} from '@store/types';
-import callApi from '@utils/callApi';
 import * as types from './types';
+import callApi from '&/utils/callApi';
 
 export const loadApp = (): AppThunk => async (dispatch): Promise<void> => {
 	await Promise.all([dispatch(fetchArticles()), dispatch(verify()), dispatch(getCategory())]);
@@ -15,23 +15,18 @@ export const loadApp = (): AppThunk => async (dispatch): Promise<void> => {
 	});
 };
 
-export const removeUser = (userId: string): AppThunk => async (
-	dispatch,
-	getState,
-): Promise<void> => {
-	const data = await callApi.delete(`/users/${userId}`);
+export const resetApp = (): AppThunk => async (dispatch): Promise<void> => {
+	const data = await callApi.get('/app/reset');
 
 	if (data.success) {
+		dispatch(exit());
+
 		dispatch({
-			type: types.REMOVE_USER,
+			type: types.RESET_APP,
 			payload: {
-				userId,
+				categories: data.categories,
 			},
 		});
-
-		if (getState().auth.user._id === userId) {
-			dispatch(exit());
-		}
 	}
 };
 

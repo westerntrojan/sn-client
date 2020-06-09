@@ -14,8 +14,6 @@ const handle404Error = (): AppActionTypes => {
 };
 
 const handle401Error = (): AuthActionTypes => {
-	localStorage.removeItem('token');
-
 	return store.dispatch(exit());
 };
 
