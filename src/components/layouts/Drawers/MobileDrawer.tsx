@@ -20,8 +20,10 @@ import AddBoxIcon from '@material-ui/icons/AddBox';
 import ForumIcon from '@material-ui/icons/Forum';
 import {useTheme} from '@material-ui/core/styles';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
+import {useSelector, shallowEqual} from 'react-redux';
 
 import Footer from './Footer';
+import {RootState} from '@store/types';
 
 const drawerWidth = 240;
 
@@ -37,14 +39,10 @@ const useStyles = makeStyles(theme => ({
 
 type Props = {
 	open: boolean;
-	closeDrawer: () => void;
-	auth: {
-		isAuth: boolean;
-		isAdmin: boolean;
-	};
+	close: () => void;
 };
 
-const MobileDrawer: React.FC<Props> = ({open, closeDrawer, auth}) => {
+const MobileDrawer: React.FC<Props> = ({open, close}) => {
 	const title = process.env.REACT_APP_TITLE;
 
 	const classes = useStyles();
@@ -52,111 +50,113 @@ const MobileDrawer: React.FC<Props> = ({open, closeDrawer, auth}) => {
 
 	const location = useLocation();
 
+	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
+
 	return (
-		<aside className={'drawer'}>
-			<Drawer open={open} onClose={closeDrawer}>
-				<AppBar position='static' color={theme.palette.type === 'light' ? 'primary' : 'default'}>
-					<Toolbar>
-						<IconButton
-							edge='start'
-							className={classes.menuButton}
-							color='inherit'
-							aria-label='Close drawer'
-							onClick={closeDrawer}
-						>
-							<MenuIcon />
-						</IconButton>
-						<Typography variant='h5' noWrap onClick={closeDrawer}>
-							<Link underline='none' component={RouterLink} to='/' color={'inherit'}>
-								{title}
-							</Link>
-						</Typography>
-					</Toolbar>
-				</AppBar>
-				<div className={classes.list}>
-					<List>
-						<ListItem
-							button
-							onClick={closeDrawer}
-							selected={location.pathname === '/'}
-							component={RouterLink}
-							to={'/'}
-						>
-							<ListItemIcon>
-								<HomeIcon />
-							</ListItemIcon>
-							<ListItemText primary={'Home'} />
-						</ListItem>
-						<ListItem
-							button
-							onClick={closeDrawer}
-							selected={location.pathname === '/chat'}
-							component={RouterLink}
-							to={'/chat'}
-						>
-							<ListItemIcon>
-								<ForumIcon />
-							</ListItemIcon>
-							<ListItemText primary={'Chat'} />
-						</ListItem>
-					</List>
+		<Drawer open={open} onClose={close}>
+			<AppBar position='static' color={theme.palette.type === 'light' ? 'primary' : 'default'}>
+				<Toolbar>
+					<IconButton
+						edge='start'
+						className={classes.menuButton}
+						color='inherit'
+						aria-label='Close drawer'
+						onClick={close}
+					>
+						<MenuIcon />
+					</IconButton>
+					<Typography variant='h5' noWrap onClick={close}>
+						<Link underline='none' component={RouterLink} to='/' color={'inherit'}>
+							{title}
+						</Link>
+					</Typography>
+				</Toolbar>
+			</AppBar>
 
-					{auth.isAuth && (
-						<>
-							<Divider />
+			<div className={classes.list}>
+				<List>
+					<ListItem
+						button
+						onClick={close}
+						selected={location.pathname === '/'}
+						component={RouterLink}
+						to={'/'}
+					>
+						<ListItemIcon>
+							<HomeIcon />
+						</ListItemIcon>
+						<ListItemText primary={'Home'} />
+					</ListItem>
+					<ListItem
+						button
+						onClick={close}
+						selected={location.pathname === '/chat'}
+						component={RouterLink}
+						to={'/chat'}
+					>
+						<ListItemIcon>
+							<ForumIcon />
+						</ListItemIcon>
+						<ListItemText primary={'Chat'} />
+					</ListItem>
+				</List>
 
-							<List>
-								<ListItem
-									button
-									component={RouterLink}
-									selected={location.pathname === '/article/add'}
-									to={'/article/add'}
-									onClick={closeDrawer}
-								>
-									<ListItemIcon>
-										<AddBoxIcon />
-									</ListItemIcon>
-									<ListItemText primary={'Add article'} />
-								</ListItem>
-								<ListItem
-									button
-									selected={location.pathname === '/messages'}
-									component={RouterLink}
-									to={'/messages'}
-									onClick={closeDrawer}
-								>
-									<ListItemIcon>
-										<PeopleAltIcon />
-									</ListItemIcon>
-									<ListItemText primary={'Messages'} />
-								</ListItem>
-							</List>
-						</>
-					)}
-					{auth.isAdmin && (
-						<>
-							<Divider />
+				{auth.isAuth && (
+					<>
+						<Divider />
 
-							<List>
-								<ListItem
-									button
-									component={RouterLink}
-									selected={location.pathname === '/admin'}
-									to={'/admin'}
-									onClick={closeDrawer}
-								>
-									<ListItemIcon>
-										<Dashboard />
-									</ListItemIcon>
-									<ListItemText primary={'Admin'} />
-								</ListItem>
-							</List>
-						</>
-					)}
-				</div>
-				<Footer />
-			</Drawer>
-		</aside>
+						<List>
+							<ListItem
+								button
+								component={RouterLink}
+								selected={location.pathname === '/article/add'}
+								to={'/article/add'}
+								onClick={close}
+							>
+								<ListItemIcon>
+									<AddBoxIcon />
+								</ListItemIcon>
+								<ListItemText primary={'Add article'} />
+							</ListItem>
+							<ListItem
+								button
+								selected={location.pathname === '/messages'}
+								component={RouterLink}
+								to={'/messages'}
+								onClick={close}
+							>
+								<ListItemIcon>
+									<PeopleAltIcon />
+								</ListItemIcon>
+								<ListItemText primary={'Messages'} />
+							</ListItem>
+						</List>
+					</>
+				)}
+				{auth.isAdmin && (
+					<>
+						<Divider />
+
+						<List>
+							<ListItem
+								button
+								component={RouterLink}
+								selected={location.pathname === '/admin'}
+								to={'/admin'}
+								onClick={close}
+							>
+								<ListItemIcon>
+									<Dashboard />
+								</ListItemIcon>
+								<ListItemText primary={'Admin'} />
+							</ListItem>
+						</List>
+					</>
+				)}
+			</div>
+
+			<Footer />
+		</Drawer>
 	);
 };
 

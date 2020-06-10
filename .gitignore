@@ -23,10 +23,9 @@ yarn-debug.log*
 yarn-error.log*
 package-lock.json
 
+.env
 .vscode
-
 src/__tests__
-now.json
-.nowignore
 
-.now
+vercel.json
+.vercel

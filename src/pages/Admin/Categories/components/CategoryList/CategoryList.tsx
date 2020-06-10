@@ -35,10 +35,10 @@ const CategoryList: React.FC<Props> = ({allCategory, handleEditCategory, handleR
 					<List>
 						{allCategory.map(category => (
 							<CategoryItem
+								key={category._id}
 								category={category}
 								handleEditCategory={handleEditCategory}
 								handleRemoveCategory={handleRemoveCategory}
-								key={category._id}
 							/>
 						))}
 					</List>

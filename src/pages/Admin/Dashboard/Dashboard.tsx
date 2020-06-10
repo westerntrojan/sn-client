@@ -5,15 +5,18 @@ import {Bar} from 'react-chartjs-2';
 import {IFetchData} from './types';
 
 import callApi from '@utils/callApi';
+import Loader from '@components/Loader';
 
 const Dashboard: React.FC = () => {
 	const [data, setData] = useState<IFetchData | null>(null);
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		const fetchData = async (): Promise<void> => {
 			const data: IFetchData = await callApi.get('/data/statistics/articles');
 
 			setData(data);
+			setLoading(false);
 		};
 		fetchData();
 	}, []);
@@ -54,6 +57,8 @@ const Dashboard: React.FC = () => {
 			<Helmet>
 				<title>Dashboard / {process.env.REACT_APP_TITLE}</title>
 			</Helmet>
+
+			{loading && <Loader />}
 
 			{statistics && (
 				<>

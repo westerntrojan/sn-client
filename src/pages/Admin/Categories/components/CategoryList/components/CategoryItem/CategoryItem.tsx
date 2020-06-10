@@ -6,7 +6,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 
 import {ICategory} from '@store/types';
-import EditCategoryModal from './EditCategoryModal';
+import EditCategoryModal from './components/EditCategoryModal';
 
 type Props = {
 	category: ICategory;

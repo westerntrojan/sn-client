@@ -39,9 +39,7 @@ const Categories: React.FC = () => {
 	const handleEditCategory = async (category: ICategory): Promise<void> => {
 		const data: any = await dispatch(editCategory(category));
 
-		if (data.errors) {
-			return data.errors[0];
-		}
+		return data;
 	};
 
 	const handleRemoveCategory = async (categoryId: string): Promise<void> => {

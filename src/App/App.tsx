@@ -138,7 +138,6 @@ const App: React.FC<Props> = ({children}) => {
 
 			<div id='root'>
 				<Header
-					auth={auth}
 					openDrawer={size['large'] ? handleChangeDrawer : openMobileDrawer}
 					openThemePickerModal={(): void => setThemePickerModal(true)}
 					openHotKeysModal={(): void => setHotKeysModal(true)}
@@ -146,15 +145,9 @@ const App: React.FC<Props> = ({children}) => {
 					exit={(): void => setExitModal(true)}
 				/>
 
-				{size['large'] && (
-					<>{alterDrawer ? <AlterDrawer auth={auth} /> : <MainDrawer auth={auth} />}</>
-				)}
-				{!size['large'] && !size['small'] && <AlterDrawer auth={auth} />}
-				<MobileDrawer
-					open={mobileDrawer}
-					closeDrawer={(): void => setMobileDrawer(false)}
-					auth={auth}
-				/>
+				{size['large'] && <>{alterDrawer ? <AlterDrawer /> : <MainDrawer />}</>}
+				{!size['large'] && !size['small'] && <AlterDrawer />}
+				<MobileDrawer open={mobileDrawer} close={(): void => setMobileDrawer(false)} />
 
 				<main className='content'>
 					<div className={classes.toolbar} />

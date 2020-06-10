@@ -67,17 +67,15 @@ const EditCategoryModal: React.FC<Props> = ({open, closeModal, category, handleS
 
 		setLoading(true);
 
-		const error: any = await handleSubmit({...category, title, desc});
+		const data: any = await handleSubmit({...category, title, desc});
 
 		setLoading(false);
 
-		if (error) {
-			enqueueSnackbar(error.msg, {variant: 'error'});
-
-			return;
+		if (data.success) {
+			enqueueSnackbar('Category updated', {variant: 'success'});
+		} else {
+			enqueueSnackbar(data.message, {variant: 'error'});
 		}
-
-		enqueueSnackbar('Category updated', {variant: 'success'});
 	};
 
 	const _handlePressKeyInput = (target: React.KeyboardEvent): void => {
@@ -100,7 +98,7 @@ const EditCategoryModal: React.FC<Props> = ({open, closeModal, category, handleS
 			fullScreen={fullScreen}
 			fullWidth
 		>
-			<DialogTitle>Edit article</DialogTitle>
+			<DialogTitle>Edit category</DialogTitle>
 
 			<DialogContent className={classes.content}>
 				<TextField
