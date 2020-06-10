@@ -22,8 +22,6 @@ export const useStyles = makeStyles(theme => ({
 		[theme.breakpoints.up('sm')]: {
 			display: 'block',
 		},
-
-		border: '1px solid red',
 	},
 	search: {
 		position: 'relative',
