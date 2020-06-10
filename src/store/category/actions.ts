@@ -34,7 +34,7 @@ export const addCategory = (category: object): AppThunk => async (dispatch): Pro
 export const editCategory = (category: ICategory): AppThunk => async (dispatch): Promise<void> => {
 	const data = await callApi.put(`/categories/${category._id}`, category);
 
-	if (data.category) {
+	if (data.success) {
 		dispatch({
 			type: types.EDIT_CATEGORY,
 			payload: {

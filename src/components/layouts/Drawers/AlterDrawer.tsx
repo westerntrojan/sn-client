@@ -11,6 +11,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import ForumIcon from '@material-ui/icons/Forum';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
+import {useSelector, shallowEqual} from 'react-redux';
+
+import {RootState} from '@store/types';
 
 const useStyles = makeStyles(theme => ({
 	drawer: {
@@ -31,16 +34,13 @@ const useStyles = makeStyles(theme => ({
 	toolbar: {...theme.mixins.toolbar},
 }));
 
-type Props = {
-	auth: {
-		isAuth: boolean;
-	};
-};
-
-const AlterDrawer: React.FC<Props> = ({auth}) => {
+const AlterDrawer: React.FC = () => {
 	const classes = useStyles();
 
 	const location = useLocation();
+
+	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
+	const app = useSelector((state: RootState) => state.app, shallowEqual);
 
 	return (
 		<Drawer
@@ -52,55 +52,57 @@ const AlterDrawer: React.FC<Props> = ({auth}) => {
 		>
 			<div className={classes.toolbar} />
 
-			<div className={classes.list}>
-				<List>
-					<ListItem button selected={location.pathname === '/'} component={RouterLink} to={'/'}>
-						<ListItemIcon>
-							<HomeIcon />
-						</ListItemIcon>
-						<ListItemText primary={'Home'} />
-					</ListItem>
-					<ListItem
-						button
-						selected={location.pathname === '/chat'}
-						component={RouterLink}
-						to={'/chat'}
-					>
-						<ListItemIcon>
-							<ForumIcon />
-						</ListItemIcon>
-						<ListItemText primary={'Chat'} />
-					</ListItem>
+			{app.loading ? null : (
+				<div className={classes.list}>
+					<List>
+						<ListItem button selected={location.pathname === '/'} component={RouterLink} to={'/'}>
+							<ListItemIcon>
+								<HomeIcon />
+							</ListItemIcon>
+							<ListItemText primary={'Home'} />
+						</ListItem>
+						<ListItem
+							button
+							selected={location.pathname === '/chat'}
+							component={RouterLink}
+							to={'/chat'}
+						>
+							<ListItemIcon>
+								<ForumIcon />
+							</ListItemIcon>
+							<ListItemText primary={'Chat'} />
+						</ListItem>
 
-					{auth.isAuth && (
-						<>
-							<ListItem
-								button
-								selected={location.pathname === '/article/add'}
-								component={RouterLink}
-								to={'/article/add'}
-							>
-								<ListItemIcon>
-									<AddBoxIcon />
-								</ListItemIcon>
-								<ListItemText primary={'Add article'} />
-							</ListItem>
+						{auth.isAuth && (
+							<>
+								<ListItem
+									button
+									selected={location.pathname === '/article/add'}
+									component={RouterLink}
+									to={'/article/add'}
+								>
+									<ListItemIcon>
+										<AddBoxIcon />
+									</ListItemIcon>
+									<ListItemText primary={'Add article'} />
+								</ListItem>
 
-							<ListItem
-								button
-								selected={location.pathname === '/messages'}
-								component={RouterLink}
-								to={'/messages'}
-							>
-								<ListItemIcon>
-									<PeopleAltIcon />
-								</ListItemIcon>
-								<ListItemText primary={'Messages'} />
-							</ListItem>
-						</>
-					)}
-				</List>
-			</div>
+								<ListItem
+									button
+									selected={location.pathname === '/messages'}
+									component={RouterLink}
+									to={'/messages'}
+								>
+									<ListItemIcon>
+										<PeopleAltIcon />
+									</ListItemIcon>
+									<ListItemText primary={'Messages'} />
+								</ListItem>
+							</>
+						)}
+					</List>
+				</div>
+			)}
 		</Drawer>
 	);
 };
