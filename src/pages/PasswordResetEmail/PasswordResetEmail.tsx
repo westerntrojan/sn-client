@@ -11,6 +11,7 @@ import callApi from '@utils/callApi';
 const PasswordResetEmail: React.FC = () => {
 	const [email, setEmail] = useState('');
 	const [success, setSuccess] = useState(false);
+	const [loading, setLoading] = useState(false);
 
 	const {enqueueSnackbar} = useSnackbar();
 
@@ -23,6 +24,8 @@ const PasswordResetEmail: React.FC = () => {
 			return;
 		}
 
+		setLoading(true);
+
 		const data = await callApi.post('/auth/password_reset/email', {
 			email,
 		});
@@ -30,6 +33,7 @@ const PasswordResetEmail: React.FC = () => {
 		if (data.success) {
 			setSuccess(true);
 		} else {
+			setLoading(false);
 			enqueueSnackbar(data.message, {variant: 'error'});
 		}
 	};
@@ -61,9 +65,16 @@ const PasswordResetEmail: React.FC = () => {
 						variant='outlined'
 						onChange={_handleChangeEmail}
 						onKeyPress={_handleKeyPress}
+						disabled={loading}
 					/>
 
-					<Button variant='contained' color='primary' onClick={_handleSubmit} fullWidth>
+					<Button
+						variant='contained'
+						color='primary'
+						disabled={loading}
+						onClick={_handleSubmit}
+						fullWidth
+					>
 						Submit
 					</Button>
 				</div>

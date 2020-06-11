@@ -11,10 +11,11 @@ import Loader from '@components/Loader';
 
 const PasswordResetVerify: React.FC = () => {
 	const [verified, setVerified] = useState(false);
-	const [loading, setLoading] = useState(true);
 	const [password, setPassword] = useState('');
 	const [repeatPassword, setRepeatPassword] = useState('');
 	const [success, setSuccess] = useState(false);
+	const [loadingData, setLoadingData] = useState(true);
+	const [loading, setLoading] = useState(false);
 
 	const {token} = useParams();
 
@@ -28,7 +29,7 @@ const PasswordResetVerify: React.FC = () => {
 				setVerified(true);
 			}
 
-			setLoading(false);
+			setLoadingData(false);
 		};
 		validateToken();
 	}, [token]);
@@ -46,6 +47,8 @@ const PasswordResetVerify: React.FC = () => {
 			return;
 		}
 
+		setLoading(true);
+
 		const data = await callApi.post(`/auth/password_reset?token=${token}`, {
 			password,
 		});
@@ -53,6 +56,7 @@ const PasswordResetVerify: React.FC = () => {
 		if (data.success) {
 			setSuccess(true);
 		} else {
+			setLoading(false);
 			enqueueSnackbar(data.message, {variant: 'error'});
 		}
 	};
@@ -63,7 +67,7 @@ const PasswordResetVerify: React.FC = () => {
 		}
 	};
 
-	if (loading) {
+	if (loadingData) {
 		return <Loader />;
 	}
 
@@ -86,6 +90,7 @@ const PasswordResetVerify: React.FC = () => {
 							variant='outlined'
 							onChange={_handleChangePassword}
 							onKeyPress={_handleKeyPress}
+							disabled={loading}
 						/>
 
 						<TextField
@@ -96,9 +101,16 @@ const PasswordResetVerify: React.FC = () => {
 							variant='outlined'
 							onChange={_handleChangeRepeatPassword}
 							onKeyPress={_handleKeyPress}
+							disabled={loading}
 						/>
 
-						<Button variant='contained' color='primary' onClick={_handleSubmit} fullWidth>
+						<Button
+							variant='contained'
+							color='primary'
+							disabled={loading}
+							onClick={_handleSubmit}
+							fullWidth
+						>
 							Submit
 						</Button>
 					</div>
