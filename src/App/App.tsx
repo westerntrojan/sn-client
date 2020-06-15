@@ -109,13 +109,43 @@ const App: React.FC<Props> = ({children}) => {
 	const executeScrollUp = (): void => window.scrollTo({top: 0, behavior: 'smooth'});
 
 	const changeTheme = (palette: PaletteOptions): void => {
-		const newTheme = createMuiTheme({
-			palette,
-		});
+		const enableAnimations = JSON.parse(localStorage.getItem('enableAnimations') || '');
 
-		localStorage.setItem('theme', JSON.stringify(newTheme));
+		if (enableAnimations) {
+			const newTheme = createMuiTheme({
+				palette,
+			});
 
-		setTheme(newTheme);
+			localStorage.setItem('theme', JSON.stringify(newTheme));
+
+			setTheme(newTheme);
+		} else {
+			const newTheme = createMuiTheme({
+				palette,
+				transitions: {
+					create: (): string => 'none',
+				},
+				props: {
+					MuiButtonBase: {
+						disableRipple: true,
+					},
+				},
+				overrides: {
+					MuiCssBaseline: {
+						'@global': {
+							'*, *::before, *::after': {
+								transition: 'none !important',
+								animation: 'none !important',
+							},
+						},
+					},
+				},
+			});
+
+			localStorage.setItem('theme', JSON.stringify(newTheme));
+
+			setTheme(newTheme);
+		}
 	};
 
 	const changeThemeAnimations = (): void => {
