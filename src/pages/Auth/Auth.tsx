@@ -11,8 +11,8 @@ import Loader from '@components/Loader';
 import callApi from '@utils/callApi';
 import {ILoginInputs, IRegisterInputs} from './types';
 import Context from './context';
+import Login from './Login';
 
-const Login = lazy(() => import('./Login'));
 const Register = lazy(() => import('./Register'));
 
 const Auth: React.FC = () => {

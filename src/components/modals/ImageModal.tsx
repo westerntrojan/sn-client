@@ -1,16 +1,28 @@
 import React, {useState} from 'react';
 import Lightbox from 'react-image-lightbox';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import 'react-image-lightbox/style.css';
 
 type Props = {
 	image?: string;
 	images?: string[];
+	imageTitle?: string;
+	imageCaption?: string;
 	handleRemoveImage?: (imageUrl: string) => void;
 	closeModal: () => void;
 };
 
-const ImageModal: React.FC<Props> = ({image, images, handleRemoveImage, closeModal}) => {
+const ImageModal: React.FC<Props> = ({
+	image,
+	images,
+	imageTitle = '',
+	imageCaption = '',
+	handleRemoveImage,
+	closeModal,
+}) => {
 	const [photoIndex, setPhotoIndex] = useState(0);
 
 	if (!image && images && !images.length) {
@@ -22,13 +34,16 @@ const ImageModal: React.FC<Props> = ({image, images, handleRemoveImage, closeMod
 			<Lightbox
 				mainSrc={image}
 				onCloseRequest={closeModal}
-				enableZoom
 				reactModalStyle={{
 					overlay: {
 						zIndex: 10000,
 					},
 				}}
+				enableZoom
 				toolbarButtons={[
+					<IconButton color='primary'>
+						<GetAppIcon />
+					</IconButton>,
 					handleRemoveImage && (
 						<Button
 							variant='outlined'
@@ -39,6 +54,8 @@ const ImageModal: React.FC<Props> = ({image, images, handleRemoveImage, closeMod
 						</Button>
 					),
 				]}
+				imageTitle={imageTitle}
+				imageCaption={imageCaption}
 			/>
 		);
 	}
@@ -49,31 +66,33 @@ const ImageModal: React.FC<Props> = ({image, images, handleRemoveImage, closeMod
 				mainSrc={images[photoIndex]}
 				nextSrc={images[(photoIndex + 1) % images.length]}
 				prevSrc={images[(photoIndex + images.length - 1) % images.length]}
-				onCloseRequest={closeModal}
 				onMovePrevRequest={(): void => {
 					setPhotoIndex((photoIndex + images.length - 1) % images.length);
 				}}
 				onMoveNextRequest={(): void => {
 					setPhotoIndex((photoIndex + 1) % images.length);
 				}}
-				enableZoom
+				onCloseRequest={closeModal}
 				reactModalStyle={{
 					overlay: {
 						zIndex: 10000,
 					},
 				}}
-				imageCaption={`${photoIndex + 1} of ${images.length}`}
+				enableZoom
 				toolbarButtons={[
+					<IconButton color='primary'>
+						<GetAppIcon />
+					</IconButton>,
 					handleRemoveImage && (
-						<Button
-							variant='outlined'
+						<IconButton
 							color='secondary'
 							onClick={(): void => handleRemoveImage(images[photoIndex])}
 						>
-							Remove
-						</Button>
+							<DeleteOutlineIcon />
+						</IconButton>
 					),
 				]}
+				imageCaption={`${photoIndex + 1} of ${images.length}`}
 			/>
 		);
 	}

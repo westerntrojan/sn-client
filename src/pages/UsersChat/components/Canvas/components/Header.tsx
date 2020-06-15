@@ -78,12 +78,6 @@ const Header: React.FC = () => {
 		setAnchorEl(null);
 	};
 
-	const _handleClearMessageHistory = (): void => {
-		closeMenu();
-
-		openClearHistoryModal();
-	};
-
 	return (
 		<div className={classes.root}>
 			<div className={classes.leftSide}>
@@ -108,7 +102,15 @@ const Header: React.FC = () => {
 				</IconButton>
 
 				<Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={closeMenu}>
-					<MenuItem onClick={_handleClearMessageHistory}>Clear message history</MenuItem>
+					<MenuItem
+						onClick={(): void => {
+							closeMenu();
+
+							openClearHistoryModal();
+						}}
+					>
+						Clear message history
+					</MenuItem>
 				</Menu>
 
 				{user ? (

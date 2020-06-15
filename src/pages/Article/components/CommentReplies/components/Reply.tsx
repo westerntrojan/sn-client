@@ -122,6 +122,13 @@ const Reply: React.FC<Props> = ({reply, addLike, addDislike}) => {
 					<div>
 						<MenuItem onClick={closeMenu}>
 							<ListItemIcon>
+								<FlagIcon />
+							</ListItemIcon>
+							<ListItemText primary='Report' />
+						</MenuItem>
+
+						<MenuItem onClick={closeMenu}>
+							<ListItemIcon>
 								<EditIcon />
 							</ListItemIcon>
 							<ListItemText primary='Edit' />
@@ -132,13 +139,6 @@ const Reply: React.FC<Props> = ({reply, addLike, addDislike}) => {
 								<DeleteIcon />
 							</ListItemIcon>
 							<ListItemText primary='Remove' />
-						</MenuItem>
-
-						<MenuItem onClick={closeMenu}>
-							<ListItemIcon>
-								<FlagIcon />
-							</ListItemIcon>
-							<ListItemText primary='Report' />
 						</MenuItem>
 					</div>
 				) : (

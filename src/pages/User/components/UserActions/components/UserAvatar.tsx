@@ -78,9 +78,27 @@ const UserAvatar: React.FC<Props> = ({auth, user}) => {
 		setLoading(true);
 
 		if (e.target.files) {
+			const types = ['image/jpg', 'image/jpeg', 'image/png'];
+
+			const file = e.target.files[0];
+
+			if (!types.includes(file.type)) {
+				enqueueSnackbar('Invalid file type (only: jpg, jpeg, png)', {variant: 'error'});
+				setLoading(false);
+
+				return;
+			}
+
+			if (file.size > 5 * 1024 * 1024) {
+				enqueueSnackbar('Invalid file size (max: 5MB)', {variant: 'error'});
+				setLoading(false);
+
+				return;
+			}
+
 			const formData = new FormData();
 			formData.append('userId', auth.user._id);
-			formData.append('avatar', e.target.files[0]);
+			formData.append('avatar', file);
 
 			const data: any = await dispatch(addAvatar(formData));
 

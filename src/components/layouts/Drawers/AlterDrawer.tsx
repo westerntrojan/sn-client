@@ -42,6 +42,10 @@ const AlterDrawer: React.FC = () => {
 	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
 	const app = useSelector((state: RootState) => state.app, shallowEqual);
 
+	const isSelected = (path: string): boolean => {
+		return location.pathname === path;
+	};
+
 	return (
 		<Drawer
 			className={classes.drawer}
@@ -55,18 +59,13 @@ const AlterDrawer: React.FC = () => {
 			{app.loading ? null : (
 				<div className={classes.list}>
 					<List>
-						<ListItem button selected={location.pathname === '/'} component={RouterLink} to={'/'}>
+						<ListItem button selected={isSelected('/')} component={RouterLink} to={'/'}>
 							<ListItemIcon>
 								<HomeIcon />
 							</ListItemIcon>
 							<ListItemText primary={'Home'} />
 						</ListItem>
-						<ListItem
-							button
-							selected={location.pathname === '/chat'}
-							component={RouterLink}
-							to={'/chat'}
-						>
+						<ListItem button selected={isSelected('/chat')} component={RouterLink} to={'/chat'}>
 							<ListItemIcon>
 								<ForumIcon />
 							</ListItemIcon>
@@ -77,7 +76,7 @@ const AlterDrawer: React.FC = () => {
 							<>
 								<ListItem
 									button
-									selected={location.pathname === '/article/add'}
+									selected={isSelected('/article/add')}
 									component={RouterLink}
 									to={'/article/add'}
 								>
@@ -89,7 +88,7 @@ const AlterDrawer: React.FC = () => {
 
 								<ListItem
 									button
-									selected={location.pathname === '/messages'}
+									selected={isSelected('/messages')}
 									component={RouterLink}
 									to={'/messages'}
 								>

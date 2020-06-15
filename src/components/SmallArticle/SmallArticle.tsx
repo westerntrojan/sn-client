@@ -6,7 +6,6 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import VisibilityIcon from '@material-ui/icons/Visibility';
@@ -23,6 +22,9 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import FlagIcon from '@material-ui/icons/Flag';
 import Divider from '@material-ui/core/Divider';
+
+import {LazyLoadImage} from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 import {useStyles} from './style';
 import {userLink} from '@utils/users';
@@ -92,19 +94,20 @@ const SmallArticle: React.FC<Props> = ({article}) => {
 			/>
 
 			{article.image ? (
-				<CardActionArea>
+				<CardActionArea className={classes.imageWrapper}>
 					<Link
 						underline='none'
 						component={RouterLink}
 						to={`/article/${article.slug}`}
 						color='inherit'
 					>
-						<CardMedia
-							component='img'
-							alt={article.title}
-							image={article.image}
+						<LazyLoadImage
+							src={article.image}
 							title={article.title}
-							className={classes.media}
+							width='100%'
+							height='300px'
+							effect='blur'
+							className={classes.image}
 						/>
 					</Link>
 				</CardActionArea>

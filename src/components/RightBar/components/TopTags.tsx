@@ -24,30 +24,34 @@ const useStyles = makeStyles(theme => ({
 		flexDirection: 'column',
 		alignItems: 'center',
 	},
-	title: {
-		'@media (max-width:1000px)': {
-			display: 'none',
-		},
-	},
+	title: {},
 	link: {
 		cursor: 'pointer',
+	},
+	'@media (max-width:1000px)': {
+		root: {
+			marginBottom: 0,
+		},
+		title: {
+			display: 'none',
+		},
 	},
 }));
 
 const TopTags: React.FC = () => {
 	const classes = useStyles();
 
-	const {topTags, loading} = useContext(Context);
+	const {topTags, loadingData} = useContext(Context);
 
 	return (
-		<Paper className={classNames('top-tags', classes.root, {[classes.rootLoading]: loading})}>
+		<Paper className={classNames('top-tags', classes.root, {[classes.rootLoading]: loadingData})}>
 			<Typography variant='overline' className={classes.title}>
 				Most popular tags
 			</Typography>
 
-			{loading && <Loader />}
+			{loadingData && <Loader />}
 
-			{!loading &&
+			{!loadingData &&
 				topTags.map((tag: string) => (
 					<Chip
 						label={`#${tag}`}

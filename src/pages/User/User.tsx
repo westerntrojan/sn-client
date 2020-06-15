@@ -67,7 +67,7 @@ const User: React.FC = () => {
 
 			{user && !user.isRemoved && (
 				<div className='user-data'>
-					<UserActions auth={auth} user={user} remove={openRemoveModal} />
+					<UserActions auth={auth} user={user} handleRemove={openRemoveModal} />
 					<div className='user-subdata'>
 						<UserInfo user={user} />
 						<UserStatistics user={user} />

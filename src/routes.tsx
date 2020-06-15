@@ -5,8 +5,8 @@ import {Route, Switch} from 'react-router-dom';
 import PageLoader from './components/PageLoader';
 import PrivateRoute from './components/PrivateRoute';
 import {RootState} from '@store/types';
+import Home from './pages/Home';
 
-const Home = lazy(() => import('./pages/Home'));
 const AddArticle = lazy(() => import('./pages/AddArticle'));
 const Article = lazy(() => import('./pages/Article'));
 const EditArticle = lazy(() => import('./pages/EditArticle'));

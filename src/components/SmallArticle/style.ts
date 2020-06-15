@@ -5,11 +5,14 @@ export const useStyles = makeStyles({
 		marginBottom: 20,
 		wordWrap: 'break-word',
 	},
-	media: {
-		height: '300px',
-	},
 	title: {
 		marginBottom: '10px',
+	},
+	imageWrapper: {
+		lineHeight: 0,
+	},
+	image: {
+		objectFit: 'cover',
 	},
 	cardActions: {
 		display: 'flex',

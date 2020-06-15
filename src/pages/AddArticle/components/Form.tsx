@@ -121,12 +121,12 @@ const ArticleForm: React.FC<Props> = ({handleSubmit}) => {
 
 	const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
 		if (e.target.files) {
-			const types = ['image/jpg', 'image/png', 'image/jpeg'];
+			const types = ['image/jpg', 'image/jpeg', 'image/png'];
 
 			const file = e.target.files[0];
 
 			if (!types.includes(file.type)) {
-				enqueueSnackbar('Invalid file type (only: jpg, png, jpeg)', {variant: 'error'});
+				enqueueSnackbar('Invalid file type (only: jpg, jpeg, png)', {variant: 'error'});
 
 				return;
 			}

@@ -28,6 +28,7 @@ import {IArticle} from '@store/types';
 import callApi from '@utils/callApi';
 import GlobalCss from './GlobalCss';
 import Context from './context';
+import SettingsContext from './SettingsContext';
 import settings from './settings.json';
 
 const useStyles = makeStyles(theme => ({
@@ -108,13 +109,56 @@ const App: React.FC<Props> = ({children}) => {
 	const executeScrollUp = (): void => window.scrollTo({top: 0, behavior: 'smooth'});
 
 	const changeTheme = (palette: PaletteOptions): void => {
-		const theme = createMuiTheme({
+		const newTheme = createMuiTheme({
 			palette,
 		});
 
-		localStorage.setItem('theme', JSON.stringify(theme));
+		localStorage.setItem('theme', JSON.stringify(newTheme));
 
-		setTheme(theme);
+		setTheme(newTheme);
+	};
+
+	const changeThemeAnimations = (): void => {
+		const currentTheme = JSON.parse(localStorage.getItem('theme') || '');
+		const enableAnimations = JSON.parse(localStorage.getItem('enableAnimations') || '');
+
+		if (enableAnimations) {
+			const newTheme = createMuiTheme({
+				palette: currentTheme.palette,
+				transitions: {
+					create: (): string => 'none',
+				},
+				props: {
+					MuiButtonBase: {
+						disableRipple: true,
+					},
+				},
+				overrides: {
+					MuiCssBaseline: {
+						'@global': {
+							'*, *::before, *::after': {
+								transition: 'none !important',
+								animation: 'none !important',
+							},
+						},
+					},
+				},
+			});
+
+			localStorage.setItem('theme', JSON.stringify(newTheme));
+			localStorage.setItem('enableAnimations', 'false');
+
+			setTheme(newTheme);
+		} else {
+			const newTheme = createMuiTheme({
+				palette: currentTheme.palette,
+			});
+
+			localStorage.setItem('theme', JSON.stringify(newTheme));
+			localStorage.setItem('enableAnimations', 'true');
+
+			setTheme(newTheme);
+		}
 	};
 
 	const handleChangeDrawer = (): void => {
@@ -165,7 +209,13 @@ const App: React.FC<Props> = ({children}) => {
 							variantInfo: classes.snackbar,
 						}}
 					>
-						<Context.Provider value={{topTags, topArticles, loading: loadingData}}>
+						<Context.Provider
+							value={{
+								topTags,
+								topArticles,
+								loadingData,
+							}}
+						>
 							{app.loading ? <PageLoader /> : app.notFound ? <NotFound /> : children}
 						</Context.Provider>
 					</SnackbarProvider>
@@ -181,7 +231,9 @@ const App: React.FC<Props> = ({children}) => {
 					changeTheme={changeTheme}
 				/>
 				<HotKeysModal open={hotKeysModal} closeModal={(): void => setHotKeysModal(false)} />
-				<SettingsModal open={settingsModal} closeModal={(): void => setSettingsModal(false)} />
+				<SettingsContext.Provider value={{changeThemeAnimations}}>
+					<SettingsModal open={settingsModal} closeModal={(): void => setSettingsModal(false)} />
+				</SettingsContext.Provider>
 				<ExitModal
 					open={exitModal}
 					closeModal={(): void => setExitModal(false)}

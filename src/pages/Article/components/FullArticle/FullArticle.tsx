@@ -274,13 +274,20 @@ const FullArticle: React.FC<Props> = ({
 			<Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={closeMenu}>
 				{(auth.user && auth.user._id === article.user._id) || auth.isAdmin ? (
 					<div>
+						<MenuItem onClick={closeMenu}>
+							<ListItemIcon>
+								<FlagIcon />
+							</ListItemIcon>
+							<ListItemText primary='Report' />
+						</MenuItem>
+
 						<Link
 							underline='none'
 							component={RouterLink}
 							to={`/article/${article.slug}/edit`}
 							color={'inherit'}
 						>
-							<MenuItem onClick={handleRemove}>
+							<MenuItem>
 								<ListItemIcon>
 									<EditIcon />
 								</ListItemIcon>
@@ -288,18 +295,17 @@ const FullArticle: React.FC<Props> = ({
 							</MenuItem>
 						</Link>
 
-						<MenuItem onClick={handleRemove}>
+						<MenuItem
+							onClick={(): void => {
+								closeMenu();
+
+								handleRemove();
+							}}
+						>
 							<ListItemIcon>
 								<DeleteIcon />
 							</ListItemIcon>
 							<ListItemText primary='Remove' />
-						</MenuItem>
-
-						<MenuItem onClick={closeMenu}>
-							<ListItemIcon>
-								<FlagIcon />
-							</ListItemIcon>
-							<ListItemText primary='Report' />
 						</MenuItem>
 					</div>
 				) : (

@@ -6,6 +6,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 
 import {ImageModal} from '@components/modals';
+import Loader from '@components/Loader';
 
 const useStyles = makeStyles({
 	uploader: {
@@ -15,8 +16,23 @@ const useStyles = makeStyles({
 	},
 	imageWrapper: {
 		maxWidth: 300,
-		cursor: 'pointer',
 		marginLeft: 20,
+		cursor: 'pointer',
+		lineHeight: 0,
+		position: 'relative',
+	},
+	loadingBox: {
+		position: 'absolute',
+		bottom: 0,
+		left: 0,
+		width: '100%',
+		height: '100%',
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+		borderBottomLeftRadius: 4,
+		borderBottomRightRadius: 4,
+		backgroundColor: 'rgba(0, 0, 0, .6)',
 	},
 	image: {
 		width: '100%',
@@ -67,8 +83,18 @@ const Dropzone: React.FC<Props> = ({
 			)}
 
 			{imagePreview && (
-				<CardActionArea className={classes.imageWrapper} onClick={(): void => setImageModal(true)}>
+				<CardActionArea
+					disabled={loadingImage}
+					className={classes.imageWrapper}
+					onClick={(): void => setImageModal(true)}
+				>
 					<img src={imagePreview} alt='' className={classes.image} />
+
+					{loadingImage && (
+						<div className={classes.loadingBox}>
+							<Loader />
+						</div>
+					)}
 				</CardActionArea>
 			)}
 

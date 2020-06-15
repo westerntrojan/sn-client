@@ -40,10 +40,10 @@ type Props = {
 		user: IUser;
 	};
 	user: IUser;
-	remove: () => void;
+	handleRemove: () => void;
 };
 
-const UserActions: React.FC<Props> = ({auth, user, remove}) => {
+const UserActions: React.FC<Props> = ({auth, user, handleRemove}) => {
 	const classes = useStyles();
 
 	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -54,12 +54,6 @@ const UserActions: React.FC<Props> = ({auth, user, remove}) => {
 
 	const closeMenu = (): void => {
 		setAnchorEl(null);
-	};
-
-	const handleRemove = (): void => {
-		closeMenu();
-
-		remove();
 	};
 
 	return (
@@ -97,7 +91,13 @@ const UserActions: React.FC<Props> = ({auth, user, remove}) => {
 					</IconButton>
 
 					<Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={closeMenu}>
-						<MenuItem onClick={handleRemove}>
+						<MenuItem
+							onClick={(): void => {
+								closeMenu();
+
+								handleRemove();
+							}}
+						>
 							<ListItemIcon>
 								<DeleteIcon />
 							</ListItemIcon>

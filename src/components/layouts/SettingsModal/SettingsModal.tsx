@@ -1,4 +1,4 @@
-import React, {useState, Suspense} from 'react';
+import React, {useState, lazy, Suspense} from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -8,7 +8,11 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
 import Loader from '@components/Loader';
-import {General, UserSettings, ChatSettings} from './tabs';
+import General from './tabs/General';
+
+const UserSettings = lazy(() => import('./tabs/UserSettings'));
+const ChatSettings = lazy(() => import('./tabs/ChatSettings'));
+const Advanced = lazy(() => import('./tabs/Advanced'));
 
 type Props = {
 	open: boolean;
@@ -49,6 +53,7 @@ const SettingsModal: React.FC<Props> = ({open, closeModal}) => {
 						{tab === 0 && <General />}
 						{tab === 1 && <UserSettings />}
 						{tab === 2 && <ChatSettings />}
+						{tab === 4 && <Advanced />}
 					</Suspense>
 				</div>
 			</DialogContent>

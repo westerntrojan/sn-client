@@ -4,18 +4,23 @@ import deepPurple from '@material-ui/core/colors/deepPurple';
 import moment from 'moment';
 
 export const getCurrentTheme = (): Theme => {
-	const theme = localStorage.getItem('theme');
+	const currentTheme = localStorage.getItem('theme');
 
-	if (theme) {
-		return createMuiTheme(JSON.parse(theme));
+	if (currentTheme) {
+		return createMuiTheme(JSON.parse(currentTheme));
 	}
 
-	return createMuiTheme({
+	const newTheme = createMuiTheme({
 		palette: {
 			type: 'light',
 			primary: deepPurple,
 		},
 	});
+
+	localStorage.setItem('theme', JSON.stringify(newTheme));
+	localStorage.setItem('enableAnimations', 'true');
+
+	return newTheme;
 };
 
 export const relativeDate = (date: string): string => {

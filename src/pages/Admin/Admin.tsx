@@ -6,6 +6,7 @@ import Tab from '@material-ui/core/Tab';
 import {Helmet} from 'react-helmet';
 
 import Loader from '@components/Loader';
+import Dashboard from './Dashboard';
 
 const useStyles = makeStyles({
 	root: {
@@ -14,7 +15,6 @@ const useStyles = makeStyles({
 	},
 });
 
-const Dashboard = lazy(() => import('./Dashboard'));
 const Categories = lazy(() => import('./Categories'));
 
 const Admin: React.FC = () => {

@@ -31,22 +31,29 @@ const useStyles = makeStyles(theme => ({
 	list: {
 		width: '100%',
 	},
+	'@media (max-width:1000px)': {
+		root: {
+			display: 'none',
+		},
+	},
 }));
 
 const TopArticles: React.FC = () => {
 	const classes = useStyles();
 
-	const {topArticles, loading} = useContext(Context);
+	const {topArticles, loadingData} = useContext(Context);
 
 	return (
-		<Paper className={classNames('top-articles', classes.root, {[classes.rootLoading]: loading})}>
+		<Paper
+			className={classNames('top-articles', classes.root, {[classes.rootLoading]: loadingData})}
+		>
 			<Typography variant='overline' className={classes.title}>
 				Read now
 			</Typography>
 
-			{loading && <Loader />}
+			{loadingData && <Loader />}
 
-			{!loading && (
+			{!loadingData && (
 				<List className={classes.list}>
 					{topArticles.map((article: IArticle) => (
 						<Article article={article} key={article._id} />

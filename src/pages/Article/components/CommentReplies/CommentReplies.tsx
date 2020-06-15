@@ -138,6 +138,13 @@ const CommentReplies: React.FC<Props> = ({comment, addLike, addDislike, handleRe
 						<div>
 							<MenuItem onClick={closeMenu}>
 								<ListItemIcon>
+									<FlagIcon />
+								</ListItemIcon>
+								<ListItemText primary='Report' />
+							</MenuItem>
+
+							<MenuItem onClick={closeMenu}>
+								<ListItemIcon>
 									<EditIcon />
 								</ListItemIcon>
 								<ListItemText primary='Edit' />
@@ -148,13 +155,6 @@ const CommentReplies: React.FC<Props> = ({comment, addLike, addDislike, handleRe
 									<DeleteIcon />
 								</ListItemIcon>
 								<ListItemText primary='Remove' />
-							</MenuItem>
-
-							<MenuItem onClick={closeMenu}>
-								<ListItemIcon>
-									<FlagIcon />
-								</ListItemIcon>
-								<ListItemText primary='Report' />
 							</MenuItem>
 						</div>
 					) : (

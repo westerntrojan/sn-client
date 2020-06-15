@@ -8,6 +8,7 @@ import {useDispatch} from 'react-redux';
 import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 
 import {resetApp} from '@store/app/actions';
+import {useRedirect} from '@utils/hooks';
 
 const useStyles = makeStyles({
 	root: {
@@ -26,6 +27,8 @@ const AdminButton: React.FC = () => {
 
 	const dispatch = useDispatch();
 
+	const redirectTo = useRedirect();
+
 	const handleClose = (): void => {
 		setOpen(false);
 	};
@@ -36,6 +39,8 @@ const AdminButton: React.FC = () => {
 
 	const _handleResetApp = async (): Promise<void> => {
 		await dispatch(resetApp());
+
+		redirectTo('/');
 	};
 
 	return (
