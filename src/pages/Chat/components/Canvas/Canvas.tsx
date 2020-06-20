@@ -12,9 +12,9 @@ import Form from './components/Form';
 import ImageModal from './components/ImageModal';
 import MyMessage from '@components/chat/MyMessage';
 import AlterHeader from '@components/chat/AlterHeader';
-import ForNotAuth from '@components/ForNotAuth';
 import {IMessage} from '@components/chat/types';
 import Context from '@pages/Chat/context';
+import {checkImage} from '@utils/images';
 
 const useStyles = makeStyles({
 	root: {
@@ -107,33 +107,25 @@ const Canvas: React.FC<Props> = ({
 
 	const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>): void => {
 		if (e.target.files) {
-			const types = ['image/jpg', 'image/jpeg', 'image/png'];
-
 			const file = e.target.files[0];
 
-			if (!types.includes(file.type)) {
-				enqueueSnackbar('Invalid file type (only: jpg, jpeg, png)', {variant: 'error'});
+			const checkingResult = checkImage(file);
 
-				return;
+			if (checkingResult.success) {
+				setImageFile(file);
+
+				const reader = new FileReader();
+
+				reader.onload = (data: any): void => {
+					setImagePreview(data.target.result);
+				};
+
+				reader.readAsDataURL(file);
+
+				setImageModal(true);
+			} else {
+				enqueueSnackbar(checkingResult.message, {variant: 'error'});
 			}
-
-			if (file.size > 5 * 1024 * 1024) {
-				enqueueSnackbar('Invalid file size (max: 5MB)', {variant: 'error'});
-
-				return;
-			}
-
-			setImageFile(file);
-
-			const reader = new FileReader();
-
-			reader.onload = (data: any): void => {
-				setImagePreview(data.target.result);
-			};
-
-			reader.readAsDataURL(file);
-
-			setImageModal(true);
 		}
 	};
 
@@ -207,14 +199,8 @@ const Canvas: React.FC<Props> = ({
 					messages.map(message => <Message message={message} key={message._id} />)}
 			</div>
 
-			{auth.isAuth ? (
-				<>
-					<Divider />
-					<Form handleSubmit={handleSubmit} handleChangeImage={handleChangeImage} />
-				</>
-			) : (
-				<ForNotAuth text={'Only full users can using chat.'} />
-			)}
+			<Divider />
+			<Form auth={auth} handleSubmit={handleSubmit} handleChangeImage={handleChangeImage} />
 
 			<RemoveMessageModal
 				selectedMessages={selectedMessages.length}

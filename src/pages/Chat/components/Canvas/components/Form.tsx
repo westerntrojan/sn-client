@@ -9,6 +9,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Zoom from '@material-ui/core/Zoom';
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
 
+import {useRedirect} from '@utils/hooks';
+
 const useStyles = makeStyles({
 	root: {
 		padding: '10px 0',
@@ -42,11 +44,14 @@ const useStyles = makeStyles({
 });
 
 type Props = {
+	auth: {
+		isAuth: boolean;
+	};
 	handleSubmit: (object: any) => void;
 	handleChangeImage: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const Form: React.FC<Props> = ({handleSubmit, handleChangeImage}) => {
+const Form: React.FC<Props> = ({auth, handleSubmit, handleChangeImage}) => {
 	const classes = useStyles();
 
 	const [loading, setLoading] = useState(false);
@@ -55,6 +60,8 @@ const Form: React.FC<Props> = ({handleSubmit, handleChangeImage}) => {
 
 	const buttonRef = useRef<HTMLLabelElement>(null);
 	const [buttonWidth, setButtonWidth] = useState(0);
+
+	const redirectTo = useRedirect();
 
 	const validate = useCallback(() => {
 		if (text.trim()) {
@@ -96,15 +103,34 @@ const Form: React.FC<Props> = ({handleSubmit, handleChangeImage}) => {
 		}
 	};
 
+	const _handleFocus = (): void => {
+		if (!auth.isAuth) {
+			return redirectTo('/auth');
+		}
+	};
+
+	const _handleIconClick = (): void => {
+		if (!auth.isAuth) {
+			return redirectTo('/auth');
+		}
+	};
+
 	return (
 		<Paper
 			className={classes.root}
 			style={{paddingLeft: buttonWidth + 10, paddingRight: buttonWidth * 2 + 10}}
 		>
-			<IconButton className={classes.attachButton} ref={buttonRef} component='label'>
+			<IconButton
+				onClick={_handleIconClick}
+				className={classes.attachButton}
+				ref={buttonRef}
+				component='label'
+			>
 				<AttachFileIcon className={classes.attachIcon} />
 
-				<input type='file' style={{display: 'none'}} onChange={handleChangeImage} />
+				{auth.isAuth && (
+					<input type='file' style={{display: 'none'}} onChange={handleChangeImage} />
+				)}
 			</IconButton>
 
 			<InputBase
@@ -116,10 +142,15 @@ const Form: React.FC<Props> = ({handleSubmit, handleChangeImage}) => {
 				onChange={_handleChangeText}
 				disabled={loading}
 				onKeyPress={_handlePressKeyInput}
-				autoFocus
+				onFocus={_handleFocus}
+				autoFocus={auth.isAuth}
 			/>
 
-			<IconButton className={classes.smileButton} style={{right: buttonWidth + 5}}>
+			<IconButton
+				onClick={_handleIconClick}
+				className={classes.smileButton}
+				style={{right: buttonWidth + 5}}
+			>
 				<InsertEmoticonIcon />
 			</IconButton>
 
@@ -130,7 +161,7 @@ const Form: React.FC<Props> = ({handleSubmit, handleChangeImage}) => {
 			</Zoom>
 
 			<Zoom in={!Boolean(icon)}>
-				<IconButton className={classes.rightButton}>
+				<IconButton onClick={_handleIconClick} className={classes.rightButton}>
 					<MicNoneIcon />
 				</IconButton>
 			</Zoom>

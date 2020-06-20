@@ -42,7 +42,7 @@ callApi.get = async (endpoint: string, options?: AxiosRequestConfig): Promise<an
 
 callApi.post = async (
 	endpoint: string,
-	payload: object = {},
+	payload: object,
 	options?: AxiosRequestConfig,
 ): Promise<any> => {
 	try {
@@ -56,7 +56,7 @@ callApi.post = async (
 
 callApi.put = async (
 	endpoint: string,
-	payload: object = {},
+	payload: object,
 	options?: AxiosRequestConfig,
 ): Promise<any> => {
 	try {

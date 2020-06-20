@@ -3,7 +3,7 @@ import {Route, Redirect} from 'react-router-dom';
 import {Location} from 'history';
 
 type Props = {
-	children?: React.ReactNode;
+	children: React.ReactNode;
 	condition: boolean;
 	redirectTo: string;
 	path: string;

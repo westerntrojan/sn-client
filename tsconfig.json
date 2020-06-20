@@ -3,9 +3,6 @@
 	"compilerOptions": {
 		"target": "ES6",
 		"lib": ["dom", "dom.iterable", "esnext", "ES6"], // "WebWorker", "ScriptHost"
-		"noImplicitAny": true,
-		"noImplicitThis": true,
-		"strictNullChecks": true,
 		"allowJs": true,
 		"skipLibCheck": true,
 		"esModuleInterop": true,
@@ -20,6 +17,7 @@
 		"jsx": "react",
 		"sourceMap": true,
 		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
 		"removeComments": true
 	},
 	"include": ["src/**/*"],

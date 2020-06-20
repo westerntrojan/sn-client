@@ -14,6 +14,7 @@ import Button from '@material-ui/core/Button';
 import Dropzone from '@components/Dropzone';
 import {IArticle, RootState} from '@store/types';
 import {IArticleInputs} from '@pages/EditArticle/types';
+import {checkImage} from '@utils/images';
 
 const useStyles = makeStyles({
 	input: {
@@ -146,31 +147,23 @@ const ArticleForm: React.FC<Props> = ({article, handleSubmit}) => {
 
 	const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
 		if (e.target.files) {
-			const types = ['image/jpg', 'image/jpeg', 'image/png'];
-
 			const file = e.target.files[0];
 
-			if (!types.includes(file.type)) {
-				enqueueSnackbar('Invalid file type (only: jpg, jpeg, png)', {variant: 'error'});
+			const checkingResult = checkImage(file);
 
-				return;
+			if (checkingResult.success) {
+				setImageFile(file);
+
+				const reader = new FileReader();
+
+				reader.onload = (data: any): void => {
+					setImagePreview(data.target.result);
+				};
+
+				reader.readAsDataURL(file);
+			} else {
+				enqueueSnackbar(checkingResult.message, {variant: 'error'});
 			}
-
-			if (file.size > 5 * 1024 * 1024) {
-				enqueueSnackbar('Invalid file size (max: 5MB)', {variant: 'error'});
-
-				return;
-			}
-
-			setImageFile(file);
-
-			const reader = new FileReader();
-
-			reader.onload = (data: any): void => {
-				setImagePreview(data.target.result);
-			};
-
-			reader.readAsDataURL(file);
 		}
 	};
 

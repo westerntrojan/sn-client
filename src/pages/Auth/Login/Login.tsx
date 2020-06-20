@@ -6,7 +6,8 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import {useSnackbar} from 'notistack';
-import {Link} from 'react-router-dom';
+import {Link as RouterLink} from 'react-router-dom';
+import Link from '@material-ui/core/Link';
 import Button from '@material-ui/core/Button';
 
 import CodeForm from './components/CodeForm';
@@ -129,7 +130,9 @@ const Login: React.FC<Props> = ({submit}) => {
 					/>
 
 					<div className={classes.actions}>
-						<Link to='/password_reset/email'>Forgot password ?</Link>
+						<Link component={RouterLink} to='/password_reset/email' color='primary'>
+							Forgot password ?
+						</Link>
 					</div>
 
 					<Button

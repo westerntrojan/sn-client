@@ -12,24 +12,24 @@ const Advanced: React.FC = () => {
 		JSON.parse(localStorage.getItem('enableAnimations') || ''),
 	);
 
-	const {changeThemeAnimations} = useContext(SettingsContext);
+	const {handleChangeThemeAnimations} = useContext(SettingsContext);
 
-	const _handleChangeTwoFactorAuth = (): void => {
+	const _handleChangeThemeAnimations = (): void => {
 		setEnableAnimations(!enableAnimations);
 
-		changeThemeAnimations();
+		handleChangeThemeAnimations();
 	};
 
 	return (
 		<List>
-			<ListItem button onClick={_handleChangeTwoFactorAuth}>
+			<ListItem button onClick={_handleChangeThemeAnimations}>
 				<ListItemText primary='Enable animations' />
 
 				<ListItemSecondaryAction>
 					<Switch
 						checked={enableAnimations}
 						color='primary'
-						onChange={_handleChangeTwoFactorAuth}
+						onChange={_handleChangeThemeAnimations}
 					/>
 				</ListItemSecondaryAction>
 			</ListItem>

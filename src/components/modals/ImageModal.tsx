@@ -80,9 +80,11 @@ const ImageModal: React.FC<Props> = ({
 				}}
 				enableZoom
 				toolbarButtons={[
-					<IconButton color='primary'>
-						<GetAppIcon />
-					</IconButton>,
+					<a href={images[photoIndex]} download='image'>
+						<IconButton color='primary'>
+							<GetAppIcon />
+						</IconButton>
+					</a>,
 					handleRemoveImage && (
 						<IconButton
 							color='secondary'

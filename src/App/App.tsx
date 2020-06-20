@@ -5,7 +5,6 @@ import {makeStyles} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {PaletteOptions} from '@material-ui/core/styles/createPalette';
-import {createMuiTheme} from '@material-ui/core/styles';
 import {SnackbarProvider} from 'notistack';
 
 import './style.scss';
@@ -22,7 +21,7 @@ import NotFound from '@components/NotFound';
 import {RootState} from '@store/types';
 import {exit} from '@store/auth/actions';
 import {loadApp} from '@store/app/actions';
-import {getCurrentTheme} from '@utils/app';
+import {getCurrentTheme, changeTheme, changeThemeAnimations} from '@utils/app';
 import {ChangeDrawer, Exit} from '@utils/hotKeys';
 import {IArticle} from '@store/types';
 import callApi from '@utils/callApi';
@@ -108,87 +107,16 @@ const App: React.FC<Props> = ({children}) => {
 
 	const executeScrollUp = (): void => window.scrollTo({top: 0, behavior: 'smooth'});
 
-	const changeTheme = (palette: PaletteOptions): void => {
-		const enableAnimations = JSON.parse(localStorage.getItem('enableAnimations') || '');
+	const handleChangeTheme = (palette: PaletteOptions): void => {
+		const newTheme = changeTheme(palette);
 
-		if (enableAnimations) {
-			const newTheme = createMuiTheme({
-				palette,
-			});
-
-			localStorage.setItem('theme', JSON.stringify(newTheme));
-
-			setTheme(newTheme);
-		} else {
-			const newTheme = createMuiTheme({
-				palette,
-				transitions: {
-					create: (): string => 'none',
-				},
-				props: {
-					MuiButtonBase: {
-						disableRipple: true,
-					},
-				},
-				overrides: {
-					MuiCssBaseline: {
-						'@global': {
-							'*, *::before, *::after': {
-								transition: 'none !important',
-								animation: 'none !important',
-							},
-						},
-					},
-				},
-			});
-
-			localStorage.setItem('theme', JSON.stringify(newTheme));
-
-			setTheme(newTheme);
-		}
+		setTheme(newTheme);
 	};
 
-	const changeThemeAnimations = (): void => {
-		const currentTheme = JSON.parse(localStorage.getItem('theme') || '');
-		const enableAnimations = JSON.parse(localStorage.getItem('enableAnimations') || '');
+	const handleChangeThemeAnimations = (): void => {
+		const newTheme = changeThemeAnimations();
 
-		if (enableAnimations) {
-			const newTheme = createMuiTheme({
-				palette: currentTheme.palette,
-				transitions: {
-					create: (): string => 'none',
-				},
-				props: {
-					MuiButtonBase: {
-						disableRipple: true,
-					},
-				},
-				overrides: {
-					MuiCssBaseline: {
-						'@global': {
-							'*, *::before, *::after': {
-								transition: 'none !important',
-								animation: 'none !important',
-							},
-						},
-					},
-				},
-			});
-
-			localStorage.setItem('theme', JSON.stringify(newTheme));
-			localStorage.setItem('enableAnimations', 'false');
-
-			setTheme(newTheme);
-		} else {
-			const newTheme = createMuiTheme({
-				palette: currentTheme.palette,
-			});
-
-			localStorage.setItem('theme', JSON.stringify(newTheme));
-			localStorage.setItem('enableAnimations', 'true');
-
-			setTheme(newTheme);
-		}
+		setTheme(newTheme);
 	};
 
 	const handleChangeDrawer = (): void => {
@@ -258,10 +186,10 @@ const App: React.FC<Props> = ({children}) => {
 				<ThemePickerModal
 					open={themePickerModal}
 					closeModal={(): void => setThemePickerModal(false)}
-					changeTheme={changeTheme}
+					handleChangeTheme={handleChangeTheme}
 				/>
 				<HotKeysModal open={hotKeysModal} closeModal={(): void => setHotKeysModal(false)} />
-				<SettingsContext.Provider value={{changeThemeAnimations}}>
+				<SettingsContext.Provider value={{handleChangeThemeAnimations}}>
 					<SettingsModal open={settingsModal} closeModal={(): void => setSettingsModal(false)} />
 				</SettingsContext.Provider>
 				<ExitModal

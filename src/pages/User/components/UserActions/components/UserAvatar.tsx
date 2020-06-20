@@ -10,6 +10,7 @@ import {useSnackbar} from 'notistack';
 
 import {addAvatar, removeAvatar} from '@store/auth/actions';
 import {userAvatar} from '@utils/users';
+import {checkImage} from '@utils/images';
 import {IUser} from '@store/types';
 import {ImageModal} from '@components/modals';
 import Loader from '@components/Loader';
@@ -78,34 +79,25 @@ const UserAvatar: React.FC<Props> = ({auth, user}) => {
 		setLoading(true);
 
 		if (e.target.files) {
-			const types = ['image/jpg', 'image/jpeg', 'image/png'];
-
 			const file = e.target.files[0];
 
-			if (!types.includes(file.type)) {
-				enqueueSnackbar('Invalid file type (only: jpg, jpeg, png)', {variant: 'error'});
+			const checkingResult = checkImage(file);
+
+			if (checkingResult.success) {
+				const formData = new FormData();
+				formData.append('userId', auth.user._id);
+				formData.append('avatar', file);
+
+				const data: any = await dispatch(addAvatar(formData));
+
 				setLoading(false);
 
-				return;
-			}
-
-			if (file.size > 5 * 1024 * 1024) {
-				enqueueSnackbar('Invalid file size (max: 5MB)', {variant: 'error'});
+				if (!data.success) {
+					enqueueSnackbar(data.message, {variant: 'error'});
+				}
+			} else {
 				setLoading(false);
-
-				return;
-			}
-
-			const formData = new FormData();
-			formData.append('userId', auth.user._id);
-			formData.append('avatar', file);
-
-			const data: any = await dispatch(addAvatar(formData));
-
-			setLoading(false);
-
-			if (!data.success) {
-				enqueueSnackbar(data.message, {variant: 'error'});
+				enqueueSnackbar(checkingResult.message, {variant: 'error'});
 			}
 		}
 	};

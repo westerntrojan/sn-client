@@ -29,7 +29,7 @@ const useStyles = makeStyles({
 });
 
 type Props = {
-	submit: (comment: {parentId?: string; text: string}) => any;
+	submit: (comment: {text: string; parentId?: string}) => any;
 };
 
 const CommentForm: React.FC<Props> = ({submit}) => {

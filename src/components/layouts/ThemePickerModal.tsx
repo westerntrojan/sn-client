@@ -75,10 +75,10 @@ const useStyles = makeStyles(theme => ({
 type Props = {
 	open: boolean;
 	closeModal: () => void;
-	changeTheme: (palette: PaletteOptions) => void;
+	handleChangeTheme: (palette: PaletteOptions) => void;
 };
 
-const ThemePickerModal: React.FC<Props> = ({open, closeModal, changeTheme}) => {
+const ThemePickerModal: React.FC<Props> = ({open, closeModal, handleChangeTheme}) => {
 	const classes = useStyles();
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
@@ -143,7 +143,7 @@ const ThemePickerModal: React.FC<Props> = ({open, closeModal, changeTheme}) => {
 
 		setTypeTheme(value);
 
-		changeTheme({
+		handleChangeTheme({
 			type: value,
 			primary: getColor(primaryColor),
 		});
@@ -154,7 +154,7 @@ const ThemePickerModal: React.FC<Props> = ({open, closeModal, changeTheme}) => {
 
 		setPrimaryColor(value);
 
-		changeTheme({
+		handleChangeTheme({
 			type: typeTheme,
 			primary: getColor(value),
 		});
