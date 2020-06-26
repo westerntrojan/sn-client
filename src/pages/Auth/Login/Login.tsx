@@ -10,7 +10,7 @@ import {Link as RouterLink} from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 import Button from '@material-ui/core/Button';
 
-import CodeForm from './components/CodeForm';
+import CodeModal from './components/CodeModal';
 import {ILoginInputs} from '@pages/Auth/types';
 
 const useStyles = makeStyles(() => ({
@@ -77,14 +77,14 @@ const Login: React.FC<Props> = ({submit}) => {
 			if (data.twoFactorAuth) {
 				setTwoFactorAuth(true);
 			} else {
+				setLoading(false);
+
 				enqueueSnackbar(data.message, {variant: 'error'});
 			}
-
-			setLoading(false);
 		}
 	};
 
-	const _handlePressKeyInput = (target: React.KeyboardEvent): void => {
+	const _handleKeyPressInput = (target: React.KeyboardEvent): void => {
 		if (target.charCode === 13) {
 			_handleSubmit();
 		}
@@ -92,60 +92,58 @@ const Login: React.FC<Props> = ({submit}) => {
 
 	return (
 		<section className='login'>
-			{twoFactorAuth && <CodeForm />}
+			<div className='form'>
+				<TextField
+					label='Email or username'
+					variant='outlined'
+					value={userLink}
+					className={classes.input}
+					onChange={_handleChangeUserLink}
+					onKeyPress={_handleKeyPressInput}
+					autoFocus
+				/>
 
-			{!twoFactorAuth && (
-				<div className='form'>
-					<TextField
-						label='Email or username'
-						variant='outlined'
-						value={userLink}
-						className={classes.input}
-						onChange={_handleChangeUserLink}
-						onKeyPress={_handlePressKeyInput}
-						autoFocus
-					/>
+				<TextField
+					label='Password'
+					variant='outlined'
+					type={showPassword ? 'text' : 'password'}
+					value={password}
+					onChange={_handleChangePassword}
+					onKeyPress={_handleKeyPressInput}
+					className={classes.input}
+					InputProps={{
+						endAdornment: (
+							<InputAdornment position='end'>
+								<IconButton
+									aria-label='toggle password visibility'
+									onClick={handleClickShowPassword}
+									onMouseDown={handleMouseDownPassword}
+								>
+									{showPassword ? <Visibility /> : <VisibilityOff />}
+								</IconButton>
+							</InputAdornment>
+						),
+					}}
+				/>
 
-					<TextField
-						label='Password'
-						variant='outlined'
-						type={showPassword ? 'text' : 'password'}
-						value={password}
-						onChange={_handleChangePassword}
-						onKeyPress={_handlePressKeyInput}
-						className={classes.input}
-						InputProps={{
-							endAdornment: (
-								<InputAdornment position='end'>
-									<IconButton
-										aria-label='toggle password visibility'
-										onClick={handleClickShowPassword}
-										onMouseDown={handleMouseDownPassword}
-									>
-										{showPassword ? <Visibility /> : <VisibilityOff />}
-									</IconButton>
-								</InputAdornment>
-							),
-						}}
-					/>
-
-					<div className={classes.actions}>
-						<Link component={RouterLink} to='/password_reset/email' color='primary'>
-							Forgot password ?
-						</Link>
-					</div>
-
-					<Button
-						color='primary'
-						variant='contained'
-						disabled={disabledButton || loading}
-						onClick={_handleSubmit}
-						fullWidth
-					>
-						Submit
-					</Button>
+				<div className={classes.actions}>
+					<Link component={RouterLink} to='/password_reset/email' color='primary'>
+						Forgot password ?
+					</Link>
 				</div>
-			)}
+
+				<Button
+					color='primary'
+					variant='contained'
+					disabled={disabledButton || loading}
+					onClick={_handleSubmit}
+					fullWidth
+				>
+					Submit
+				</Button>
+			</div>
+
+			<CodeModal open={twoFactorAuth} closeModal={(): void => setTwoFactorAuth(false)} />
 		</section>
 	);
 };

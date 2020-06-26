@@ -4,7 +4,7 @@ import {Route, Switch} from 'react-router-dom';
 
 import PageLoader from './components/PageLoader';
 import PrivateRoute from './components/PrivateRoute';
-import {RootState} from '@store/types';
+import {AppState} from '@store/types';
 import Home from './pages/Home';
 
 const AddArticle = lazy(() => import('./pages/AddArticle'));
@@ -25,7 +25,7 @@ const PasswordResetVerify = lazy(() => import('./pages/PasswordResetVerify'));
 const NotFound = lazy(() => import('./components/NotFound'));
 
 const Routes: React.FC = () => {
-	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
+	const auth = useSelector((state: AppState) => state.auth, shallowEqual);
 
 	return (
 		<Route

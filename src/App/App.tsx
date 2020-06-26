@@ -18,8 +18,8 @@ import ScrollButton from '@components/layouts/ScrollButton';
 import AdminButton from '@components/layouts/AdminButton';
 import PageLoader from '@components/PageLoader';
 import NotFound from '@components/NotFound';
-import {RootState} from '@store/types';
-import {exit} from '@store/auth/actions';
+import {AppState} from '@store/types';
+import {exit, changeTwoFactorAuth} from '@store/auth/actions';
 import {loadApp} from '@store/app/actions';
 import {getCurrentTheme, changeTheme, changeThemeAnimations} from '@utils/app';
 import {ChangeDrawer, Exit} from '@utils/hotKeys';
@@ -32,7 +32,9 @@ import settings from './settings.json';
 
 const useStyles = makeStyles(theme => ({
 	toolbar: {...theme.mixins.toolbar},
-	snackbar: {},
+	snackbar: {
+		color: 'white',
+	},
 }));
 
 type Props = {
@@ -59,8 +61,8 @@ const App: React.FC<Props> = ({children}) => {
 	const [topArticles, setTopArticles] = useState<IArticle[]>([]);
 	const [loadingData, setLoadingData] = useState(true);
 
-	const app = useSelector((state: RootState) => state.app, shallowEqual);
-	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
+	const app = useSelector((state: AppState) => state.app, shallowEqual);
+	const auth = useSelector((state: AppState) => state.auth, shallowEqual);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -105,7 +107,9 @@ const App: React.FC<Props> = ({children}) => {
 		};
 	}, [dispatch]);
 
-	const executeScrollUp = (): void => window.scrollTo({top: 0, behavior: 'smooth'});
+	const handleChangeTwoFactorAuth = async (): Promise<void> => {
+		await dispatch(changeTwoFactorAuth());
+	};
 
 	const handleChangeTheme = (palette: PaletteOptions): void => {
 		const newTheme = changeTheme(palette);
@@ -180,8 +184,7 @@ const App: React.FC<Props> = ({children}) => {
 				</main>
 
 				{auth.isAdmin && <AdminButton />}
-
-				<ScrollButton open={scrollButton} action={executeScrollUp} />
+				<ScrollButton open={scrollButton} />
 
 				<ThemePickerModal
 					open={themePickerModal}
@@ -189,7 +192,7 @@ const App: React.FC<Props> = ({children}) => {
 					handleChangeTheme={handleChangeTheme}
 				/>
 				<HotKeysModal open={hotKeysModal} closeModal={(): void => setHotKeysModal(false)} />
-				<SettingsContext.Provider value={{handleChangeThemeAnimations}}>
+				<SettingsContext.Provider value={{handleChangeTwoFactorAuth, handleChangeThemeAnimations}}>
 					<SettingsModal open={settingsModal} closeModal={(): void => setSettingsModal(false)} />
 				</SettingsContext.Provider>
 				<ExitModal

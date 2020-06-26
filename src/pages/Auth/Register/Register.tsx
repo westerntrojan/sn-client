@@ -128,7 +128,7 @@ const Register: React.FC<Props> = ({submit}) => {
 		}
 	};
 
-	const _handlePressKeyInput = (target: React.KeyboardEvent): void => {
+	const _handleKeyPressInput = (target: React.KeyboardEvent): void => {
 		if (target.charCode === 13) {
 			_handleSubmit();
 		}
@@ -147,7 +147,7 @@ const Register: React.FC<Props> = ({submit}) => {
 							value={firstName}
 							className={classNames(classes.input, classes.firstInput)}
 							onChange={_handleChangeFirstName}
-							onKeyPress={_handlePressKeyInput}
+							onKeyPress={_handleKeyPressInput}
 							error={firstName.length > 20}
 							autoFocus
 						/>
@@ -157,7 +157,7 @@ const Register: React.FC<Props> = ({submit}) => {
 							value={lastName}
 							className={classes.input}
 							onChange={_handleChangeLastName}
-							onKeyPress={_handlePressKeyInput}
+							onKeyPress={_handleKeyPressInput}
 							error={lastName.length > 20}
 						/>
 					</div>
@@ -170,7 +170,7 @@ const Register: React.FC<Props> = ({submit}) => {
 							value={email}
 							className={classes.input}
 							onChange={_handleChangeEmail}
-							onKeyPress={_handlePressKeyInput}
+							onKeyPress={_handleKeyPressInput}
 						/>
 					</div>
 
@@ -182,7 +182,7 @@ const Register: React.FC<Props> = ({submit}) => {
 								label='Password'
 								variant='outlined'
 								onChange={_handleChangePassword}
-								onKeyPress={_handlePressKeyInput}
+								onKeyPress={_handleKeyPressInput}
 								className={classes.firstInput}
 							/>
 
@@ -200,7 +200,7 @@ const Register: React.FC<Props> = ({submit}) => {
 								label='Confirm'
 								variant='outlined'
 								onChange={_handleChangeConfirmPassword}
-								onKeyPress={_handlePressKeyInput}
+								onKeyPress={_handleKeyPressInput}
 								className={matches ? classes.input : classes.firstInput}
 							/>
 

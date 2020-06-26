@@ -8,6 +8,7 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import Zoom from '@material-ui/core/Zoom';
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
+import Divider from '@material-ui/core/Divider';
 
 import Context from '@pages/UsersChat/context';
 
@@ -86,49 +87,53 @@ const Form: React.FC = () => {
 		setIcon(0);
 	};
 
-	const _handlePressKeyInput = (target: React.KeyboardEvent): void => {
+	const _handleKeyPressInput = (target: React.KeyboardEvent): void => {
 		if (target.ctrlKey && target.charCode === 13) {
 			_handleSubmit();
 		}
 	};
 
 	return (
-		<Paper
-			className={classes.root}
-			style={{paddingLeft: buttonWidth + 10, paddingRight: buttonWidth * 2 + 10}}
-		>
-			<IconButton className={classes.attachButton} ref={buttonRef}>
-				<AttachFileIcon className={classes.attachIcon} />
-			</IconButton>
-			<InputBase
-				className={classes.input}
-				multiline
-				rowsMax='10'
-				placeholder='Write a message...'
-				value={text}
-				onChange={_handleChangeText}
-				disabled={loading}
-				onKeyPress={_handlePressKeyInput}
-				onBlur={handleTypingEnd}
-				autoFocus
-			/>
+		<>
+			<Divider />
 
-			<IconButton className={classes.smileButton} style={{right: buttonWidth + 5}}>
-				<InsertEmoticonIcon />
-			</IconButton>
-
-			<Zoom in={Boolean(icon)}>
-				<IconButton color='primary' className={classes.rightButton} onClick={_handleSubmit}>
-					<SendIcon />
+			<Paper
+				className={classes.root}
+				style={{paddingLeft: buttonWidth + 10, paddingRight: buttonWidth * 2 + 10}}
+			>
+				<IconButton className={classes.attachButton} ref={buttonRef}>
+					<AttachFileIcon className={classes.attachIcon} />
 				</IconButton>
-			</Zoom>
+				<InputBase
+					className={classes.input}
+					multiline
+					rowsMax='10'
+					placeholder='Write a message...'
+					value={text}
+					onChange={_handleChangeText}
+					disabled={loading}
+					onKeyPress={_handleKeyPressInput}
+					onBlur={handleTypingEnd}
+					autoFocus
+				/>
 
-			<Zoom in={!Boolean(icon)}>
-				<IconButton className={classes.rightButton}>
-					<MicNoneIcon />
+				<IconButton className={classes.smileButton} style={{right: buttonWidth + 5}}>
+					<InsertEmoticonIcon />
 				</IconButton>
-			</Zoom>
-		</Paper>
+
+				<Zoom in={Boolean(icon)}>
+					<IconButton color='primary' className={classes.rightButton} onClick={_handleSubmit}>
+						<SendIcon />
+					</IconButton>
+				</Zoom>
+
+				<Zoom in={!Boolean(icon)}>
+					<IconButton className={classes.rightButton}>
+						<MicNoneIcon />
+					</IconButton>
+				</Zoom>
+			</Paper>
+		</>
 	);
 };
 

@@ -15,7 +15,7 @@ import Divider from '@material-ui/core/Divider';
 import {Link as RouterLink} from 'react-router-dom';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 
-import {RootState} from '@store/types';
+import {AppState} from '@store/types';
 import Footer from './Footer';
 
 const drawerWidth = 240;
@@ -44,8 +44,8 @@ const MainDrawer: React.FC = () => {
 
 	const location = useLocation();
 
-	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
-	const app = useSelector((state: RootState) => state.app, shallowEqual);
+	const auth = useSelector((state: AppState) => state.auth, shallowEqual);
+	const app = useSelector((state: AppState) => state.app, shallowEqual);
 
 	return (
 		<Drawer

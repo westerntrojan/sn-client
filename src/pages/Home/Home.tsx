@@ -10,11 +10,11 @@ import Loader from '@components/Loader';
 import SmallArticle from '@components/SmallArticle';
 import RightBar from '@components/RightBar';
 import {fetchArticles} from '@store/articles/actions';
-import {RootState} from '@store/types';
+import {AppState} from '@store/types';
 import {IArticle} from '@store/types';
 
 const Home: React.FC = () => {
-	const articles = useSelector((state: RootState) => state.articles, shallowEqual);
+	const articles = useSelector((state: AppState) => state.articles, shallowEqual);
 	const dispatch = useDispatch();
 
 	const loadMore = (): void => {

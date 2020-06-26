@@ -13,7 +13,7 @@ export const useStyles = makeStyles(theme => ({
 		whiteSpace: 'pre-wrap',
 	},
 	title: {
-		marginBottom: '10px',
+		marginBottom: 20,
 	},
 	linkIcon: {
 		transform: 'rotate(135deg)',

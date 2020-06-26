@@ -6,8 +6,6 @@ import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import {makeStyles} from '@material-ui/core/styles';
 import {Link as RouterLink} from 'react-router-dom';
-import LinesEllipsis from 'react-lines-ellipsis';
-import responsiveHOC from 'react-lines-ellipsis/lib/responsiveHOC';
 import grey from '@material-ui/core/colors/grey';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
@@ -16,8 +14,6 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import UserAvatar from '@components/avatars/UserAvatar';
 import {IChat} from '@pages/Messages/types';
 import {relativeDate} from '@utils/app';
-
-const ResponsiveEllipsis = responsiveHOC()(LinesEllipsis);
 
 const useStyles = makeStyles({
 	root: {
@@ -80,19 +76,7 @@ const ChatItem: React.FC<Props> = ({chat, openRemoveChatModal}) => {
 							</Typography>
 						</div>
 					}
-					secondary={
-						chat.lastMessage ? (
-							<ResponsiveEllipsis
-								text={chat.lastMessage.text}
-								maxLine='1'
-								ellipsis='...'
-								trimRight
-								basedOn='letters'
-								component='p'
-								className={classes.text}
-							/>
-						) : null
-					}
+					secondary='...'
 				/>
 
 				<ListItemSecondaryAction>

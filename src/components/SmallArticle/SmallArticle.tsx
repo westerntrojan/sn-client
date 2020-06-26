@@ -28,6 +28,7 @@ import 'react-lazy-load-image-component/src/effects/blur.css';
 
 import {useStyles} from './style';
 import {userLink} from '@utils/users';
+import {getCommentsCount} from '@utils/articles';
 import {IArticle} from '@store/types';
 import ZoomTooltip from '@components/tooltips/ZoomTooltip';
 import {UserAvatar} from '@components/avatars';
@@ -107,6 +108,7 @@ const SmallArticle: React.FC<Props> = ({article}) => {
 							width='100%'
 							height='300px'
 							effect='blur'
+							alt={article.title}
 							className={classes.image}
 						/>
 					</Link>
@@ -148,7 +150,7 @@ const SmallArticle: React.FC<Props> = ({article}) => {
 					</Typography>
 					<Typography className={classes.comments}>
 						<QuestionAnswerIcon fontSize='small' className={classes.icon} />
-						{article.comments.length}
+						{getCommentsCount(article)}
 					</Typography>
 				</div>
 			</CardActions>

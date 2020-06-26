@@ -120,13 +120,13 @@ const UserForm: React.FC<Props> = ({user, handleSubmit}) => {
 		setLoading(false);
 	};
 
-	const _handlePressKeyInput = (target: React.KeyboardEvent): void => {
+	const _handleKeyPressInput = (target: React.KeyboardEvent): void => {
 		if (target.charCode === 13) {
 			_handleSubmit();
 		}
 	};
 
-	const _handlePressKeyTextarea = (target: React.KeyboardEvent): void => {
+	const _handleKeyPressTextarea = (target: React.KeyboardEvent): void => {
 		if (target.ctrlKey && target.charCode === 13) {
 			_handleSubmit();
 		}
@@ -142,7 +142,7 @@ const UserForm: React.FC<Props> = ({user, handleSubmit}) => {
 						className={classNames(classes.input, classes.firstInput)}
 						value={firstName}
 						onChange={_handleChangeFirstName}
-						onKeyPress={_handlePressKeyInput}
+						onKeyPress={_handleKeyPressInput}
 						disabled={loading}
 						error={firstName.length > 20}
 					/>
@@ -152,7 +152,7 @@ const UserForm: React.FC<Props> = ({user, handleSubmit}) => {
 						className={classes.input}
 						value={lastName}
 						onChange={_handleChangeLastName}
-						onKeyPress={_handlePressKeyInput}
+						onKeyPress={_handleKeyPressInput}
 						disabled={loading}
 						error={lastName.length > 20}
 					/>
@@ -163,7 +163,7 @@ const UserForm: React.FC<Props> = ({user, handleSubmit}) => {
 					className={classes.input}
 					value={username}
 					onChange={_handleChangeUsername}
-					onKeyPress={_handlePressKeyInput}
+					onKeyPress={_handleKeyPressInput}
 					disabled={loading}
 					error={username.length > 40}
 				/>
@@ -175,7 +175,7 @@ const UserForm: React.FC<Props> = ({user, handleSubmit}) => {
 					className={classes.input}
 					value={email}
 					onChange={_handleChangeEmail}
-					onKeyPress={_handlePressKeyInput}
+					onKeyPress={_handleKeyPressInput}
 					disabled={loading}
 				/>
 
@@ -188,7 +188,7 @@ const UserForm: React.FC<Props> = ({user, handleSubmit}) => {
 					rows='2'
 					rowsMax='8'
 					onChange={_handleChangeBio}
-					onKeyPress={_handlePressKeyTextarea}
+					onKeyPress={_handleKeyPressTextarea}
 					disabled={loading}
 					error={bio.length > 1000}
 				/>

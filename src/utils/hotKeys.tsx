@@ -13,7 +13,7 @@ const appKeys = {
 };
 
 const chatKeys = {
-	DELETE_MESSAGE: 'del',
+	REMOVE_MESSAGE: 'del',
 };
 
 export const ChangeDrawer: React.FC<Props> = ({action}) => {
@@ -33,5 +33,5 @@ export const SearchFocus: React.FC<Props> = ({action}) => {
 };
 
 export const RemoveMessage: React.FC<Props> = ({action}) => {
-	return <Hotkeys keyName={chatKeys.DELETE_MESSAGE} onKeyUp={action} />;
+	return <Hotkeys keyName={chatKeys.REMOVE_MESSAGE} onKeyUp={action} />;
 };

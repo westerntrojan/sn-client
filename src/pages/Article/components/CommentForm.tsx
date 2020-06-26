@@ -85,7 +85,7 @@ const CommentForm: React.FC<Props> = ({submit}) => {
 		setLoading(false);
 	};
 
-	const _handlePressKeyTextarea = (target: React.KeyboardEvent): void => {
+	const _handleKeyPressTextarea = (target: React.KeyboardEvent): void => {
 		if (target.ctrlKey && target.charCode === 13) {
 			_handleSubmit();
 		}
@@ -114,7 +114,7 @@ const CommentForm: React.FC<Props> = ({submit}) => {
 					rowsMax='14'
 					value={text}
 					onChange={_handleChangeText}
-					onKeyPress={_handlePressKeyTextarea}
+					onKeyPress={_handleKeyPressTextarea}
 					disabled={loading}
 					error={text.length > 3000}
 					onFocus={_handleFocus}

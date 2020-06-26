@@ -6,7 +6,7 @@ import {Helmet} from 'react-helmet';
 import PageLoader from '@components/PageLoader';
 import Form from './components/Form';
 import {editArticle} from '@store/articles/actions';
-import {RootState} from '@store/types';
+import {AppState} from '@store/types';
 import {IArticleInputs} from './types';
 import {useArticle, useRedirect} from '@utils/hooks';
 
@@ -16,7 +16,7 @@ const EditArticle: React.FC = () => {
 	const [article, setArticleSlug] = useArticle();
 	const redirectTo = useRedirect();
 
-	const authUser = useSelector((state: RootState) => state.auth.user, shallowEqual);
+	const authUser = useSelector((state: AppState) => state.auth.user, shallowEqual);
 	const dispatch = useDispatch();
 
 	useEffect(() => {

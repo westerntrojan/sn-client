@@ -120,12 +120,12 @@ export const getCurrentTheme = (): Theme => {
 export const relativeDate = (date: string): string => {
 	const currentDate = new Date();
 
-	const currentDay = moment(date).isoWeekday() === moment(currentDate).isoWeekday();
-	const currentWeek = moment(date).isoWeek() === moment(currentDate).isoWeek();
+	const isCurrentDay = moment(date).isoWeekday() === moment(currentDate).isoWeekday();
+	const isCurrentWeek = moment(date).isoWeek() === moment(currentDate).isoWeek();
 
-	if (currentDay) {
+	if (isCurrentDay) {
 		return new Date(date).toLocaleTimeString().slice(0, -3);
-	} else if (currentWeek) {
+	} else if (isCurrentWeek) {
 		return moment(date).format('ddd');
 	} else {
 		return new Date(date).toLocaleDateString();

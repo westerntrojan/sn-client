@@ -14,7 +14,7 @@ import callApi from '@utils/callApi';
 import {IArticle} from '@store/types';
 import {notFound} from '@store/app/actions';
 import {IFetchData} from './types';
-import {RootState} from '@store/types';
+import {AppState} from '@store/types';
 
 const Category: React.FC = () => {
 	const {slug} = useParams();
@@ -24,7 +24,7 @@ const Category: React.FC = () => {
 	const [end, setEnd] = useState(false);
 
 	const category = useSelector(
-		(state: RootState) => state.category.all.find(c => c.slug === slug),
+		(state: AppState) => state.category.all.find(c => c.slug === slug),
 		shallowEqual,
 	);
 	const dispatch = useDispatch();

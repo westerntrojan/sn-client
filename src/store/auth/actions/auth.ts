@@ -40,6 +40,18 @@ export const sendCode = (userId: string, code: string): AppThunk => async (
 	return data;
 };
 
+export const changeTwoFactorAuth = (): AppThunk => async (dispatch, getState): Promise<void> => {
+	const userId = getState().auth.user._id;
+
+	const data = await callApi.get(`/users/two_factor_auth/${userId}`);
+
+	if (data.success) {
+		dispatch({
+			type: types.TWO_FACTOR_AUTH,
+		});
+	}
+};
+
 export const exit = (): types.AuthActionTypes => {
 	localStorage.removeItem('token');
 
@@ -66,17 +78,5 @@ export const verify = (): AppThunk => async (dispatch): Promise<void> => {
 				},
 			});
 		}
-	}
-};
-
-export const twoFactorAuth = (): AppThunk => async (dispatch, getState): Promise<void> => {
-	const userId = getState().auth.user._id;
-
-	const data = await callApi.get(`/users/two_factor_auth/${userId}`);
-
-	if (data.success) {
-		dispatch({
-			type: types.TWO_FACTOR_AUTH,
-		});
 	}
 };

@@ -6,7 +6,7 @@ import {withSnackbar, OptionsObject} from 'notistack';
 
 import './style.scss';
 import Canvas from './components/Canvas';
-import {RootState} from '@store/types';
+import {AppState} from '@store/types';
 import {AuthState} from '@store/auth/types';
 import {IMessage} from '@components/chat/types';
 import {ISendingMessage} from './types';
@@ -175,7 +175,7 @@ type StateToProps = {
 	auth: AuthState;
 };
 
-const mapStateToProps = (state: RootState): StateToProps => ({
+const mapStateToProps = (state: AppState): StateToProps => ({
 	auth: state.auth,
 });
 

@@ -15,15 +15,24 @@ const useStyles = makeStyles({
 
 type Props = {
 	open: boolean;
-	action: () => void;
 };
 
-const ScrollButton: React.FC<Props> = ({open, action}) => {
+const ScrollButton: React.FC<Props> = ({open}) => {
 	const classes = useStyles();
+
+	const executeScrollUp = (): void => {
+		const enableAnimations = JSON.parse(localStorage.getItem('enableAnimations') || 'true');
+
+		if (enableAnimations) {
+			window.scrollTo({top: 0, behavior: 'smooth'});
+		} else {
+			window.scrollTo({top: 0});
+		}
+	};
 
 	return (
 		<Slide in={open} direction='up'>
-			<Fab color='primary' className={classes.root} onClick={action}>
+			<Fab color='primary' className={classes.root} onClick={executeScrollUp}>
 				<UpIcon fontSize='large' />
 			</Fab>
 		</Slide>

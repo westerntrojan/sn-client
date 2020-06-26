@@ -24,7 +24,6 @@ yarn-error.log*
 package-lock.json
 
 .vscode
-src/__tests__
 
 vercel.json
 .vercel

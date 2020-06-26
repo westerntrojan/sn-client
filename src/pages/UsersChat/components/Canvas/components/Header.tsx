@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import Fade from '@material-ui/core/Fade';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import Divider from '@material-ui/core/Divider';
 
 import PointsLoader from '@components/PointsLoader';
 import UserAvatar from '@components/avatars/UserAvatar';
@@ -79,49 +80,53 @@ const Header: React.FC = () => {
 	};
 
 	return (
-		<div className={classes.root}>
-			<div className={classes.leftSide}>
-				<IconButton className={classes.arrowBack} onClick={(): void => history.goBack()}>
-					<ArrowBackIcon />
-				</IconButton>
-			</div>
-			<Fade in={typing}>
-				<div className={classes.typing}>
-					<Typography color='primary'>
-						typing
-						<PointsLoader />
-					</Typography>
+		<>
+			{' '}
+			<div className={classes.root}>
+				<div className={classes.leftSide}>
+					<IconButton className={classes.arrowBack} onClick={(): void => history.goBack()}>
+						<ArrowBackIcon />
+					</IconButton>
 				</div>
-			</Fade>
-			<div className={classes.rightSide}>
-				<IconButton>
-					<SearchIcon />
-				</IconButton>
-				<IconButton onClick={openMenu}>
-					<MoreVert />
-				</IconButton>
+				<Fade in={typing}>
+					<div className={classes.typing}>
+						<Typography color='primary'>
+							typing
+							<PointsLoader />
+						</Typography>
+					</div>
+				</Fade>
+				<div className={classes.rightSide}>
+					<IconButton>
+						<SearchIcon />
+					</IconButton>
+					<IconButton onClick={openMenu}>
+						<MoreVert />
+					</IconButton>
 
-				<Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={closeMenu}>
-					<MenuItem
-						onClick={(): void => {
-							closeMenu();
+					<Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={closeMenu}>
+						<MenuItem
+							onClick={(): void => {
+								closeMenu();
 
-							openClearHistoryModal();
-						}}
-					>
-						Clear message history
-					</MenuItem>
-				</Menu>
+								openClearHistoryModal();
+							}}
+						>
+							Clear message history
+						</MenuItem>
+					</Menu>
 
-				{user ? (
-					<Link underline='none' component={RouterLink} to={userLink(user)} color='inherit'>
-						<UserAvatar user={user} className={classes.avatar} />
-					</Link>
-				) : (
-					<Skeleton variant='circle' width={40} height={40} />
-				)}
+					{user ? (
+						<Link underline='none' component={RouterLink} to={userLink(user)} color='inherit'>
+							<UserAvatar user={user} className={classes.avatar} />
+						</Link>
+					) : (
+						<Skeleton variant='circle' width={40} height={40} />
+					)}
+				</div>
 			</div>
-		</div>
+			<Divider />
+		</>
 	);
 };
 

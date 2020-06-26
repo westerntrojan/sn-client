@@ -12,7 +12,7 @@ import {useSnackbar} from 'notistack';
 import Button from '@material-ui/core/Button';
 
 import Dropzone from '@components/Dropzone';
-import {RootState} from '@store/types';
+import {AppState} from '@store/types';
 import {IArticleInputs} from '@pages/AddArticle/types';
 import {checkImage} from '@utils/images';
 
@@ -30,7 +30,7 @@ type Props = {
 const ArticleForm: React.FC<Props> = ({handleSubmit}) => {
 	const classes = useStyles();
 
-	const allCategory = useSelector((state: RootState) => state.category.all, shallowEqual);
+	const allCategory = useSelector((state: AppState) => state.category.all, shallowEqual);
 
 	const [title, setTitle] = useState('');
 	const [text, setText] = useState('');
@@ -108,13 +108,13 @@ const ArticleForm: React.FC<Props> = ({handleSubmit}) => {
 		}
 	};
 
-	const _handlePressKeyInput = (target: React.KeyboardEvent): void => {
+	const _handleKeyPressInput = (target: React.KeyboardEvent): void => {
 		if (target.charCode === 13) {
 			_handleSubmit();
 		}
 	};
 
-	const _handlePressKeyTextarea = (target: React.KeyboardEvent): void => {
+	const _handleKeyPressTextarea = (target: React.KeyboardEvent): void => {
 		if (target.ctrlKey && target.charCode === 13) {
 			_handleSubmit();
 		}
@@ -155,7 +155,7 @@ const ArticleForm: React.FC<Props> = ({handleSubmit}) => {
 					className={classes.input}
 					variant='outlined'
 					onChange={_handleChangeTitle}
-					onKeyPress={_handlePressKeyInput}
+					onKeyPress={_handleKeyPressInput}
 					disabled={loading}
 					autoFocus
 					error={title.length > 120}
@@ -169,7 +169,7 @@ const ArticleForm: React.FC<Props> = ({handleSubmit}) => {
 					rows='4'
 					rowsMax='20'
 					onChange={_handleChangeText}
-					onKeyPress={_handlePressKeyTextarea}
+					onKeyPress={_handleKeyPressTextarea}
 					disabled={loading}
 					error={text.length > 5000}
 				/>
@@ -187,7 +187,7 @@ const ArticleForm: React.FC<Props> = ({handleSubmit}) => {
 					value={tags}
 					onAdd={(tag: string): void => _handleAddTag(tag)}
 					onDelete={(tag: string): void => _handleRemoveTag(tag)}
-					onKeyPress={_handlePressKeyTextarea}
+					onKeyPress={_handleKeyPressTextarea}
 				/>
 				<FormControl variant='outlined' className={classes.input} disabled={loading}>
 					<InputLabel ref={inputLabelRef} id='demo-simple-select-outlined-label'>

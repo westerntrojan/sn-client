@@ -14,10 +14,10 @@ import {
 import CategoryForm from './components/CategoryForm';
 import CategoryList from './components/CategoryList';
 import {ICategoryInputs} from './types';
-import {RootState, ICategory} from '@store/types';
+import {AppState, ICategory} from '@store/types';
 
 const Categories: React.FC = () => {
-	const allCategory = useSelector((state: RootState) => state.category.all, shallowEqual);
+	const allCategory = useSelector((state: AppState) => state.category.all, shallowEqual);
 	const dispatch = useDispatch();
 
 	const {enqueueSnackbar, closeSnackbar} = useSnackbar();
@@ -45,7 +45,7 @@ const Categories: React.FC = () => {
 	const handleRemoveCategory = async (categoryId: string): Promise<void> => {
 		dispatch(moveCategory(categoryId));
 
-		const key = enqueueSnackbar('Сategory deleted successfully', {
+		const key = enqueueSnackbar('Сategory removed successfully', {
 			action: (
 				<Button
 					onClick={(): void => {

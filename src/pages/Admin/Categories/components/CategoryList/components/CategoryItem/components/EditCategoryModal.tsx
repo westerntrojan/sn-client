@@ -78,13 +78,13 @@ const EditCategoryModal: React.FC<Props> = ({open, closeModal, category, handleS
 		}
 	};
 
-	const _handlePressKeyInput = (target: React.KeyboardEvent): void => {
+	const _handleKeyPressInput = (target: React.KeyboardEvent): void => {
 		if (target.charCode === 13) {
 			_handleSubmit();
 		}
 	};
 
-	const _handlePressKeyTextarea = (target: React.KeyboardEvent): void => {
+	const _handleKeyPressTextarea = (target: React.KeyboardEvent): void => {
 		if (target.ctrlKey && target.charCode === 13) {
 			_handleSubmit();
 		}
@@ -107,7 +107,7 @@ const EditCategoryModal: React.FC<Props> = ({open, closeModal, category, handleS
 					className={classes.input}
 					variant='outlined'
 					onChange={_handleChangeTitle}
-					onKeyPress={_handlePressKeyInput}
+					onKeyPress={_handleKeyPressInput}
 					disabled={loading}
 					autoFocus
 					error={title.length > 50}
@@ -121,7 +121,7 @@ const EditCategoryModal: React.FC<Props> = ({open, closeModal, category, handleS
 					rows='4'
 					rowsMax='20'
 					onChange={_handleChangeDesc}
-					onKeyPress={_handlePressKeyTextarea}
+					onKeyPress={_handleKeyPressTextarea}
 					disabled={loading}
 					error={desc.length > 3000}
 				/>

@@ -38,7 +38,7 @@ const RemoveUserModal: React.FC<Props> = ({open, action, closeModal}) => {
 			<DialogTitle id='form-dialog-title'>Are you absolutely sure ?</DialogTitle>
 			<DialogContent>
 				<DialogContentText>
-					This action cannot be undone. Are you sure you want to delete this ?
+					This action cannot be undone. Are you sure you want to remove this ?
 				</DialogContentText>
 			</DialogContent>
 			<DialogActions>

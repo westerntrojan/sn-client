@@ -9,7 +9,7 @@ import './style.scss';
 import Canvas from './components/Canvas';
 import callApi from '@utils/callApi';
 import {RemoveModal} from '@components/modals';
-import {RootState} from '@store/types';
+import {AppState} from '@store/types';
 import {IMessage} from '@components/chat/types';
 import {IFetchData, IClearHistoryData} from './types';
 import {IUser} from '@store/types';
@@ -29,7 +29,7 @@ const UsersChat: React.FC = () => {
 	const [typing, setTyping] = useState(false);
 	const [clearHistoryModal, setClearHistoryModal] = useState(false);
 
-	const authUser = useSelector((state: RootState) => state.auth.user, shallowEqual);
+	const authUser = useSelector((state: AppState) => state.auth.user, shallowEqual);
 
 	const {enqueueSnackbar} = useSnackbar();
 

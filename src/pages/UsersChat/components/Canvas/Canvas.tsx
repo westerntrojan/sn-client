@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import Paper from '@material-ui/core/Paper';
 import {makeStyles} from '@material-ui/core/styles';
-import Divider from '@material-ui/core/Divider';
 
 import Loader from '@components/Loader';
 import {RemoveMessageModal} from '@components/modals';
@@ -104,8 +103,6 @@ const Canvas: React.FC<Props> = ({
 				<Header />
 			)}
 
-			<Divider />
-
 			<div className={classes.messages}>
 				{loading && <Loader />}
 
@@ -129,8 +126,6 @@ const Canvas: React.FC<Props> = ({
 
 				<div ref={messagesEndRef} />
 			</div>
-
-			<Divider />
 
 			<Form />
 

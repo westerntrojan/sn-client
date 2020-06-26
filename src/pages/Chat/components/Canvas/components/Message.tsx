@@ -15,8 +15,7 @@ import {IMessage} from '@components/chat/types';
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		margin: '10px 0',
-		padding: '0 20px',
+		padding: '5px 10px',
 		display: 'flex',
 		alignItems: 'flex-end',
 		wordWrap: 'break-word',

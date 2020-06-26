@@ -13,7 +13,7 @@ import ForumIcon from '@material-ui/icons/Forum';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import {useSelector, shallowEqual} from 'react-redux';
 
-import {RootState} from '@store/types';
+import {AppState} from '@store/types';
 
 const useStyles = makeStyles(theme => ({
 	drawer: {
@@ -39,8 +39,8 @@ const AlterDrawer: React.FC = () => {
 
 	const location = useLocation();
 
-	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
-	const app = useSelector((state: RootState) => state.app, shallowEqual);
+	const auth = useSelector((state: AppState) => state.auth, shallowEqual);
+	const app = useSelector((state: AppState) => state.app, shallowEqual);
 
 	const isSelected = (path: string): boolean => {
 		return location.pathname === path;

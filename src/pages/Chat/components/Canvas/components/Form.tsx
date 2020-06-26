@@ -8,6 +8,7 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import Zoom from '@material-ui/core/Zoom';
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
+import Divider from '@material-ui/core/Divider';
 
 import {useRedirect} from '@utils/hooks';
 
@@ -97,7 +98,7 @@ const Form: React.FC<Props> = ({auth, handleSubmit, handleChangeImage}) => {
 		setIcon(0);
 	};
 
-	const _handlePressKeyInput = (target: React.KeyboardEvent): void => {
+	const _handleKeyPressInput = (target: React.KeyboardEvent): void => {
 		if (target.ctrlKey && target.charCode === 13) {
 			_handleSubmit();
 		}
@@ -116,56 +117,60 @@ const Form: React.FC<Props> = ({auth, handleSubmit, handleChangeImage}) => {
 	};
 
 	return (
-		<Paper
-			className={classes.root}
-			style={{paddingLeft: buttonWidth + 10, paddingRight: buttonWidth * 2 + 10}}
-		>
-			<IconButton
-				onClick={_handleIconClick}
-				className={classes.attachButton}
-				ref={buttonRef}
-				component='label'
+		<>
+			<Divider />
+
+			<Paper
+				className={classes.root}
+				style={{paddingLeft: buttonWidth + 10, paddingRight: buttonWidth * 2 + 10}}
 			>
-				<AttachFileIcon className={classes.attachIcon} />
+				<IconButton
+					onClick={_handleIconClick}
+					className={classes.attachButton}
+					ref={buttonRef}
+					component='label'
+				>
+					<AttachFileIcon className={classes.attachIcon} />
 
-				{auth.isAuth && (
-					<input type='file' style={{display: 'none'}} onChange={handleChangeImage} />
-				)}
-			</IconButton>
-
-			<InputBase
-				className={classes.input}
-				multiline
-				rowsMax='10'
-				placeholder='Write a message...'
-				value={text}
-				onChange={_handleChangeText}
-				disabled={loading}
-				onKeyPress={_handlePressKeyInput}
-				onFocus={_handleFocus}
-				autoFocus={auth.isAuth}
-			/>
-
-			<IconButton
-				onClick={_handleIconClick}
-				className={classes.smileButton}
-				style={{right: buttonWidth + 5}}
-			>
-				<InsertEmoticonIcon />
-			</IconButton>
-
-			<Zoom in={Boolean(icon)}>
-				<IconButton color='primary' className={classes.rightButton} onClick={_handleSubmit}>
-					<SendIcon />
+					{auth.isAuth && (
+						<input type='file' style={{display: 'none'}} onChange={handleChangeImage} />
+					)}
 				</IconButton>
-			</Zoom>
 
-			<Zoom in={!Boolean(icon)}>
-				<IconButton onClick={_handleIconClick} className={classes.rightButton}>
-					<MicNoneIcon />
+				<InputBase
+					className={classes.input}
+					multiline
+					rowsMax='10'
+					placeholder='Write a message...'
+					value={text}
+					onChange={_handleChangeText}
+					disabled={loading}
+					onKeyPress={_handleKeyPressInput}
+					onFocus={_handleFocus}
+					autoFocus={auth.isAuth}
+				/>
+
+				<IconButton
+					onClick={_handleIconClick}
+					className={classes.smileButton}
+					style={{right: buttonWidth + 5}}
+				>
+					<InsertEmoticonIcon />
 				</IconButton>
-			</Zoom>
-		</Paper>
+
+				<Zoom in={Boolean(icon)}>
+					<IconButton color='primary' className={classes.rightButton} onClick={_handleSubmit}>
+						<SendIcon />
+					</IconButton>
+				</Zoom>
+
+				<Zoom in={!Boolean(icon)}>
+					<IconButton onClick={_handleIconClick} className={classes.rightButton}>
+						<MicNoneIcon />
+					</IconButton>
+				</Zoom>
+			</Paper>
+		</>
 	);
 };
 

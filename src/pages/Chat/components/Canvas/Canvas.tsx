@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useRef, useContext} from 'react';
 import Paper from '@material-ui/core/Paper';
 import {makeStyles} from '@material-ui/core/styles';
-import Divider from '@material-ui/core/Divider';
 import {useSnackbar} from 'notistack';
 
 import Loader from '@components/Loader';
@@ -159,8 +158,6 @@ const Canvas: React.FC<Props> = ({
 				<Header />
 			)}
 
-			<Divider />
-
 			<div className={classes.messages} ref={messagesContainer} onScroll={_handleMessagesScroll}>
 				{loading && <Loader />}
 
@@ -170,14 +167,12 @@ const Canvas: React.FC<Props> = ({
 						if (message.user._id === auth.user._id) {
 							if (message._id === messages[0]._id) {
 								return (
-									<div>
-										<MyMessage
-											message={message}
-											key={message._id}
-											selectMessage={selectMessage}
-											alterHeader={alterHeader}
-										/>
-									</div>
+									<MyMessage
+										key={message._id}
+										message={message}
+										selectMessage={selectMessage}
+										alterHeader={alterHeader}
+									/>
 								);
 							}
 
@@ -199,7 +194,6 @@ const Canvas: React.FC<Props> = ({
 					messages.map(message => <Message message={message} key={message._id} />)}
 			</div>
 
-			<Divider />
 			<Form auth={auth} handleSubmit={handleSubmit} handleChangeImage={handleChangeImage} />
 
 			<RemoveMessageModal

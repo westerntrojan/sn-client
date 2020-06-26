@@ -15,8 +15,9 @@ import FullArticle from './components/FullArticle';
 import CommentForm from './components/CommentForm';
 import CommentReplies from './components/CommentReplies';
 import {useArticle, useRedirect} from '@utils/hooks';
+import {getCommentsCount} from '@utils/articles';
 import ZoomTooltip from '@components/tooltips/ZoomTooltip';
-import {RootState} from '@store/types';
+import {AppState} from '@store/types';
 import {IComment} from '@store/types';
 import * as articleActions from '@store/articles/actions';
 import Context from './context';
@@ -28,7 +29,6 @@ const Article: React.FC = () => {
 	const [loading, setLoading] = useState(true);
 	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 	const [article, setArticleSlug] = useArticle();
-	const [commentsCount, setCommentsCount] = useState(0);
 
 	const redirectTo = useRedirect();
 
@@ -40,7 +40,7 @@ const Article: React.FC = () => {
 		setAnchorEl(null);
 	};
 
-	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
+	const auth = useSelector((state: AppState) => state.auth, shallowEqual);
 	const dispatch = useDispatch();
 
 	const setViews = useCallback(() => {
@@ -60,17 +60,6 @@ const Article: React.FC = () => {
 
 		setViews();
 	}, [slug, setArticleSlug, setViews]);
-
-	useEffect(() => {
-		if (article) {
-			const commentsCount = article.comments.reduce(
-				(acc, comment) => acc + comment.replies.length + 1,
-				0,
-			);
-
-			setCommentsCount(commentsCount);
-		}
-	}, [article]);
 
 	const handleAddArticleLike = async (): Promise<void> => {
 		if (!auth.isAuth) {
@@ -204,7 +193,7 @@ const Article: React.FC = () => {
 						<div className='comments'>
 							<div className='comments-title'>
 								<Typography variant='h5' className='caption'>
-									{commentsCount} Comments
+									{getCommentsCount(article)} Comments
 								</Typography>
 
 								<ZoomTooltip title='Sort comments'>

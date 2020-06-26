@@ -4,9 +4,13 @@ export const useStyles = makeStyles({
 	root: {
 		marginBottom: 20,
 		wordWrap: 'break-word',
+
+		'&:last-child': {
+			marginBottom: 0,
+		},
 	},
 	title: {
-		marginBottom: '10px',
+		marginBottom: 20,
 	},
 	imageWrapper: {
 		lineHeight: 0,

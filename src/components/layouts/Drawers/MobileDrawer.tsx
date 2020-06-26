@@ -23,7 +23,7 @@ import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import {useSelector, shallowEqual} from 'react-redux';
 
 import Footer from './Footer';
-import {RootState} from '@store/types';
+import {AppState} from '@store/types';
 
 const drawerWidth = 240;
 
@@ -50,7 +50,7 @@ const MobileDrawer: React.FC<Props> = ({open, close}) => {
 
 	const location = useLocation();
 
-	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
+	const auth = useSelector((state: AppState) => state.auth, shallowEqual);
 
 	return (
 		<Drawer open={open} onClose={close}>

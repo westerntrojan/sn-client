@@ -7,7 +7,7 @@ import callApi from '@utils/callApi';
 
 import './style.scss';
 import Canvas from './components/Canvas';
-import {RootState} from '@store/types';
+import {AppState} from '@store/types';
 import {IMessage} from '@components/chat/types';
 import {ISendingMessage} from './types';
 import Context from './context';
@@ -20,7 +20,7 @@ const Chat: React.FC = () => {
 
 	const {enqueueSnackbar} = useSnackbar();
 
-	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
+	const auth = useSelector((state: AppState) => state.auth, shallowEqual);
 
 	const _handleError = useCallback((): void => {
 		enqueueSnackbar('Network error. Try reload page', {variant: 'error'});

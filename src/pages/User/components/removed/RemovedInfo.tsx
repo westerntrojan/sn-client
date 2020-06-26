@@ -43,14 +43,14 @@ const RemovedInfo: React.FC<Props> = ({user}) => {
 			<CardContent>
 				<div className={classes.titleBlock}>
 					<Typography variant='h5'>{`${user.firstName} ${user.lastName}`.trim()}</Typography>
-					<Typography variant='subtitle1'>Page deleted</Typography>
+					<Typography variant='subtitle1'>Page removed</Typography>
 				</div>
 
 				<Divider />
 
 				<div className={classes.textBlock}>
 					<Typography className={classes.text}>
-						User page deleted. Information is not available
+						User page removed. Information is not available
 					</Typography>
 				</div>
 			</CardContent>

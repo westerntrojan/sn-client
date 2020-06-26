@@ -33,6 +33,7 @@ import BookmarkIcon from '@material-ui/icons/Bookmark';
 
 import {useStyles} from './style';
 import {userLink} from '@utils/users';
+import {getCommentsCount} from '@utils/articles';
 import {IArticle} from '@store/types';
 import {ImageModal} from '@components/modals';
 import ZoomTooltip from '@components/tooltips/ZoomTooltip';
@@ -262,7 +263,7 @@ const FullArticle: React.FC<Props> = ({
 					</Typography>
 					<Typography className={classes.comments}>
 						<QuestionAnswerIcon fontSize='small' className={classes.icon} />
-						{article.comments.length}
+						{getCommentsCount(article)}
 					</Typography>
 				</div>
 			</CardActions>

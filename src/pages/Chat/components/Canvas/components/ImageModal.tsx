@@ -80,7 +80,7 @@ const ImageModal: React.FC<Props> = ({open, imagePreview, handleSubmit, closeMod
 		setCaption(e.target.value);
 	};
 
-	const _handlePressKeyTextarea = (target: React.KeyboardEvent): void => {
+	const _handleKeyPressTextarea = (target: React.KeyboardEvent): void => {
 		if (target.ctrlKey && target.charCode === 13) {
 			_handleSubmit();
 		}
@@ -115,7 +115,7 @@ const ImageModal: React.FC<Props> = ({open, imagePreview, handleSubmit, closeMod
 					value={caption}
 					className={classes.input}
 					onChange={_handleChangeCaption}
-					onKeyPress={_handlePressKeyTextarea}
+					onKeyPress={_handleKeyPressTextarea}
 					autoFocus
 					rowsMax={3}
 					multiline

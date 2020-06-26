@@ -26,7 +26,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Skeleton from '@material-ui/lab/Skeleton';
 import {useSelector, shallowEqual} from 'react-redux';
-import {RootState} from '@store/types';
+import {AppState} from '@store/types';
 
 import {useStyles} from './style';
 import UserAvatar from '@components/avatars/UserAvatar';
@@ -60,8 +60,8 @@ const Header: React.FC<Props> = ({
 	const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState<HTMLButtonElement | null>(null);
 
-	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
-	const app = useSelector((state: RootState) => state.app, shallowEqual);
+	const auth = useSelector((state: AppState) => state.auth, shallowEqual);
+	const app = useSelector((state: AppState) => state.app, shallowEqual);
 
 	const isMenuOpen = Boolean(anchorEl);
 	const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);

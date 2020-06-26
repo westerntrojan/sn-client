@@ -3,9 +3,9 @@ import {ThunkAction} from 'redux-thunk';
 
 import {rootReducer} from './index';
 
-export type RootState = ReturnType<typeof rootReducer>;
+export type AppState = ReturnType<typeof rootReducer>;
 
-export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, null, Action<string>>;
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppState, null, Action<string>>;
 
 enum Role {
 	ADMIN,
