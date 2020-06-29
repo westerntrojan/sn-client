@@ -27,7 +27,7 @@ const EditArticle: React.FC = () => {
 
 	const handleArticleFormSubmit = async (newArticle: IArticleInputs): Promise<any> => {
 		if (article) {
-			const {title, text, category, tags, image, imagePreview} = newArticle;
+			const {title, text, category, tags, imageFile, imagePreview} = newArticle;
 
 			const formData = new FormData();
 			formData.append('title', title);
@@ -35,19 +35,20 @@ const EditArticle: React.FC = () => {
 			formData.append('category', category);
 			formData.append('tags', JSON.stringify(tags));
 			formData.append('userId', authUser._id);
-			if (image) {
-				formData.append('image', image);
-			}
-			formData.append('imagePreview', imagePreview);
 			formData.append('articleId', article._id);
+			if (imageFile) {
+				formData.append('image', imageFile);
+			} else {
+				formData.append('image', imagePreview);
+			}
 
 			const data: any = await dispatch(editArticle(formData));
 
-			if (data.errors) {
-				return data.errors[0];
+			if (data.success) {
+				redirectTo(`/article/${data.article.slug}`);
 			}
 
-			redirectTo(`/article/${data.article.slug}`);
+			return data;
 		}
 	};
 

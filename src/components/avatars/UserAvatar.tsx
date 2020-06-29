@@ -28,7 +28,7 @@ const UserAvatar: React.FC<Props> = ({user, className = '', small = false, style
 	return (
 		<Avatar
 			className={classNames('avatar', className, {[classes.small]: small})}
-			src={user.avatar.images[0]}
+			src={`${process.env.REACT_APP_CLOUD_URI}/c_fill,h_50,w_50,q_65/${user.avatar.images[0]}`}
 			style={{backgroundColor: user.avatar.color, ...style}}
 			onClick={onClick}
 		>

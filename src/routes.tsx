@@ -22,6 +22,7 @@ const Auth = lazy(() => import('./pages/Auth'));
 const RegisterVerify = lazy(() => import('./pages/RegisterVerify'));
 const PasswordResetEmail = lazy(() => import('./pages/PasswordResetEmail'));
 const PasswordResetVerify = lazy(() => import('./pages/PasswordResetVerify'));
+const Test = lazy(() => import('./pages/Test'));
 const NotFound = lazy(() => import('./components/NotFound'));
 
 const Routes: React.FC = () => {
@@ -98,6 +99,9 @@ const Routes: React.FC = () => {
 								redirectTo={from}
 							>
 								<PasswordResetVerify />
+							</PrivateRoute>
+							<PrivateRoute path='/test' condition={auth.isAdmin} redirectTo={from}>
+								<Test />
 							</PrivateRoute>
 
 							<Route component={NotFound} />

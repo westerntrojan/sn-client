@@ -49,7 +49,7 @@ export const getArticle = (slug: string): AppThunk => async (dispatch): Promise<
 export const addArticle = (article: FormData): AppThunk => async (dispatch): Promise<object> => {
 	const data = await callApi.post('/articles', article);
 
-	if (data.article) {
+	if (data.success) {
 		dispatch({
 			type: types.ADD_ARTICLE,
 			payload: {
@@ -64,7 +64,7 @@ export const addArticle = (article: FormData): AppThunk => async (dispatch): Pro
 export const editArticle = (formData: FormData): AppThunk => async (dispatch): Promise<object> => {
 	const data = await callApi.put(`/articles/${formData.get('articleId')}`, formData);
 
-	if (data.article) {
+	if (data.success) {
 		dispatch({
 			type: types.EDIT_ARTICLE,
 			payload: {
@@ -78,8 +78,6 @@ export const editArticle = (formData: FormData): AppThunk => async (dispatch): P
 
 export const removeArticle = (articleId: string): AppThunk => async (dispatch): Promise<void> => {
 	await callApi.delete(`/articles/${articleId}`);
-
-	console.log('removeArticle');
 
 	dispatch({
 		type: types.REMOVE_ARTICLE,
@@ -131,19 +129,21 @@ export const addToBookmars = (articleId: string, userId: string): AppThunk => as
 ): Promise<void> => {
 	const data = await callApi.get(`/articles/bookmarks/${articleId}/${userId}`);
 
-	if (data.add) {
-		dispatch({
-			type: types.ADD_TO_BOOKMARKS,
-			payload: {
-				articleId,
-			},
-		});
-	} else if (data.remove) {
-		dispatch({
-			type: types.REMOVE_FROM_BOOKMARKS,
-			payload: {
-				articleId,
-			},
-		});
+	if (data.success) {
+		if (data.added) {
+			dispatch({
+				type: types.ADD_TO_BOOKMARKS,
+				payload: {
+					articleId,
+				},
+			});
+		} else if (data.removed) {
+			dispatch({
+				type: types.REMOVE_FROM_BOOKMARKS,
+				payload: {
+					articleId,
+				},
+			});
+		}
 	}
 };

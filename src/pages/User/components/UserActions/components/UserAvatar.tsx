@@ -10,7 +10,7 @@ import {useSnackbar} from 'notistack';
 
 import {addAvatar, removeAvatar} from '@store/auth/actions';
 import {userAvatar} from '@utils/users';
-import {checkImage} from '@utils/images';
+import {validateImage} from '@utils/images';
 import {IUser} from '@store/types';
 import {ImageModal} from '@components/modals';
 import Loader from '@components/Loader';
@@ -78,15 +78,15 @@ const UserAvatar: React.FC<Props> = ({auth, user}) => {
 	const _handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
 		setLoading(true);
 
-		if (e.target.files) {
+		if (e.target.files && e.target.files.length) {
 			const file = e.target.files[0];
 
-			const checkingResult = checkImage(file);
+			const checkingResult = validateImage(file);
 
 			if (checkingResult.success) {
 				const formData = new FormData();
 				formData.append('userId', auth.user._id);
-				formData.append('avatar', file);
+				formData.append('image', file);
 
 				const data: any = await dispatch(addAvatar(formData));
 
@@ -102,8 +102,12 @@ const UserAvatar: React.FC<Props> = ({auth, user}) => {
 		}
 	};
 
-	const handleRemoveImage = async (imageUrl: string): Promise<void> => {
-		await dispatch(removeAvatar(auth.user._id, imageUrl));
+	const handleRemoveImage = async (image: string): Promise<void> => {
+		setLoading(true);
+
+		await dispatch(removeAvatar(auth.user._id, image.split('/').reverse()[0]));
+
+		setLoading(false);
 	};
 
 	const isMe = auth.user._id === user._id;
@@ -121,22 +125,24 @@ const UserAvatar: React.FC<Props> = ({auth, user}) => {
 				className={classNames(classes.avatar, 'avatar')}
 				style={{backgroundColor: user.avatar.color, cursor: currentAvatar ? 'pointer' : 'default'}}
 				onClick={(): void => setImageModal(true)}
-				src={currentAvatar}
+				src={`${process.env.REACT_APP_CLOUD_URI}/c_fill,h_200,w_200,q_65/${currentAvatar}`}
 			>
 				{userAvatar(user)}
 			</Avatar>
 
-			{imageModal && isMe && (
-				<ImageModal
-					images={allAvatars}
-					handleRemoveImage={handleRemoveImage}
-					closeModal={(): void => setImageModal(false)}
-				/>
-			)}
+			<ImageModal
+				open={imageModal && isMe}
+				images={allAvatars.map(avatar => `${process.env.REACT_APP_CLOUD_URI}/q_65/${avatar}`)}
+				handleRemoveImage={handleRemoveImage}
+				loading={loading}
+				closeModal={(): void => setImageModal(false)}
+			/>
 
-			{imageModal && !isMe && (
-				<ImageModal images={allAvatars} closeModal={(): void => setImageModal(false)} />
-			)}
+			<ImageModal
+				open={imageModal && !isMe}
+				images={allAvatars.map(avatar => `${process.env.REACT_APP_CLOUD_URI}/q_65/${avatar}`)}
+				closeModal={(): void => setImageModal(false)}
+			/>
 
 			{loading && (
 				<div className={classes.loadingBox}>

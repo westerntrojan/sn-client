@@ -122,7 +122,7 @@ const FullArticle: React.FC<Props> = ({
 				<CardMedia
 					component='img'
 					alt={article.title}
-					image={article.image}
+					image={`${process.env.REACT_APP_CLOUD_URI}/ar_1.8,c_crop,q_65/${article.image}`}
 					title={article.title}
 					className={classes.media}
 					onClick={(): void => setImageModal(true)}
@@ -268,9 +268,11 @@ const FullArticle: React.FC<Props> = ({
 				</div>
 			</CardActions>
 
-			{imageModal && (
-				<ImageModal image={article.image} closeModal={(): void => setImageModal(false)} />
-			)}
+			<ImageModal
+				open={imageModal}
+				image={`${process.env.REACT_APP_CLOUD_URI}/q_65/${article.image}`}
+				closeModal={(): void => setImageModal(false)}
+			/>
 
 			<Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={closeMenu}>
 				{(auth.user && auth.user._id === article.user._id) || auth.isAdmin ? (

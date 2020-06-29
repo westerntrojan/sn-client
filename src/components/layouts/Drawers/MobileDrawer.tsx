@@ -21,6 +21,7 @@ import ForumIcon from '@material-ui/icons/Forum';
 import {useTheme} from '@material-ui/core/styles';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import {useSelector, shallowEqual} from 'react-redux';
+import Brightness1Icon from '@material-ui/icons/Brightness1';
 
 import Footer from './Footer';
 import {AppState} from '@store/types';
@@ -149,6 +150,19 @@ const MobileDrawer: React.FC<Props> = ({open, close}) => {
 									<Dashboard />
 								</ListItemIcon>
 								<ListItemText primary={'Admin'} />
+							</ListItem>
+
+							<ListItem
+								button
+								component={RouterLink}
+								selected={location.pathname === '/test'}
+								to={'/test'}
+								onClick={close}
+							>
+								<ListItemIcon>
+									<Brightness1Icon />
+								</ListItemIcon>
+								<ListItemText primary={'Test'} />
 							</ListItem>
 						</List>
 					</>

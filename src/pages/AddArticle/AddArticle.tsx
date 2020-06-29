@@ -23,17 +23,15 @@ const AddArticle: React.FC = () => {
 		formData.append('category', category);
 		formData.append('tags', JSON.stringify(tags));
 		formData.append('userId', authUser._id);
-		if (image) {
-			formData.append('image', image);
-		}
+		formData.append('image', image || '');
 
 		const data: any = await dispatch(addArticle(formData));
 
-		if (data.errors) {
-			return data.errors[0];
+		if (data.success) {
+			redirectTo(`/article/${data.article.slug}`);
 		}
 
-		redirectTo(`/article/${data.article.slug}`);
+		return data;
 	};
 
 	return (

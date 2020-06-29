@@ -1,4 +1,4 @@
-export const checkImage = (file: File): {success: boolean; message?: string} => {
+export const validateImage = (file: File): {success: boolean; message?: string} => {
 	const types = ['image/jpg', 'image/jpeg', 'image/png'];
 
 	if (!types.includes(file.type)) {

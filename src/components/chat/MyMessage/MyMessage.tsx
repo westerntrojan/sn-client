@@ -61,7 +61,7 @@ const MyMessage: React.FC<Props> = ({message, alterHeader, selectMessage}) => {
 				})}
 			/>
 
-			{!message.image.url && !message.image.caption && (
+			{!message.image && !message.caption && (
 				<Card className={classes.message}>
 					<CardContent>
 						<Typography>{message.text}</Typography>
@@ -76,26 +76,34 @@ const MyMessage: React.FC<Props> = ({message, alterHeader, selectMessage}) => {
 				</Card>
 			)}
 
-			{message.image.url && !message.image.caption && (
+			{message.image && !message.caption && (
 				<Card className={classes.message}>
 					<Card className={classes.imageWrapper} onClick={_handleClickImage}>
-						<img alt='' src={message.image.url} className={classes.image} />
+						<img
+							alt=''
+							src={`${process.env.REACT_APP_CLOUD_NAME}/q_65/${message.image}`}
+							className={classes.image}
+						/>
 					</Card>
 
 					<div className={classes.imageMessageCreated}> {moment(message.created).format('LT')}</div>
 				</Card>
 			)}
 
-			{message.image.url && message.image.caption && (
+			{message.image && message.caption && (
 				<Card className={classes.message}>
 					<Card className={classes.imageWrapper} onClick={_handleClickImage}>
-						<img alt='' src={message.image.url} className={classes.image} />
+						<img
+							alt=''
+							src={`${process.env.REACT_APP_CLOUD_NAME}/q_65/${message.image}`}
+							className={classes.image}
+						/>
 					</Card>
 
-					{message.image.caption && (
+					{message.caption && (
 						<>
 							<CardContent>
-								<Typography>{message.image.caption}</Typography>
+								<Typography>{message.caption}</Typography>
 							</CardContent>
 							<CardActions className={classes.actions}>
 								<div className={classes.messageCreated}>
@@ -109,9 +117,11 @@ const MyMessage: React.FC<Props> = ({message, alterHeader, selectMessage}) => {
 				</Card>
 			)}
 
-			{imageModal && (
-				<ImageModal image={message.image.url} closeModal={(): void => setImageModal(false)} />
-			)}
+			<ImageModal
+				open={imageModal}
+				image={message.image}
+				closeModal={(): void => setImageModal(false)}
+			/>
 		</Paper>
 	);
 };

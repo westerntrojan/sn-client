@@ -14,6 +14,7 @@ import Dashboard from '@material-ui/icons/Dashboard';
 import Divider from '@material-ui/core/Divider';
 import {Link as RouterLink} from 'react-router-dom';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
+import Brightness1Icon from '@material-ui/icons/Brightness1';
 
 import {AppState} from '@store/types';
 import Footer from './Footer';
@@ -125,6 +126,18 @@ const MainDrawer: React.FC = () => {
 											<Dashboard />
 										</ListItemIcon>
 										<ListItemText primary={'Admin'} />
+									</ListItem>
+
+									<ListItem
+										button
+										component={RouterLink}
+										to={'/test'}
+										selected={location.pathname === '/test'}
+									>
+										<ListItemIcon>
+											<Brightness1Icon />
+										</ListItemIcon>
+										<ListItemText primary={'Test'} />
 									</ListItem>
 								</List>
 							</>

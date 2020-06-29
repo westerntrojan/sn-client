@@ -3389,6 +3389,19 @@ clone-regexp@^2.1.0:
   dependencies:
     is-regexp "^2.0.0"
 
+cloudinary-core@^2.9.0:
+  version "2.9.0"
+  resolved "https://registry.yarnpkg.com/cloudinary-core/-/cloudinary-core-2.9.0.tgz#ca225d671faafea5a839004210226c64668bfdde"
+  integrity sha512-PvnRSb9Hk6myk6Ai59GonCRC3OsbVKcoARTK9sl+lZ/CMnwOV0SLkx21JcjehZ2CqUe1hVy23axEOyMdCBRicA==
+
+cloudinary-react@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/cloudinary-react/-/cloudinary-react-1.5.1.tgz#35c9d21fc77ece3185f13896feb84ba88c8fa63c"
+  integrity sha512-9PlLQqFqP/w+9Hg3ugE2kdXmbXz0IvCWdbh1Zt0a45rveg7x0u6ZYFvUIN5dc3XksPqn6GJAs6D8/AgwipUKOA==
+  dependencies:
+    cloudinary-core "^2.9.0"
+    prop-types "^15.6.2"
+
 clsx@^1.0.2, clsx@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/clsx/-/clsx-1.0.4.tgz#0c0171f6d5cb2fe83848463c15fcc26b4df8c2ec"

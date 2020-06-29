@@ -13,7 +13,7 @@ export const addAvatar = (formData: FormData): AppThunk => async (dispatch): Pro
 		dispatch({
 			type: types.CHANGE_AVATAR,
 			payload: {
-				imageUrl: data.imageUrl,
+				image: data.image,
 			},
 		});
 	}
@@ -21,16 +21,16 @@ export const addAvatar = (formData: FormData): AppThunk => async (dispatch): Pro
 	return data;
 };
 
-export const removeAvatar = (userId: string, imageUrl: string): AppThunk => async (
+export const removeAvatar = (userId: string, image: string): AppThunk => async (
 	dispatch,
 ): Promise<void> => {
-	const data = await callApi.post('/users/avatar/remove', {userId, imageUrl});
+	const data = await callApi.post('/users/avatar/remove', {userId, image});
 
 	if (data.success) {
 		dispatch({
 			type: types.REMOVE_AVATAR,
 			payload: {
-				imageUrl,
+				image,
 			},
 		});
 	}

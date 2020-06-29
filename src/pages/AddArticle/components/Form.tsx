@@ -14,7 +14,7 @@ import Button from '@material-ui/core/Button';
 import Dropzone from '@components/Dropzone';
 import {AppState} from '@store/types';
 import {IArticleInputs} from '@pages/AddArticle/types';
-import {checkImage} from '@utils/images';
+import {validateImage} from '@utils/images';
 
 const useStyles = makeStyles({
 	input: {
@@ -99,12 +99,12 @@ const ArticleForm: React.FC<Props> = ({handleSubmit}) => {
 		setLoading(true);
 		setLoadingImage(true);
 
-		const error: any = await handleSubmit({title, text, category, tags, image: imageFile});
+		const data: any = await handleSubmit({title, text, category, tags, image: imageFile});
 
-		if (error) {
+		if (!data.success) {
 			setLoading(false);
 			setLoadingImage(false);
-			enqueueSnackbar(error.msg, {variant: 'error'});
+			enqueueSnackbar(data.message, {variant: 'error'});
 		}
 	};
 
@@ -121,10 +121,10 @@ const ArticleForm: React.FC<Props> = ({handleSubmit}) => {
 	};
 
 	const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
-		if (e.target.files) {
+		if (e.target.files && e.target.files.length) {
 			const file = e.target.files[0];
 
-			const checkingResult = checkImage(file);
+			const checkingResult = validateImage(file);
 
 			if (checkingResult.success) {
 				setImageFile(file);

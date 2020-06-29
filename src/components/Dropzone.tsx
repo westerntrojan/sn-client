@@ -15,7 +15,8 @@ const useStyles = makeStyles({
 		marginBottom: 20,
 	},
 	imageWrapper: {
-		maxWidth: 300,
+		maxWidth: 400,
+		height: 300,
 		marginLeft: 20,
 		cursor: 'pointer',
 		lineHeight: 0,
@@ -37,6 +38,7 @@ const useStyles = makeStyles({
 	image: {
 		width: '100%',
 		height: '100%',
+		objectFit: 'fill',
 	},
 });
 
@@ -98,9 +100,11 @@ const Dropzone: React.FC<Props> = ({
 				</CardActionArea>
 			)}
 
-			{imageModal && (
-				<ImageModal image={imagePreview} closeModal={(): void => setImageModal(false)} />
-			)}
+			<ImageModal
+				open={imageModal}
+				image={imagePreview}
+				closeModal={(): void => setImageModal(false)}
+			/>
 		</div>
 	);
 };

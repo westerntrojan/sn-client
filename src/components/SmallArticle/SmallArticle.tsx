@@ -35,9 +35,10 @@ import {UserAvatar} from '@components/avatars';
 
 type Props = {
 	article: IArticle;
+	lazy?: boolean;
 };
 
-const SmallArticle: React.FC<Props> = ({article}) => {
+const SmallArticle: React.FC<Props> = ({article, lazy}) => {
 	const classes = useStyles();
 
 	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -103,7 +104,7 @@ const SmallArticle: React.FC<Props> = ({article}) => {
 						color='inherit'
 					>
 						<LazyLoadImage
-							src={article.image}
+							src={`${process.env.REACT_APP_CLOUD_URI}/ar_2.5,c_crop,q_65/${article.image}`}
 							title={article.title}
 							width='100%'
 							height='300px'

@@ -13,7 +13,7 @@ import MyMessage from '@components/chat/MyMessage';
 import AlterHeader from '@components/chat/AlterHeader';
 import {IMessage} from '@components/chat/types';
 import Context from '@pages/Chat/context';
-import {checkImage} from '@utils/images';
+import {validateImage} from '@utils/images';
 
 const useStyles = makeStyles({
 	root: {
@@ -105,10 +105,10 @@ const Canvas: React.FC<Props> = ({
 	};
 
 	const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>): void => {
-		if (e.target.files) {
+		if (e.target.files && e.target.files.length) {
 			const file = e.target.files[0];
 
-			const checkingResult = checkImage(file);
+			const checkingResult = validateImage(file);
 
 			if (checkingResult.success) {
 				setImageFile(file);

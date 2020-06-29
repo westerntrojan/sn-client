@@ -139,8 +139,6 @@ class ChatClass extends PureComponent<Props, State> {
 				formData.append('image', image);
 			}
 			formData.append('caption', caption);
-
-			console.log(formData);
 		}
 	};
 

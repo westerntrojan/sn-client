@@ -14,7 +14,7 @@ import Button from '@material-ui/core/Button';
 import Dropzone from '@components/Dropzone';
 import {IArticle, AppState} from '@store/types';
 import {IArticleInputs} from '@pages/EditArticle/types';
-import {checkImage} from '@utils/images';
+import {validateImage} from '@utils/images';
 
 const useStyles = makeStyles({
 	input: {
@@ -45,7 +45,9 @@ const ArticleForm: React.FC<Props> = ({article, handleSubmit}) => {
 	const [title, setTitle] = useState(article.title);
 	const [text, setText] = useState(article.text);
 	const [imageFile, setImageFile] = useState<File | null>(null);
-	const [imagePreview, setImagePreview] = useState(article.image);
+	const [imagePreview, setImagePreview] = useState(
+		article.image ? `${process.env.REACT_APP_CLOUD_URI}/q_65/${article.image}` : '',
+	);
 	const [tags, setTags] = useState(article.tags);
 	const [category, setCategory] = useState(article.category._id);
 	const [loading, setLoading] = useState(false);
@@ -117,19 +119,19 @@ const ArticleForm: React.FC<Props> = ({article, handleSubmit}) => {
 		setLoading(true);
 		setLoadingImage(true);
 
-		const error: any = await handleSubmit({
+		const data: any = await handleSubmit({
 			title,
 			text,
 			category,
 			tags,
-			image: imageFile,
-			imagePreview,
+			imageFile: imageFile,
+			imagePreview: imagePreview.split('/').reverse()[0],
 		});
 
-		if (error) {
+		if (!data.success) {
 			setLoading(false);
 			setLoadingImage(false);
-			enqueueSnackbar(error.msg, {variant: 'error'});
+			enqueueSnackbar(data.message, {variant: 'error'});
 		}
 	};
 
@@ -146,10 +148,10 @@ const ArticleForm: React.FC<Props> = ({article, handleSubmit}) => {
 	};
 
 	const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
-		if (e.target.files) {
+		if (e.target.files && e.target.files.length) {
 			const file = e.target.files[0];
 
-			const checkingResult = checkImage(file);
+			const checkingResult = validateImage(file);
 
 			if (checkingResult.success) {
 				setImageFile(file);

@@ -140,7 +140,7 @@ const Chat: React.FC = () => {
 							type,
 							text,
 							image: {
-								url: data.imageUrl,
+								url: data.image,
 								caption,
 							},
 						},
