@@ -16,10 +16,10 @@ const useStyles = makeStyles(theme => ({
 
 type Props = {
 	user: IUser;
-	className?: any;
+	className?: string;
 	small?: boolean;
 	style?: object;
-	onClick?: (...args: any) => any;
+	onClick?: (...args: any) => void;
 };
 
 const UserAvatar: React.FC<Props> = ({user, className = '', small = false, style, onClick}) => {

@@ -9,7 +9,7 @@ import {handleAppError} from '@utils/errorHandlers';
 import {AppState} from '@store/types';
 
 type Props = {
-	error: boolean;
+	error: object;
 	children: React.ReactNode;
 };
 

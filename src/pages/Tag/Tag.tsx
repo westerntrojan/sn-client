@@ -45,10 +45,8 @@ const Tag: React.FC = () => {
 	}, [slug]);
 
 	useEffect(() => {
-		if (loading) {
-			getArticles();
-		}
-	}, [getArticles, loading]);
+		getArticles();
+	}, [getArticles, loading, slug]);
 
 	return (
 		<section className='tag'>

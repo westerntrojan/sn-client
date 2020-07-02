@@ -62,9 +62,7 @@ const Category: React.FC = () => {
 	}, [dispatch, category]);
 
 	useEffect(() => {
-		if (loading) {
-			getArticles();
-		}
+		getArticles();
 	}, [getArticles, loading]);
 
 	return (

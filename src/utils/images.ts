@@ -11,3 +11,15 @@ export const validateImage = (file: File): {success: boolean; message?: string} 
 
 	return {success: true};
 };
+
+type ImageOptions = {
+	quality?: number;
+	width?: number;
+	height?: number;
+};
+
+export const getImage = (public_id: string, {quality, width, height}: ImageOptions): string => {
+	const url = `${process.env.REACT_APP_CLOUD_URI}/q_65,fl_progressive/${public_id}`;
+
+	return url;
+};

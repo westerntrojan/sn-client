@@ -4,9 +4,9 @@ import Avatar from '@material-ui/core/Avatar';
 import PersonIcon from '@material-ui/icons/Person';
 
 type Props = {
-	className?: any;
+	className?: string;
 	style?: object;
-	onClick?: (...args: any) => any;
+	onClick?: (...args: any) => void;
 };
 
 const NotAuthAvatar: React.FC<Props> = ({className = '', style, onClick}) => {

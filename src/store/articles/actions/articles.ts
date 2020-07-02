@@ -124,7 +124,7 @@ export const addDislike = (articleId: string): AppThunk => async (dispatch): Pro
 	}
 };
 
-export const addToBookmars = (articleId: string, userId: string): AppThunk => async (
+export const addToBookmarks = (articleId: string, userId: string): AppThunk => async (
 	dispatch,
 ): Promise<void> => {
 	const data = await callApi.get(`/articles/bookmarks/${articleId}/${userId}`);

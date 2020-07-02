@@ -87,7 +87,7 @@ const Article: React.FC = () => {
 		}
 
 		if (article) {
-			await dispatch(articleActions.addToBookmars(article._id, auth.user._id));
+			await dispatch(articleActions.addToBookmarks(article._id, auth.user._id));
 		}
 	};
 
