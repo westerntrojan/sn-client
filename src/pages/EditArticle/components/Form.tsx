@@ -100,7 +100,7 @@ const ArticleForm: React.FC<Props> = ({article, handleSubmit}) => {
 	};
 
 	const _handleRemoveTag = (removedTag: string): void => {
-		const newTags = _.reject(tags, tag => tag === removedTag);
+		const newTags = tags.filter(tag => tag !== removedTag);
 
 		setTags(newTags);
 	};

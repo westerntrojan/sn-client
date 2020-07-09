@@ -1,5 +1,4 @@
 import React, {useState, useEffect, useCallback, useRef} from 'react';
-import _ from 'lodash';
 import {makeStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import ChipInput from 'material-ui-chip-input';
@@ -80,7 +79,7 @@ const ArticleForm: React.FC<Props> = ({handleSubmit}) => {
 	};
 
 	const _handleRemoveTag = (removedTag: string): void => {
-		const newTags = _.reject(tags, tag => tag === removedTag);
+		const newTags = tags.filter(tag => tag !== removedTag);
 
 		setTags(newTags);
 	};
