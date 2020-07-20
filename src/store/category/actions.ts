@@ -9,9 +9,9 @@ export const getCategory = (): AppThunk => async (dispatch): Promise<void> => {
 	const data = await callApi.get('/categories');
 
 	dispatch({
-		type: types.GET_CATEGORY,
+		type: types.GET_CATEGORIES,
 		payload: {
-			category: data.category,
+			categories: data.categories,
 		},
 	});
 };

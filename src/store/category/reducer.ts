@@ -9,8 +9,8 @@ const initialState: types.CategoryState = {
 };
 
 export default createReducer(initialState, {
-	[types.GET_CATEGORY]: (state, action) => {
-		state.all = action.payload.category;
+	[types.GET_CATEGORIES]: (state, action) => {
+		state.all = action.payload.categories;
 	},
 	[types.ADD_CATEGORY]: (state, action) => {
 		state.all = state.all.concat(action.payload.category);

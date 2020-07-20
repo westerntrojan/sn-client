@@ -1,7 +1,7 @@
 import {IUser} from '@store/types';
 
 export const userName = (user: IUser): string => {
-	const name = `${user.firstName} ${user.lastName}`;
+	const name = `${user.firstName} ${user.lastName}`.trim();
 
 	if (name.length > 10) {
 		return name.slice(0, 10) + '...';

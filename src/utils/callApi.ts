@@ -78,4 +78,6 @@ callApi.delete = async (endpoint: string, options?: AxiosRequestConfig): Promise
 	}
 };
 
+export {request as axiosInstance};
+
 export default callApi;
