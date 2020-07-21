@@ -10,7 +10,7 @@ import {AppState} from '@store/types';
 import {IFetchData} from './types';
 import {IUser} from '@store/types';
 import {replaceUser} from '@store/auth/actions';
-import PageLoader from '@components/PageLoader';
+import Loader from '@components/Loader';
 
 const EditUser: React.FC = () => {
 	const {userLink} = useParams();
@@ -39,7 +39,7 @@ const EditUser: React.FC = () => {
 	}, [userLink, dispatch, auth.user._id, auth.isAdmin, history]);
 
 	if (loading) {
-		return <PageLoader />;
+		return <Loader disableMargin />;
 	}
 
 	const handleSubmit = async (user: IUser): Promise<any> => {

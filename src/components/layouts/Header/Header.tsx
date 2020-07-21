@@ -61,7 +61,7 @@ const Header: React.FC<Props> = ({
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState<HTMLButtonElement | null>(null);
 
 	const auth = useSelector((state: AppState) => state.auth, shallowEqual);
-	const app = useSelector((state: AppState) => state.app, shallowEqual);
+	const appLoading = useSelector((state: AppState) => state.app.loading, shallowEqual);
 
 	const isMenuOpen = Boolean(anchorEl);
 	const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -224,6 +224,7 @@ const Header: React.FC<Props> = ({
 							aria-label='Open drawer'
 							onClick={openDrawer}
 							color='inherit'
+							disabled={appLoading}
 						>
 							<MenuIcon />
 						</IconButton>
@@ -244,17 +245,18 @@ const Header: React.FC<Props> = ({
 								}}
 								type='search'
 								inputRef={searchRef}
+								disabled={appLoading}
 							/>
 						</div>
 						<div className={classes.grow} />
 						<div className={classes.sectionDesktop}>
 							<div className={classes.rightSide}>
-								{app.loading ? (
+								{appLoading ? (
 									<>
-										<Skeleton variant='circle' width={40} height={40} />
-										<Skeleton variant='circle' width={40} height={40} />
-										<Skeleton variant='circle' width={40} height={40} />
-										<Skeleton variant='circle' width={40} height={40} />
+										<Skeleton variant='circle' style={{marginLeft: 10}} width={40} height={40} />
+										<Skeleton variant='circle' style={{marginLeft: 10}} width={40} height={40} />
+										<Skeleton variant='circle' style={{marginLeft: 10}} width={40} height={40} />
+										<Skeleton variant='circle' style={{marginLeft: 10}} width={40} height={40} />
 									</>
 								) : (
 									<>

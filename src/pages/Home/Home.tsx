@@ -14,6 +14,7 @@ import {AppState} from '@store/types';
 import {IArticle} from '@store/types';
 
 const Home: React.FC = () => {
+	const appLoading = useSelector((state: AppState) => state.app.loading, shallowEqual);
 	const articles = useSelector((state: AppState) => state.articles, shallowEqual);
 	const dispatch = useDispatch();
 
@@ -28,17 +29,20 @@ const Home: React.FC = () => {
 			</Helmet>
 
 			<div className='articles'>
-				{!articles.all.length && (
+				{appLoading && <Loader disableMargin />}
+
+				{!appLoading && !articles.all.length && (
 					<div className='no-info'>
 						<Typography variant='h5'>No articles</Typography>
 					</div>
 				)}
 
-				{articles.all.map((article: IArticle) => (
-					<SmallArticle article={article} key={article._id} />
-				))}
+				{!appLoading &&
+					articles.all.map((article: IArticle) => (
+						<SmallArticle article={article} key={article._id} />
+					))}
 
-				{!articles.end && (
+				{!appLoading && !articles.end && (
 					<>
 						<Loader />
 						<BottomScrollListener onBottom={loadMore} />

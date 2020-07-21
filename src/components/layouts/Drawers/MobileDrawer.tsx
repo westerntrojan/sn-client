@@ -24,6 +24,7 @@ import {useSelector, shallowEqual} from 'react-redux';
 import Brightness1Icon from '@material-ui/icons/Brightness1';
 
 import Footer from './Footer';
+import BottomTabs from './BottomTabs';
 import {AppState} from '@store/types';
 
 const drawerWidth = 240;
@@ -169,6 +170,7 @@ const MobileDrawer: React.FC<Props> = ({open, close}) => {
 				)}
 			</div>
 
+			<BottomTabs />
 			<Footer />
 		</Drawer>
 	);

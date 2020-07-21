@@ -9,7 +9,7 @@ import {useDispatch} from 'react-redux';
 import {useSnackbar} from 'notistack';
 
 import {addAvatar, removeAvatar} from '@store/auth/actions';
-import {userAvatar} from '@utils/users';
+import {userInitials} from '@utils/users';
 import {validateImage} from '@utils/images';
 import {IUser} from '@store/types';
 import {ImageModal} from '@components/modals';
@@ -125,9 +125,13 @@ const UserAvatar: React.FC<Props> = ({auth, user}) => {
 				className={classNames(classes.avatar, 'avatar')}
 				style={{backgroundColor: user.avatar.color, cursor: currentAvatar ? 'pointer' : 'default'}}
 				onClick={(): void => setImageModal(true)}
-				src={`${process.env.REACT_APP_CLOUD_URI}/c_fill,h_200,w_200,q_65/${currentAvatar}`}
+				src={
+					currentAvatar
+						? `${process.env.REACT_APP_CLOUD_URI}/c_fill,h_200,w_200,q_65/${currentAvatar}`
+						: ''
+				}
 			>
-				{userAvatar(user)}
+				{userInitials(user)}
 			</Avatar>
 
 			<ImageModal

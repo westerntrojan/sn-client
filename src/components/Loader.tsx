@@ -6,16 +6,21 @@ const useStyles = makeStyles(() => ({
 	root: {
 		display: 'flex',
 		justifyContent: 'center',
-		margin: '20px 0',
-		padding: '10px',
 	},
 }));
 
-const CircularIndeterminate: React.FC = () => {
+type Props = {
+	disableMargin?: boolean;
+};
+
+const CircularIndeterminate: React.FC<Props> = ({disableMargin}) => {
 	const classes = useStyles();
 
 	return (
-		<aside className={classes.root}>
+		<aside
+			className={classes.root}
+			style={{margin: disableMargin ? 0 : '20px 0', padding: disableMargin ? 0 : '10px'}}
+		>
 			<CircularProgress />
 		</aside>
 	);

@@ -18,10 +18,10 @@ describe('Users Utils Test', () => {
 		expect(result).toEqual(`/user/${user.username}`);
 	});
 
-	it(`${utils.userAvatar.name} with full name`, () => {
+	it(`${utils.userInitials.name} with full name`, () => {
 		const user = {...defaultUser, firstName: 'Jack', lastName: 'Anderson'};
 
-		const result = utils.userAvatar(user);
+		const result = utils.userInitials(user);
 
 		expect(result).toEqual('JA');
 	});

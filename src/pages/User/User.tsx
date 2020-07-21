@@ -4,7 +4,7 @@ import {useParams} from 'react-router';
 import {Helmet} from 'react-helmet';
 
 import './style.scss';
-import PageLoader from '@components/PageLoader';
+import Loader from '@components/Loader';
 import {RemoveUserModal} from '@components/modals';
 import UserInfo from './components/UserInfo';
 import UserActions from './components/UserActions';
@@ -53,7 +53,7 @@ const User: React.FC = () => {
 	};
 
 	if (loading) {
-		return <PageLoader />;
+		return <Loader disableMargin />;
 	}
 
 	return (

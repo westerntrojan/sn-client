@@ -8,7 +8,8 @@ import * as types from './types';
 import callApi from '&/utils/callApi';
 
 export const loadApp = (): AppThunk => async (dispatch): Promise<void> => {
-	await Promise.all([dispatch(fetchArticles()), dispatch(verify()), dispatch(getCategory())]);
+	await dispatch(verify());
+	await Promise.all([dispatch(fetchArticles()), dispatch(getCategory())]);
 
 	dispatch({
 		type: types.LOADING,

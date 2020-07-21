@@ -13,7 +13,9 @@ const NotFound: React.FC = () => {
 			</Helmet>
 
 			<Paper className='paper'>
-				<Typography variant='h1'>404 Not Found</Typography>
+				<Typography variant='h1' className='message'>
+					404 Not Found
+				</Typography>
 			</Paper>
 		</section>
 	);

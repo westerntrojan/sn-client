@@ -105,7 +105,7 @@ export const getCurrentTheme = (): Theme => {
 	const newTheme = responsiveFontSizes(
 		createMuiTheme({
 			palette: {
-				type: 'light',
+				type: 'dark',
 				primary: deepPurple,
 			},
 		}),

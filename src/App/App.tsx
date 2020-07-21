@@ -16,7 +16,6 @@ import SettingsModal from '@components/layouts/SettingsModal';
 import ExitModal from '@components/layouts/ExitModal';
 import ScrollButton from '@components/layouts/ScrollButton';
 import AdminButton from '@components/layouts/AdminButton';
-import PageLoader from '@components/PageLoader';
 import NotFound from '@components/NotFound';
 import {AppState} from '@store/types';
 import {exit, changeTwoFactorAuth} from '@store/auth/actions';
@@ -65,6 +64,12 @@ const App: React.FC<Props> = ({children}) => {
 	const auth = useSelector((state: AppState) => state.auth, shallowEqual);
 	const dispatch = useDispatch();
 
+	// loading app
+	useEffect(() => {
+		dispatch(loadApp());
+	}, [dispatch]);
+
+	// loading data
 	useEffect(() => {
 		const fetchData = async (): Promise<void> => {
 			const [{tags}, {articles}] = await Promise.all([
@@ -76,16 +81,20 @@ const App: React.FC<Props> = ({children}) => {
 			setTopArticles(articles);
 			setLoadingData(false);
 		};
-		fetchData();
 
-		dispatch(loadApp());
-	}, [dispatch]);
+		if (auth.userVerified) {
+			fetchData();
+		}
+	}, [auth.userVerified]);
 
+	// added app events
 	useEffect(() => {
 		const _handleScroll = (): void => {
 			if (window.scrollY > 400) {
 				setScrollButton(true);
-			} else setScrollButton(false);
+			} else {
+				setScrollButton(false);
+			}
 		};
 
 		const _handleKey = (e: KeyboardEvent): void => {
@@ -178,12 +187,12 @@ const App: React.FC<Props> = ({children}) => {
 								loadingData,
 							}}
 						>
-							{app.loading ? <PageLoader /> : app.notFound ? <NotFound /> : children}
+							{app.notFound ? <NotFound /> : children}
 						</Context.Provider>
 					</SnackbarProvider>
 				</main>
 
-				{auth.isAdmin && <AdminButton />}
+				{!app.loading && auth.isAdmin && <AdminButton />}
 				<ScrollButton open={scrollButton} />
 
 				<ThemePickerModal

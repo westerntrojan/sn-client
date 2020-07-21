@@ -3,7 +3,7 @@ import Avatar from '@material-ui/core/Avatar';
 import classNames from 'classnames';
 import {makeStyles} from '@material-ui/core/styles';
 
-import {userAvatar} from '@utils/users';
+import {userInitials} from '@utils/users';
 import {IUser} from '@store/types';
 
 const useStyles = makeStyles(theme => ({
@@ -28,11 +28,15 @@ const UserAvatar: React.FC<Props> = ({user, className = '', small = false, style
 	return (
 		<Avatar
 			className={classNames('avatar', className, {[classes.small]: small})}
-			src={`${process.env.REACT_APP_CLOUD_URI}/c_fill,h_50,w_50,q_65/${user.avatar.images[0]}`}
+			src={
+				user.avatar.images.length
+					? `${process.env.REACT_APP_CLOUD_URI}/c_fill,h_50,w_50,q_65/${user.avatar.images[0]}`
+					: ''
+			}
 			style={{backgroundColor: user.avatar.color, ...style}}
 			onClick={onClick}
 		>
-			{userAvatar(user)}
+			{userInitials(user)}
 		</Avatar>
 	);
 };

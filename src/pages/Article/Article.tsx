@@ -9,7 +9,6 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
 import './style.scss';
-import PageLoader from '@components/PageLoader';
 import {RemoveModal} from '@components/modals';
 import FullArticle from './components/FullArticle';
 import CommentForm from './components/CommentForm';
@@ -21,6 +20,7 @@ import {AppState} from '@store/types';
 import {IComment} from '@store/types';
 import * as articleActions from '@store/articles/actions';
 import Context from './context';
+import Loader from '@components/Loader';
 
 const Article: React.FC = () => {
 	const {slug} = useParams();
@@ -166,7 +166,7 @@ const Article: React.FC = () => {
 	};
 
 	if (loading) {
-		return <PageLoader />;
+		return <Loader disableMargin />;
 	}
 
 	return (

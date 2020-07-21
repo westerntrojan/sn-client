@@ -18,7 +18,7 @@ export const userLink = (user: IUser): string => {
 	return `/user/${user._id}`;
 };
 
-export const userAvatar = (user: IUser): string => {
+export const userInitials = (user: IUser): string => {
 	if (user.lastName) {
 		return `${user.firstName.slice(0, 1).toUpperCase()}${user.lastName.slice(0, 1).toUpperCase()}`;
 	}

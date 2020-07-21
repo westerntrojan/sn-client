@@ -15,9 +15,11 @@ import Divider from '@material-ui/core/Divider';
 import {Link as RouterLink} from 'react-router-dom';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import Brightness1Icon from '@material-ui/icons/Brightness1';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 import {AppState} from '@store/types';
 import Footer from './Footer';
+import BottomTabs from './BottomTabs';
 
 const drawerWidth = 240;
 
@@ -38,6 +40,10 @@ const useStyles = makeStyles(theme => ({
 		marginRight: theme.spacing(2),
 	},
 	toolbar: {...theme.mixins.toolbar},
+	skeletonListItem: {
+		padding: 0,
+		paddingBottom: 15,
+	},
 }));
 
 const MainDrawer: React.FC = () => {
@@ -46,7 +52,7 @@ const MainDrawer: React.FC = () => {
 	const location = useLocation();
 
 	const auth = useSelector((state: AppState) => state.auth, shallowEqual);
-	const app = useSelector((state: AppState) => state.app, shallowEqual);
+	const appLoading = useSelector((state: AppState) => state.app.loading, shallowEqual);
 
 	return (
 		<Drawer
@@ -58,9 +64,35 @@ const MainDrawer: React.FC = () => {
 		>
 			<div className={classes.toolbar} />
 
-			{app.loading ? null : (
-				<>
-					<div className={classes.list}>
+			<div className={classes.list}>
+				{appLoading ? (
+					<List>
+						<ListItem className={classes.skeletonListItem}>
+							<Skeleton variant='rect' width='100%' height={47.29} />
+						</ListItem>
+
+						<ListItem className={classes.skeletonListItem}>
+							<Skeleton variant='rect' width='100%' height={47.29} />
+						</ListItem>
+
+						<ListItem className={classes.skeletonListItem}>
+							<Skeleton variant='rect' width='100%' height={47.29} />
+						</ListItem>
+
+						<ListItem className={classes.skeletonListItem}>
+							<Skeleton variant='rect' width='100%' height={47.29} />
+						</ListItem>
+
+						<ListItem className={classes.skeletonListItem}>
+							<Skeleton variant='rect' width='100%' height={47.29} />
+						</ListItem>
+
+						<ListItem className={classes.skeletonListItem}>
+							<Skeleton variant='rect' width='100%' height={47.29} />
+						</ListItem>
+					</List>
+				) : (
+					<>
 						<List>
 							<ListItem button component={RouterLink} to={'/'} selected={location.pathname === '/'}>
 								<ListItemIcon>
@@ -142,11 +174,12 @@ const MainDrawer: React.FC = () => {
 								</List>
 							</>
 						)}
-					</div>
+					</>
+				)}
+			</div>
 
-					<Footer />
-				</>
-			)}
+			<BottomTabs />
+			<Footer />
 		</Drawer>
 	);
 };

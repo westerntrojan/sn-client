@@ -3,7 +3,7 @@ import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import {useParams} from 'react-router';
 import {Helmet} from 'react-helmet';
 
-import PageLoader from '@components/PageLoader';
+import Loader from '@components/Loader';
 import Form from './components/Form';
 import {editArticle} from '@store/articles/actions';
 import {AppState} from '@store/types';
@@ -53,7 +53,7 @@ const EditArticle: React.FC = () => {
 	};
 
 	if (!article) {
-		return <PageLoader />;
+		return <Loader disableMargin />;
 	}
 
 	return (

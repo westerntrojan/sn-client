@@ -64,11 +64,7 @@ export const verify = (): AppThunk => async (dispatch): Promise<void> => {
 	const token = localStorage.getItem('token');
 
 	if (token) {
-		const data = await callApi.get('/auth/verify', {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		});
+		const data = await callApi.get('/auth/verify');
 
 		if (data.success) {
 			dispatch({
@@ -79,4 +75,8 @@ export const verify = (): AppThunk => async (dispatch): Promise<void> => {
 			});
 		}
 	}
+
+	dispatch({
+		type: types.USER_VERIFIED,
+	});
 };

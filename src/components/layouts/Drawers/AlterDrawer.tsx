@@ -12,6 +12,7 @@ import AddBoxIcon from '@material-ui/icons/AddBox';
 import ForumIcon from '@material-ui/icons/Forum';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import {useSelector, shallowEqual} from 'react-redux';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 import {AppState} from '@store/types';
 
@@ -40,7 +41,7 @@ const AlterDrawer: React.FC = () => {
 	const location = useLocation();
 
 	const auth = useSelector((state: AppState) => state.auth, shallowEqual);
-	const app = useSelector((state: AppState) => state.app, shallowEqual);
+	const appLoading = useSelector((state: AppState) => state.app.loading, shallowEqual);
 
 	const isSelected = (path: string): boolean => {
 		return location.pathname === path;
@@ -56,8 +57,26 @@ const AlterDrawer: React.FC = () => {
 		>
 			<div className={classes.toolbar} />
 
-			{app.loading ? null : (
-				<div className={classes.list}>
+			<div className={classes.list}>
+				{appLoading ? (
+					<List>
+						<ListItem style={{padding: 0, paddingBottom: 15}}>
+							<Skeleton variant='rect' width='100%' height={47.29} />
+						</ListItem>
+
+						<ListItem style={{padding: 0, paddingBottom: 15}}>
+							<Skeleton variant='rect' width='100%' height={47.29} />
+						</ListItem>
+
+						<ListItem style={{padding: 0, paddingBottom: 15}}>
+							<Skeleton variant='rect' width='100%' height={47.29} />
+						</ListItem>
+
+						<ListItem style={{padding: 0, paddingBottom: 15}}>
+							<Skeleton variant='rect' width='100%' height={47.29} />
+						</ListItem>
+					</List>
+				) : (
 					<List>
 						<ListItem button selected={isSelected('/')} component={RouterLink} to={'/'}>
 							<ListItemIcon>
@@ -100,8 +119,8 @@ const AlterDrawer: React.FC = () => {
 							</>
 						)}
 					</List>
-				</div>
-			)}
+				)}
+			</div>
 		</Drawer>
 	);
 };

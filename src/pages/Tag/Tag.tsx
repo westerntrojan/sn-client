@@ -46,7 +46,7 @@ const Tag: React.FC = () => {
 
 	useEffect(() => {
 		getArticles();
-	}, [getArticles, loading, slug]);
+	}, [getArticles, loading]);
 
 	return (
 		<section className='tag'>

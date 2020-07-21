@@ -28,6 +28,10 @@ const NotFound = lazy(() => import('./components/NotFound'));
 const Routes: React.FC = () => {
 	const auth = useSelector((state: AppState) => state.auth, shallowEqual);
 
+	if (!auth.userVerified) {
+		return <PageLoader />;
+	}
+
 	return (
 		<Route
 			render={({location}: {location: any}): React.ReactNode => {
