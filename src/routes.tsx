@@ -2,9 +2,9 @@ import React, {Suspense, lazy} from 'react';
 import {useSelector, shallowEqual} from 'react-redux';
 import {Route, Switch} from 'react-router-dom';
 
-import PageLoader from './components/PageLoader';
+import PageLoader from './components/loaders/PageLoader';
 import PrivateRoute from './components/PrivateRoute';
-import {AppState} from '@store/types';
+import {RootState} from '@store/types';
 import Home from './pages/Home';
 
 const AddArticle = lazy(() => import('./pages/AddArticle'));
@@ -22,11 +22,12 @@ const Auth = lazy(() => import('./pages/Auth'));
 const RegisterVerify = lazy(() => import('./pages/RegisterVerify'));
 const PasswordResetEmail = lazy(() => import('./pages/PasswordResetEmail'));
 const PasswordResetVerify = lazy(() => import('./pages/PasswordResetVerify'));
+const Bookmarks = lazy(() => import('./pages/Bookmarks'));
 const Test = lazy(() => import('./pages/Test'));
 const NotFound = lazy(() => import('./components/NotFound'));
 
 const Routes: React.FC = () => {
-	const auth = useSelector((state: AppState) => state.auth, shallowEqual);
+	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
 
 	if (!auth.userVerified) {
 		return <PageLoader />;
@@ -67,6 +68,10 @@ const Routes: React.FC = () => {
 							</Route>
 							<Route path='/tag/:slug'>
 								<Tag />
+							</Route>
+
+							<Route path='/bookmarks'>
+								<Bookmarks />
 							</Route>
 
 							<PrivateRoute path='/article/:slug/edit' condition={auth.isAuth} redirectTo='/auth'>

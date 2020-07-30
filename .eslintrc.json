@@ -53,6 +53,7 @@
 		"@typescript-eslint/camelcase": "off",
 		"@typescript-eslint/interface-name-prefix": "off",
 
-		"@typescript-eslint/no-explicit-any": "off"
+		"@typescript-eslint/no-explicit-any": "off",
+		"jsx-a11y/media-has-caption": "off"
 	}
 }

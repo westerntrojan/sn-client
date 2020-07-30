@@ -13,7 +13,7 @@ type Props = {
 	disableMargin?: boolean;
 };
 
-const CircularIndeterminate: React.FC<Props> = ({disableMargin}) => {
+const Loader: React.FC<Props> = ({disableMargin}) => {
 	const classes = useStyles();
 
 	return (
@@ -26,4 +26,4 @@ const CircularIndeterminate: React.FC<Props> = ({disableMargin}) => {
 	);
 };
 
-export default CircularIndeterminate;
+export default Loader;

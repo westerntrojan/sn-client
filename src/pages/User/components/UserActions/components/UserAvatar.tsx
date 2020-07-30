@@ -13,7 +13,7 @@ import {userInitials} from '@utils/users';
 import {validateImage} from '@utils/images';
 import {IUser} from '@store/types';
 import {ImageModal} from '@components/modals';
-import Loader from '@components/Loader';
+import Loader from '@components/loaders/Loader';
 
 const useStyles = makeStyles({
 	root: {
@@ -81,9 +81,9 @@ const UserAvatar: React.FC<Props> = ({auth, user}) => {
 		if (e.target.files && e.target.files.length) {
 			const file = e.target.files[0];
 
-			const checkingResult = validateImage(file);
+			const validationResult = validateImage(file);
 
-			if (checkingResult.success) {
+			if (validationResult.success) {
 				const formData = new FormData();
 				formData.append('userId', auth.user._id);
 				formData.append('image', file);
@@ -97,7 +97,7 @@ const UserAvatar: React.FC<Props> = ({auth, user}) => {
 				}
 			} else {
 				setLoading(false);
-				enqueueSnackbar(checkingResult.message, {variant: 'error'});
+				enqueueSnackbar(validationResult.message, {variant: 'error'});
 			}
 		}
 	};
@@ -127,7 +127,7 @@ const UserAvatar: React.FC<Props> = ({auth, user}) => {
 				onClick={(): void => setImageModal(true)}
 				src={
 					currentAvatar
-						? `${process.env.REACT_APP_CLOUD_URI}/c_fill,h_200,w_200,q_65/${currentAvatar}`
+						? `${process.env.REACT_APP_CLOUD_IMAGE_URI}/c_fill,h_200,w_200,q_65/${currentAvatar}`
 						: ''
 				}
 			>
@@ -136,7 +136,7 @@ const UserAvatar: React.FC<Props> = ({auth, user}) => {
 
 			<ImageModal
 				open={imageModal && isMe}
-				images={allAvatars.map(avatar => `${process.env.REACT_APP_CLOUD_URI}/q_65/${avatar}`)}
+				images={allAvatars.map(avatar => `${process.env.REACT_APP_CLOUD_IMAGE_URI}/q_65/${avatar}`)}
 				handleRemoveImage={handleRemoveImage}
 				loading={loading}
 				closeModal={(): void => setImageModal(false)}
@@ -144,7 +144,7 @@ const UserAvatar: React.FC<Props> = ({auth, user}) => {
 
 			<ImageModal
 				open={imageModal && !isMe}
-				images={allAvatars.map(avatar => `${process.env.REACT_APP_CLOUD_URI}/q_65/${avatar}`)}
+				images={allAvatars.map(avatar => `${process.env.REACT_APP_CLOUD_IMAGE_URI}/q_65/${avatar}`)}
 				closeModal={(): void => setImageModal(false)}
 			/>
 

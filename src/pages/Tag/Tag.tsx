@@ -5,7 +5,7 @@ import BottomScrollListener from 'react-bottom-scroll-listener';
 import {Helmet} from 'react-helmet';
 
 import './style.scss';
-import Loader from '@components/Loader';
+import Loader from '@components/loaders/Loader';
 import SmallArticle from '@components/SmallArticle';
 import RightBar from '@components/RightBar';
 import About from './components/About';

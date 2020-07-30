@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 
 import './style.scss';
 import callApi from '@utils/callApi';
-import Loader from '@components/Loader';
+import Loader from '@components/loaders/Loader';
 
 const PasswordResetVerify: React.FC = () => {
 	const [verified, setVerified] = useState(false);

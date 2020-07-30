@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import CardActionArea from '@material-ui/core/CardActionArea';
 
 import Dropzone from '@components/Dropzone';
-import Loader from '@components/Loader';
+import Loader from '@components/loaders/Loader';
 
 describe(`${Dropzone.name} Component Test`, () => {
 	it(`${Dropzone.name} match snapshot`, () => {

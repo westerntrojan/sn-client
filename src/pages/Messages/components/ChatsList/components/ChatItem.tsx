@@ -40,6 +40,11 @@ const useStyles = makeStyles({
 		display: 'flex',
 		alignItems: 'center',
 	},
+	lastMessageText: {
+		whiteSpace: 'nowrap',
+		overflow: 'hidden',
+		textOverflow: 'ellipsis',
+	},
 });
 
 type Props = {
@@ -76,7 +81,11 @@ const ChatItem: React.FC<Props> = ({chat, openRemoveChatModal}) => {
 							</Typography>
 						</div>
 					}
-					secondary='...'
+					secondary={
+						<Typography className={classes.lastMessageText} variant='body2'>
+							{chat.lastMessage.text}
+						</Typography>
+					}
 				/>
 
 				<ListItemSecondaryAction>

@@ -7,9 +7,6 @@ export const useStyles = makeStyles(theme => ({
 	grow: {
 		flexGrow: 1,
 	},
-	signInButton: {
-		marginLeft: 10,
-	},
 	avatar: {
 		marginLeft: 10,
 		cursor: 'pointer',

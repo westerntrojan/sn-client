@@ -46,7 +46,7 @@ export const getArticle = (slug: string): AppThunk => async (dispatch): Promise<
 	});
 };
 
-export const addArticle = (article: FormData): AppThunk => async (dispatch): Promise<object> => {
+export const addArticle = (article: object): AppThunk => async (dispatch): Promise<object> => {
 	const data = await callApi.post('/articles', article);
 
 	if (data.success) {

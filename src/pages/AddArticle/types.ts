@@ -1,7 +1,8 @@
 export interface IArticleInputs {
 	title: string;
 	text: string;
-	image: File | null;
+	image: string;
+	video: string;
 	tags: string[];
 	category: string;
 }

@@ -7,7 +7,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
-import Loader from '@components/Loader';
+import Loader from '@components/loaders/Loader';
 import General from './tabs/General';
 
 const UserSettings = lazy(() => import('./tabs/UserSettings'));

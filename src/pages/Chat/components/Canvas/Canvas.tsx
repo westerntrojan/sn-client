@@ -3,7 +3,7 @@ import Paper from '@material-ui/core/Paper';
 import {makeStyles} from '@material-ui/core/styles';
 import {useSnackbar} from 'notistack';
 
-import Loader from '@components/Loader';
+import Loader from '@components/loaders/Loader';
 import {RemoveMessageModal} from '@components/modals';
 import Header from './components/Header';
 import Message from './components/Message';
@@ -108,9 +108,9 @@ const Canvas: React.FC<Props> = ({
 		if (e.target.files && e.target.files.length) {
 			const file = e.target.files[0];
 
-			const checkingResult = validateImage(file);
+			const validationResult = validateImage(file);
 
-			if (checkingResult.success) {
+			if (validationResult.success) {
 				setImageFile(file);
 
 				const reader = new FileReader();
@@ -123,7 +123,7 @@ const Canvas: React.FC<Props> = ({
 
 				setImageModal(true);
 			} else {
-				enqueueSnackbar(checkingResult.message, {variant: 'error'});
+				enqueueSnackbar(validationResult.message, {variant: 'error'});
 			}
 		}
 	};

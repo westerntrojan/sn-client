@@ -4,7 +4,7 @@ import {useParams} from 'react-router';
 import {Helmet} from 'react-helmet';
 
 import './style.scss';
-import Loader from '@components/Loader';
+import Loader from '@components/loaders/Loader';
 import {RemoveUserModal} from '@components/modals';
 import UserInfo from './components/UserInfo';
 import UserActions from './components/UserActions';
@@ -13,7 +13,7 @@ import RemovedAvatar from './components/removed/RemovedAvatar';
 import RemovedInfo from './components/removed/RemovedInfo';
 import callApi from '@utils/callApi';
 import {removeUser} from '@store/auth/actions';
-import {AppState} from '@store/types';
+import {RootState} from '@store/types';
 import {IUserStatistics, IFetchData} from './types';
 import {useRedirect} from '@utils/hooks';
 
@@ -26,7 +26,7 @@ const User: React.FC = () => {
 
 	const redirectTo = useRedirect();
 
-	const auth = useSelector((state: AppState) => state.auth, shallowEqual);
+	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
 	const dispatch = useDispatch();
 
 	useEffect(() => {

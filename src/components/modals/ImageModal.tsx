@@ -9,6 +9,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import {makeStyles} from '@material-ui/core/styles';
 import 'react-image-lightbox/style.css';
 
+import {downloadImage} from '@utils/images';
+
 const useStyles = makeStyles({
 	loadingBackdrop: {
 		zIndex: 10001,
@@ -75,7 +77,12 @@ const ImageModal: React.FC<Props> = ({
 					}}
 					enableZoom
 					toolbarButtons={[
-						<IconButton color='primary'>
+						<IconButton
+							color='primary'
+							onClick={(): void => {
+								downloadImage(image);
+							}}
+						>
 							<GetAppIcon />
 						</IconButton>,
 						handleRemoveImage && (
@@ -122,11 +129,14 @@ const ImageModal: React.FC<Props> = ({
 					}}
 					enableZoom
 					toolbarButtons={[
-						<a href={images[photoIndex]} download='image'>
-							<IconButton color='primary'>
-								<GetAppIcon />
-							</IconButton>
-						</a>,
+						<IconButton
+							color='primary'
+							onClick={(): void => {
+								downloadImage(images[photoIndex]);
+							}}
+						>
+							<GetAppIcon />
+						</IconButton>,
 						handleRemoveImage && (
 							<IconButton
 								color='secondary'

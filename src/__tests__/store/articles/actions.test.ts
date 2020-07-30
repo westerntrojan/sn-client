@@ -6,16 +6,16 @@ import MockAdapter from 'axios-mock-adapter';
 import * as types from '@store/articles/types';
 import * as actions from '@store/articles/actions';
 import {axiosInstance} from '@utils/callApi';
-import {AppState} from '@store/types';
+import {RootState} from '@store/types';
 
-type DispatchExts = ThunkDispatch<AppState, void, AnyAction>;
+type DispatchExts = ThunkDispatch<RootState, void, AnyAction>;
 
 // mock axios instance
 const mock = new MockAdapter(axiosInstance);
 
 // mock store
 const middlewares = [thunk];
-const mockStore = configureMockStore<AppState, DispatchExts>(middlewares);
+const mockStore = configureMockStore<RootState, DispatchExts>(middlewares);
 
 const API = `${process.env.REACT_APP_API}/articles`;
 

@@ -6,7 +6,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import {useSelector, shallowEqual} from 'react-redux';
 
-import {AppState} from '@store/types';
+import {RootState} from '@store/types';
 
 import SettingsContext from '@App/SettingsContext';
 
@@ -14,7 +14,7 @@ const UserSettings: React.FC = () => {
 	const {handleChangeTwoFactorAuth} = useContext(SettingsContext);
 
 	const twoFactorAuth = useSelector(
-		(state: AppState) => state.auth.user.twoFactorAuth,
+		(state: RootState) => state.auth.user.twoFactorAuth,
 		shallowEqual,
 	);
 

@@ -22,6 +22,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import FlagIcon from '@material-ui/icons/Flag';
 import Divider from '@material-ui/core/Divider';
+import BookmarkIcon from '@material-ui/icons/Bookmark';
+import {useSelector, shallowEqual} from 'react-redux';
 
 import {LazyLoadImage} from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
@@ -29,7 +31,7 @@ import 'react-lazy-load-image-component/src/effects/blur.css';
 import {useStyles} from './style';
 import {userLink} from '@utils/users';
 import {getCommentsCount} from '@utils/articles';
-import {IArticle} from '@store/types';
+import {IArticle, RootState} from '@store/types';
 import ZoomTooltip from '@components/tooltips/ZoomTooltip';
 import {UserAvatar} from '@components/avatars';
 
@@ -42,6 +44,8 @@ const SmallArticle: React.FC<Props> = ({article, lazy}) => {
 	const classes = useStyles();
 
 	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
+	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
 
 	const openMenu = (e: React.MouseEvent<HTMLButtonElement>): void => {
 		setAnchorEl(e.currentTarget);
@@ -63,7 +67,11 @@ const SmallArticle: React.FC<Props> = ({article, lazy}) => {
 					<>
 						<ZoomTooltip title='Add to bookmarks'>
 							<IconButton>
-								<BookmarkBorderIcon />
+								{auth.user.bookmarks.includes(article._id) ? (
+									<BookmarkIcon color='primary' />
+								) : (
+									<BookmarkBorderIcon />
+								)}
 							</IconButton>
 						</ZoomTooltip>
 
@@ -95,7 +103,7 @@ const SmallArticle: React.FC<Props> = ({article, lazy}) => {
 				subheader={moment(article.created).fromNow()}
 			/>
 
-			{article.image ? (
+			{article.image || article.video ? (
 				<CardActionArea className={classes.imageWrapper}>
 					<Link
 						underline='none'
@@ -104,7 +112,11 @@ const SmallArticle: React.FC<Props> = ({article, lazy}) => {
 						color='inherit'
 					>
 						<LazyLoadImage
-							src={`${process.env.REACT_APP_CLOUD_URI}/ar_2.5,c_crop,q_65/${article.image}`}
+							src={
+								article.image
+									? `${process.env.REACT_APP_CLOUD_IMAGE_URI}/ar_2.5,c_crop,q_65/${article.image}`
+									: `${process.env.REACT_APP_CLOUD_VIDEO_URI}/ar_2.5,c_crop,q_65/${article.video}.jpg`
+							}
 							title={article.title}
 							width='100%'
 							height='300px'

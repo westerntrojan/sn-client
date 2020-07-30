@@ -4,12 +4,12 @@ import {useSelector, shallowEqual} from 'react-redux';
 import {Helmet} from 'react-helmet';
 
 import './style.scss';
-import Loader from '@components/Loader';
+import Loader from '@components/loaders/Loader';
 import Header from './components/Header';
 import ChatsList from './components/ChatsList';
 import {RemoveModal} from '@components/modals';
 import callApi from '@utils/callApi';
-import {AppState} from '@store/types';
+import {RootState} from '@store/types';
 import {IChat, IFetchData, IRemoveChatData} from './types';
 
 const Messages: React.FC = () => {
@@ -19,7 +19,7 @@ const Messages: React.FC = () => {
 	const [removeChatModal, setRemoveChatModal] = useState(false);
 	const [loading, setLoading] = useState(true);
 
-	const auth = useSelector((state: AppState) => state.auth, shallowEqual);
+	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
 
 	useEffect(() => {
 		const fetchChats = async (): Promise<void> => {

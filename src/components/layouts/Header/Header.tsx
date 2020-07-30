@@ -19,20 +19,21 @@ import {useTheme} from '@material-ui/core/styles';
 import KeyboardIcon from '@material-ui/icons/Keyboard';
 import SettingsIcon from '@material-ui/icons/Settings';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import Button from '@material-ui/core/Button';
 import Badge from '@material-ui/core/Badge';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Skeleton from '@material-ui/lab/Skeleton';
 import {useSelector, shallowEqual} from 'react-redux';
-import {AppState} from '@store/types';
 
 import {useStyles} from './style';
+import {RootState} from '@store/types';
 import UserAvatar from '@components/avatars/UserAvatar';
 import {userLink} from '@utils/users';
 import {SearchFocus} from '@utils/hotKeys';
 import ZoomTooltip from '@components/tooltips/ZoomTooltip';
+import SignInButton from '@components/SignInButton';
+import SearchResult from './SearchResult';
+import {useDebounce} from '@utils/hooks';
 
 type Props = {
 	openDrawer: () => void;
@@ -54,17 +55,33 @@ const Header: React.FC<Props> = ({
 
 	const title = process.env.REACT_APP_TITLE;
 
+	const [searchQuery, setSearchQuery] = useState('');
+	const [showSearchResult, setShowSearchResult] = useState(false);
+	const debouncedSearchQuery = useDebounce(searchQuery, 600);
+
 	const location = useLocation();
 
 	const searchRef = useRef<HTMLInputElement>(null);
 	const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState<HTMLButtonElement | null>(null);
 
-	const auth = useSelector((state: AppState) => state.auth, shallowEqual);
-	const appLoading = useSelector((state: AppState) => state.app.loading, shallowEqual);
+	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
+	const appLoading = useSelector((state: RootState) => state.app.loading, shallowEqual);
 
 	const isMenuOpen = Boolean(anchorEl);
 	const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+	const handleChangeSearch = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
+		const value = e.target.value;
+
+		setSearchQuery(value);
+
+		if (value.trim()) {
+			setShowSearchResult(true);
+		} else {
+			setShowSearchResult(false);
+		}
+	};
 
 	const handleMobileMenuClose = (): void => {
 		setMobileMoreAnchorEl(null);
@@ -246,7 +263,25 @@ const Header: React.FC<Props> = ({
 								type='search'
 								inputRef={searchRef}
 								disabled={appLoading}
+								value={searchQuery}
+								onChange={handleChangeSearch}
+								onFocus={(): void => {
+									if (searchQuery) {
+										setShowSearchResult(true);
+									}
+								}}
+								// onBlur={(): void => setShowSearchResult(false)}
 							/>
+
+							{showSearchResult && (
+								<SearchResult
+									searchQuery={debouncedSearchQuery}
+									handleLinkClick={(): void => {
+										setSearchQuery('');
+										setShowSearchResult(false);
+									}}
+								/>
+							)}
 						</div>
 						<div className={classes.grow} />
 						<div className={classes.sectionDesktop}>
@@ -291,21 +326,7 @@ const Header: React.FC<Props> = ({
 												/>
 											</>
 										) : (
-											<Link
-												underline='none'
-												component={RouterLink}
-												to={{pathname: '/auth', state: {from: location}}}
-												color={'inherit'}
-											>
-												<Button
-													variant='outlined'
-													className={classes.signInButton}
-													startIcon={<AccountCircleIcon />}
-													color='inherit'
-												>
-													Sign in
-												</Button>
-											</Link>
+											<SignInButton marginLeft={10} />
 										)}
 									</>
 								)}

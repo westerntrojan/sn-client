@@ -15,9 +15,10 @@ import Divider from '@material-ui/core/Divider';
 import {Link as RouterLink} from 'react-router-dom';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import Brightness1Icon from '@material-ui/icons/Brightness1';
+import BookmarksIcon from '@material-ui/icons/Bookmarks';
 import Skeleton from '@material-ui/lab/Skeleton';
 
-import {AppState} from '@store/types';
+import {RootState} from '@store/types';
 import Footer from './Footer';
 import BottomTabs from './BottomTabs';
 
@@ -51,8 +52,8 @@ const MainDrawer: React.FC = () => {
 
 	const location = useLocation();
 
-	const auth = useSelector((state: AppState) => state.auth, shallowEqual);
-	const appLoading = useSelector((state: AppState) => state.app.loading, shallowEqual);
+	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
+	const appLoading = useSelector((state: RootState) => state.app.loading, shallowEqual);
 
 	return (
 		<Drawer
@@ -110,6 +111,17 @@ const MainDrawer: React.FC = () => {
 									<ForumIcon />
 								</ListItemIcon>
 								<ListItemText primary={'Chat'} />
+							</ListItem>
+							<ListItem
+								button
+								component={RouterLink}
+								to={'/bookmarks'}
+								selected={location.pathname === '/bookmarks'}
+							>
+								<ListItemIcon>
+									<BookmarksIcon />
+								</ListItemIcon>
+								<ListItemText primary={'Bookmarks'} />
 							</ListItem>
 						</List>
 						{auth.isAuth && (

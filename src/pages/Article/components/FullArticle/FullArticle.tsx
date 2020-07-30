@@ -30,6 +30,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import Divider from '@material-ui/core/Divider';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
+import {Video} from 'cloudinary-react';
 
 import {useStyles} from './style';
 import {userLink} from '@utils/users';
@@ -122,11 +123,27 @@ const FullArticle: React.FC<Props> = ({
 				<CardMedia
 					component='img'
 					alt={article.title}
-					image={`${process.env.REACT_APP_CLOUD_URI}/ar_1.8,c_crop,q_65,fl_progressive/${article.image}`}
+					image={`${process.env.REACT_APP_CLOUD_IMAGE_URI}/ar_1.8,c_crop,q_65,fl_progressive/${article.image}`}
 					title={article.title}
-					className={classes.media}
+					className={classes.image}
 					onClick={(): void => setImageModal(true)}
 				/>
+			) : (
+				<Divider />
+			)}
+
+			{article.video ? (
+				<Video
+					cloudName={process.env.REACT_APP_CLOUD_NAME}
+					publicId={article.video}
+					className={classes.video}
+					effect='volume:-50'
+					quality='auto:low'
+					controls
+				>
+					Cannot display
+					<b>video</b>.
+				</Video>
 			) : (
 				<Divider />
 			)}
@@ -270,7 +287,7 @@ const FullArticle: React.FC<Props> = ({
 
 			<ImageModal
 				open={imageModal}
-				image={`${process.env.REACT_APP_CLOUD_URI}/q_65,fl_progressive/${article.image}`}
+				image={`${process.env.REACT_APP_CLOUD_IMAGE_URI}/q_65,fl_progressive/${article.image}`}
 				closeModal={(): void => setImageModal(false)}
 			/>
 

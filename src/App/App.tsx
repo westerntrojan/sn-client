@@ -17,7 +17,7 @@ import ExitModal from '@components/layouts/ExitModal';
 import ScrollButton from '@components/layouts/ScrollButton';
 import AdminButton from '@components/layouts/AdminButton';
 import NotFound from '@components/NotFound';
-import {AppState} from '@store/types';
+import {RootState} from '@store/types';
 import {exit, changeTwoFactorAuth} from '@store/auth/actions';
 import {loadApp} from '@store/app/actions';
 import {getCurrentTheme, changeTheme, changeThemeAnimations} from '@utils/app';
@@ -60,8 +60,8 @@ const App: React.FC<Props> = ({children}) => {
 	const [topArticles, setTopArticles] = useState<IArticle[]>([]);
 	const [loadingData, setLoadingData] = useState(true);
 
-	const app = useSelector((state: AppState) => state.app, shallowEqual);
-	const auth = useSelector((state: AppState) => state.auth, shallowEqual);
+	const app = useSelector((state: RootState) => state.app, shallowEqual);
+	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
 	const dispatch = useDispatch();
 
 	// loading app
@@ -116,18 +116,18 @@ const App: React.FC<Props> = ({children}) => {
 		};
 	}, [dispatch]);
 
+	// app settings
 	const handleChangeTwoFactorAuth = async (): Promise<void> => {
 		await dispatch(changeTwoFactorAuth());
 	};
-
-	const handleChangeTheme = (palette: PaletteOptions): void => {
-		const newTheme = changeTheme(palette);
+	const handleChangeThemeAnimations = (): void => {
+		const newTheme = changeThemeAnimations();
 
 		setTheme(newTheme);
 	};
 
-	const handleChangeThemeAnimations = (): void => {
-		const newTheme = changeThemeAnimations();
+	const handleChangeTheme = (palette: PaletteOptions): void => {
+		const newTheme = changeTheme(palette);
 
 		setTheme(newTheme);
 	};

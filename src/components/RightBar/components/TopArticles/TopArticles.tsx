@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 
 import Article from './components/Article';
-import Loader from '@components/Loader';
+import Loader from '@components/loaders/Loader';
 import Context from '@App/context';
 import {IArticle} from '@store/types';
 

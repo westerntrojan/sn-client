@@ -6,7 +6,7 @@ import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 import {Helmet} from 'react-helmet';
 
 import './style.scss';
-import Loader from '@components/Loader';
+import Loader from '@components/loaders/Loader';
 import SmallArticle from '@components/SmallArticle';
 import RightBar from '@components/RightBar';
 import About from './components/About';
@@ -14,7 +14,7 @@ import callApi from '@utils/callApi';
 import {IArticle} from '@store/types';
 import {notFound} from '@store/app/actions';
 import {IFetchData} from './types';
-import {AppState} from '@store/types';
+import {RootState} from '@store/types';
 
 const Category: React.FC = () => {
 	const {slug} = useParams();
@@ -24,7 +24,7 @@ const Category: React.FC = () => {
 	const [end, setEnd] = useState(false);
 
 	const category = useSelector(
-		(state: AppState) => state.category.all.find(c => c.slug === slug),
+		(state: RootState) => state.category.all.find(c => c.slug === slug),
 		shallowEqual,
 	);
 	const dispatch = useDispatch();

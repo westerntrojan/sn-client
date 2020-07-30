@@ -37,19 +37,22 @@ const getArticles = (count: number): any[] => {
 
 const mockStore = configureMockStore([thunk]);
 
+const defaultStore = mockStore({
+	app: {
+		loading: false,
+	},
+	articles: {
+		all: [],
+		end: true,
+	},
+});
+
 type Props = {
 	children: React.ReactNode;
 	store?: MockStore;
 };
 
 const Wrapper: React.FC<Props> = ({children, store}) => {
-	const defaultStore = mockStore({
-		articles: {
-			all: [],
-			end: true,
-		},
-	});
-
 	const theme = getCurrentTheme();
 
 	return (
@@ -77,6 +80,9 @@ describe(`${Home.name} Page Test`, () => {
 
 	it(`${Home.name} with bottom loading`, () => {
 		const store = mockStore({
+			app: {
+				loading: false,
+			},
 			articles: {
 				all: [],
 				end: false,
@@ -94,6 +100,14 @@ describe(`${Home.name} Page Test`, () => {
 
 	it(`${Home.name} with articles`, () => {
 		const store = mockStore({
+			auth: {
+				user: {
+					bookmarks: [],
+				},
+			},
+			app: {
+				loading: false,
+			},
 			articles: {
 				all: getArticles(4),
 				end: true,

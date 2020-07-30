@@ -3,10 +3,10 @@ import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import {useParams} from 'react-router';
 import {Helmet} from 'react-helmet';
 
-import Loader from '@components/Loader';
+import Loader from '@components/loaders/Loader';
 import Form from './components/Form';
 import {editArticle} from '@store/articles/actions';
-import {AppState} from '@store/types';
+import {RootState} from '@store/types';
 import {IArticleInputs} from './types';
 import {useArticle, useRedirect} from '@utils/hooks';
 
@@ -16,7 +16,7 @@ const EditArticle: React.FC = () => {
 	const [article, setArticleSlug] = useArticle();
 	const redirectTo = useRedirect();
 
-	const authUser = useSelector((state: AppState) => state.auth.user, shallowEqual);
+	const authUser = useSelector((state: RootState) => state.auth.user, shallowEqual);
 	const dispatch = useDispatch();
 
 	useEffect(() => {

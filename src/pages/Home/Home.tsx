@@ -6,16 +6,16 @@ import BottomScrollListener from 'react-bottom-scroll-listener';
 import Typography from '@material-ui/core/Typography';
 
 import './style.scss';
-import Loader from '@components/Loader';
+import Loader from '@components/loaders/Loader';
 import SmallArticle from '@components/SmallArticle';
 import RightBar from '@components/RightBar';
 import {fetchArticles} from '@store/articles/actions';
-import {AppState} from '@store/types';
+import {RootState} from '@store/types';
 import {IArticle} from '@store/types';
 
 const Home: React.FC = () => {
-	const appLoading = useSelector((state: AppState) => state.app.loading, shallowEqual);
-	const articles = useSelector((state: AppState) => state.articles, shallowEqual);
+	const appLoading = useSelector((state: RootState) => state.app.loading, shallowEqual);
+	const articles = useSelector((state: RootState) => state.articles, shallowEqual);
 	const dispatch = useDispatch();
 
 	const loadMore = (): void => {

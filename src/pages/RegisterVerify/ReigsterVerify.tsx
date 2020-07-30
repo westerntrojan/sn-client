@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import {Helmet} from 'react-helmet';
 
 import './style.scss';
-import Loader from '@components/Loader';
+import Loader from '@components/loaders/Loader';
 import callApi from '@utils/callApi';
 
 const RegisterVerfiy: React.FC = () => {

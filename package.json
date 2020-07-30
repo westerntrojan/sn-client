@@ -8,7 +8,7 @@
 		"test": "node scripts/test.js",
 		"lint:js": "eslint ./src/**/*.{js,jsx,ts,tsx} && stylelint ./src/**/*.{js,jsx,ts,tsx}",
 		"lint:css": "stylelint ./src/**/*.{css,scss} --config ./extras/.stylelintrc.json",
-		"lint": "yarn prettify && yarn lint:js && yarn lint:css",
+		"lint": "yarn lint:js && yarn lint:css",
 		"prettify": "prettier ./src/**/*.{js,jsx,ts,tsx} --write"
 	},
 	"browserslist": {
@@ -73,6 +73,7 @@
 		"fs-extra": "8.1.0",
 		"html-webpack-plugin": "4.0.0-beta.5",
 		"husky": "^3.0.9",
+		"idb": "^5.0.4",
 		"identity-obj-proxy": "3.0.0",
 		"is-wsl": "^2.1.1",
 		"isomorphic-fetch": "^2.2.1",

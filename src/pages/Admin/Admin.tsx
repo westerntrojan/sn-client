@@ -1,12 +1,14 @@
-import React, {useState, Suspense, lazy} from 'react';
+import React, {useState, Suspense, lazy, useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import {Helmet} from 'react-helmet';
 
-import Loader from '@components/Loader';
+import Loader from '@components/loaders/Loader';
+import callApi from '@utils/callApi';
 import Dashboard from './Dashboard';
+import {IDashboardData} from './types';
 
 const useStyles = makeStyles({
 	root: {
@@ -21,6 +23,18 @@ const Admin: React.FC = () => {
 	const classes = useStyles();
 
 	const [tab, setTab] = useState(0);
+	const [dashboardData, setDashboardData] = useState<IDashboardData | null>(null);
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		const fetchData = async (): Promise<void> => {
+			const data: IDashboardData = await callApi.get('/data/statistics/articles');
+
+			setDashboardData(data);
+			setLoading(false);
+		};
+		fetchData();
+	}, []);
 
 	const _handleChangeTab = (e: React.ChangeEvent<{}>, newValue: number): void => {
 		setTab(newValue);
@@ -40,14 +54,20 @@ const Admin: React.FC = () => {
 					textColor='primary'
 					variant='fullWidth'
 				>
-					<Tab label='dashboard' />
-					<Tab label='categories' />
+					<Tab label='dashboard' disabled={loading} />
+					<Tab label='categories' disabled={loading} />
 				</Tabs>
 			</Paper>
 			<div style={{padding: 8 * 3}}>
 				<Suspense fallback={<Loader />}>
-					{tab === 0 && <Dashboard />}
-					{tab === 1 && <Categories />}
+					{loading && <Loader />}
+
+					{!loading && dashboardData && (
+						<>
+							{tab === 0 && <Dashboard data={dashboardData} />}
+							{tab === 1 && <Categories />}
+						</>
+					)}
 				</Suspense>
 			</div>
 		</section>

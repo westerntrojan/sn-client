@@ -7,7 +7,7 @@ import {Helmet} from 'react-helmet';
 
 import './style.scss';
 import {login, sendCode} from '@store/auth/actions';
-import Loader from '@components/Loader';
+import Loader from '@components/loaders/Loader';
 import callApi from '@utils/callApi';
 import {ILoginInputs, IRegisterInputs} from './types';
 import Context from './context';

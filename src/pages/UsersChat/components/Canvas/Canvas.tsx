@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef} from 'react';
 import Paper from '@material-ui/core/Paper';
 import {makeStyles} from '@material-ui/core/styles';
 
-import Loader from '@components/Loader';
+import Loader from '@components/loaders/Loader';
 import {RemoveMessageModal} from '@components/modals';
 import Header from './components/Header';
 import NewInfo from './components/NewInfo';

@@ -4,9 +4,13 @@ export const useStyles = makeStyles(theme => ({
 	root: {
 		wordWrap: 'break-word',
 	},
-	media: {
+	image: {
 		height: '600px',
 		cursor: 'pointer',
+	},
+	video: {
+		width: '100%',
+		height: '600px',
 	},
 	content: {
 		marginBottom: 20,

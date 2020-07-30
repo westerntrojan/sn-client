@@ -22,10 +22,11 @@ import {useTheme} from '@material-ui/core/styles';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import {useSelector, shallowEqual} from 'react-redux';
 import Brightness1Icon from '@material-ui/icons/Brightness1';
+import BookmarksIcon from '@material-ui/icons/Bookmarks';
 
 import Footer from './Footer';
 import BottomTabs from './BottomTabs';
-import {AppState} from '@store/types';
+import {RootState} from '@store/types';
 
 const drawerWidth = 240;
 
@@ -52,7 +53,7 @@ const MobileDrawer: React.FC<Props> = ({open, close}) => {
 
 	const location = useLocation();
 
-	const auth = useSelector((state: AppState) => state.auth, shallowEqual);
+	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
 
 	return (
 		<Drawer open={open} onClose={close}>
@@ -100,6 +101,18 @@ const MobileDrawer: React.FC<Props> = ({open, close}) => {
 							<ForumIcon />
 						</ListItemIcon>
 						<ListItemText primary={'Chat'} />
+					</ListItem>
+					<ListItem
+						button
+						onClick={close}
+						selected={location.pathname === '/bookmarks'}
+						component={RouterLink}
+						to={'/bookmarks'}
+					>
+						<ListItemIcon>
+							<BookmarksIcon />
+						</ListItemIcon>
+						<ListItemText primary={'Bookmarks'} />
 					</ListItem>
 				</List>
 

@@ -16,11 +16,11 @@ import CommentReplies from './components/CommentReplies';
 import {useArticle, useRedirect} from '@utils/hooks';
 import {getCommentsCount} from '@utils/articles';
 import ZoomTooltip from '@components/tooltips/ZoomTooltip';
-import {AppState} from '@store/types';
+import {RootState} from '@store/types';
 import {IComment} from '@store/types';
 import * as articleActions from '@store/articles/actions';
 import Context from './context';
-import Loader from '@components/Loader';
+import Loader from '@components/loaders/Loader';
 
 const Article: React.FC = () => {
 	const {slug} = useParams();
@@ -40,7 +40,7 @@ const Article: React.FC = () => {
 		setAnchorEl(null);
 	};
 
-	const auth = useSelector((state: AppState) => state.auth, shallowEqual);
+	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
 	const dispatch = useDispatch();
 
 	const setViews = useCallback(() => {

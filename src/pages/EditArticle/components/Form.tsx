@@ -12,7 +12,7 @@ import {useSnackbar} from 'notistack';
 import Button from '@material-ui/core/Button';
 
 import Dropzone from '@components/Dropzone';
-import {IArticle, AppState} from '@store/types';
+import {IArticle, RootState} from '@store/types';
 import {IArticleInputs} from '@pages/EditArticle/types';
 import {validateImage} from '@utils/images';
 
@@ -37,16 +37,16 @@ type Props = {
 	handleSubmit: (article: IArticleInputs) => void;
 };
 
-const ArticleForm: React.FC<Props> = ({article, handleSubmit}) => {
+const Form: React.FC<Props> = ({article, handleSubmit}) => {
 	const classes = useStyles();
 
-	const allCategory = useSelector((state: AppState) => state.category.all, shallowEqual);
+	const allCategory = useSelector((state: RootState) => state.category.all, shallowEqual);
 
 	const [title, setTitle] = useState(article.title);
 	const [text, setText] = useState(article.text);
 	const [imageFile, setImageFile] = useState<File | null>(null);
 	const [imagePreview, setImagePreview] = useState(
-		article.image ? `${process.env.REACT_APP_CLOUD_URI}/q_65/${article.image}` : '',
+		article.image ? `${process.env.REACT_APP_CLOUD_IMAGE_URI}/q_65/${article.image}` : '',
 	);
 	const [tags, setTags] = useState(article.tags);
 	const [category, setCategory] = useState(article.category._id);
@@ -151,9 +151,9 @@ const ArticleForm: React.FC<Props> = ({article, handleSubmit}) => {
 		if (e.target.files && e.target.files.length) {
 			const file = e.target.files[0];
 
-			const checkingResult = validateImage(file);
+			const validationResult = validateImage(file);
 
-			if (checkingResult.success) {
+			if (validationResult.success) {
 				setImageFile(file);
 
 				const reader = new FileReader();
@@ -164,7 +164,7 @@ const ArticleForm: React.FC<Props> = ({article, handleSubmit}) => {
 
 				reader.readAsDataURL(file);
 			} else {
-				enqueueSnackbar(checkingResult.message, {variant: 'error'});
+				enqueueSnackbar(validationResult.message, {variant: 'error'});
 			}
 		}
 	};
@@ -247,4 +247,4 @@ const ArticleForm: React.FC<Props> = ({article, handleSubmit}) => {
 	);
 };
 
-export default ArticleForm;
+export default Form;

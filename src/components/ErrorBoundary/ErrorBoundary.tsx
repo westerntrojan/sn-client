@@ -6,7 +6,7 @@ import Paper from '@material-ui/core/Paper';
 
 import './style.scss';
 import {handleAppError} from '@utils/errorHandlers';
-import {AppState} from '@store/types';
+import {RootState} from '@store/types';
 
 type Props = {
 	error: object;
@@ -39,7 +39,7 @@ class ErrorBoundary extends Component<Props> {
 	}
 }
 
-const mapStateToProps = (state: AppState): {error: any} => ({
+const mapStateToProps = (state: RootState): {error: any} => ({
 	error: state.app.error,
 });
 

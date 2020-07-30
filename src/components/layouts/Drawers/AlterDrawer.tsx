@@ -12,9 +12,10 @@ import AddBoxIcon from '@material-ui/icons/AddBox';
 import ForumIcon from '@material-ui/icons/Forum';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import {useSelector, shallowEqual} from 'react-redux';
+import BookmarksIcon from '@material-ui/icons/Bookmarks';
 import Skeleton from '@material-ui/lab/Skeleton';
 
-import {AppState} from '@store/types';
+import {RootState} from '@store/types';
 
 const useStyles = makeStyles(theme => ({
 	drawer: {
@@ -40,8 +41,8 @@ const AlterDrawer: React.FC = () => {
 
 	const location = useLocation();
 
-	const auth = useSelector((state: AppState) => state.auth, shallowEqual);
-	const appLoading = useSelector((state: AppState) => state.app.loading, shallowEqual);
+	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
+	const appLoading = useSelector((state: RootState) => state.app.loading, shallowEqual);
 
 	const isSelected = (path: string): boolean => {
 		return location.pathname === path;
@@ -89,6 +90,17 @@ const AlterDrawer: React.FC = () => {
 								<ForumIcon />
 							</ListItemIcon>
 							<ListItemText primary={'Chat'} />
+						</ListItem>
+						<ListItem
+							button
+							selected={isSelected('/bookmarks')}
+							component={RouterLink}
+							to={'/bookmarks'}
+						>
+							<ListItemIcon>
+								<BookmarksIcon />
+							</ListItemIcon>
+							<ListItemText primary={'Bookmarks'} />
 						</ListItem>
 
 						{auth.isAuth && (
