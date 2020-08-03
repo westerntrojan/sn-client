@@ -30,7 +30,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import Divider from '@material-ui/core/Divider';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
-import {Video} from 'cloudinary-react';
+import {Video, Audio, CloudinaryContext} from 'cloudinary-react';
+import _ from 'lodash';
 
 import {useStyles} from './style';
 import {userLink} from '@utils/users';
@@ -155,6 +156,30 @@ const FullArticle: React.FC<Props> = ({
 					</Typography>
 
 					<Typography>{article.text}</Typography>
+
+					{!_.isEmpty(article.audio) && (
+						<CloudinaryContext
+							cloudName={process.env.REACT_APP_CLOUD_NAME}
+							className={classes.audioList}
+							effect='volume:-50'
+						>
+							{article.audio.map(audioTrack => (
+								<div key={audioTrack.publicId}>
+									<div className={classes.audioItem}>
+										<Typography className={classes.audioTitle} variant='subtitle2'>
+											{audioTrack.filename}
+										</Typography>
+
+										<Audio publicId={audioTrack.publicId} className={classes.audioTrack} controls>
+											Cannot play
+											<b>audio</b>.
+										</Audio>
+									</div>
+									<Divider />
+								</div>
+							))}
+						</CloudinaryContext>
+					)}
 				</div>
 
 				<Typography>

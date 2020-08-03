@@ -10,7 +10,7 @@ interface Props extends LinearProgressProps {
 
 const LinearProgressWithLabel: React.FC<Props> = props => {
 	return (
-		<Box display='flex' alignItems='center'>
+		<Box width='100%' display='flex' alignItems='center'>
 			<Box width='100%' mr={1}>
 				<LinearProgress variant='determinate' {...props} />
 			</Box>

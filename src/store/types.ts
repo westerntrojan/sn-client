@@ -56,12 +56,18 @@ export interface ICategory {
 	slug: string;
 }
 
+export interface IAudioTrack {
+	filename: string;
+	publicId: string;
+}
+
 export interface IArticle {
 	readonly _id: string;
 	title: string;
 	text: string;
 	image: string;
 	video: string;
+	audio: IAudioTrack[];
 	tags: string[];
 	category: ICategory;
 	slug: string;

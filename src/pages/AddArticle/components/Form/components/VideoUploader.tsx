@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/styles';
-import BackupIcon from '@material-ui/icons/Backup';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import {useSnackbar} from 'notistack';
 import {Video} from 'cloudinary-react';
+import VideoCallIcon from '@material-ui/icons/VideoCall';
 
 import {LinearProgressWithLabel, Loader} from '@components/loaders';
 import callApi from '@utils/callApi';
@@ -77,16 +77,16 @@ const VideoUploader: React.FC<Props> = ({
 		if (e.target.files && e.target.files.length) {
 			const file = e.target.files[0];
 
-			const valdationResult = validateVideo(file);
+			const validationResult = validateVideo(file);
 
-			if (valdationResult.success) {
-				setLoadingVideo(true);
-				setLoadingVideoProgress(0);
-				onLoadingStart();
-
+			if (validationResult.success) {
 				const blobURL = URL.createObjectURL(file);
 				setVideoPreview(blobURL);
 				setVideoType(file.type);
+
+				setLoadingVideo(true);
+				setLoadingVideoProgress(0);
+				onLoadingStart();
 
 				const formData = new FormData();
 				formData.append('file', file);
@@ -115,7 +115,7 @@ const VideoUploader: React.FC<Props> = ({
 				setLoadingVideo(false);
 				onLoadingFinish();
 			} else {
-				enqueueSnackbar(valdationResult.message, {variant: 'error'});
+				enqueueSnackbar(validationResult.message, {variant: 'error'});
 			}
 		}
 	};
@@ -128,7 +128,7 @@ const VideoUploader: React.FC<Props> = ({
 		setLoading(true);
 		onLoadingStart();
 
-		const data = await callApi.delete(`/cloud?public_id=${video}`);
+		const data = await callApi.delete(`/cloud/video?public_id=${video}`);
 
 		if (data.success) {
 			setVideo('');
@@ -158,7 +158,7 @@ const VideoUploader: React.FC<Props> = ({
 				<Button
 					color='primary'
 					variant='contained'
-					endIcon={<BackupIcon />}
+					endIcon={<VideoCallIcon />}
 					component='label'
 					disabled={loading || loadingVideo}
 					className={classes.button}

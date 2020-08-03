@@ -11,7 +11,8 @@ import {useSnackbar} from 'notistack';
 import Button from '@material-ui/core/Button';
 
 import MediaUploader from './components/MediaUploader';
-import {RootState} from '@store/types';
+import AudioUploader from './components/AudioUploader';
+import {RootState, IAudioTrack} from '@store/types';
 import {IArticleInputs} from '@pages/AddArticle/types';
 import {BackdropLoader} from '@components/loaders';
 
@@ -39,6 +40,7 @@ const Form: React.FC<Props> = ({handleSubmit}) => {
 	const [disabledButton, setDisabledButton] = useState(true);
 	const [image, setImage] = useState('');
 	const [video, setVideo] = useState('');
+	const [audio, setAudio] = useState<IAudioTrack[]>([]);
 	const [loadingMedia, setLoadingMedia] = useState(false);
 
 	const inputLabelRef = useRef<HTMLLabelElement>(null);
@@ -97,7 +99,7 @@ const Form: React.FC<Props> = ({handleSubmit}) => {
 
 		setLoading(true);
 
-		const data: any = await handleSubmit({title, text, category, tags, image, video});
+		const data: any = await handleSubmit({title, text, category, tags, image, video, audio});
 
 		if (!data.success) {
 			setLoading(false);
@@ -147,6 +149,15 @@ const Form: React.FC<Props> = ({handleSubmit}) => {
 				onRemoveImage={(): void => setImage('')}
 				onUploadVideo={(video: string): void => setVideo(video)}
 				onRemoveVideo={(): void => setVideo('')}
+				onLoadingStart={(): void => setLoadingMedia(true)}
+				onLoadingFinish={(): void => setLoadingMedia(false)}
+			/>
+
+			<AudioUploader
+				onUploadAudio={(audioTrack: IAudioTrack): void => setAudio(audio.concat(audioTrack))}
+				onRemoveAudio={(filename: string): void =>
+					setAudio(audio.filter(audioTrack => audioTrack.filename !== filename))
+				}
 				onLoadingStart={(): void => setLoadingMedia(true)}
 				onLoadingFinish={(): void => setLoadingMedia(false)}
 			/>

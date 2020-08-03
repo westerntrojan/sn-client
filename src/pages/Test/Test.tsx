@@ -104,9 +104,9 @@ const Test: React.FC = () => {
 		if (e.target.files && e.target.files.length) {
 			const file = e.target.files[0];
 
-			const valdationResult = validateVideo(file);
+			const validationResult = validateVideo(file);
 
-			if (valdationResult.success) {
+			if (validationResult.success) {
 				setLoading(true);
 
 				const formData = new FormData();
@@ -125,7 +125,7 @@ const Test: React.FC = () => {
 
 				setLoading(false);
 			} else {
-				enqueueSnackbar(valdationResult.message, {variant: 'error'});
+				enqueueSnackbar(validationResult.message, {variant: 'error'});
 			}
 		}
 	};
@@ -152,6 +152,10 @@ const Test: React.FC = () => {
 
 			setLoading(false);
 		}
+	};
+
+	const _handleChangeAudios = (e: React.ChangeEvent<HTMLInputElement>): void => {
+		console.log(e.target.files);
 	};
 
 	const _handleChangePublicId = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -223,6 +227,17 @@ const Test: React.FC = () => {
 					>
 						<input type='file' style={{display: 'none'}} onChange={_handleChangeAudio} />
 						Upload audio
+					</Button>
+
+					<Button
+						color='primary'
+						variant='contained'
+						component='label'
+						className={classes.action}
+						disabled={disabledActions}
+					>
+						<input type='file' style={{display: 'none'}} multiple onChange={_handleChangeAudios} />
+						Upload audios
 					</Button>
 
 					<TextField

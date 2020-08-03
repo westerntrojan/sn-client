@@ -12,6 +12,23 @@ export const useStyles = makeStyles(theme => ({
 		width: '100%',
 		height: '600px',
 	},
+	audioList: {
+		marginTop: 20,
+		display: 'flex',
+		flexDirection: 'column',
+	},
+	audioItem: {
+		padding: '10px 0',
+	},
+	audioTitle: {
+		marginBottom: 8,
+		whiteSpace: 'nowrap',
+		overflow: 'hidden',
+		textOverflow: 'ellipsis',
+	},
+	audioTrack: {
+		width: '100%',
+	},
 	content: {
 		marginBottom: 20,
 		whiteSpace: 'pre-wrap',

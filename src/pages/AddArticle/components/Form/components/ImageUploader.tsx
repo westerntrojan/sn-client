@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/styles';
-import BackupIcon from '@material-ui/icons/Backup';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import DeleteIcon from '@material-ui/icons/Delete';
+import ImageIcon from '@material-ui/icons/Image';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import {useSnackbar} from 'notistack';
@@ -75,9 +75,9 @@ const ImageUploader: React.FC<Props> = ({
 		if (e.target.files && e.target.files.length) {
 			const file = e.target.files[0];
 
-			const valdationResult = validateImage(file);
+			const validationResult = validateImage(file);
 
-			if (valdationResult.success) {
+			if (validationResult.success) {
 				setLoadingImage(true);
 				setLoadingImageProgress(0);
 				onLoadingStart();
@@ -108,7 +108,7 @@ const ImageUploader: React.FC<Props> = ({
 				setLoadingImage(false);
 				onLoadingFinish();
 			} else {
-				enqueueSnackbar(valdationResult.message, {variant: 'error'});
+				enqueueSnackbar(validationResult.message, {variant: 'error'});
 			}
 		}
 	};
@@ -121,7 +121,7 @@ const ImageUploader: React.FC<Props> = ({
 		setLoading(true);
 		onLoadingStart();
 
-		const data = await callApi.delete(`/cloud?public_id=${image}`);
+		const data = await callApi.delete(`/cloud/image?public_id=${image}`);
 
 		if (data.success) {
 			setImage('');
@@ -151,7 +151,7 @@ const ImageUploader: React.FC<Props> = ({
 				<Button
 					color='primary'
 					variant='contained'
-					endIcon={<BackupIcon />}
+					endIcon={<ImageIcon />}
 					component='label'
 					disabled={loading || loadingImage}
 					className={classes.button}
