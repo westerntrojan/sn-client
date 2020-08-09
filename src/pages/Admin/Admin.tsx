@@ -1,5 +1,4 @@
 import React, {useState, Suspense, lazy, useEffect} from 'react';
-import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -10,18 +9,9 @@ import callApi from '@utils/callApi';
 import Dashboard from './Dashboard';
 import {IDashboardData} from './types';
 
-const useStyles = makeStyles({
-	root: {
-		flexGrow: 1,
-		width: '100%',
-	},
-});
-
 const Categories = lazy(() => import('./Categories'));
 
 const Admin: React.FC = () => {
-	const classes = useStyles();
-
 	const [tab, setTab] = useState(0);
 	const [dashboardData, setDashboardData] = useState<IDashboardData | null>(null);
 	const [loading, setLoading] = useState(true);
@@ -46,7 +36,7 @@ const Admin: React.FC = () => {
 				<title>Admin / {process.env.REACT_APP_TITLE}</title>
 			</Helmet>
 
-			<Paper className={classes.root}>
+			<Paper>
 				<Tabs
 					value={tab}
 					onChange={_handleChangeTab}

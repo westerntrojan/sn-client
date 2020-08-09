@@ -28,8 +28,9 @@ const NotFound = lazy(() => import('./components/NotFound'));
 
 const Routes: React.FC = () => {
 	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
+	const appPreLoading = useSelector((state: RootState) => state.app.preLoading, shallowEqual);
 
-	if (!auth.userVerified) {
+	if (appPreLoading) {
 		return <PageLoader />;
 	}
 

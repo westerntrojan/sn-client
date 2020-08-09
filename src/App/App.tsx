@@ -82,10 +82,10 @@ const App: React.FC<Props> = ({children}) => {
 			setLoadingData(false);
 		};
 
-		if (auth.userVerified) {
+		if (!app.preLoading) {
 			fetchData();
 		}
-	}, [auth.userVerified]);
+	}, [app.preLoading]);
 
 	// added app events
 	useEffect(() => {
@@ -192,7 +192,7 @@ const App: React.FC<Props> = ({children}) => {
 					</SnackbarProvider>
 				</main>
 
-				{!app.loading && auth.isAdmin && <AdminButton />}
+				{auth.isAdmin && <AdminButton />}
 				<ScrollButton open={scrollButton} />
 
 				<ThemePickerModal

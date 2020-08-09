@@ -4,6 +4,7 @@ import * as types from './types';
 
 const initialState: types.AppState = {
 	loading: true,
+	preLoading: true,
 	error: null,
 	notFound: false,
 };
@@ -11,6 +12,9 @@ const initialState: types.AppState = {
 export default createReducer(initialState, {
 	[types.LOADING]: state => {
 		state.loading = false;
+	},
+	[types.PRE_LOADING]: state => {
+		state.preLoading = false;
 	},
 	[types.APP_ERROR]: (state, action) => {
 		state.error = action.payload.error;

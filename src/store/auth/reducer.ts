@@ -8,7 +8,6 @@ const initialState: types.AuthState = {
 	isAuth: false,
 	isAdmin: false,
 	user: defaultUser,
-	userVerified: false,
 };
 
 export default createReducer(initialState, {
@@ -35,9 +34,6 @@ export default createReducer(initialState, {
 	},
 	[types.TWO_FACTOR_AUTH]: state => {
 		state.user.twoFactorAuth = !state.user.twoFactorAuth;
-	},
-	[types.USER_VERIFIED]: state => {
-		state.userVerified = true;
 	},
 	[ADD_TO_BOOKMARKS]: (state, action) => {
 		state.user.bookmarks = state.user.bookmarks.concat(action.payload.articleId);

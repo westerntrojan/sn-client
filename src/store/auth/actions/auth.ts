@@ -61,22 +61,16 @@ export const exit = (): types.AuthActionTypes => {
 };
 
 export const verify = (): AppThunk => async (dispatch): Promise<void> => {
-	const token = localStorage.getItem('token');
+	const data = await callApi.get('/auth/verify');
 
-	if (token) {
-		const data = await callApi.get('/auth/verify');
-
-		if (data.success) {
-			dispatch({
-				type: types.LOGIN,
-				payload: {
-					user: data.user,
-				},
-			});
-		}
+	if (data.success) {
+		dispatch({
+			type: types.LOGIN,
+			payload: {
+				user: data.user,
+			},
+		});
+	} else {
+		dispatch(exit());
 	}
-
-	dispatch({
-		type: types.USER_VERIFIED,
-	});
 };

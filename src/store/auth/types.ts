@@ -9,7 +9,6 @@ export const REMOVE_AVATAR = 'auth/removeAvatar';
 export const TWO_FACTOR_AUTH = 'auth/twoFactorAuth';
 export const REPLACE_USER = 'auth/replaceUser';
 export const REMOVE_USER = 'auth/removeUser';
-export const USER_VERIFIED = 'auth/userVerified';
 
 type Exit = {
 	type: typeof EXIT;
@@ -21,7 +20,6 @@ export type AuthState = {
 	isAuth: boolean;
 	isAdmin: boolean;
 	user: IUser;
-	userVerified: boolean;
 };
 
 export const defaultUser = {
