@@ -1,5 +1,5 @@
 import useArticle from './useArticle';
-import useRedirect from './useRedirect';
 import useDebounce from './useDebounce';
+import useRedirect from './useRedirect';
 
-export {useArticle, useRedirect, useDebounce};
+export {useArticle, useDebounce, useRedirect};

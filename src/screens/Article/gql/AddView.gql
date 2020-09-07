@@ -1,0 +1,3 @@
+mutation AddView($id: ID!) {
+	addView(id: $id)
+}

@@ -14,8 +14,8 @@
 						"rootPathSuffix": "src/components"
 					},
 					{
-						"rootPathPrefix": "@pages",
-						"rootPathSuffix": "src/pages"
+						"rootPathPrefix": "@screens",
+						"rootPathSuffix": "src/screens"
 					},
 					{
 						"rootPathPrefix": "@store",

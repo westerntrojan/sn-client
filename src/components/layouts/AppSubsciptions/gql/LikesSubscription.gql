@@ -1,0 +1,5 @@
+subscription {
+	likesAdded {
+		_id
+	}
+}

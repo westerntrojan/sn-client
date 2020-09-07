@@ -4,7 +4,7 @@ import {Helmet} from 'react-helmet';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 
-import './style.scss';
+import './ErrorBoundary.scss';
 import {handleAppError} from '@utils/errorHandlers';
 import {RootState} from '@store/types';
 

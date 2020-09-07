@@ -2,29 +2,29 @@ import React, {Suspense, lazy} from 'react';
 import {useSelector, shallowEqual} from 'react-redux';
 import {Route, Switch} from 'react-router-dom';
 
-import PageLoader from './components/loaders/PageLoader';
+import PageLoader from './components/PageLoader';
 import PrivateRoute from './components/PrivateRoute';
 import {RootState} from '@store/types';
-import Home from './pages/Home';
+import Home from './screens/Home';
 
-const AddArticle = lazy(() => import('./pages/AddArticle'));
-const Article = lazy(() => import('./pages/Article'));
-const EditArticle = lazy(() => import('./pages/EditArticle'));
-const EditUser = lazy(() => import('./pages/EditUser'));
-const User = lazy(() => import('./pages/User'));
-const Admin = lazy(() => import('./pages/Admin'));
-const Chat = lazy(() => import('./pages/Chat'));
-const Messages = lazy(() => import('./pages/Messages'));
-const UsersChat = lazy(() => import('./pages/UsersChat'));
-const Category = lazy(() => import('./pages/Category'));
-const Tag = lazy(() => import('./pages/Tag'));
-const Auth = lazy(() => import('./pages/Auth'));
-const RegisterVerify = lazy(() => import('./pages/RegisterVerify'));
-const PasswordResetEmail = lazy(() => import('./pages/PasswordResetEmail'));
-const PasswordResetVerify = lazy(() => import('./pages/PasswordResetVerify'));
-const Bookmarks = lazy(() => import('./pages/Bookmarks'));
-const Test = lazy(() => import('./pages/Test'));
-const NotFound = lazy(() => import('./components/NotFound'));
+const AddArticle = lazy(() => import('./screens/AddArticle'));
+const Article = lazy(() => import('./screens/Article'));
+const EditArticle = lazy(() => import('./screens/EditArticle'));
+const EditUser = lazy(() => import('./screens/EditUser'));
+const User = lazy(() => import('./screens/User'));
+const Admin = lazy(() => import('./screens/Admin'));
+const Chat = lazy(() => import('./screens/Chat'));
+const Messages = lazy(() => import('./screens/Messages'));
+const UsersChat = lazy(() => import('./screens/UsersChat'));
+const Category = lazy(() => import('./screens/Category'));
+const Tag = lazy(() => import('./screens/Tag'));
+const Auth = lazy(() => import('./screens/Auth'));
+const RegisterVerify = lazy(() => import('./screens/RegisterVerify'));
+const PasswordResetEmail = lazy(() => import('./screens/PasswordResetEmail'));
+const PasswordResetVerify = lazy(() => import('./screens/PasswordResetVerify'));
+const Bookmarks = lazy(() => import('./screens/Bookmarks'));
+const Example = lazy(() => import('./screens/Example'));
+const NotFound = lazy(() => import('./components/common/NotFound'));
 
 const Routes: React.FC = () => {
 	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
@@ -110,8 +110,8 @@ const Routes: React.FC = () => {
 							>
 								<PasswordResetVerify />
 							</PrivateRoute>
-							<PrivateRoute path='/test' condition={auth.isAdmin} redirectTo={from}>
-								<Test />
+							<PrivateRoute path='/example' condition={auth.isAdmin} redirectTo={from}>
+								<Example />
 							</PrivateRoute>
 
 							<Route component={NotFound} />

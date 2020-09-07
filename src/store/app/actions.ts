@@ -5,7 +5,7 @@ import {verify, exit} from '@store/auth/actions';
 import {getCategory} from '@store/category/actions';
 import {AppThunk} from '@store/types';
 import * as types from './types';
-import callApi from '&/utils/callApi';
+import callApi from '@utils/callApi';
 
 export const loadApp = (): AppThunk => async (dispatch): Promise<void> => {
 	await Promise.all([dispatch(verify()), dispatch(getCategory())]);

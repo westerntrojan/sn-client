@@ -12,12 +12,6 @@ export const validateImage = (file: File): {success: boolean; message?: string} 
 	return {success: true};
 };
 
-type ImageOptions = {
-	quality?: number;
-	width?: number;
-	height?: number;
-};
-
 export const downloadImage = async (imageUrl: string): Promise<void> => {
 	const response = await fetch(imageUrl);
 

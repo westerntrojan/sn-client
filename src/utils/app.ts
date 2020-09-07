@@ -2,7 +2,6 @@ import {Theme} from '@material-ui/core';
 import {createMuiTheme, responsiveFontSizes} from '@material-ui/core/styles';
 import {PaletteOptions} from '@material-ui/core/styles/createPalette';
 import deepPurple from '@material-ui/core/colors/deepPurple';
-import moment from 'moment';
 
 export const changeTheme = (palette: PaletteOptions): Theme => {
 	const enableAnimations = JSON.parse(localStorage.getItem('enableAnimations') || 'true');
@@ -115,19 +114,4 @@ export const getCurrentTheme = (): Theme => {
 	localStorage.setItem('enableAnimations', 'true');
 
 	return newTheme;
-};
-
-export const relativeDate = (date: string): string => {
-	const currentDate = new Date();
-
-	const isCurrentDay = moment(date).isoWeekday() === moment(currentDate).isoWeekday();
-	const isCurrentWeek = moment(date).isoWeek() === moment(currentDate).isoWeek();
-
-	if (isCurrentDay) {
-		return new Date(date).toLocaleTimeString().slice(0, -3);
-	} else if (isCurrentWeek) {
-		return moment(date).format('ddd');
-	} else {
-		return new Date(date).toLocaleDateString();
-	}
 };

@@ -3,8 +3,8 @@ import {shallow} from 'enzyme';
 import Button from '@material-ui/core/Button';
 import CardActionArea from '@material-ui/core/CardActionArea';
 
-import Dropzone from '@components/Dropzone';
-import Loader from '@components/loaders/Loader';
+import Dropzone from '@components/common/Dropzone';
+import Loader from '@components/common/loaders/Loader';
 
 describe(`${Dropzone.name} Component Test`, () => {
 	it(`${Dropzone.name} match snapshot`, () => {

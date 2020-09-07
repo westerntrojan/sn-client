@@ -1,0 +1,5 @@
+subscription {
+	viewsAdded {
+		_id
+	}
+}

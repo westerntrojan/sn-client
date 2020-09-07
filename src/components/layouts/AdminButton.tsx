@@ -9,7 +9,7 @@ import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import {resetApp} from '@store/app/actions';
-import {useRedirect} from '@utils/hooks';
+import useRedirect from '@utils/hooks/useRedirect';
 
 const useStyles = makeStyles(theme => ({
 	root: {

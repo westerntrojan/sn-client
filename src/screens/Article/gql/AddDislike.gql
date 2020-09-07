@@ -1,0 +1,3 @@
+mutation AddDislike($id: ID!) {
+	addDislike(id: $id)
+}

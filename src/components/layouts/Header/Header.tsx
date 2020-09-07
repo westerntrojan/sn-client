@@ -25,15 +25,15 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Skeleton from '@material-ui/lab/Skeleton';
 import {useSelector, shallowEqual} from 'react-redux';
 
-import {useStyles} from './style';
+import {useStyles} from './HeaderStyle';
 import {RootState} from '@store/types';
-import UserAvatar from '@components/avatars/UserAvatar';
+import UserAvatar from '@components/common/avatars/UserAvatar';
 import {userLink} from '@utils/users';
 import {SearchFocus} from '@utils/hotKeys';
-import ZoomTooltip from '@components/tooltips/ZoomTooltip';
-import SignInButton from '@components/SignInButton';
-import SearchResult from './SearchResult';
-import {useDebounce} from '@utils/hooks';
+import ZoomTooltip from '@components/common/tooltips/ZoomTooltip';
+import SignInButton from '@components/common/SignInButton';
+import SearchResult from './components/SearchResult';
+import useDebounce from '@utils/hooks/useDebounce';
 
 type Props = {
 	openDrawer: () => void;

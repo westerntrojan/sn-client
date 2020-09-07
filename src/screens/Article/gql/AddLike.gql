@@ -1,0 +1,3 @@
+mutation AddLike($id: ID!) {
+	addLike(id: $id)
+}

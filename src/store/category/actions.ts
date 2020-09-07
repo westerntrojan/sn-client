@@ -59,16 +59,13 @@ export const restoreCategory = createAction(types.RESTORE_CATEGORY, (categoryId:
 }));
 
 export const removeCategory = (): AppThunk => async (dispatch, getState): Promise<void> => {
-	const categories = getState().category.removedCategories.map(c => c._id);
+	const categoriesIds = getState().category.removedCategories.map(c => c._id);
 
-	if (!_.isEmpty(categories)) {
-		await callApi.post('/categories/remove', {categories});
+	if (!_.isEmpty(categoriesIds)) {
+		await callApi.post('/categories/remove', {categoriesIds});
 
 		dispatch({
 			type: types.REMOVE_CATEGORY,
-			payload: {
-				categories,
-			},
 		});
 	}
 };

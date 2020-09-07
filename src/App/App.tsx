@@ -7,25 +7,23 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {PaletteOptions} from '@material-ui/core/styles/createPalette';
 import {SnackbarProvider} from 'notistack';
 
-import './style.scss';
+import './App.scss';
 import Header from '@components/layouts/Header';
-import {MainDrawer, AlterDrawer, MobileDrawer} from '@components/layouts/Drawers';
+import {MainDrawer, AlterDrawer, MobileDrawer} from '@components/layouts/drawers';
 import ThemePickerModal from '@components/layouts/ThemePickerModal';
 import HotKeysModal from '@components/layouts/HotKeysModal';
 import SettingsModal from '@components/layouts/SettingsModal';
 import ExitModal from '@components/layouts/ExitModal';
 import ScrollButton from '@components/layouts/ScrollButton';
 import AdminButton from '@components/layouts/AdminButton';
-import NotFound from '@components/NotFound';
+import AppSubsciptions from '@components/layouts/AppSubsciptions';
+import NotFound from '@components/common/NotFound';
 import {RootState} from '@store/types';
 import {exit, changeTwoFactorAuth} from '@store/auth/actions';
 import {loadApp} from '@store/app/actions';
 import {getCurrentTheme, changeTheme, changeThemeAnimations} from '@utils/app';
 import {ChangeDrawer, Exit} from '@utils/hotKeys';
-import {IArticle} from '@store/types';
-import callApi from '@utils/callApi';
 import GlobalCss from './GlobalCss';
-import Context from './context';
 import SettingsContext from './SettingsContext';
 import settings from './settings.json';
 
@@ -56,9 +54,6 @@ const App: React.FC<Props> = ({children}) => {
 	const [mobileDrawer, setMobileDrawer] = useState(false);
 	const [scrollButton, setScrollButton] = useState(false);
 	const [theme, setTheme] = useState(getCurrentTheme());
-	const [topTags, setTopTags] = useState([]);
-	const [topArticles, setTopArticles] = useState<IArticle[]>([]);
-	const [loadingData, setLoadingData] = useState(true);
 
 	const app = useSelector((state: RootState) => state.app, shallowEqual);
 	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
@@ -68,24 +63,6 @@ const App: React.FC<Props> = ({children}) => {
 	useEffect(() => {
 		dispatch(loadApp());
 	}, [dispatch]);
-
-	// loading data
-	useEffect(() => {
-		const fetchData = async (): Promise<void> => {
-			const [{tags}, {articles}] = await Promise.all([
-				callApi.get('/data/top-tags'),
-				callApi.get('/data/top-articles'),
-			]);
-
-			setTopTags(tags);
-			setTopArticles(articles);
-			setLoadingData(false);
-		};
-
-		if (!app.preLoading) {
-			fetchData();
-		}
-	}, [app.preLoading]);
 
 	// added app events
 	useEffect(() => {
@@ -151,6 +128,8 @@ const App: React.FC<Props> = ({children}) => {
 			<CssBaseline />
 			<GlobalCss />
 
+			<AppSubsciptions />
+
 			<div id='root'>
 				<Header
 					openDrawer={size['large'] ? handleChangeDrawer : openMobileDrawer}
@@ -180,15 +159,7 @@ const App: React.FC<Props> = ({children}) => {
 							variantInfo: classes.snackbar,
 						}}
 					>
-						<Context.Provider
-							value={{
-								topTags,
-								topArticles,
-								loadingData,
-							}}
-						>
-							{app.notFound ? <NotFound /> : children}
-						</Context.Provider>
+						{app.notFound ? <NotFound /> : children}
 					</SnackbarProvider>
 				</main>
 

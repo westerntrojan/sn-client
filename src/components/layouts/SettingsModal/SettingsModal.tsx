@@ -7,12 +7,12 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
-import Loader from '@components/loaders/Loader';
-import General from './tabs/General';
+import Loader from '@components/common/loaders/Loader';
+import General from './components/tabs/General';
 
-const UserSettings = lazy(() => import('./tabs/UserSettings'));
-const ChatSettings = lazy(() => import('./tabs/ChatSettings'));
-const Advanced = lazy(() => import('./tabs/Advanced'));
+const UserSettings = lazy(() => import('./components/tabs/UserSettings'));
+const ChatSettings = lazy(() => import('./components/tabs/ChatSettings'));
+const Advanced = lazy(() => import('./components/tabs/Advanced'));
 
 type Props = {
 	open: boolean;
