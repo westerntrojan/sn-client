@@ -9,7 +9,7 @@ import {IArticleInputs} from './types';
 import useRedirect from '@utils/hooks/useRedirect';
 
 const AddArticle: React.FC = () => {
-	const redirectTo = useRedirect();
+	const {redirectTo} = useRedirect();
 
 	const authUser = useSelector((state: RootState) => state.auth.user, shallowEqual);
 	const dispatch = useDispatch();

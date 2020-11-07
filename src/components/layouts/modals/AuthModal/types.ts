@@ -1,6 +1,7 @@
 export interface ILoginInputs {
 	userLink: string;
 	password: string;
+	rememberMe: boolean;
 }
 
 export interface IRegisterInputs {

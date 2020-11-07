@@ -1,3 +1,3 @@
-import RegisterVerify from './ReigsterVerify';
+import RegisterVerify from './RegisterVerify';
 
 export default RegisterVerify;

@@ -15,11 +15,7 @@ const PrivateRoute: React.FC<Props> = ({children, condition, redirectTo, ...rest
 		<Route
 			{...rest}
 			render={(props: {location: Location}): React.ReactNode =>
-				condition ? (
-					children
-				) : (
-					<Redirect to={{pathname: redirectTo, state: {from: props.location}}} />
-				)
+				condition ? children : <Redirect to={{pathname: redirectTo}} />
 			}
 		/>
 	);

@@ -15,7 +15,7 @@ import {RemoveModal} from '@components/common/modals';
 import FullArticle from './components/FullArticle';
 import CommentForm from './components/CommentForm';
 import CommentReplies from './components/CommentReplies';
-import {useRedirect, useArticle} from '@utils/hooks';
+import {useRedirect, useArticle, useAuthModal} from '@utils/hooks';
 import {getCommentsCount} from '@utils/articles';
 import ZoomTooltip from '@components/common/tooltips/ZoomTooltip';
 import {RootState} from '@store/types';
@@ -40,7 +40,8 @@ const Article: React.FC = () => {
 	const [addDislike] = useMutation(AddDislike);
 	const [addView] = useMutation(AddView);
 
-	const redirectTo = useRedirect();
+	const {redirectTo} = useRedirect();
+	const {openAuthModal} = useAuthModal();
 
 	const openSortMenu = (e: React.MouseEvent<HTMLButtonElement>): void => {
 		setAnchorEl(e.currentTarget);
@@ -73,7 +74,7 @@ const Article: React.FC = () => {
 
 	const handleAddArticleLike = async (): Promise<void> => {
 		if (!auth.isAuth) {
-			return redirectTo('/auth');
+			return openAuthModal();
 		}
 
 		if (article) {
@@ -83,7 +84,7 @@ const Article: React.FC = () => {
 
 	const handleAddArticleDislike = async (): Promise<void> => {
 		if (!auth.isAuth) {
-			return redirectTo('/auth');
+			return openAuthModal();
 		}
 
 		if (article) {
@@ -93,7 +94,7 @@ const Article: React.FC = () => {
 
 	const handleAddArticleToBookmarks = async (): Promise<void> => {
 		if (!auth.isAuth) {
-			return redirectTo('/auth');
+			return openAuthModal();
 		}
 
 		if (article) {
@@ -157,7 +158,7 @@ const Article: React.FC = () => {
 
 	const handleAddCommentLike = async (commentId: string): Promise<void> => {
 		if (!auth.isAuth) {
-			return redirectTo('/auth');
+			return openAuthModal();
 		}
 
 		if (article) {
@@ -167,7 +168,7 @@ const Article: React.FC = () => {
 
 	const handleAddCommentDislike = async (commentId: string): Promise<void> => {
 		if (!auth.isAuth) {
-			return redirectTo('/auth');
+			return openAuthModal();
 		}
 
 		if (article) {

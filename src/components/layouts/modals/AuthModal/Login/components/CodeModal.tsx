@@ -10,14 +10,15 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {useTheme} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
-import Context from '@screens/Auth/context';
+import Context from '../../context';
 
 type Props = {
 	open: boolean;
 	closeModal: () => void;
+	rememberMe: boolean;
 };
 
-const CodeModal: React.FC<Props> = ({open, closeModal}) => {
+const CodeModal: React.FC<Props> = ({open, closeModal, rememberMe}) => {
 	const [code, setCode] = useState('');
 	const [loading, setLoading] = useState(false);
 
@@ -39,7 +40,7 @@ const CodeModal: React.FC<Props> = ({open, closeModal}) => {
 
 		setLoading(true);
 
-		const data = await submitCode(code);
+		const data = await submitCode({code, rememberMe});
 
 		if (!data.success) {
 			setLoading(false);
@@ -55,8 +56,8 @@ const CodeModal: React.FC<Props> = ({open, closeModal}) => {
 	};
 
 	return (
-		<Dialog open={open} onClose={closeModal} fullScreen={fullScreen}>
-			<DialogTitle>Code</DialogTitle>
+		<Dialog open={open} fullScreen={fullScreen}>
+			<DialogTitle>Verify code</DialogTitle>
 
 			<DialogContent>
 				<DialogContentText>

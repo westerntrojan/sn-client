@@ -27,7 +27,7 @@ import UserAvatar from '@components/common/avatars/UserAvatar';
 import ZoomTooltip from '@components/common/tooltips/ZoomTooltip';
 import {userLink} from '@utils/users';
 import {IComment} from '@store/types';
-import useRedirect from '@utils/hooks/useRedirect';
+import {useAuthModal} from '@utils/hooks';
 import Context from '@screens/Article/context';
 
 type Props = {
@@ -44,7 +44,7 @@ const CommentReplies: React.FC<Props> = ({comment, addLike, addDislike, handleRe
 
 	const {auth} = useContext(Context);
 
-	const redirectTo = useRedirect();
+	const {openAuthModal} = useAuthModal();
 
 	const repliesCount = comment.replies.length;
 
@@ -110,7 +110,7 @@ const CommentReplies: React.FC<Props> = ({comment, addLike, addDislike, handleRe
 							size='small'
 							onClick={(): void => {
 								if (!auth.isAuth) {
-									return redirectTo('/auth');
+									return openAuthModal();
 								}
 
 								setReplyForm(true);

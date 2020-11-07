@@ -3,6 +3,8 @@ export const PRE_LOADING = 'app/preLoading';
 export const APP_ERROR = 'app/error';
 export const NOT_FOUND = 'app/notFound';
 export const RESET_APP = 'app/reset';
+export const OPEN_AUTH_MODAL = 'app/openAuthModal';
+export const CLOSE_AUTH_MODAL = 'app/closeAuthModal';
 
 type NotFound = {
 	type: typeof NOT_FOUND;
@@ -21,4 +23,5 @@ export type AppState = {
 	preLoading: boolean;
 	error: object | null;
 	notFound: boolean;
+	authModal: boolean;
 };

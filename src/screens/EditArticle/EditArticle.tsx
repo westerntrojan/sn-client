@@ -14,7 +14,7 @@ const EditArticle: React.FC = () => {
 	const {slug} = useParams();
 
 	const [article, setArticleSlug] = useArticle();
-	const redirectTo = useRedirect();
+	const {redirectTo} = useRedirect();
 
 	const authUser = useSelector((state: RootState) => state.auth.user, shallowEqual);
 	const dispatch = useDispatch();

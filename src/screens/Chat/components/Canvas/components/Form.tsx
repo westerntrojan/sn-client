@@ -10,7 +10,7 @@ import Zoom from '@material-ui/core/Zoom';
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
 import Divider from '@material-ui/core/Divider';
 
-import useRedirect from '@utils/hooks/useRedirect';
+import {useAuthModal} from '@utils/hooks';
 
 const useStyles = makeStyles({
 	root: {
@@ -62,7 +62,7 @@ const Form: React.FC<Props> = ({auth, handleSubmit, handleChangeImage}) => {
 	const buttonRef = useRef<HTMLLabelElement>(null);
 	const [buttonWidth, setButtonWidth] = useState(0);
 
-	const redirectTo = useRedirect();
+	const {openAuthModal} = useAuthModal();
 
 	const validate = useCallback(() => {
 		if (text.trim()) {
@@ -104,15 +104,15 @@ const Form: React.FC<Props> = ({auth, handleSubmit, handleChangeImage}) => {
 		}
 	};
 
-	const _handleFocus = (): void => {
+	const _handleMouseDown = (): void => {
 		if (!auth.isAuth) {
-			return redirectTo('/auth');
+			return openAuthModal();
 		}
 	};
 
 	const _handleIconClick = (): void => {
 		if (!auth.isAuth) {
-			return redirectTo('/auth');
+			return openAuthModal();
 		}
 	};
 
@@ -146,7 +146,7 @@ const Form: React.FC<Props> = ({auth, handleSubmit, handleChangeImage}) => {
 					onChange={_handleChangeText}
 					disabled={loading}
 					onKeyPress={_handleKeyPressInput}
-					onFocus={_handleFocus}
+					onMouseDown={_handleMouseDown}
 					autoFocus={auth.isAuth}
 				/>
 

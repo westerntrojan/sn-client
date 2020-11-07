@@ -35,7 +35,7 @@ const AdminButton: React.FC = () => {
 
 	const dispatch = useDispatch();
 
-	const redirectTo = useRedirect();
+	const {redirectTo} = useRedirect();
 
 	const handleClose = (): void => {
 		setOpen(false);

@@ -18,9 +18,7 @@ const Messages = lazy(() => import('./screens/Messages'));
 const UsersChat = lazy(() => import('./screens/UsersChat'));
 const Category = lazy(() => import('./screens/Category'));
 const Tag = lazy(() => import('./screens/Tag'));
-const Auth = lazy(() => import('./screens/Auth'));
 const RegisterVerify = lazy(() => import('./screens/RegisterVerify'));
-const PasswordResetEmail = lazy(() => import('./screens/PasswordResetEmail'));
 const PasswordResetVerify = lazy(() => import('./screens/PasswordResetVerify'));
 const Bookmarks = lazy(() => import('./screens/Bookmarks'));
 const Example = lazy(() => import('./screens/Example'));
@@ -37,14 +35,6 @@ const Routes: React.FC = () => {
 	return (
 		<Route
 			render={({location}: {location: any}): React.ReactNode => {
-				let from = location.state && location.state.from.pathname;
-
-				if (from) {
-					if (from.split('/').reverse()[1] === 'verify') {
-						from = '/';
-					}
-				}
-
 				return (
 					<Suspense fallback={<PageLoader />}>
 						<Switch location={location}>
@@ -54,7 +44,7 @@ const Routes: React.FC = () => {
 							<Route exact path='/user/:userLink'>
 								<User />
 							</Route>
-							<PrivateRoute path='/article/add' condition={auth.isAuth} redirectTo='/auth'>
+							<PrivateRoute path='/article/add' condition={auth.isAuth} redirectTo='/'>
 								<AddArticle />
 							</PrivateRoute>
 							<Route exact path='/article/:slug'>
@@ -75,42 +65,32 @@ const Routes: React.FC = () => {
 								<Bookmarks />
 							</Route>
 
-							<PrivateRoute path='/article/:slug/edit' condition={auth.isAuth} redirectTo='/auth'>
+							<PrivateRoute path='/article/:slug/edit' condition={auth.isAuth} redirectTo='/'>
 								<EditArticle />
 							</PrivateRoute>
-							<PrivateRoute path='/user/:userLink/edit' condition={auth.isAuth} redirectTo='/auth'>
+							<PrivateRoute path='/user/:userLink/edit' condition={auth.isAuth} redirectTo='/'>
 								<EditUser />
 							</PrivateRoute>
-							<PrivateRoute path='/messages' condition={auth.isAuth} redirectTo='/auth'>
+							<PrivateRoute path='/messages' condition={auth.isAuth} redirectTo='/'>
 								<Messages />
 							</PrivateRoute>
-							<PrivateRoute path='/users-chat/:userId' condition={auth.isAuth} redirectTo='/auth'>
+							<PrivateRoute path='/users-chat/:userId' condition={auth.isAuth} redirectTo='/'>
 								<UsersChat />
 							</PrivateRoute>
-							<PrivateRoute path='/auth' condition={!auth.isAuth} redirectTo={from}>
-								<Auth />
-							</PrivateRoute>
-							<PrivateRoute path='/admin' condition={auth.isAdmin} redirectTo={from}>
+							<PrivateRoute path='/admin' condition={auth.isAdmin} redirectTo='/'>
 								<Admin />
 							</PrivateRoute>
-							<PrivateRoute
-								path='/register/verify/:token'
-								condition={!auth.isAuth}
-								redirectTo={from}
-							>
+							<PrivateRoute path='/register/verify/:token' condition={!auth.isAuth} redirectTo='/'>
 								<RegisterVerify />
-							</PrivateRoute>
-							<PrivateRoute path='/password_reset/email' condition={!auth.isAuth} redirectTo={from}>
-								<PasswordResetEmail />
 							</PrivateRoute>
 							<PrivateRoute
 								path='/password_reset/verify/:token'
 								condition={!auth.isAuth}
-								redirectTo={from}
+								redirectTo='/'
 							>
 								<PasswordResetVerify />
 							</PrivateRoute>
-							<PrivateRoute path='/example' condition={auth.isAdmin} redirectTo={from}>
+							<PrivateRoute path='/example' condition={auth.isAdmin} redirectTo='/'>
 								<Example />
 							</PrivateRoute>
 

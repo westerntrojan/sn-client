@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import classNames from 'classnames';
 
 import {UserAvatar, NotAuthAvatar} from '@components/common/avatars';
-import useRedirect from '@utils/hooks/useRedirect';
+import {useAuthModal} from '@utils/hooks';
 import Context from '@screens/Article/context';
 
 const useStyles = makeStyles({
@@ -42,7 +42,7 @@ const CommentForm: React.FC<Props> = ({submit}) => {
 
 	const {auth} = useContext(Context);
 
-	const redirectTo = useRedirect();
+	const {openAuthModal} = useAuthModal();
 
 	const {enqueueSnackbar} = useSnackbar();
 
@@ -91,9 +91,9 @@ const CommentForm: React.FC<Props> = ({submit}) => {
 		}
 	};
 
-	const _handleFocus = (): void => {
+	const _handleMouseDown = (): void => {
 		if (!auth.isAuth) {
-			return redirectTo('/auth');
+			return openAuthModal();
 		}
 
 		setShowButtons(true);
@@ -117,7 +117,7 @@ const CommentForm: React.FC<Props> = ({submit}) => {
 					onKeyPress={_handleKeyPressTextarea}
 					disabled={loading}
 					error={text.length > 3000}
-					onFocus={_handleFocus}
+					onMouseDown={_handleMouseDown}
 				/>
 
 				{showButtons && (

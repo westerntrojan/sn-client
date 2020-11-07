@@ -10,7 +10,7 @@ import {useSnackbar} from 'notistack';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-import {IRegisterInputs} from '@screens/Auth/types';
+import {IRegisterInputs} from './types';
 
 const useStyles = makeStyles(theme => ({
 	fields: {
@@ -50,7 +50,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 type Props = {
-	submit: (user: IRegisterInputs) => void;
+	submit: (data: IRegisterInputs) => void;
 };
 
 const Register: React.FC<Props> = ({submit}) => {
@@ -63,9 +63,9 @@ const Register: React.FC<Props> = ({submit}) => {
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [showPassword, setShowPassword] = useState(false);
+	const [success, setSuccess] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [disabledButton, setDisabledButton] = useState(true);
-	const [success, setSuccess] = useState(false);
 
 	const {enqueueSnackbar} = useSnackbar();
 
@@ -135,8 +135,12 @@ const Register: React.FC<Props> = ({submit}) => {
 	};
 
 	return (
-		<section className='register'>
-			{success && <Typography variant='h5'>Verify your email</Typography>}
+		<div className='register'>
+			{success && (
+				<Typography variant='h5' style={{textAlign: 'center'}}>
+					Verify your email
+				</Typography>
+			)}
 
 			{!success && (
 				<div className='form'>
@@ -149,6 +153,7 @@ const Register: React.FC<Props> = ({submit}) => {
 							onChange={_handleChangeFirstName}
 							onKeyPress={_handleKeyPressInput}
 							error={firstName.length > 20}
+							disabled={loading}
 							autoFocus
 						/>
 						<TextField
@@ -159,6 +164,7 @@ const Register: React.FC<Props> = ({submit}) => {
 							onChange={_handleChangeLastName}
 							onKeyPress={_handleKeyPressInput}
 							error={lastName.length > 20}
+							disabled={loading}
 						/>
 					</div>
 
@@ -171,6 +177,7 @@ const Register: React.FC<Props> = ({submit}) => {
 							className={classes.input}
 							onChange={_handleChangeEmail}
 							onKeyPress={_handleKeyPressInput}
+							disabled={loading}
 						/>
 					</div>
 
@@ -184,6 +191,7 @@ const Register: React.FC<Props> = ({submit}) => {
 								onChange={_handleChangePassword}
 								onKeyPress={_handleKeyPressInput}
 								className={classes.firstInput}
+								disabled={loading}
 							/>
 
 							{!matches && (
@@ -202,6 +210,7 @@ const Register: React.FC<Props> = ({submit}) => {
 								onChange={_handleChangeConfirmPassword}
 								onKeyPress={_handleKeyPressInput}
 								className={matches ? classes.input : classes.firstInput}
+								disabled={loading}
 							/>
 
 							{!matches && (
@@ -225,14 +234,14 @@ const Register: React.FC<Props> = ({submit}) => {
 					<Button
 						color='primary'
 						variant='contained'
-						disabled={disabledButton || loading}
 						onClick={_handleSubmit}
+						disabled={disabledButton || loading}
 					>
-						Submit
+						Register
 					</Button>
 				</div>
 			)}
-		</section>
+		</div>
 	);
 };
 

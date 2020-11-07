@@ -24,7 +24,7 @@ const User: React.FC = () => {
 	const [removeModal, setRemoveModal] = useState(false);
 	const [loading, setLoading] = useState(true);
 
-	const redirectTo = useRedirect();
+	const {redirectTo} = useRedirect();
 
 	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
 	const dispatch = useDispatch();

@@ -43,3 +43,7 @@ export const appError = createAction(types.APP_ERROR, (error: Error) => ({
 }));
 
 export const notFound = createAction(types.NOT_FOUND);
+
+export const openAuthModal = createAction(types.OPEN_AUTH_MODAL);
+
+export const closeAuthModal = createAction(types.CLOSE_AUTH_MODAL);

@@ -1,8 +1,7 @@
 import axios, {AxiosRequestConfig} from 'axios';
 
 import {handleNetworkError} from './errorHandlers';
-
-const getToken = (): string => localStorage.getItem('token') || '';
+import {getToken} from '@utils/auth';
 
 const request = axios.create({
 	baseURL: String(process.env.REACT_APP_API),

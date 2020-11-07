@@ -15,6 +15,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import UserAvatar from './components/UserAvatar';
 import {userLink} from '@utils/users';
 import {IUser} from '@store/types';
+import {useAuthModal} from '@utils/hooks';
 
 const useStyles = makeStyles({
 	root: {
@@ -48,6 +49,8 @@ const UserActions: React.FC<Props> = ({auth, user, handleRemove}) => {
 
 	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
+	const {openAuthModal} = useAuthModal();
+
 	const openMenu = (e: React.MouseEvent<HTMLButtonElement>): void => {
 		setAnchorEl(e.currentTarget);
 	};
@@ -60,7 +63,7 @@ const UserActions: React.FC<Props> = ({auth, user, handleRemove}) => {
 		<div className={classNames('user-actions', classes.root)}>
 			<UserAvatar auth={auth} user={user} />
 
-			{(auth.user && auth.user._id !== user._id) || !auth.isAuth ? (
+			{auth.isAuth && auth.user._id !== user._id && (
 				<Link
 					underline='none'
 					component={RouterLink}
@@ -71,7 +74,19 @@ const UserActions: React.FC<Props> = ({auth, user, handleRemove}) => {
 						Send message
 					</Button>
 				</Link>
-			) : null}
+			)}
+
+			{!auth.isAuth && (
+				<Button
+					variant='contained'
+					color='primary'
+					fullWidth
+					className='button'
+					onClick={openAuthModal}
+				>
+					Send message
+				</Button>
+			)}
 
 			{(auth.user && auth.user._id === user._id) || auth.isAdmin ? (
 				<div className={classes.actions}>

@@ -1,12 +1,15 @@
 import callApi from '@utils/callApi';
+import {setToken, removeToken} from '@utils/auth';
 import {AppThunk} from '@store/types';
 import * as types from '../types';
 
-export const login = (user: object): AppThunk => async (dispatch): Promise<object> => {
-	const data = await callApi.post('/auth/login', user);
+export const login = (userData: {rememberMe: boolean}): AppThunk => async (
+	dispatch,
+): Promise<object> => {
+	const data = await callApi.post('/auth/login', userData);
 
 	if (data.success) {
-		localStorage.setItem('token', data.token);
+		setToken({token: data.token, rememberMe: userData.rememberMe});
 
 		dispatch({
 			type: types.LOGIN,
@@ -20,13 +23,19 @@ export const login = (user: object): AppThunk => async (dispatch): Promise<objec
 	return data;
 };
 
-export const sendCode = (userId: string, code: string): AppThunk => async (
-	dispatch,
-): Promise<object> => {
+export const sendCode = ({
+	userId,
+	code,
+	rememberMe,
+}: {
+	userId: string;
+	code: string;
+	rememberMe: boolean;
+}): AppThunk => async (dispatch): Promise<object> => {
 	const data = await callApi.post('/auth/login/code', {userId, code});
 
 	if (data.success) {
-		localStorage.setItem('token', data.token);
+		setToken({token: data.token, rememberMe});
 
 		dispatch({
 			type: types.LOGIN,
@@ -53,7 +62,7 @@ export const changeTwoFactorAuth = (): AppThunk => async (dispatch, getState): P
 };
 
 export const exit = (): types.AuthActionTypes => {
-	localStorage.removeItem('token');
+	removeToken();
 
 	return {
 		type: types.EXIT,

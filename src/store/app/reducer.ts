@@ -7,6 +7,7 @@ const initialState: types.AppState = {
 	preLoading: true,
 	error: null,
 	notFound: false,
+	authModal: false,
 };
 
 export default createReducer(initialState, {
@@ -21,5 +22,11 @@ export default createReducer(initialState, {
 	},
 	[types.NOT_FOUND]: state => {
 		state.notFound = true;
+	},
+	[types.OPEN_AUTH_MODAL]: state => {
+		state.authModal = true;
+	},
+	[types.CLOSE_AUTH_MODAL]: state => {
+		state.authModal = false;
 	},
 });

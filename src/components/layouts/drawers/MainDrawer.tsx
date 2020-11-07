@@ -175,8 +175,8 @@ const MainDrawer: React.FC = () => {
 									<ListItem
 										button
 										component={RouterLink}
-										to='/exmaple'
-										selected={location.pathname === '/exmaple'}
+										to='/example'
+										selected={location.pathname === '/example'}
 									>
 										<ListItemIcon>
 											<Brightness1Icon />

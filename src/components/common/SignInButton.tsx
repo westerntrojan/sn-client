@@ -1,9 +1,8 @@
 import React from 'react';
-import {Link as RouterLink} from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-import Link from '@material-ui/core/Link';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import {useLocation} from 'react-router';
+
+import {useAuthModal} from '@utils/hooks';
 
 type Props = {
 	marginTop?: number;
@@ -18,29 +17,23 @@ const SignInButton: React.FC<Props> = ({
 	marginBottom = 0,
 	marginLeft = 0,
 }) => {
-	const location = useLocation();
+	const {openAuthModal} = useAuthModal();
 
 	return (
-		<Link
-			underline='none'
-			component={RouterLink}
-			to={{pathname: '/auth', state: {from: location}}}
-			color={'inherit'}
+		<Button
+			variant='outlined'
+			startIcon={<AccountCircleIcon />}
+			color='inherit'
+			onClick={openAuthModal}
+			style={{
+				marginTop,
+				marginRight,
+				marginBottom,
+				marginLeft,
+			}}
 		>
-			<Button
-				variant='outlined'
-				startIcon={<AccountCircleIcon />}
-				color='inherit'
-				style={{
-					marginTop,
-					marginRight,
-					marginBottom,
-					marginLeft,
-				}}
-			>
-				Sign in
-			</Button>
-		</Link>
+			Sign in
+		</Button>
 	);
 };
 

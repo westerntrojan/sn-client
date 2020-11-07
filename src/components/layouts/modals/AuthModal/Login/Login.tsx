@@ -6,12 +6,14 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import {useSnackbar} from 'notistack';
-import {Link as RouterLink} from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 import Button from '@material-ui/core/Button';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
+import ConfirmEmailModal from './components/ConfirmEmailModal';
 import CodeModal from './components/CodeModal';
-import {ILoginInputs} from '@screens/Auth/types';
+import {ILoginInputs} from '../types';
 
 const useStyles = makeStyles(() => ({
 	input: {
@@ -19,13 +21,14 @@ const useStyles = makeStyles(() => ({
 	},
 	actions: {
 		display: 'flex',
+		flexDirection: 'column',
 		justifyContent: 'flex-start',
 		marginBottom: 20,
 	},
 }));
 
 type Props = {
-	submit: (user: ILoginInputs) => any;
+	submit: (data: ILoginInputs) => any;
 };
 
 const Login: React.FC<Props> = ({submit}) => {
@@ -33,10 +36,12 @@ const Login: React.FC<Props> = ({submit}) => {
 
 	const [userLink, setUserLink] = useState('');
 	const [password, setPassword] = useState('');
+	const [rememberMe, setRememberMe] = useState(true);
 	const [showPassword, setShowPassword] = useState(false);
-	const [loading, setLoading] = useState(false);
 	const [disabledButton, setDisabledButton] = useState(true);
+	const [loading, setLoading] = useState(false);
 	const [twoFactorAuth, setTwoFactorAuth] = useState(false);
+	const [confirmEmailModal, setConfirmEmailModal] = useState(false);
 
 	const {enqueueSnackbar} = useSnackbar();
 
@@ -64,6 +69,10 @@ const Login: React.FC<Props> = ({submit}) => {
 		setPassword(e.target.value);
 	};
 
+	const _handleChangeRememberMe = (e: React.ChangeEvent<HTMLInputElement>): void => {
+		setRememberMe(e.target.checked);
+	};
+
 	const _handleSubmit = async (): Promise<void> => {
 		if (disabledButton) {
 			return;
@@ -71,14 +80,14 @@ const Login: React.FC<Props> = ({submit}) => {
 
 		setLoading(true);
 
-		const data = await submit({userLink, password});
+		const data = await submit({userLink, password, rememberMe});
 
 		if (!data.success) {
+			setLoading(false);
+
 			if (data.twoFactorAuth) {
 				setTwoFactorAuth(true);
 			} else {
-				setLoading(false);
-
 				enqueueSnackbar(data.message, {variant: 'error'});
 			}
 		}
@@ -91,7 +100,7 @@ const Login: React.FC<Props> = ({submit}) => {
 	};
 
 	return (
-		<section className='login'>
+		<div className='login'>
 			<div className='form'>
 				<TextField
 					label='Email or username'
@@ -100,6 +109,7 @@ const Login: React.FC<Props> = ({submit}) => {
 					className={classes.input}
 					onChange={_handleChangeUserLink}
 					onKeyPress={_handleKeyPressInput}
+					disabled={loading}
 					autoFocus
 				/>
 
@@ -111,6 +121,7 @@ const Login: React.FC<Props> = ({submit}) => {
 					onChange={_handleChangePassword}
 					onKeyPress={_handleKeyPressInput}
 					className={classes.input}
+					disabled={loading}
 					InputProps={{
 						endAdornment: (
 							<InputAdornment position='end'>
@@ -127,24 +138,47 @@ const Login: React.FC<Props> = ({submit}) => {
 				/>
 
 				<div className={classes.actions}>
-					<Link component={RouterLink} to='/password_reset/email' color='primary'>
+					<Link
+						color='primary'
+						onClick={(): void => setConfirmEmailModal(true)}
+						style={{cursor: 'pointer', marginBottom: 5}}
+					>
 						Forgot password ?
 					</Link>
+
+					<FormControlLabel
+						control={
+							<Checkbox
+								checked={rememberMe}
+								onChange={_handleChangeRememberMe}
+								name=''
+								color='primary'
+							/>
+						}
+						label='Remember me'
+					/>
 				</div>
 
 				<Button
 					color='primary'
 					variant='contained'
-					disabled={disabledButton || loading}
 					onClick={_handleSubmit}
-					fullWidth
+					disabled={disabledButton || loading}
 				>
-					Submit
+					Login
 				</Button>
 			</div>
 
-			<CodeModal open={twoFactorAuth} closeModal={(): void => setTwoFactorAuth(false)} />
-		</section>
+			<CodeModal
+				open={twoFactorAuth}
+				closeModal={(): void => setTwoFactorAuth(false)}
+				rememberMe={rememberMe}
+			/>
+			<ConfirmEmailModal
+				open={confirmEmailModal}
+				closeModal={(): void => setConfirmEmailModal(false)}
+			/>
+		</div>
 	);
 };
 

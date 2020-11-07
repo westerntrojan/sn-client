@@ -10,17 +10,20 @@ import {SnackbarProvider} from 'notistack';
 import './App.scss';
 import Header from '@components/layouts/Header';
 import {MainDrawer, AlterDrawer, MobileDrawer} from '@components/layouts/drawers';
-import ThemePickerModal from '@components/layouts/ThemePickerModal';
-import HotKeysModal from '@components/layouts/HotKeysModal';
-import SettingsModal from '@components/layouts/SettingsModal';
-import ExitModal from '@components/layouts/ExitModal';
+import {
+	ThemePickerModal,
+	HotKeysModal,
+	SettingsModal,
+	AuthModal,
+	ExitModal,
+} from '@components/layouts/modals';
 import ScrollButton from '@components/layouts/ScrollButton';
 import AdminButton from '@components/layouts/AdminButton';
 import AppSubsciptions from '@components/layouts/AppSubsciptions';
 import NotFound from '@components/common/NotFound';
 import {RootState} from '@store/types';
 import {exit, changeTwoFactorAuth} from '@store/auth/actions';
-import {loadApp} from '@store/app/actions';
+import {loadApp, closeAuthModal} from '@store/app/actions';
 import {getCurrentTheme, changeTheme, changeThemeAnimations} from '@utils/app';
 import {ChangeDrawer, Exit} from '@utils/hotKeys';
 import GlobalCss from './GlobalCss';
@@ -130,60 +133,64 @@ const App: React.FC<Props> = ({children}) => {
 
 			<AppSubsciptions />
 
-			<div id='root'>
-				<Header
-					openDrawer={size['large'] ? handleChangeDrawer : openMobileDrawer}
-					openThemePickerModal={(): void => setThemePickerModal(true)}
-					openHotKeysModal={(): void => setHotKeysModal(true)}
-					openSettingsModal={(): void => setSettingsModal(true)}
-					exit={(): void => setExitModal(true)}
-				/>
+			<SnackbarProvider
+				maxSnack={4}
+				anchorOrigin={{
+					vertical: 'bottom',
+					horizontal: 'right',
+				}}
+				classes={{
+					variantSuccess: classes.snackbar,
+					variantError: classes.snackbar,
+					variantWarning: classes.snackbar,
+					variantInfo: classes.snackbar,
+				}}
+			>
+				<div id='root'>
+					<Header
+						openDrawer={size['large'] ? handleChangeDrawer : openMobileDrawer}
+						openThemePickerModal={(): void => setThemePickerModal(true)}
+						openHotKeysModal={(): void => setHotKeysModal(true)}
+						openSettingsModal={(): void => setSettingsModal(true)}
+						exit={(): void => setExitModal(true)}
+					/>
 
-				{size['large'] && <>{alterDrawer ? <AlterDrawer /> : <MainDrawer />}</>}
-				{!size['large'] && !size['small'] && <AlterDrawer />}
-				<MobileDrawer open={mobileDrawer} close={(): void => setMobileDrawer(false)} />
+					{size['large'] && <>{alterDrawer ? <AlterDrawer /> : <MainDrawer />}</>}
+					{!size['large'] && !size['small'] && <AlterDrawer />}
+					<MobileDrawer open={mobileDrawer} close={(): void => setMobileDrawer(false)} />
 
-				<main className='content'>
-					<div className={classes.toolbar} />
+					<main className='content'>
+						<div className={classes.toolbar} />
 
-					<SnackbarProvider
-						maxSnack={4}
-						anchorOrigin={{
-							vertical: 'bottom',
-							horizontal: 'right',
-						}}
-						classes={{
-							variantSuccess: classes.snackbar,
-							variantError: classes.snackbar,
-							variantWarning: classes.snackbar,
-							variantInfo: classes.snackbar,
-						}}
-					>
 						{app.notFound ? <NotFound /> : children}
-					</SnackbarProvider>
-				</main>
+					</main>
 
-				{auth.isAdmin && <AdminButton />}
-				<ScrollButton open={scrollButton} />
+					{auth.isAdmin && <AdminButton />}
+					<ScrollButton open={scrollButton} />
 
-				<ThemePickerModal
-					open={themePickerModal}
-					closeModal={(): void => setThemePickerModal(false)}
-					handleChangeTheme={handleChangeTheme}
-				/>
-				<HotKeysModal open={hotKeysModal} closeModal={(): void => setHotKeysModal(false)} />
-				<SettingsContext.Provider value={{handleChangeTwoFactorAuth, handleChangeThemeAnimations}}>
-					<SettingsModal open={settingsModal} closeModal={(): void => setSettingsModal(false)} />
-				</SettingsContext.Provider>
-				<ExitModal
-					open={exitModal}
-					closeModal={(): void => setExitModal(false)}
-					action={handleExit}
-				/>
+					<ThemePickerModal
+						open={themePickerModal}
+						closeModal={(): void => setThemePickerModal(false)}
+						handleChangeTheme={handleChangeTheme}
+					/>
+					<HotKeysModal open={hotKeysModal} closeModal={(): void => setHotKeysModal(false)} />
+					<SettingsContext.Provider
+						value={{handleChangeTwoFactorAuth, handleChangeThemeAnimations}}
+					>
+						<SettingsModal open={settingsModal} closeModal={(): void => setSettingsModal(false)} />
+					</SettingsContext.Provider>
+					<AuthModal open={app.authModal} closeModal={(): any => dispatch(closeAuthModal())} />
+					<ExitModal
+						open={exitModal}
+						closeModal={(): void => setExitModal(false)}
+						action={handleExit}
+					/>
 
-				<ChangeDrawer action={handleChangeDrawer} />
-				<Exit action={handleExit} />
-			</div>
+					{/* hot keys */}
+					<ChangeDrawer action={handleChangeDrawer} />
+					<Exit action={handleExit} />
+				</div>
+			</SnackbarProvider>
 		</ThemeProvider>
 	);
 };
