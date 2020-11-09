@@ -1,11 +1,26 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {Helmet} from 'react-helmet';
-import Typography from '@material-ui/core/Typography';
+// import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
+import lottie from 'lottie-web';
 
 import './NotFound.scss';
 
 const NotFound: React.FC = () => {
+	const animationRef = useRef<HTMLDivElement | null>(null);
+
+	useEffect(() => {
+		if (animationRef.current) {
+			lottie.loadAnimation({
+				container: animationRef.current,
+				renderer: 'svg',
+				loop: false,
+				autoplay: true,
+				path: 'https://assets1.lottiefiles.com/temp/lf20_dzWAyu.json',
+			});
+		}
+	}, []);
+
 	return (
 		<section className='not-found'>
 			<Helmet>
@@ -13,9 +28,10 @@ const NotFound: React.FC = () => {
 			</Helmet>
 
 			<Paper className='paper'>
-				<Typography variant='h1' className='message'>
+				{/* <Typography variant='h1' className='message'>
 					404 Not Found
-				</Typography>
+				</Typography> */}
+				<div ref={animationRef} style={{width: '100%'}}></div>
 			</Paper>
 		</section>
 	);

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import Paper from '@material-ui/core/Paper';
 import {makeStyles} from '@material-ui/styles';
 import List from '@material-ui/core/List';
@@ -7,12 +7,13 @@ import Divider from '@material-ui/core/Divider';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import {Link as RouterLink} from 'react-router-dom';
+import lottie from 'lottie-web';
 import _ from 'lodash';
 
 import {userLink} from '@utils/users';
 import callApi from '@utils/callApi';
 import {IArticle, IUser} from '@store/types';
-import Loader from '@components/common/loaders/Loader';
+// import Loader from '@components/common/loaders/Loader';
 
 const useStyles = makeStyles({
 	root: {
@@ -41,10 +42,24 @@ type Props = {
 const SearchResult: React.FC<Props> = ({searchQuery, handleLinkClick}) => {
 	const classes = useStyles();
 
+	const animationRef = useRef<HTMLDivElement | null>(null);
+
 	const [articles, setArticles] = useState<IArticle[]>([]);
 	const [users, setUsers] = useState<IUser[]>([]);
 	const [notFound, setNotFound] = useState(false);
 	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		if (animationRef.current) {
+			lottie.loadAnimation({
+				container: animationRef.current,
+				renderer: 'svg',
+				loop: true,
+				autoplay: true,
+				path: 'https://assets8.lottiefiles.com/packages/lf20_h59xofz0.json',
+			});
+		}
+	}, []);
 
 	useEffect(() => {
 		const fetchData = async (): Promise<void> => {
@@ -71,7 +86,7 @@ const SearchResult: React.FC<Props> = ({searchQuery, handleLinkClick}) => {
 
 	return (
 		<Paper className={classes.root}>
-			{loading && <Loader />}
+			{loading && <div ref={animationRef} style={{width: '100%'}}></div>}
 
 			{!loading && notFound && (
 				<Typography className={classes.notFoundMessage}>

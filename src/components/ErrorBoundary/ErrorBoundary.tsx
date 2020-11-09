@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Helmet} from 'react-helmet';
-import Typography from '@material-ui/core/Typography';
+// import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
+import {ThemeProvider} from '@material-ui/styles';
+import lottie from 'lottie-web';
 
 import './ErrorBoundary.scss';
 import {handleAppError} from '@utils/errorHandlers';
 import {RootState} from '@store/types';
+import {getCurrentTheme} from '@utils/app';
 
 type Props = {
 	error: object;
@@ -14,6 +17,26 @@ type Props = {
 };
 
 class ErrorBoundary extends Component<Props> {
+	private animationRef: React.RefObject<HTMLDivElement>;
+
+	constructor(props: Props) {
+		super(props);
+
+		this.animationRef = React.createRef();
+	}
+
+	componentDidMount(): void {
+		if (this.animationRef.current) {
+			lottie.loadAnimation({
+				container: this.animationRef.current,
+				renderer: 'svg',
+				loop: false,
+				autoplay: true,
+				path: 'https://assets8.lottiefiles.com/packages/lf20_okPmr2.json',
+			});
+		}
+	}
+
 	componentDidCatch(error: Error, errorInfo: object): void {
 		handleAppError(error);
 	}
@@ -21,17 +44,21 @@ class ErrorBoundary extends Component<Props> {
 	render(): React.ReactNode {
 		if (this.props.error) {
 			return (
-				<section className='error-boundary'>
-					<Helmet>
-						<title>Error</title>
-					</Helmet>
+				<ThemeProvider theme={getCurrentTheme()}>
+					<section className='error-boundary'>
+						<Helmet>
+							<title>Error</title>
+						</Helmet>
 
-					<Paper className='paper'>
-						<Typography variant='h1' className='message'>
-							Error
-						</Typography>
-					</Paper>
-				</section>
+						<Paper className='paper'>
+							{/* <Typography variant='h1' className='message'>
+								Error
+							</Typography> */}
+
+							<div ref={this.animationRef}></div>
+						</Paper>
+					</section>
+				</ThemeProvider>
 			);
 		}
 
