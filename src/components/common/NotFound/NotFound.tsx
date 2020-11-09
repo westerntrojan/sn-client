@@ -16,7 +16,7 @@ const NotFound: React.FC = () => {
 				renderer: 'svg',
 				loop: false,
 				autoplay: true,
-				path: 'https://assets1.lottiefiles.com/temp/lf20_dzWAyu.json',
+				path: '/lottie-animations/not-found.json',
 			});
 		}
 	}, []);

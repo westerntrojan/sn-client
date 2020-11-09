@@ -56,7 +56,7 @@ const SearchResult: React.FC<Props> = ({searchQuery, handleLinkClick}) => {
 				renderer: 'svg',
 				loop: true,
 				autoplay: true,
-				path: 'https://assets8.lottiefiles.com/packages/lf20_h59xofz0.json',
+				path: '/lottie-animations/search.json',
 			});
 		}
 	}, []);

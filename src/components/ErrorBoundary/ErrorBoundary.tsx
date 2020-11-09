@@ -32,7 +32,7 @@ class ErrorBoundary extends Component<Props> {
 				renderer: 'svg',
 				loop: false,
 				autoplay: true,
-				path: 'https://assets8.lottiefiles.com/packages/lf20_okPmr2.json',
+				path: '/lottie-animations/error.json',
 			});
 		}
 	}

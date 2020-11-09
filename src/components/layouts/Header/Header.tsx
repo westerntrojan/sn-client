@@ -56,7 +56,7 @@ const Header: React.FC<Props> = ({
 	const title = process.env.REACT_APP_TITLE;
 
 	const [searchQuery, setSearchQuery] = useState('');
-	const [showSearchResult, setShowSearchResult] = useState(false);
+	const [showSearchResult, setShowSearchResult] = useState(true);
 	const debouncedSearchQuery = useDebounce(searchQuery, 600);
 
 	const location = useLocation();
