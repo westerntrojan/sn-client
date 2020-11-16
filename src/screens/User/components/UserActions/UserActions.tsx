@@ -11,11 +11,13 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import DeleteIcon from '@material-ui/icons/Delete';
+import {useDispatch} from 'react-redux';
 
 import UserAvatar from './components/UserAvatar';
 import {userLink} from '@utils/users';
 import {IUser} from '@store/types';
 import {useAuthModal} from '@utils/hooks';
+import {subscribeToUser, unsubscribeFromUser} from '@store/auth/actions';
 
 const useStyles = makeStyles({
 	root: {
@@ -51,6 +53,8 @@ const UserActions: React.FC<Props> = ({auth, user, handleRemove}) => {
 
 	const {openAuthModal} = useAuthModal();
 
+	const dispatch = useDispatch();
+
 	const openMenu = (e: React.MouseEvent<HTMLButtonElement>): void => {
 		setAnchorEl(e.currentTarget);
 	};
@@ -59,10 +63,28 @@ const UserActions: React.FC<Props> = ({auth, user, handleRemove}) => {
 		setAnchorEl(null);
 	};
 
+	const handleSubscribe = (): void => {
+		if (auth.user.subscriptions.includes(user._id)) {
+			dispatch(unsubscribeFromUser(user._id));
+		} else {
+			dispatch(subscribeToUser(user._id));
+		}
+	};
+
 	return (
 		<div className={classNames('user-actions', classes.root)}>
 			<UserAvatar auth={auth} user={user} />
-
+			{!auth.isAuth && (
+				<Button
+					variant='contained'
+					color='primary'
+					fullWidth
+					className='button'
+					onClick={openAuthModal}
+				>
+					Send message
+				</Button>
+			)}
 			{auth.isAuth && auth.user._id !== user._id && (
 				<Link
 					underline='none'
@@ -76,15 +98,15 @@ const UserActions: React.FC<Props> = ({auth, user, handleRemove}) => {
 				</Link>
 			)}
 
-			{!auth.isAuth && (
+			{auth.isAuth && auth.user._id !== user._id && (
 				<Button
 					variant='contained'
-					color='primary'
+					color={auth.user.subscriptions.includes(user._id) ? 'secondary' : 'primary'}
 					fullWidth
-					className='button'
-					onClick={openAuthModal}
+					style={{margin: '10px 0'}}
+					onClick={handleSubscribe}
 				>
-					Send message
+					{auth.user.subscriptions.includes(user._id) ? 'Subscribed' : 'Subscribe'}
 				</Button>
 			)}
 

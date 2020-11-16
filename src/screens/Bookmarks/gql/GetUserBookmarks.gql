@@ -18,6 +18,9 @@ query UserBookmarks($userId: ID!) {
 		}
 		comments {
 			_id
+			replies {
+				_id
+			}
 		}
 	}
 }

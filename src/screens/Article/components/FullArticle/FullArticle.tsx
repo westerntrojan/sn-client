@@ -32,6 +32,7 @@ import Divider from '@material-ui/core/Divider';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import {Video, Audio, CloudinaryContext} from 'cloudinary-react';
 import _ from 'lodash';
+import {useDispatch} from 'react-redux';
 
 import {useStyles} from './FullArticleStyle';
 import {userLink} from '@utils/users';
@@ -41,6 +42,8 @@ import {ImageModal} from '@components/common/modals';
 import ZoomTooltip from '@components/common/tooltips/ZoomTooltip';
 import {UserAvatar} from '@components/common/avatars';
 import Context from '@screens/Article/context';
+import {useAuthModal} from '@utils/hooks';
+import {subscribeToUser} from '@store/auth/actions';
 
 type Props = {
 	article: IArticle;
@@ -64,12 +67,24 @@ const FullArticle: React.FC<Props> = ({
 
 	const {auth} = useContext(Context);
 
+	const dispatch = useDispatch();
+
+	const {openAuthModal} = useAuthModal();
+
 	const openMenu = (e: React.MouseEvent<HTMLButtonElement>): void => {
 		setAnchorEl(e.currentTarget);
 	};
 
 	const closeMenu = (): void => {
 		setAnchorEl(null);
+	};
+
+	const handleSubscribe = (): void => {
+		if (!auth.isAuth) {
+			openAuthModal();
+		}
+
+		dispatch(subscribeToUser(article.user._id));
 	};
 
 	return (
@@ -184,7 +199,7 @@ const FullArticle: React.FC<Props> = ({
 
 				<Typography>
 					Category:{' '}
-					<Link underline='none' component={RouterLink} to={`/category/${article.category.slug}`}>
+					<Link component={RouterLink} to={`/category/${article.category.slug}`}>
 						{article.category.title}
 					</Link>
 				</Typography>
@@ -204,47 +219,49 @@ const FullArticle: React.FC<Props> = ({
 					</div>
 				)}
 
-				<Box className={classes.author} borderRadius='borderRadius'>
-					<div className={classes.authorInfo}>
-						<UserAvatar user={article.user} />
+				{article.user._id !== auth.user._id && !auth.user.subscriptions.includes(article.user._id) && (
+					<Box className={classes.author} borderRadius='borderRadius'>
+						<div className={classes.authorInfo}>
+							<UserAvatar user={article.user} />
 
-						<div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}}>
-							<Typography variant='caption' style={{textTransform: 'uppercase'}}>
-								Written by
-							</Typography>
-
-							<ZoomTooltip title={`${article.user.firstName} ${article.user.lastName}`.trim()}>
-								<Typography variant='subtitle1'>
-									<Link
-										underline='none'
-										color='inherit'
-										component={RouterLink}
-										to={userLink(article.user)}
-									>
-										{`${article.user.firstName} ${article.user.lastName}`.trim()}
-									</Link>
+							<div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}}>
+								<Typography variant='caption' style={{textTransform: 'uppercase'}}>
+									Written by
 								</Typography>
-							</ZoomTooltip>
 
-							{article.user.bio && (
-								<Typography variant='body2'>
-									{article.user.bio.trim().length > 120
-										? article.user.bio.trim().slice(0, 120) + '...'
-										: article.user.bio.trim()}
-								</Typography>
-							)}
+								<ZoomTooltip title={`${article.user.firstName} ${article.user.lastName}`.trim()}>
+									<Typography variant='subtitle1'>
+										<Link
+											underline='none'
+											color='inherit'
+											component={RouterLink}
+											to={userLink(article.user)}
+										>
+											{`${article.user.firstName} ${article.user.lastName}`.trim()}
+										</Link>
+									</Typography>
+								</ZoomTooltip>
+
+								{article.user.bio && (
+									<Typography variant='body2'>
+										{article.user.bio.trim().length > 120
+											? article.user.bio.trim().slice(0, 120) + '...'
+											: article.user.bio.trim()}
+									</Typography>
+								)}
+							</div>
 						</div>
-					</div>
 
-					<Button
-						color='primary'
-						variant='outlined'
-						className={classes.followButton}
-						startIcon={<AddIcon />}
-					>
-						Follow
-					</Button>
-				</Box>
+						<Button
+							color='primary'
+							variant='outlined'
+							onClick={handleSubscribe}
+							startIcon={<AddIcon />}
+						>
+							Subscribe
+						</Button>
+					</Box>
+				)}
 			</CardContent>
 
 			<CardActions className={classes.cardActions}>

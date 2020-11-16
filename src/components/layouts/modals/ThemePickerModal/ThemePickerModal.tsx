@@ -19,13 +19,18 @@ import indigo from '@material-ui/core/colors/indigo';
 import deepPurple from '@material-ui/core/colors/deepPurple';
 import {Color} from '@material-ui/core';
 import {PaletteOptions} from '@material-ui/core/styles/createPalette';
+import Button from '@material-ui/core/Button';
+
+import FontSizeSlider from './components/FontSizeSlider';
 
 const useStyles = makeStyles(theme => ({
 	formControl: {
-		margin: theme.spacing(3),
+		display: 'flex',
+		margin: '20px 0',
 	},
 	group: {
-		margin: `${theme.spacing}px 0`,
+		display: 'flex',
+		flexDirection: 'row',
 	},
 	redRoot: {
 		color: red[600],
@@ -75,10 +80,16 @@ const useStyles = makeStyles(theme => ({
 type Props = {
 	open: boolean;
 	closeModal: () => void;
-	handleChangeTheme: (palette: PaletteOptions) => void;
+	handleChangeTheme: ({palette, fontSize}: {palette?: PaletteOptions; fontSize?: number}) => void;
+	handleResetTheme: () => void;
 };
 
-const ThemePickerModal: React.FC<Props> = ({open, closeModal, handleChangeTheme}) => {
+const ThemePickerModal: React.FC<Props> = ({
+	open,
+	closeModal,
+	handleChangeTheme,
+	handleResetTheme,
+}) => {
 	const classes = useStyles();
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
@@ -144,8 +155,10 @@ const ThemePickerModal: React.FC<Props> = ({open, closeModal, handleChangeTheme}
 		setTypeTheme(value);
 
 		handleChangeTheme({
-			type: value,
-			primary: getColor(primaryColor),
+			palette: {
+				type: value,
+				primary: getColor(primaryColor),
+			},
 		});
 	};
 
@@ -155,28 +168,23 @@ const ThemePickerModal: React.FC<Props> = ({open, closeModal, handleChangeTheme}
 		setPrimaryColor(value);
 
 		handleChangeTheme({
-			type: typeTheme,
-			primary: getColor(value),
+			palette: {
+				type: typeTheme,
+				primary: getColor(value),
+			},
 		});
 	};
 
 	return (
-		<Dialog open={open} onClose={closeModal} fullScreen={fullScreen}>
+		<Dialog open={open} onClose={closeModal} fullScreen={fullScreen} fullWidth>
 			<DialogTitle>Appearance</DialogTitle>
 
 			<DialogContent>
+				<FontSizeSlider handleChangeTheme={handleChangeTheme} />
+
 				<FormControl component='fieldset' className={classes.formControl}>
-					<FormLabel focused component='legend'>
-						Theme
-					</FormLabel>
-					<RadioGroup value={typeTheme} className={classes.group} onChange={handleChangeTypeTheme}>
-						<FormControlLabel value='light' control={<Radio color='primary' />} label='Light' />
-						<FormControlLabel value='dark' control={<Radio color='primary' />} label='Dark' />
-					</RadioGroup>
-				</FormControl>
-				<FormControl component='fieldset' className={classes.formControl}>
-					<FormLabel focused component='legend'>
-						Accent
+					<FormLabel focused component='legend' style={{marginBottom: 10}}>
+						Color
 					</FormLabel>
 					<RadioGroup
 						className={classes.group}
@@ -269,6 +277,21 @@ const ThemePickerModal: React.FC<Props> = ({open, closeModal, handleChangeTheme}
 						/>
 					</RadioGroup>
 				</FormControl>
+
+				<FormControl component='fieldset' className={classes.formControl}>
+					<FormLabel focused component='legend' style={{marginBottom: 10}}>
+						Theme
+					</FormLabel>
+
+					<RadioGroup value={typeTheme} className={classes.group} onChange={handleChangeTypeTheme}>
+						<FormControlLabel value='light' control={<Radio color='primary' />} label='Light' />
+						<FormControlLabel value='dark' control={<Radio color='primary' />} label='Dark' />
+					</RadioGroup>
+				</FormControl>
+
+				<Button color='primary' onClick={handleResetTheme}>
+					Reset theme
+				</Button>
 			</DialogContent>
 		</Dialog>
 	);

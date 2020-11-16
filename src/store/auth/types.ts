@@ -9,6 +9,8 @@ export const REMOVE_AVATAR = 'auth/removeAvatar';
 export const TWO_FACTOR_AUTH = 'auth/twoFactorAuth';
 export const REPLACE_USER = 'auth/replaceUser';
 export const REMOVE_USER = 'auth/removeUser';
+export const SUBSCRIBE_TO_USER = 'auth/subscribeToUser';
+export const UNSUBSCRIBE_FROM_USER = 'auth/unsubscribeFromUser';
 
 type Exit = {
 	type: typeof EXIT;
@@ -35,6 +37,7 @@ export const defaultUser = {
 	bio: '',
 	role: 2,
 	bookmarks: [],
+	subscriptions: [],
 	emailVerified: true,
 	twoFactorAuth: false,
 	isRemoved: false,

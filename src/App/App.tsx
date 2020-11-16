@@ -6,6 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {PaletteOptions} from '@material-ui/core/styles/createPalette';
 import {SnackbarProvider} from 'notistack';
+import {useHistory} from 'react-router';
 
 import './App.scss';
 import Header from '@components/layouts/Header';
@@ -62,6 +63,8 @@ const App: React.FC<Props> = ({children}) => {
 	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
 	const dispatch = useDispatch();
 
+	const history = useHistory();
+
 	// loading app
 	useEffect(() => {
 		dispatch(loadApp());
@@ -106,8 +109,22 @@ const App: React.FC<Props> = ({children}) => {
 		setTheme(newTheme);
 	};
 
-	const handleChangeTheme = (palette: PaletteOptions): void => {
-		const newTheme = changeTheme(palette);
+	// theme options
+	const handleChangeTheme = ({
+		palette,
+		fontSize,
+	}: {
+		palette?: PaletteOptions;
+		fontSize?: number;
+	}): void => {
+		const newTheme = changeTheme({palette, fontSize});
+
+		setTheme(newTheme);
+	};
+	const handleResetTheme = (): void => {
+		localStorage.removeItem('theme');
+
+		const newTheme = getCurrentTheme();
 
 		setTheme(newTheme);
 	};
@@ -124,6 +141,8 @@ const App: React.FC<Props> = ({children}) => {
 		setExitModal(false);
 
 		dispatch(exit());
+
+		history.push('/');
 	};
 
 	return (
@@ -172,6 +191,7 @@ const App: React.FC<Props> = ({children}) => {
 						open={themePickerModal}
 						closeModal={(): void => setThemePickerModal(false)}
 						handleChangeTheme={handleChangeTheme}
+						handleResetTheme={handleResetTheme}
 					/>
 					<HotKeysModal open={hotKeysModal} closeModal={(): void => setHotKeysModal(false)} />
 					<SettingsContext.Provider

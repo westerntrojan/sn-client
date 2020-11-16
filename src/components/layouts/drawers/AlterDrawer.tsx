@@ -14,6 +14,7 @@ import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import {useSelector, shallowEqual} from 'react-redux';
 import BookmarksIcon from '@material-ui/icons/Bookmarks';
 import Skeleton from '@material-ui/lab/Skeleton';
+import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
 
 import {RootState} from '@store/types';
 
@@ -85,11 +86,16 @@ const AlterDrawer: React.FC = () => {
 							</ListItemIcon>
 							<ListItemText primary={'Home'} />
 						</ListItem>
-						<ListItem button selected={isSelected('/chat')} component={RouterLink} to={'/chat'}>
+						<ListItem
+							button
+							selected={isSelected('/subscriptions')}
+							component={RouterLink}
+							to={'/subscriptions'}
+						>
 							<ListItemIcon>
-								<ForumIcon />
+								<SubscriptionsIcon />
 							</ListItemIcon>
-							<ListItemText primary={'Chat'} />
+							<ListItemText primary={'Subscriptions'} />
 						</ListItem>
 						<ListItem
 							button
@@ -101,6 +107,12 @@ const AlterDrawer: React.FC = () => {
 								<BookmarksIcon />
 							</ListItemIcon>
 							<ListItemText primary={'Bookmarks'} />
+						</ListItem>
+						<ListItem button selected={isSelected('/chat')} component={RouterLink} to={'/chat'}>
+							<ListItemIcon>
+								<ForumIcon />
+							</ListItemIcon>
+							<ListItemText primary={'Chat'} />
 						</ListItem>
 
 						{auth.isAuth && (

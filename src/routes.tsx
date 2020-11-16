@@ -20,6 +20,7 @@ const Category = lazy(() => import('./screens/Category'));
 const Tag = lazy(() => import('./screens/Tag'));
 const RegisterVerify = lazy(() => import('./screens/RegisterVerify'));
 const PasswordResetVerify = lazy(() => import('./screens/PasswordResetVerify'));
+const Subscriptions = lazy(() => import('./screens/Subscriptions'));
 const Bookmarks = lazy(() => import('./screens/Bookmarks'));
 const Example = lazy(() => import('./screens/Example'));
 const NotFound = lazy(() => import('./components/common/NotFound'));
@@ -61,6 +62,9 @@ const Routes: React.FC = () => {
 								<Tag />
 							</Route>
 
+							<Route path='/subscriptions'>
+								<Subscriptions />
+							</Route>
 							<Route path='/bookmarks'>
 								<Bookmarks />
 							</Route>

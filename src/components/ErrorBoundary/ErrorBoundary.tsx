@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Helmet} from 'react-helmet';
-// import Typography from '@material-ui/core/Typography';
+import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import {ThemeProvider} from '@material-ui/styles';
-import lottie from 'lottie-web';
 
 import './ErrorBoundary.scss';
 import {handleAppError} from '@utils/errorHandlers';
@@ -17,26 +16,6 @@ type Props = {
 };
 
 class ErrorBoundary extends Component<Props> {
-	private animationRef: React.RefObject<HTMLDivElement>;
-
-	constructor(props: Props) {
-		super(props);
-
-		this.animationRef = React.createRef();
-	}
-
-	componentDidMount(): void {
-		if (this.animationRef.current) {
-			lottie.loadAnimation({
-				container: this.animationRef.current,
-				renderer: 'svg',
-				loop: false,
-				autoplay: true,
-				path: '/lottie-animations/error.json',
-			});
-		}
-	}
-
 	componentDidCatch(error: Error, errorInfo: object): void {
 		handleAppError(error);
 	}
@@ -51,11 +30,9 @@ class ErrorBoundary extends Component<Props> {
 						</Helmet>
 
 						<Paper className='paper'>
-							{/* <Typography variant='h1' className='message'>
+							<Typography variant='h1' className='message'>
 								Error
-							</Typography> */}
-
-							<div ref={this.animationRef}></div>
+							</Typography>
 						</Paper>
 					</section>
 				</ThemeProvider>

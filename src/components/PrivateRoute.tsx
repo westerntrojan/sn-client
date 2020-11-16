@@ -1,6 +1,8 @@
 import React from 'react';
-import {Route, Redirect} from 'react-router-dom';
+import {Route} from 'react-router-dom';
 import {Location} from 'history';
+
+import NotFound from '@components/common/NotFound';
 
 type Props = {
 	children: React.ReactNode;
@@ -15,7 +17,7 @@ const PrivateRoute: React.FC<Props> = ({children, condition, redirectTo, ...rest
 		<Route
 			{...rest}
 			render={(props: {location: Location}): React.ReactNode =>
-				condition ? children : <Redirect to={{pathname: redirectTo}} />
+				condition ? children : <NotFound />
 			}
 		/>
 	);

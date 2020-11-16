@@ -23,6 +23,7 @@ import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import {useSelector, shallowEqual} from 'react-redux';
 import Brightness1Icon from '@material-ui/icons/Brightness1';
 import BookmarksIcon from '@material-ui/icons/Bookmarks';
+import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
 
 import {RootState} from '@store/types';
 import Footer from './components/Footer';
@@ -93,14 +94,14 @@ const MobileDrawer: React.FC<Props> = ({open, close}) => {
 					<ListItem
 						button
 						onClick={close}
-						selected={location.pathname === '/chat'}
+						selected={location.pathname === '/subscriptions'}
 						component={RouterLink}
-						to={'/chat'}
+						to={'/subscriptions'}
 					>
 						<ListItemIcon>
-							<ForumIcon />
+							<SubscriptionsIcon />
 						</ListItemIcon>
-						<ListItemText primary={'Chat'} />
+						<ListItemText primary={'Subscriptions'} />
 					</ListItem>
 					<ListItem
 						button
@@ -113,6 +114,18 @@ const MobileDrawer: React.FC<Props> = ({open, close}) => {
 							<BookmarksIcon />
 						</ListItemIcon>
 						<ListItemText primary={'Bookmarks'} />
+					</ListItem>
+					<ListItem
+						button
+						onClick={close}
+						selected={location.pathname === '/chat'}
+						component={RouterLink}
+						to={'/chat'}
+					>
+						<ListItemIcon>
+							<ForumIcon />
+						</ListItemIcon>
+						<ListItemText primary={'Chat'} />
 					</ListItem>
 				</List>
 

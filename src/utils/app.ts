@@ -3,12 +3,22 @@ import {createMuiTheme} from '@material-ui/core/styles';
 import {PaletteOptions} from '@material-ui/core/styles/createPalette';
 import blue from '@material-ui/core/colors/blue';
 
-export const changeTheme = (palette: PaletteOptions): Theme => {
+export const changeTheme = ({
+	palette,
+	fontSize,
+}: {
+	palette?: PaletteOptions;
+	fontSize?: number;
+}): Theme => {
+	const currentTheme = JSON.parse(localStorage.getItem('theme') || '');
 	const enableAnimations = JSON.parse(localStorage.getItem('enableAnimations') || 'true');
 
 	if (enableAnimations) {
 		const newTheme = createMuiTheme({
-			palette,
+			palette: palette ? palette : currentTheme.palette,
+			typography: {
+				fontSize: fontSize ? fontSize : currentTheme.typography.fontSize,
+			},
 		});
 
 		localStorage.setItem('theme', JSON.stringify(newTheme));
@@ -16,7 +26,10 @@ export const changeTheme = (palette: PaletteOptions): Theme => {
 		return newTheme;
 	} else {
 		const newTheme = createMuiTheme({
-			palette,
+			palette: palette ? palette : currentTheme.palette,
+			typography: {
+				fontSize: fontSize ? fontSize : currentTheme.typography.fontSize,
+			},
 			transitions: {
 				create: (): string => 'none',
 			},
@@ -50,6 +63,7 @@ export const changeThemeAnimations = (): Theme => {
 	if (enableAnimations) {
 		const newTheme = createMuiTheme({
 			palette: currentTheme.palette,
+			typography: currentTheme.typography,
 			transitions: {
 				create: (): string => 'none',
 			},
@@ -77,6 +91,7 @@ export const changeThemeAnimations = (): Theme => {
 	} else {
 		const newTheme = createMuiTheme({
 			palette: currentTheme.palette,
+			typography: currentTheme.typography,
 		});
 
 		localStorage.setItem('enableAnimations', 'true');
@@ -86,6 +101,19 @@ export const changeThemeAnimations = (): Theme => {
 	}
 };
 
+export const getDefaultTheme = (): Theme => {
+	return createMuiTheme({
+		palette: {
+			type: 'dark',
+			primary: blue,
+		},
+		typography: {
+			// default 14px
+			fontSize: 15,
+		},
+	});
+};
+
 export const getCurrentTheme = (): Theme => {
 	const currentTheme = localStorage.getItem('theme');
 
@@ -93,12 +121,7 @@ export const getCurrentTheme = (): Theme => {
 		return createMuiTheme(JSON.parse(currentTheme));
 	}
 
-	const newTheme = createMuiTheme({
-		palette: {
-			type: 'dark',
-			primary: blue,
-		},
-	});
+	const newTheme = getDefaultTheme();
 
 	localStorage.setItem('theme', JSON.stringify(newTheme));
 	localStorage.setItem('enableAnimations', 'true');

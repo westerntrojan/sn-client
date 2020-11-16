@@ -17,6 +17,7 @@ import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import Brightness1Icon from '@material-ui/icons/Brightness1';
 import BookmarksIcon from '@material-ui/icons/Bookmarks';
 import Skeleton from '@material-ui/lab/Skeleton';
+import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
 
 import {RootState} from '@store/types';
 import Footer from './components/Footer';
@@ -104,13 +105,13 @@ const MainDrawer: React.FC = () => {
 							<ListItem
 								button
 								component={RouterLink}
-								to={'/chat'}
-								selected={location.pathname === '/chat'}
+								to={'/subscriptions'}
+								selected={location.pathname === '/subscriptions'}
 							>
 								<ListItemIcon>
-									<ForumIcon />
+									<SubscriptionsIcon />
 								</ListItemIcon>
-								<ListItemText primary={'Chat'} />
+								<ListItemText primary={'Subscriptions'} />
 							</ListItem>
 							<ListItem
 								button
@@ -122,6 +123,17 @@ const MainDrawer: React.FC = () => {
 									<BookmarksIcon />
 								</ListItemIcon>
 								<ListItemText primary={'Bookmarks'} />
+							</ListItem>
+							<ListItem
+								button
+								component={RouterLink}
+								to={'/chat'}
+								selected={location.pathname === '/chat'}
+							>
+								<ListItemIcon>
+									<ForumIcon />
+								</ListItemIcon>
+								<ListItemText primary={'Chat'} />
 							</ListItem>
 						</List>
 						{auth.isAuth && (

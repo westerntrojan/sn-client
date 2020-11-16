@@ -9,7 +9,7 @@ import Loader from '@components/common/loaders/Loader';
 import SmallArticle from '@components/common/SmallArticle';
 import {RootState, IArticle} from '@store/types';
 
-const GetUserBookmarks = loader('./gql/GetUserBookmarks.gql');
+const GetUserBookmarks = loader('../gql/GetUserBookmarks.gql');
 
 const useStyles = makeStyles({
 	noInfo: {
