@@ -1,29 +1,17 @@
-import React from 'react';
-import {useLocation} from 'react-router';
+import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import {useSelector, shallowEqual} from 'react-redux';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import HomeIcon from '@material-ui/icons/Home';
-import AddBoxIcon from '@material-ui/icons/AddBox';
-import ForumIcon from '@material-ui/icons/Forum';
-import Dashboard from '@material-ui/icons/Dashboard';
-import Divider from '@material-ui/core/Divider';
-import {Link as RouterLink} from 'react-router-dom';
-import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
-import Brightness1Icon from '@material-ui/icons/Brightness1';
-import BookmarksIcon from '@material-ui/icons/Bookmarks';
 import Skeleton from '@material-ui/lab/Skeleton';
-import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
 
 import {RootState} from '@store/types';
 import Footer from './components/Footer';
 import BottomTabs from './components/BottomTabs';
+import {Navigation, Messages, Groups} from './components/tabs';
 
-const drawerWidth = 240;
+const drawerWidth = 245;
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -42,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 		marginRight: theme.spacing(2),
 	},
 	toolbar: {...theme.mixins.toolbar},
-	skeletonListItem: {
+	skeletonItem: {
 		padding: 0,
 		paddingBottom: 15,
 	},
@@ -51,10 +39,13 @@ const useStyles = makeStyles(theme => ({
 const MainDrawer: React.FC = () => {
 	const classes = useStyles();
 
-	const location = useLocation();
+	const [tab, setTab] = useState(0);
 
-	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
 	const appLoading = useSelector((state: RootState) => state.app.loading, shallowEqual);
+
+	const handleChangeTab = (event: React.ChangeEvent<{}>, newValue: string): void => {
+		setTab(Number(newValue));
+	};
 
 	return (
 		<Drawer
@@ -67,142 +58,37 @@ const MainDrawer: React.FC = () => {
 			<div className={classes.toolbar} />
 
 			<div className={classes.list}>
-				{appLoading ? (
+				{appLoading && (
 					<List>
-						<ListItem className={classes.skeletonListItem}>
+						<ListItem className={classes.skeletonItem}>
 							<Skeleton variant='rect' width='100%' height={47.29} />
 						</ListItem>
-
-						<ListItem className={classes.skeletonListItem}>
+						<ListItem className={classes.skeletonItem}>
 							<Skeleton variant='rect' width='100%' height={47.29} />
 						</ListItem>
-
-						<ListItem className={classes.skeletonListItem}>
+						<ListItem className={classes.skeletonItem}>
 							<Skeleton variant='rect' width='100%' height={47.29} />
 						</ListItem>
-
-						<ListItem className={classes.skeletonListItem}>
+						<ListItem className={classes.skeletonItem}>
 							<Skeleton variant='rect' width='100%' height={47.29} />
 						</ListItem>
-
-						<ListItem className={classes.skeletonListItem}>
+						<ListItem className={classes.skeletonItem}>
 							<Skeleton variant='rect' width='100%' height={47.29} />
 						</ListItem>
-
-						<ListItem className={classes.skeletonListItem}>
+						<ListItem className={classes.skeletonItem}>
 							<Skeleton variant='rect' width='100%' height={47.29} />
 						</ListItem>
 					</List>
-				) : (
-					<>
-						<List>
-							<ListItem button component={RouterLink} to={'/'} selected={location.pathname === '/'}>
-								<ListItemIcon>
-									<HomeIcon />
-								</ListItemIcon>
-								<ListItemText primary={'Home'} />
-							</ListItem>
-							<ListItem
-								button
-								component={RouterLink}
-								to={'/subscriptions'}
-								selected={location.pathname === '/subscriptions'}
-							>
-								<ListItemIcon>
-									<SubscriptionsIcon />
-								</ListItemIcon>
-								<ListItemText primary={'Subscriptions'} />
-							</ListItem>
-							<ListItem
-								button
-								component={RouterLink}
-								to={'/bookmarks'}
-								selected={location.pathname === '/bookmarks'}
-							>
-								<ListItemIcon>
-									<BookmarksIcon />
-								</ListItemIcon>
-								<ListItemText primary={'Bookmarks'} />
-							</ListItem>
-							<ListItem
-								button
-								component={RouterLink}
-								to={'/chat'}
-								selected={location.pathname === '/chat'}
-							>
-								<ListItemIcon>
-									<ForumIcon />
-								</ListItemIcon>
-								<ListItemText primary={'Chat'} />
-							</ListItem>
-						</List>
-						{auth.isAuth && (
-							<>
-								<Divider />
-
-								<List>
-									<ListItem
-										button
-										component={RouterLink}
-										to={'/article/add'}
-										selected={location.pathname === '/article/add'}
-									>
-										<ListItemIcon>
-											<AddBoxIcon />
-										</ListItemIcon>
-										<ListItemText primary={'Add article'} />
-									</ListItem>
-
-									<ListItem
-										button
-										component={RouterLink}
-										to={'/messages'}
-										selected={location.pathname === '/messages'}
-									>
-										<ListItemIcon>
-											<PeopleAltIcon />
-										</ListItemIcon>
-										<ListItemText primary={'Messages'} />
-									</ListItem>
-								</List>
-							</>
-						)}
-						{auth.isAdmin && (
-							<>
-								<Divider />
-
-								<List>
-									<ListItem
-										button
-										component={RouterLink}
-										to={'/admin'}
-										selected={location.pathname === '/admin'}
-									>
-										<ListItemIcon>
-											<Dashboard />
-										</ListItemIcon>
-										<ListItemText primary={'Admin'} />
-									</ListItem>
-
-									<ListItem
-										button
-										component={RouterLink}
-										to='/example'
-										selected={location.pathname === '/example'}
-									>
-										<ListItemIcon>
-											<Brightness1Icon />
-										</ListItemIcon>
-										<ListItemText primary='Example' />
-									</ListItem>
-								</List>
-							</>
-						)}
-					</>
 				)}
+
+				{!appLoading && tab === 0 && <Navigation />}
+
+				{!appLoading && tab === 1 && <Messages />}
+
+				{!appLoading && tab === 2 && <Groups />}
 			</div>
 
-			<BottomTabs />
+			<BottomTabs value={tab} onChange={handleChangeTab} />
 			<Footer />
 		</Drawer>
 	);

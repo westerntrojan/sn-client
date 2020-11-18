@@ -60,9 +60,7 @@ const Message: React.FC<Props> = ({message}) => {
 
 	return (
 		<div className={classNames('message', classes.root)}>
-			<Link underline='none' component={RouterLink} to={userLink(message.user)} color='inherit'>
-				<UserAvatar user={message.user} className={classes.avatar} />
-			</Link>
+			<UserAvatar user={message.user} className={classes.avatar} link />
 			<Card>
 				<CardContent>
 					<Link underline='none' component={RouterLink} to={userLink(message.user)} color='inherit'>

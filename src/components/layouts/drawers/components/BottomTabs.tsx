@@ -1,29 +1,23 @@
-import React, {useState} from 'react';
+import React from 'react';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import RestoreIcon from '@material-ui/icons/Restore';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
 
-import {ZoomTooltip} from '@components/common/tooltips';
+import DirectionsIcon from '@material-ui/icons/Directions';
+import PersonIcon from '@material-ui/icons/Person';
+import GroupIcon from '@material-ui/icons/Group';
 
-const BottomTabs: React.FC = () => {
-	const [value, setValue] = useState(0);
+type Props = {
+	value: number;
+	onChange: (event: React.ChangeEvent<{}>, newValue: string) => void;
+};
 
+const BottomTabs: React.FC<Props> = ({value, onChange}) => {
 	return (
-		<ZoomTooltip title="Haven't come up with yet ;)">
-			<BottomNavigation
-				value={value}
-				onChange={(event, newValue): void => {
-					setValue(newValue);
-				}}
-				showLabels
-			>
-				<BottomNavigationAction label='Recents' icon={<RestoreIcon />} />
-				<BottomNavigationAction label='Favorites' icon={<FavoriteIcon />} />
-				<BottomNavigationAction label='Nearby' icon={<LocationOnIcon />} />
-			</BottomNavigation>
-		</ZoomTooltip>
+		<BottomNavigation value={value} onChange={onChange} showLabels>
+			<BottomNavigationAction label='Navigation' icon={<DirectionsIcon />} />
+			<BottomNavigationAction label='Messages' icon={<PersonIcon />} />
+			<BottomNavigationAction label='Groups' icon={<GroupIcon />} />
+		</BottomNavigation>
 	);
 };
 

@@ -5,8 +5,6 @@ import MoreVert from '@material-ui/icons/MoreVert';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import {useHistory} from 'react-router';
 import {makeStyles} from '@material-ui/core/styles';
-import {Link as RouterLink} from 'react-router-dom';
-import Link from '@material-ui/core/Link';
 import Skeleton from '@material-ui/lab/Skeleton';
 import Typography from '@material-ui/core/Typography';
 import Fade from '@material-ui/core/Fade';
@@ -16,7 +14,6 @@ import Divider from '@material-ui/core/Divider';
 
 import PointsLoader from './components/PointsLoader';
 import UserAvatar from '@components/common/avatars/UserAvatar';
-import {userLink} from '@utils/users';
 import Context from '@screens/UsersChat/context';
 
 const useStyles = makeStyles(theme => ({
@@ -117,9 +114,7 @@ const Header: React.FC = () => {
 					</Menu>
 
 					{user ? (
-						<Link underline='none' component={RouterLink} to={userLink(user)} color='inherit'>
-							<UserAvatar user={user} className={classes.avatar} />
-						</Link>
+						<UserAvatar user={user} className={classes.avatar} link />
 					) : (
 						<Skeleton variant='circle' width={40} height={40} />
 					)}

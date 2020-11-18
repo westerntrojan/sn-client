@@ -98,10 +98,20 @@ const Form: React.FC<Props> = ({auth, handleSubmit, handleChangeImage}) => {
 		setIcon(0);
 	};
 
+	const _handleKeyDown = (target: React.KeyboardEvent): void => {
+		// if (target.ctrlKey && target.keyCode === 13) {
+		// 	setText(text + '\n');
+		// }
+	};
 	const _handleKeyPressInput = (target: React.KeyboardEvent): void => {
 		if (target.ctrlKey && target.charCode === 13) {
 			_handleSubmit();
 		}
+
+		// if (!target.ctrlKey && target.charCode === 13) {
+		// 	target.preventDefault();
+		// 	_handleSubmit();
+		// }
 	};
 
 	const _handleMouseDown = (): void => {
@@ -145,6 +155,7 @@ const Form: React.FC<Props> = ({auth, handleSubmit, handleChangeImage}) => {
 					value={text}
 					onChange={_handleChangeText}
 					disabled={loading}
+					onKeyDown={_handleKeyDown}
 					onKeyPress={_handleKeyPressInput}
 					onMouseDown={_handleMouseDown}
 					autoFocus={auth.isAuth}

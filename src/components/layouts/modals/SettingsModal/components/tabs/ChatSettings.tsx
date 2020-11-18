@@ -15,10 +15,10 @@ const useStyles = makeStyles({
 const ChatSettings: React.FC = () => {
 	const classes = useStyles();
 
-	const [sendingVariant, setSendingVariant] = useState('enter');
+	const [sendingkey, setSendingKey] = useState('enter');
 
 	const _handleChangeSendingVariant = (e: any): void => {
-		setSendingVariant(e.target.value);
+		setSendingKey(e.target.value);
 	};
 
 	return (
@@ -27,7 +27,7 @@ const ChatSettings: React.FC = () => {
 				Messages
 			</Typography>
 			<FormControl component='fieldset'>
-				<RadioGroup value={sendingVariant} onChange={_handleChangeSendingVariant}>
+				<RadioGroup value={sendingkey} onChange={_handleChangeSendingVariant}>
 					<FormControlLabel
 						value='enter'
 						control={<Radio color='primary' />}

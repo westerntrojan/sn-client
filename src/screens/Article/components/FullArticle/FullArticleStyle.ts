@@ -36,9 +36,6 @@ export const useStyles = makeStyles(theme => ({
 	title: {
 		marginBottom: 20,
 	},
-	linkIcon: {
-		transform: 'rotate(135deg)',
-	},
 	tags: {
 		display: 'flex',
 		flexWrap: 'wrap',

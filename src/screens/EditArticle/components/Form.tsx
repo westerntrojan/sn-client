@@ -212,8 +212,8 @@ const Form: React.FC<Props> = ({article, handleSubmit}) => {
 					disabled={loading}
 					className={classes.input}
 					value={tags}
-					onAdd={(tag: string): void => _handleAddTag(tag)}
-					onDelete={(tag: string): void => _handleRemoveTag(tag)}
+					onAdd={_handleAddTag}
+					onDelete={_handleRemoveTag}
 					onKeyPress={_handleKeyPressTextarea}
 				/>
 				<FormControl variant='outlined' className={classes.input} disabled={loading}>

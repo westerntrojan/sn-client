@@ -3,7 +3,6 @@ import {useSelector, shallowEqual} from 'react-redux';
 import {Helmet} from 'react-helmet';
 import socketIoClient from 'socket.io-client';
 import {useSnackbar} from 'notistack';
-import callApi from '@utils/callApi';
 
 import './Chat.scss';
 import Canvas from './components/Canvas';
@@ -115,39 +114,15 @@ const Chat: React.FC = () => {
 
 	const handleSubmitMessage = async (newMessage: ISendingMessage): Promise<void> => {
 		const user = auth.user._id;
-		const {type, text, image, caption} = newMessage;
+		const {type, text} = newMessage;
 
-		if (type === 'text') {
-			socket.emit('new_message', {
-				newMessage: {
-					user,
-					type,
-					text,
-				},
-			});
-		} else {
-			if (image) {
-				const formData = new FormData();
-				formData.append('userId', auth.user._id);
-				formData.append('image', image);
-
-				const data = await callApi.post('/chats/image', formData);
-
-				if (data.success) {
-					socket.emit('new_message', {
-						newMessage: {
-							user,
-							type,
-							text,
-							image: {
-								url: data.image,
-								caption,
-							},
-						},
-					});
-				}
-			}
-		}
+		socket.emit('new_message', {
+			newMessage: {
+				user,
+				type,
+				text,
+			},
+		});
 	};
 
 	return (

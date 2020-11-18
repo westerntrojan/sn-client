@@ -50,9 +50,7 @@ const Reply: React.FC<Props> = ({reply, addLike, addDislike}) => {
 
 	return (
 		<div className='reply'>
-			<Link underline='none' component={RouterLink} to={userLink(reply.user)} color='inherit'>
-				<UserAvatar user={reply.user} small />
-			</Link>
+			<UserAvatar user={reply.user} small link />
 
 			<div className='content'>
 				<div className='info'>

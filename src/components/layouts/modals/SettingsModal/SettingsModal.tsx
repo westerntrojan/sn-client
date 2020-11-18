@@ -30,7 +30,7 @@ const SettingsModal: React.FC<Props> = ({open, closeModal}) => {
 	};
 
 	return (
-		<Dialog open={open} onClose={closeModal} fullScreen={fullScreen} fullWidth={true}>
+		<Dialog open={open} onClose={closeModal} fullScreen={fullScreen} fullWidth>
 			<DialogTitle>Settings</DialogTitle>
 
 			<DialogContent>

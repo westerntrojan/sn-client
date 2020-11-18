@@ -44,6 +44,7 @@ import {UserAvatar} from '@components/common/avatars';
 import Context from '@screens/Article/context';
 import {useAuthModal} from '@utils/hooks';
 import {subscribeToUser} from '@store/auth/actions';
+import ShareMenu from '@components/common/ShareMenu';
 
 type Props = {
 	article: IArticle;
@@ -62,7 +63,8 @@ const FullArticle: React.FC<Props> = ({
 }) => {
 	const classes = useStyles();
 
-	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+	const [moreMenuEl, setMoreMenuEl] = useState<HTMLElement | null>(null);
+	const [shareMenuEl, setShareMenuEl] = useState<HTMLElement | null>(null);
 	const [imageModal, setImageModal] = useState(false);
 
 	const {auth} = useContext(Context);
@@ -71,12 +73,17 @@ const FullArticle: React.FC<Props> = ({
 
 	const {openAuthModal} = useAuthModal();
 
-	const openMenu = (e: React.MouseEvent<HTMLButtonElement>): void => {
-		setAnchorEl(e.currentTarget);
+	const openMoreMenu = (e: React.MouseEvent<HTMLButtonElement>): void => {
+		setMoreMenuEl(e.currentTarget);
 	};
-
-	const closeMenu = (): void => {
-		setAnchorEl(null);
+	const closeMoreMenu = (): void => {
+		setMoreMenuEl(null);
+	};
+	const openShareMenu = (e: React.MouseEvent<HTMLButtonElement>): void => {
+		setShareMenuEl(e.currentTarget);
+	};
+	const closeShareMenu = (): void => {
+		setShareMenuEl(null);
 	};
 
 	const handleSubscribe = (): void => {
@@ -90,30 +97,22 @@ const FullArticle: React.FC<Props> = ({
 	return (
 		<Card className={classNames('full-article', classes.root)}>
 			<CardHeader
-				avatar={
-					<Link underline='none' component={RouterLink} to={userLink(article.user)}>
-						<UserAvatar user={article.user} />
-					</Link>
-				}
+				avatar={<UserAvatar user={article.user} link />}
 				action={
 					<>
-						<ZoomTooltip title='Add to bookmarks'>
-							<IconButton onClick={addToBookmarks}>
-								{auth.user.bookmarks.includes(article._id) ? (
-									<BookmarkIcon color='primary' />
-								) : (
-									<BookmarkBorderIcon />
-								)}
-							</IconButton>
-						</ZoomTooltip>
+						<IconButton onClick={addToBookmarks}>
+							{auth.user.bookmarks.includes(article._id) ? (
+								<BookmarkIcon color='primary' />
+							) : (
+								<BookmarkBorderIcon />
+							)}
+						</IconButton>
 
-						<ZoomTooltip title='Share'>
-							<IconButton>
-								<ShareIcon />
-							</IconButton>
-						</ZoomTooltip>
+						<IconButton onClick={openShareMenu}>
+							<ShareIcon />
+						</IconButton>
 
-						<IconButton onClick={openMenu}>
+						<IconButton onClick={openMoreMenu}>
 							<MoreHorizIcon />
 						</IconButton>
 					</>
@@ -333,10 +332,16 @@ const FullArticle: React.FC<Props> = ({
 				closeModal={(): void => setImageModal(false)}
 			/>
 
-			<Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={closeMenu}>
+			<ShareMenu
+				anchorEl={shareMenuEl}
+				closeMenu={closeShareMenu}
+				url={`https://delo.westerntrojan.now.sh/article/${article.slug}`}
+			/>
+
+			<Menu anchorEl={moreMenuEl} keepMounted open={Boolean(moreMenuEl)} onClose={closeMoreMenu}>
 				{(auth.user && auth.user._id === article.user._id) || auth.isAdmin ? (
 					<div>
-						<MenuItem onClick={closeMenu}>
+						<MenuItem onClick={closeMoreMenu}>
 							<ListItemIcon>
 								<FlagIcon />
 							</ListItemIcon>
@@ -359,7 +364,7 @@ const FullArticle: React.FC<Props> = ({
 
 						<MenuItem
 							onClick={(): void => {
-								closeMenu();
+								closeMoreMenu();
 
 								handleRemove();
 							}}
@@ -371,7 +376,7 @@ const FullArticle: React.FC<Props> = ({
 						</MenuItem>
 					</div>
 				) : (
-					<MenuItem onClick={closeMenu}>
+					<MenuItem onClick={closeMoreMenu}>
 						<ListItemIcon>
 							<FlagIcon />
 						</ListItemIcon>

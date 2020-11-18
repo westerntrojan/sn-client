@@ -61,9 +61,7 @@ const CommentReplies: React.FC<Props> = ({comment, addLike, addDislike, handleRe
 	return (
 		<div className='comment-replies'>
 			<div className='comment'>
-				<Link underline='none' component={RouterLink} to={userLink(comment.user)} color='inherit'>
-					<UserAvatar user={comment.user} />
-				</Link>
+				<UserAvatar user={comment.user} link />
 
 				<CardContent className='content'>
 					<div className='info'>

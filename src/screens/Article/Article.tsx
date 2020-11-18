@@ -186,6 +186,18 @@ const Article: React.FC = () => {
 				<title>
 					{article ? article.title : 'Article'} / {process.env.REACT_APP_TITLE}
 				</title>
+				{article && (
+					<>
+						{article.image && <meta property='og:image' content={article.image} />}
+						<meta property='og:title' content={article.title} />
+						<meta property='og:description' content={article.text.slice(250)} />
+						<meta property='og:type' content='article' />
+						<meta
+							property='og:url'
+							content={`https://delo.westerntrojan.now.sh/article/${article.slug}`}
+						/>
+					</>
+				)}
 			</Helmet>
 
 			<Context.Provider

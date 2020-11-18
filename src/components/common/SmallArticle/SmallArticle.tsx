@@ -24,7 +24,6 @@ import FlagIcon from '@material-ui/icons/Flag';
 import Divider from '@material-ui/core/Divider';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import {useSelector, shallowEqual} from 'react-redux';
-
 import {LazyLoadImage} from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
@@ -32,8 +31,9 @@ import {useStyles} from './SmllArticleStyle';
 import {userLink} from '@utils/users';
 import {getCommentsCount} from '@utils/articles';
 import {IArticle, RootState} from '@store/types';
-import ZoomTooltip from '@components/common/tooltips/ZoomTooltip';
+import {ZoomTooltip} from '@components/common/tooltips';
 import {UserAvatar} from '@components/common/avatars';
+import ShareMenu from '@components/common/ShareMenu';
 
 type Props = {
 	article: IArticle;
@@ -43,45 +43,43 @@ type Props = {
 const SmallArticle: React.FC<Props> = ({article, lazy}) => {
 	const classes = useStyles();
 
-	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+	const [moreMenuEl, setMoreMenuEl] = useState<HTMLElement | null>(null);
+	const [shareMenuEl, setShareMenuEl] = useState<HTMLElement | null>(null);
 
 	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
 
-	const openMenu = (e: React.MouseEvent<HTMLButtonElement>): void => {
-		setAnchorEl(e.currentTarget);
+	const openMoreMenu = (e: React.MouseEvent<HTMLButtonElement>): void => {
+		setMoreMenuEl(e.currentTarget);
 	};
-
-	const closeMenu = (): void => {
-		setAnchorEl(null);
+	const closeMoreMenu = (): void => {
+		setMoreMenuEl(null);
+	};
+	const openShareMenu = (e: React.MouseEvent<HTMLButtonElement>): void => {
+		setShareMenuEl(e.currentTarget);
+	};
+	const closeShareMenu = (): void => {
+		setShareMenuEl(null);
 	};
 
 	return (
 		<Card className={classNames('small-article', classes.root)}>
 			<CardHeader
-				avatar={
-					<Link underline='none' component={RouterLink} to={userLink(article.user)}>
-						<UserAvatar user={article.user} />
-					</Link>
-				}
+				avatar={<UserAvatar user={article.user} link />}
 				action={
 					<>
-						<ZoomTooltip title='Add to bookmarks'>
-							<IconButton>
-								{auth.user.bookmarks.includes(article._id) ? (
-									<BookmarkIcon color='primary' />
-								) : (
-									<BookmarkBorderIcon />
-								)}
-							</IconButton>
-						</ZoomTooltip>
+						<IconButton>
+							{auth.user.bookmarks.includes(article._id) ? (
+								<BookmarkIcon color='primary' />
+							) : (
+								<BookmarkBorderIcon />
+							)}
+						</IconButton>
 
-						<ZoomTooltip title='Share'>
-							<IconButton>
-								<ShareIcon />
-							</IconButton>
-						</ZoomTooltip>
+						<IconButton onClick={openShareMenu}>
+							<ShareIcon />
+						</IconButton>
 
-						<IconButton onClick={openMenu}>
+						<IconButton onClick={openMoreMenu}>
 							<MoreHorizIcon />
 						</IconButton>
 					</>
@@ -168,10 +166,16 @@ const SmallArticle: React.FC<Props> = ({article, lazy}) => {
 				</div>
 			</CardActions>
 
-			<Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={closeMenu}>
-				<MenuItem onClick={closeMenu}>
+			<ShareMenu
+				anchorEl={shareMenuEl}
+				closeMenu={closeShareMenu}
+				url={`https://delo.westerntrojan.now.sh/article/${article.slug}`}
+			/>
+
+			<Menu anchorEl={moreMenuEl} keepMounted open={Boolean(moreMenuEl)} onClose={closeMoreMenu}>
+				<MenuItem onClick={closeMoreMenu}>
 					<ListItemIcon>
-						<FlagIcon fontSize='small' />
+						<FlagIcon />
 					</ListItemIcon>
 					<ListItemText primary='Report' />
 				</MenuItem>

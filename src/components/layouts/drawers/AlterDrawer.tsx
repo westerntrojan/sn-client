@@ -9,12 +9,13 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import HomeIcon from '@material-ui/icons/Home';
 import ListItemText from '@material-ui/core/ListItemText';
 import AddBoxIcon from '@material-ui/icons/AddBox';
-import ForumIcon from '@material-ui/icons/Forum';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import {useSelector, shallowEqual} from 'react-redux';
 import BookmarksIcon from '@material-ui/icons/Bookmarks';
 import Skeleton from '@material-ui/lab/Skeleton';
 import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
+import ZoomTooltip from '@components/common/tooltips/ZoomTooltip';
+import Divider from '@material-ui/core/Divider';
 
 import {RootState} from '@store/types';
 
@@ -79,70 +80,80 @@ const AlterDrawer: React.FC = () => {
 						</ListItem>
 					</List>
 				) : (
-					<List>
-						<ListItem button selected={isSelected('/')} component={RouterLink} to={'/'}>
-							<ListItemIcon>
-								<HomeIcon />
-							</ListItemIcon>
-							<ListItemText primary={'Home'} />
-						</ListItem>
-						<ListItem
-							button
-							selected={isSelected('/subscriptions')}
-							component={RouterLink}
-							to={'/subscriptions'}
-						>
-							<ListItemIcon>
-								<SubscriptionsIcon />
-							</ListItemIcon>
-							<ListItemText primary={'Subscriptions'} />
-						</ListItem>
-						<ListItem
-							button
-							selected={isSelected('/bookmarks')}
-							component={RouterLink}
-							to={'/bookmarks'}
-						>
-							<ListItemIcon>
-								<BookmarksIcon />
-							</ListItemIcon>
-							<ListItemText primary={'Bookmarks'} />
-						</ListItem>
-						<ListItem button selected={isSelected('/chat')} component={RouterLink} to={'/chat'}>
-							<ListItemIcon>
-								<ForumIcon />
-							</ListItemIcon>
-							<ListItemText primary={'Chat'} />
-						</ListItem>
+					<>
+						<List>
+							<ZoomTooltip title='Home' placement='right'>
+								<ListItem button selected={isSelected('/')} component={RouterLink} to={'/'}>
+									<ListItemIcon>
+										<HomeIcon />
+									</ListItemIcon>
+									<ListItemText primary={'Home'} />
+								</ListItem>
+							</ZoomTooltip>
+							<ZoomTooltip title='Subscriptions' placement='right'>
+								<ListItem
+									button
+									selected={isSelected('/subscriptions')}
+									component={RouterLink}
+									to={'/subscriptions'}
+								>
+									<ListItemIcon>
+										<SubscriptionsIcon />
+									</ListItemIcon>
+									<ListItemText primary={'Subscriptions'} />
+								</ListItem>
+							</ZoomTooltip>
+							<ZoomTooltip title='Bookmars' placement='right'>
+								<ListItem
+									button
+									selected={isSelected('/bookmarks')}
+									component={RouterLink}
+									to={'/bookmarks'}
+								>
+									<ListItemIcon>
+										<BookmarksIcon />
+									</ListItemIcon>
+									<ListItemText primary={'Bookmarks'} />
+								</ListItem>
+							</ZoomTooltip>
+						</List>
 
 						{auth.isAuth && (
 							<>
-								<ListItem
-									button
-									selected={isSelected('/article/add')}
-									component={RouterLink}
-									to={'/article/add'}
-								>
-									<ListItemIcon>
-										<AddBoxIcon />
-									</ListItemIcon>
-									<ListItemText primary={'Add article'} />
-								</ListItem>
+								<Divider />
 
-								<ListItem
-									button
-									selected={isSelected('/messages')}
-									component={RouterLink}
-									to={'/messages'}
-								>
-									<ListItemIcon>
-										<PeopleAltIcon />
-									</ListItemIcon>
-									<ListItemText primary={'Messages'} />
-								</ListItem>
+								<List>
+									<ZoomTooltip title='Add article' placement='right'>
+										<ListItem
+											button
+											selected={isSelected('/article/add')}
+											component={RouterLink}
+											to={'/article/add'}
+										>
+											<ListItemIcon>
+												<AddBoxIcon />
+											</ListItemIcon>
+											<ListItemText primary={'Add article'} />
+										</ListItem>
+									</ZoomTooltip>
+
+									<ZoomTooltip title='Messages' placement='right'>
+										<ListItem
+											button
+											selected={isSelected('/messages')}
+											component={RouterLink}
+											to={'/messages'}
+										>
+											<ListItemIcon>
+												<PeopleAltIcon />
+											</ListItemIcon>
+											<ListItemText primary={'Messages'} />
+										</ListItem>
+									</ZoomTooltip>
+								</List>
 							</>
 						)}
-					</List>
+					</>
 				)}
 			</div>
 		</Drawer>

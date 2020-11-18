@@ -4,6 +4,21 @@
 		margin-bottom: 20px;
 	}
 
+	.updown-button {
+		background-color: rgba(black, 0.8);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		color: white;
+		position: fixed;
+		left: 0;
+		top: 0;
+		height: 100%;
+		width: 80px;
+		z-index: 8888;
+	}
+
 	.comments-title {
 		display: flex;
 		align-items: center;

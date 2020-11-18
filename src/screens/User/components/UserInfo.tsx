@@ -31,9 +31,6 @@ const useStyles = makeStyles(() => ({
 	item: {
 		padding: '5px 0',
 	},
-	linkIcon: {
-		transform: 'rotate(135deg)',
-	},
 }));
 
 type Props = {
