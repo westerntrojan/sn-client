@@ -11,10 +11,8 @@ import {useSelector, shallowEqual} from 'react-redux';
 import {useSnackbar} from 'notistack';
 import Button from '@material-ui/core/Button';
 
-import Dropzone from '@components/common/Dropzone';
 import {IArticle, RootState} from '@store/types';
 import {IArticleInputs} from '@screens/EditArticle/types';
-import {validateImage} from '@utils/images';
 
 const useStyles = makeStyles({
 	input: {
@@ -34,7 +32,7 @@ const useStyles = makeStyles({
 
 type Props = {
 	article: IArticle;
-	handleSubmit: (article: IArticleInputs) => void;
+	handleSubmit: (updatedArticle: IArticleInputs) => void;
 };
 
 const Form: React.FC<Props> = ({article, handleSubmit}) => {
@@ -44,14 +42,9 @@ const Form: React.FC<Props> = ({article, handleSubmit}) => {
 
 	const [title, setTitle] = useState(article.title);
 	const [text, setText] = useState(article.text);
-	const [imageFile, setImageFile] = useState<File | null>(null);
-	const [imagePreview, setImagePreview] = useState(
-		article.image ? `${process.env.REACT_APP_CLOUD_IMAGE_URI}/q_65/${article.image}` : '',
-	);
 	const [tags, setTags] = useState(article.tags);
 	const [category, setCategory] = useState(article.category._id);
 	const [loading, setLoading] = useState(false);
-	const [loadingImage, setLoadingImage] = useState(false);
 	const [disabledButton, setDisabledButton] = useState(true);
 
 	const inputLabelRef = useRef<HTMLLabelElement>(null);
@@ -65,7 +58,6 @@ const Form: React.FC<Props> = ({article, handleSubmit}) => {
 			text.trim() &&
 			(title !== article.title ||
 				text !== article.text ||
-				imagePreview !== article.image ||
 				category !== article.category._id ||
 				!_.isEqual(_.sortBy(article.tags), _.sortBy(tags)))
 		) {
@@ -73,7 +65,7 @@ const Form: React.FC<Props> = ({article, handleSubmit}) => {
 		} else {
 			setDisabledButton(true);
 		}
-	}, [title, text, imagePreview, tags, category, article]);
+	}, [title, text, tags, category, article]);
 
 	useEffect(() => {
 		if (inputLabelRef.current) {
@@ -117,20 +109,16 @@ const Form: React.FC<Props> = ({article, handleSubmit}) => {
 		}
 
 		setLoading(true);
-		setLoadingImage(true);
 
 		const data: any = await handleSubmit({
 			title,
 			text,
 			category,
 			tags,
-			imageFile: imageFile,
-			imagePreview: imagePreview.split('/').reverse()[0],
 		});
 
 		if (!data.success) {
 			setLoading(false);
-			setLoadingImage(false);
 			enqueueSnackbar(data.message, {variant: 'error'});
 		}
 	};
@@ -145,32 +133,6 @@ const Form: React.FC<Props> = ({article, handleSubmit}) => {
 		if (target.ctrlKey && target.charCode === 13) {
 			_handleSubmit();
 		}
-	};
-
-	const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
-		if (e.target.files && e.target.files.length) {
-			const file = e.target.files[0];
-
-			const validationResult = validateImage(file);
-
-			if (validationResult.success) {
-				setImageFile(file);
-
-				const reader = new FileReader();
-
-				reader.onload = (data: any): void => {
-					setImagePreview(data.target.result);
-				};
-
-				reader.readAsDataURL(file);
-			} else {
-				enqueueSnackbar(validationResult.message, {variant: 'error'});
-			}
-		}
-	};
-
-	const handleRemoveImage = async (): Promise<void> => {
-		setImagePreview('');
 	};
 
 	return (
@@ -199,12 +161,6 @@ const Form: React.FC<Props> = ({article, handleSubmit}) => {
 					onKeyPress={_handleKeyPressTextarea}
 					disabled={loading}
 					error={text.length > 5000}
-				/>
-				<Dropzone
-					imagePreview={imagePreview}
-					loadingImage={loadingImage}
-					handleChangeImage={handleChangeImage}
-					handleRemoveImage={handleRemoveImage}
 				/>
 				<ChipInput
 					label='Tags'

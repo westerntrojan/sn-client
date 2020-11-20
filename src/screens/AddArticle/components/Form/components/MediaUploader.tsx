@@ -6,8 +6,8 @@ import ImageUploader from './ImageUploader';
 import VideoUploader from './VideoUploader';
 
 type Props = {
-	onUploadImage: (image: string) => void;
-	onRemoveImage: () => void;
+	onUploadImages: (image: string[]) => void;
+	// onRemoveImage: () => void;
 	onUploadVideo: (video: string) => void;
 	onRemoveVideo: () => void;
 	onLoadingStart: () => void;
@@ -15,15 +15,15 @@ type Props = {
 };
 
 const MediaUploader: React.FC<Props> = ({
-	onUploadImage,
-	onRemoveImage,
+	onUploadImages,
+	// onRemoveImage,
 	onUploadVideo,
 	onRemoveVideo,
 	onLoadingStart,
 	onLoadingFinish,
 }) => {
 	const [uploadType, setUploadType] = useState(0);
-	const [image, setImage] = useState('');
+	const [images, setImages] = useState<string[]>([]);
 	const [video, setVideo] = useState('');
 	const [loading, setLoading] = useState(false);
 
@@ -31,15 +31,15 @@ const MediaUploader: React.FC<Props> = ({
 		setUploadType(newValue);
 	};
 
-	const _handleUploadImage = (image: string): void => {
-		setImage(image);
-		onUploadImage(image);
+	const _handleUploadImages = (images: string[]): void => {
+		setImages(images);
+		onUploadImages(images);
 	};
 
-	const _handleRemoveImage = (): void => {
-		setImage('');
-		onRemoveImage();
-	};
+	// const _handleRemoveImage = (): void => {
+	// 	setImage('');
+	// 	onRemoveImage();
+	// };
 
 	const _handleUploadVideo = (video: string): void => {
 		setVideo(video);
@@ -69,15 +69,15 @@ const MediaUploader: React.FC<Props> = ({
 				indicatorColor='primary'
 				textColor='primary'
 			>
-				<Tab label='Upload image' disabled={!!video || loading} />
-				<Tab label='Upload video' disabled={!!image || loading} />
+				<Tab label='Upload images' disabled={!!video || loading} />
+				<Tab label='Upload video' disabled={!!images.length || loading} />
 			</Tabs>
 
 			<div style={{paddingTop: 20}}>
 				{uploadType === 0 && (
 					<ImageUploader
-						onUploadImage={_handleUploadImage}
-						onRemoveImage={_handleRemoveImage}
+						onUploadImages={_handleUploadImages}
+						// onRemoveImage={_handleRemoveImage}
 						onLoadingStart={_handleLoadingStart}
 						onLoadingFinish={_handleLoadingFinish}
 					/>

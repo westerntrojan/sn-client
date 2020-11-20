@@ -63,14 +63,10 @@ export const addArticle = (article: object): AppThunk => async (dispatch): Promi
 	return data;
 };
 
-export const editArticle = ({
-	articleId,
-	formData,
-}: {
-	articleId: string;
-	formData: FormData;
-}): AppThunk => async (dispatch): Promise<object> => {
-	const data = await callApi.put(`/articles/${articleId}`, formData);
+export const editArticle = (updatedArticle: {_id: string}): AppThunk => async (
+	dispatch,
+): Promise<object> => {
+	const data = await callApi.put(`/articles/${updatedArticle._id}`, updatedArticle);
 
 	if (data.success) {
 		dispatch({

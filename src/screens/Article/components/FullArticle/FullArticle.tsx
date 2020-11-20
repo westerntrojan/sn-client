@@ -45,6 +45,7 @@ import Context from '@screens/Article/context';
 import {useAuthModal} from '@utils/hooks';
 import {subscribeToUser} from '@store/auth/actions';
 import ShareMenu from '@components/common/ShareMenu';
+import ImageGallery from '@components/common/ImageGallery';
 
 type Props = {
 	article: IArticle;
@@ -134,7 +135,18 @@ const FullArticle: React.FC<Props> = ({
 				subheader={moment(article.created).format('LL')}
 			/>
 
-			{article.image ? (
+			{/* images */}
+			{!!article.images.length && (
+				<ImageGallery
+					images={article.images.map(
+						image => `${process.env.REACT_APP_CLOUD_IMAGE_URI}/q_65/${image}`,
+					)}
+					withModal
+				/>
+			)}
+
+			{/* image */}
+			{article.image && (
 				<CardMedia
 					component='img'
 					alt={article.title}
@@ -143,11 +155,10 @@ const FullArticle: React.FC<Props> = ({
 					className={classes.image}
 					onClick={(): void => setImageModal(true)}
 				/>
-			) : (
-				<Divider />
 			)}
 
-			{article.video ? (
+			{/* video */}
+			{article.video && (
 				<Video
 					cloudName={process.env.REACT_APP_CLOUD_NAME}
 					publicId={article.video}
@@ -159,9 +170,9 @@ const FullArticle: React.FC<Props> = ({
 					Cannot display
 					<b>video</b>.
 				</Video>
-			) : (
-				<Divider />
 			)}
+
+			{!article.image && !!!article.images.length && !article.video && <Divider />}
 
 			<CardContent>
 				<div className={classes.content}>

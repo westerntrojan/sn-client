@@ -7,10 +7,10 @@ interface Props extends CircularProgressProps {
 	value: number;
 }
 
-const CircularProgressWithLabel: React.FC<Props> = props => {
+const CircularProgressWithLabel: React.FC<Props> = ({value, ...props}) => {
 	return (
-		<Box position='relative' display='inline-flex'>
-			<CircularProgress variant='static' {...props} />
+		<Box position='relative' display='inline-flex' {...props}>
+			<CircularProgress variant='static' value={value} />
 
 			<Box
 				top={0}
@@ -23,7 +23,7 @@ const CircularProgressWithLabel: React.FC<Props> = props => {
 				justifyContent='center'
 			>
 				<Typography variant='caption' component='div' color='textSecondary'>{`${Math.round(
-					props.value,
+					value,
 				)}%`}</Typography>
 			</Box>
 		</Box>

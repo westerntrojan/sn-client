@@ -10,7 +10,6 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 import {useStyles} from './MyMessageStyle';
 import {IMessage} from '@components/common/chats/types';
-import {ImageModal} from '@components/common/modals';
 
 type Props = {
 	message: IMessage;
@@ -22,7 +21,6 @@ const MyMessage: React.FC<Props> = ({message, alterHeader, selectMessage}) => {
 	const classes = useStyles();
 
 	const [isSelect, setIsSelect] = useState(false);
-	const [imageModal, setImageModal] = useState(false);
 	const [checkIcon, setCheckIcon] = useState(false);
 
 	useEffect(() => {
@@ -32,16 +30,8 @@ const MyMessage: React.FC<Props> = ({message, alterHeader, selectMessage}) => {
 	}, [alterHeader]);
 
 	const _handleClickMessage = (e: any): void => {
-		if (!imageModal) {
-			setIsSelect(!isSelect);
-			selectMessage(message._id);
-		}
-	};
-
-	const _handleClickImage = (e: any): void => {
-		e.stopPropagation();
-
-		setImageModal(true);
+		setIsSelect(!isSelect);
+		selectMessage(message._id);
 	};
 
 	return (
@@ -61,67 +51,18 @@ const MyMessage: React.FC<Props> = ({message, alterHeader, selectMessage}) => {
 				})}
 			/>
 
-			{!message.image && !message.caption && (
-				<Card className={classes.message}>
-					<CardContent>
-						<Typography>{message.text}</Typography>
-					</CardContent>
-					<CardActions className={classes.actions}>
-						<div className={'buttons'}></div>
+			<Card className={classes.message}>
+				<CardContent>
+					<Typography>{message.text}</Typography>
+				</CardContent>
+				<CardActions className={classes.actions}>
+					<div className={'buttons'}></div>
 
-						<div className={classes.messageCreated}>
-							<Typography className={'small'}>{moment(message.created).format('LT')}</Typography>
-						</div>
-					</CardActions>
-				</Card>
-			)}
-
-			{message.image && !message.caption && (
-				<Card className={classes.message}>
-					<Card className={classes.imageWrapper} onClick={_handleClickImage}>
-						<img
-							alt=''
-							src={`${process.env.REACT_APP_CLOUD_NAME}/q_65/${message.image}`}
-							className={classes.image}
-						/>
-					</Card>
-
-					<div className={classes.imageMessageCreated}> {moment(message.created).format('LT')}</div>
-				</Card>
-			)}
-
-			{message.image && message.caption && (
-				<Card className={classes.message}>
-					<Card className={classes.imageWrapper} onClick={_handleClickImage}>
-						<img
-							alt=''
-							src={`${process.env.REACT_APP_CLOUD_NAME}/q_65/${message.image}`}
-							className={classes.image}
-						/>
-					</Card>
-
-					{message.caption && (
-						<>
-							<CardContent>
-								<Typography>{message.caption}</Typography>
-							</CardContent>
-							<CardActions className={classes.actions}>
-								<div className={classes.messageCreated}>
-									<Typography className={'small'}>
-										{moment(message.created).format('LT')}
-									</Typography>
-								</div>
-							</CardActions>
-						</>
-					)}
-				</Card>
-			)}
-
-			<ImageModal
-				open={imageModal}
-				image={message.image}
-				closeModal={(): void => setImageModal(false)}
-			/>
+					<div className={classes.messageCreated}>
+						<Typography className={'small'}>{moment(message.created).format('LT')}</Typography>
+					</div>
+				</CardActions>
+			</Card>
 		</Paper>
 	);
 };

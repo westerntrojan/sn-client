@@ -34,6 +34,7 @@ import {IArticle, RootState} from '@store/types';
 import {ZoomTooltip} from '@components/common/tooltips';
 import {UserAvatar} from '@components/common/avatars';
 import ShareMenu from '@components/common/ShareMenu';
+import ImageGrid from '@components/common/ImageGrid';
 
 type Props = {
 	article: IArticle;
@@ -101,32 +102,52 @@ const SmallArticle: React.FC<Props> = ({article, lazy}) => {
 				subheader={moment(article.created).fromNow()}
 			/>
 
-			{article.image || article.video ? (
-				<CardActionArea className={classes.imageWrapper}>
+			{/* images */}
+			{!!article.images.length && (
+				<CardActionArea>
 					<Link
 						underline='none'
 						component={RouterLink}
 						to={`/article/${article.slug}`}
 						color='inherit'
 					>
-						<LazyLoadImage
-							src={
-								article.image
-									? `${process.env.REACT_APP_CLOUD_IMAGE_URI}/ar_2.5,c_crop,q_65/${article.image}`
-									: `${process.env.REACT_APP_CLOUD_VIDEO_URI}/ar_2.5,c_crop,q_65/${article.video}.jpg`
-							}
-							title={article.title}
-							width='100%'
-							height='300px'
-							effect='blur'
-							alt={article.title}
-							className={classes.image}
+						<ImageGrid
+							images={article.images.map(
+								image => `${process.env.REACT_APP_CLOUD_IMAGE_URI}/q_65/${image}`,
+							)}
 						/>
 					</Link>
 				</CardActionArea>
-			) : (
-				<Divider />
 			)}
+
+			{/* image */}
+			{article.image ||
+				(article.video && (
+					<CardActionArea className={classes.imageWrapper}>
+						<Link
+							underline='none'
+							component={RouterLink}
+							to={`/article/${article.slug}`}
+							color='inherit'
+						>
+							<LazyLoadImage
+								src={
+									article.image
+										? `${process.env.REACT_APP_CLOUD_IMAGE_URI}/ar_2.5,c_crop,q_65/${article.image}`
+										: `${process.env.REACT_APP_CLOUD_VIDEO_URI}/ar_2.5,c_crop,q_65/${article.video}.jpg`
+								}
+								title={article.title}
+								width='100%'
+								height='400px'
+								effect='blur'
+								alt={article.title}
+								className={classes.image}
+							/>
+						</Link>
+					</CardActionArea>
+				))}
+
+			{!article.image && !!!article.images.length && <Divider />}
 
 			<CardContent>
 				<Typography variant='h5' className={classes.title}>

@@ -176,82 +176,66 @@ const Article: React.FC = () => {
 		}
 	};
 
-	if (loading) {
-		return <Loader disableMargin />;
-	}
-
 	return (
 		<section className='article'>
 			<Helmet>
 				<title>
 					{article ? article.title : 'Article'} / {process.env.REACT_APP_TITLE}
 				</title>
-				{article && (
-					<>
-						{article.image && <meta property='og:image' content={article.image} />}
-						<meta property='og:title' content={article.title} />
-						<meta property='og:description' content={article.text.slice(250)} />
-						<meta property='og:type' content='article' />
-						<meta
-							property='og:url'
-							content={`https://delo.westerntrojan.now.sh/article/${article.slug}`}
-						/>
-					</>
-				)}
 			</Helmet>
 
-			<Context.Provider
-				value={{auth, submitReply: handleSubmitReply, removeReply: handleRemoveReply}}
-			>
-				{article && (
-					<>
-						<FullArticle
-							article={article}
-							addLike={handleAddArticleLike}
-							addDislike={handleAddArticleDislike}
-							addToBookmarks={handleAddArticleToBookmarks}
-							handleRemove={(): void => setRemoveArticleModal(true)}
-						/>
+			{loading && <Loader disableMargin />}
 
-						<div className='comments'>
-							<div className='comments-title'>
-								<Typography variant='h5' className='caption'>
-									{getCommentsCount(article)} Comments
-								</Typography>
+			{article && (
+				<Context.Provider
+					value={{auth, submitReply: handleSubmitReply, removeReply: handleRemoveReply}}
+				>
+					<FullArticle
+						article={article}
+						addLike={handleAddArticleLike}
+						addDislike={handleAddArticleDislike}
+						addToBookmarks={handleAddArticleToBookmarks}
+						handleRemove={(): void => setRemoveArticleModal(true)}
+					/>
 
-								<ZoomTooltip title='Sort comments'>
-									<Button size='small' startIcon={<SortIcon />} onClick={openSortMenu}>
-										Sort by
-									</Button>
-								</ZoomTooltip>
-								<Menu
-									anchorEl={anchorEl}
-									keepMounted
-									open={Boolean(anchorEl)}
-									onClose={closeSortMenu}
-								>
-									<MenuItem onClick={_handleTopCommentsSort}>Top Comments</MenuItem>
-									<MenuItem onClick={_handleNewestFirstSort}>Newest first</MenuItem>
-								</Menu>
-							</div>
+					<div className='comments'>
+						<div className='comments-title'>
+							<Typography variant='h5' className='caption'>
+								{getCommentsCount(article)} Comments
+							</Typography>
 
-							<CommentForm submit={handleSubmitComment} />
-
-							<div className='comments-list'>
-								{article.comments.map((comment: IComment) => (
-									<CommentReplies
-										key={comment._id}
-										comment={comment}
-										addLike={handleAddCommentLike}
-										addDislike={handleAddCommentDislike}
-										handleRemove={handleRemoveComment}
-									/>
-								))}
-							</div>
+							<ZoomTooltip title='Sort comments'>
+								<Button size='small' startIcon={<SortIcon />} onClick={openSortMenu}>
+									Sort by
+								</Button>
+							</ZoomTooltip>
+							<Menu
+								anchorEl={anchorEl}
+								keepMounted
+								open={Boolean(anchorEl)}
+								onClose={closeSortMenu}
+							>
+								<MenuItem onClick={_handleTopCommentsSort}>Top Comments</MenuItem>
+								<MenuItem onClick={_handleNewestFirstSort}>Newest first</MenuItem>
+							</Menu>
 						</div>
-					</>
-				)}
-			</Context.Provider>
+
+						<CommentForm submit={handleSubmitComment} />
+
+						<div className='comments-list'>
+							{article.comments.map((comment: IComment) => (
+								<CommentReplies
+									key={comment._id}
+									comment={comment}
+									addLike={handleAddCommentLike}
+									addDislike={handleAddCommentDislike}
+									handleRemove={handleRemoveComment}
+								/>
+							))}
+						</div>
+					</div>
+				</Context.Provider>
+			)}
 
 			<RemoveModal
 				open={removeArticleModal}
@@ -264,3 +248,13 @@ const Article: React.FC = () => {
 };
 
 export default Article;
+
+/* {!!article.images.length && <meta property='og:image' content={article.image[0]} />}
+{article.image && <meta property='og:image' content={article.image} />}
+<meta property='og:title' content='asdasd' />
+<meta property='og:description' content={article.text.slice(250)} />
+<meta property='og:type' content='article' />
+<meta
+property='og:url'
+content={`https://delo.westerntrojan.now.sh/article/${article.slug}`}
+/> */

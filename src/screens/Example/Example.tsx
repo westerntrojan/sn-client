@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Helmet} from 'react-helmet';
 import Backdrop from '@material-ui/core/Backdrop';
 import {makeStyles} from '@material-ui/core/styles';
-import {Image, Video, Transformation, Audio, CloudinaryContext} from 'cloudinary-react';
+import {Video, Transformation, Audio, CloudinaryContext} from 'cloudinary-react';
 import {useSnackbar} from 'notistack';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -10,12 +10,13 @@ import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
+import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
 
 import callApi from '@utils/callApi';
-import {ImageModal} from '@components/common/modals';
-import {CircularProgressWithLabel} from '@components/common/loaders';
+import {CircularProgressWithLabel, LinearProgressWithLabel} from '@components/common/loaders';
 import {validateVideo} from '@utils/video';
+import ImageGrid from '@components/common/ImageGrid';
 
 const useStyles = makeStyles(theme => ({
 	loadingBackdrop: {
@@ -37,10 +38,24 @@ const useStyles = makeStyles(theme => ({
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'flex-start',
+		width: 800,
 	},
-	image: {
-		marginBottom: 20,
-		cursor: 'pointer',
+	imageWrapper: {
+		width: 600,
+		whiteSpace: 'nowrap',
+		overflow: 'hidden',
+		textOverflow: 'ellipsis',
+	},
+	loadingBox: {
+		marginTop: 20,
+	},
+	loadingItem: {
+		display: 'flex',
+		alignItems: 'center',
+	},
+	loader: {
+		marginRight: 20,
+		width: 200,
 	},
 	video: {
 		marginBottom: 20,
@@ -53,12 +68,13 @@ const useStyles = makeStyles(theme => ({
 const Example: React.FC = () => {
 	const classes = useStyles();
 
-	const [image, setImage] = useState('');
+	const [files, setFiles] = useState<File[]>([]);
+	const [images, setImages] = useState<string[]>([]);
+	const [loadingImages, setLoadingImages] = useState(false);
 	const [video, setVideo] = useState('');
 	const [audio, setAudio] = useState('');
 	const [publicId, setPublicId] = useState('');
 	const [resourceType, setResourceType] = useState('image');
-	const [imageModal, setImageModal] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [loadingProgress, setLoadingProgress] = useState(0);
 	const [disabledActions, setDisabledActions] = useState(false);
@@ -77,26 +93,41 @@ const Example: React.FC = () => {
 		setResourceType(event.target.value as string);
 	};
 
-	const _handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
+	const uploadFile = async (file: File): Promise<void> => {
+		setLoadingImages(true);
+
+		const formData = new FormData();
+		formData.append('file', file);
+		formData.append('upload_preset', String(process.env.REACT_APP_CLOUD_UPLOAD_PRESET));
+		formData.append('folder', 'test');
+
+		const {data} = await axios.post(
+			String(process.env.REACT_APP_CLOUD_UPLOAD_URL),
+			formData,
+			axiosConfig,
+		);
+
+		setImages(images.concat(data.public_id));
+
+		setLoadingImages(false);
+		setLoadingProgress(0);
+	};
+
+	useEffect(() => {
+		if (files.length) {
+			(async (): Promise<void> => {
+				await uploadFile(files[0]);
+
+				setFiles(files.filter((_, index) => index !== 0));
+			})();
+		}
+
+		// eslint-disable-next-line
+	}, [files]);
+
+	const _handleChangeImages = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
 		if (e.target.files && e.target.files.length) {
-			setLoading(true);
-
-			const file = e.target.files[0];
-
-			const formData = new FormData();
-			formData.append('file', file);
-			formData.append('upload_preset', String(process.env.REACT_APP_CLOUD_UPLOAD_PRESET));
-			formData.append('folder', 'test');
-
-			const {data} = await axios.post(
-				String(process.env.REACT_APP_CLOUD_UPLOAD_URL),
-				formData,
-				axiosConfig,
-			);
-
-			setImage(data.public_id);
-
-			setLoading(false);
+			setFiles([...e.target.files]);
 		}
 	};
 
@@ -201,10 +232,10 @@ const Example: React.FC = () => {
 						variant='contained'
 						component='label'
 						className={classes.action}
-						disabled={disabledActions}
+						disabled={disabledActions || images.length > 5}
 					>
-						<input type='file' style={{display: 'none'}} onChange={_handleChangeImage} />
-						Upload image
+						<input type='file' multiple style={{display: 'none'}} onChange={_handleChangeImages} />
+						Upload images
 					</Button>
 
 					<Button
@@ -266,22 +297,29 @@ const Example: React.FC = () => {
 				</div>
 
 				<CloudinaryContext className={classes.result} cloudName={process.env.REACT_APP_CLOUD_NAME}>
-					{image && (
-						<Image
-							publicId={image}
-							secure='true'
-							alt={image}
-							fetchFormat='auto'
-							onClick={(): void => setImageModal(true)}
-							className={classes.image}
-							responsive
-							onLoad={(): void => console.log('image loading')}
-						>
-							<Transformation quality='65' />
-							<Transformation width='400' height='300' crop='fill' />
-							<Transformation effect='oil_paint:70' />
-						</Image>
-					)}
+					<div className={classes.imageWrapper}>
+						{Boolean(images.length) && (
+							<ImageGrid
+								images={images.map(
+									image => `${process.env.REACT_APP_CLOUD_IMAGE_URI}/q_65/${image}`,
+								)}
+							/>
+						)}
+
+						{loadingImages && (
+							<div className={classes.loadingBox}>
+								{files.map((file, index) => (
+									<div className={classes.loadingItem} key={file.name}>
+										<LinearProgressWithLabel
+											value={index === 0 ? loadingProgress : 0}
+											className={classes.loader}
+										/>
+										<Typography>{file.name}</Typography>
+									</div>
+								))}
+							</div>
+						)}
+					</div>
 
 					{video && (
 						<div className={classes.video}>
@@ -318,12 +356,6 @@ const Example: React.FC = () => {
 				</CloudinaryContext>
 			</div>
 
-			<ImageModal
-				open={imageModal}
-				image={`${process.env.REACT_APP_CLOUD_IMAGE_URI}/q_65/${image}`}
-				closeModal={(): void => setImageModal(false)}
-			/>
-
 			<Backdrop open={loading} className={classes.loadingBackdrop}>
 				<CircularProgressWithLabel value={loadingProgress} />
 			</Backdrop>
@@ -333,6 +365,7 @@ const Example: React.FC = () => {
 
 export default Example;
 
+// video options
 // effect='outline:15:200'
 // color='orange'
 // background='auto:predominant'
@@ -347,3 +380,19 @@ export default Example;
 // quality='auto' | 'auto:low' | 'auto:eco' | 'auto:good' | 'auto:best'
 // angle='10'
 // radius='max'
+
+// image options
+// <Image
+// 	publicId={image}
+// 	secure='true'
+// 	alt={image}
+// 	fetchFormat='auto'
+// 	onClick={(): void => setImageModal(true)}
+// 	className={classes.image}
+// 	responsive
+// 	onLoad={(): void => console.log('image loading')}
+// >
+// 	<Transformation quality='65' />
+// 	<Transformation width='400' height='300' crop='fill' />
+// 	<Transformation effect='oil_paint:70' />
+// </Image>

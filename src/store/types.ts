@@ -67,6 +67,7 @@ export interface IArticle {
 	title: string;
 	text: string;
 	image: string;
+	images: string[];
 	video: string;
 	audio: IAudioTrack[];
 	tags: string[];

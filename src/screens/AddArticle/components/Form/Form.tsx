@@ -38,7 +38,7 @@ const Form: React.FC<Props> = ({handleSubmit}) => {
 	const [category, setCategory] = useState(allCategory[0]._id);
 	const [loading, setLoading] = useState(false);
 	const [disabledButton, setDisabledButton] = useState(true);
-	const [image, setImage] = useState('');
+	const [images, setImages] = useState<string[]>([]);
 	const [video, setVideo] = useState('');
 	const [audio, setAudio] = useState<IAudioTrack[]>([]);
 	const [loadingMedia, setLoadingMedia] = useState(false);
@@ -99,7 +99,7 @@ const Form: React.FC<Props> = ({handleSubmit}) => {
 
 		setLoading(true);
 
-		const data: any = await handleSubmit({title, text, category, tags, image, video, audio});
+		const data: any = await handleSubmit({title, text, category, tags, images, video, audio});
 
 		if (!data.success) {
 			setLoading(false);
@@ -145,8 +145,8 @@ const Form: React.FC<Props> = ({handleSubmit}) => {
 			/>
 
 			<MediaUploader
-				onUploadImage={(image: string): void => setImage(image)}
-				onRemoveImage={(): void => setImage('')}
+				onUploadImages={(images: string[]): void => setImages(images)}
+				// onRemoveImage={(): void => setImage('')}
 				onUploadVideo={(video: string): void => setVideo(video)}
 				onRemoveVideo={(): void => setVideo('')}
 				onLoadingStart={(): void => setLoadingMedia(true)}

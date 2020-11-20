@@ -21,6 +21,7 @@ type Props = {
 	open: boolean;
 	image?: string;
 	images?: string[];
+	currentImage?: number;
 	imageTitle?: string;
 	imageCaption?: string;
 	loading?: boolean;
@@ -32,6 +33,7 @@ const ImageModal: React.FC<Props> = ({
 	open,
 	image,
 	images,
+	currentImage = 0,
 	imageTitle,
 	imageCaption,
 	loading,
@@ -41,6 +43,10 @@ const ImageModal: React.FC<Props> = ({
 	const classes = useStyles();
 
 	const [photoIndex, setPhotoIndex] = useState(0);
+
+	useEffect(() => {
+		setPhotoIndex(currentImage);
+	}, [currentImage]);
 
 	useEffect(() => {
 		if (images) {
