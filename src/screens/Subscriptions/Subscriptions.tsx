@@ -3,8 +3,8 @@ import {useSelector, shallowEqual} from 'react-redux';
 import {Helmet} from 'react-helmet';
 
 import {RootState} from '@store/types';
-import AuthSubscriptions from './components/AuthSubscriptions';
-import NotAuthSubscriptions from './components/NotAuthSubscriptions';
+import AuthSubscriptions from './AuthSubscriptions';
+import NotAuthSubscriptions from './NotAuthSubscriptions';
 
 const Subscriptions: React.FC = () => {
 	const isAuth = useSelector((state: RootState) => state.auth.isAuth, shallowEqual);

@@ -4,7 +4,7 @@ import {useParams} from 'react-router';
 import {Helmet} from 'react-helmet';
 
 import Loader from '@components/common/loaders/Loader';
-import Form from './components/Form';
+import Form from './Form';
 import {editArticle} from '@store/articles/actions';
 import {useRedirect, useArticle} from '@utils/hooks';
 import {IArticleInputs} from './types';

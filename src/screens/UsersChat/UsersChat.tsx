@@ -6,7 +6,7 @@ import socketIoClient from 'socket.io-client';
 import {useSnackbar} from 'notistack';
 
 import './UsersChat.scss';
-import Canvas from './components/Canvas';
+import Canvas from './Canvas';
 import callApi from '@utils/callApi';
 import {RemoveModal} from '@components/common/modals';
 import {RootState} from '@store/types';
@@ -145,18 +145,18 @@ const UsersChat: React.FC = () => {
 				<title>Messages / {process.env.REACT_APP_TITLE}</title>
 			</Helmet>
 
-			{user && (
-				<>
-					<Context.Provider
-						value={{
-							typing,
-							user,
-							openClearHistoryModal,
-							handleSubmitMessage,
-							handleTyping,
-							handleTypingEnd,
-						}}
-					>
+			<Context.Provider
+				value={{
+					typing,
+					user,
+					openClearHistoryModal,
+					handleSubmitMessage,
+					handleTyping,
+					handleTypingEnd,
+				}}
+			>
+				{user && (
+					<>
 						<Canvas
 							messages={messages}
 							authUser={authUser}
@@ -165,16 +165,16 @@ const UsersChat: React.FC = () => {
 							isNew={isNew}
 							handleRemoveMessages={handleRemoveMessages}
 						/>
-					</Context.Provider>
 
-					<RemoveModal
-						open={clearHistoryModal}
-						text={`You definitely want to remove the correspondence with ${user.firstName} ${user.lastName}?`}
-						action={handleClearHistory}
-						closeModal={(): void => setClearHistoryModal(false)}
-					/>
-				</>
-			)}
+						<RemoveModal
+							open={clearHistoryModal}
+							text={`You definitely want to remove the correspondence with ${user.firstName} ${user.lastName}?`}
+							action={handleClearHistory}
+							closeModal={(): void => setClearHistoryModal(false)}
+						/>
+					</>
+				)}
+			</Context.Provider>
 		</section>
 	);
 };

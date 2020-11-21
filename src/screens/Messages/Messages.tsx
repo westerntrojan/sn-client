@@ -5,12 +5,13 @@ import {Helmet} from 'react-helmet';
 
 import './Messages.scss';
 import Loader from '@components/common/loaders/Loader';
-import Header from './components/Header';
-import ChatsList from './components/ChatsList';
+import Header from './Header';
+import ChatsList from './ChatsList';
 import {RemoveModal} from '@components/common/modals';
 import callApi from '@utils/callApi';
 import {RootState} from '@store/types';
 import {IChat, IFetchData, IRemoveChatData} from './types';
+import Context from './context';
 
 const Messages: React.FC = () => {
 	const [chatId, setChatId] = useState('');
@@ -55,13 +56,13 @@ const Messages: React.FC = () => {
 				<title>Messages / {process.env.REACT_APP_TITLE}</title>
 			</Helmet>
 
-			<Header query={query} handleSearch={handleSearch} />
+			<Context.Provider value={{handleRemoveModal: openRemoveChatModal}}>
+				<Header query={query} handleSearch={handleSearch} />
 
-			{loading && <Loader />}
+				{loading && <Loader />}
 
-			{!loading && (
-				<ChatsList chats={chats} query={query} openRemoveChatModal={openRemoveChatModal} />
-			)}
+				{!loading && <ChatsList chats={chats} query={query} />}
+			</Context.Provider>
 
 			<RemoveModal
 				open={removeChatModal}

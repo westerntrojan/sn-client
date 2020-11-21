@@ -5,7 +5,7 @@ import {Helmet} from 'react-helmet';
 
 import callApi from '@utils/callApi';
 import {getArticles} from '@store/articles/actions';
-import UserForm from './components/UserForm';
+import UserForm from './UserForm';
 import {RootState} from '@store/types';
 import {IFetchData} from './types';
 import {IUser} from '@store/types';

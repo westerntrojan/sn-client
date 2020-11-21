@@ -24,8 +24,8 @@ export default createReducer(initialState, {
 	[types.REPLACE_USER]: (state, action) => {
 		state.user = action.payload.user;
 	},
-	[types.CHANGE_AVATAR]: (state, action) => {
-		state.user.avatar.images = [action.payload.image, ...state.user.avatar.images];
+	[types.ADD_AVATAR]: (state, action) => {
+		state.user.avatar.images = [action.payload.newAvatar, ...state.user.avatar.images];
 	},
 	[types.REMOVE_AVATAR]: (state, action) => {
 		state.user.avatar.images = state.user.avatar.images.filter(

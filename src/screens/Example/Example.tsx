@@ -17,6 +17,7 @@ import callApi from '@utils/callApi';
 import {CircularProgressWithLabel, LinearProgressWithLabel} from '@components/common/loaders';
 import {validateVideo} from '@utils/video';
 import ImageGrid from '@components/common/ImageGrid';
+import AvatarModal from './AvatarModal';
 
 const useStyles = makeStyles(theme => ({
 	loadingBackdrop: {
@@ -68,6 +69,7 @@ const useStyles = makeStyles(theme => ({
 const Example: React.FC = () => {
 	const classes = useStyles();
 
+	const [avatarModal, setAvatarModal] = useState(false);
 	const [files, setFiles] = useState<File[]>([]);
 	const [images, setImages] = useState<string[]>([]);
 	const [loadingImages, setLoadingImages] = useState(false);
@@ -93,7 +95,7 @@ const Example: React.FC = () => {
 		setResourceType(event.target.value as string);
 	};
 
-	const uploadFile = async (file: File): Promise<void> => {
+	const uploadImage = async (file: File): Promise<void> => {
 		setLoadingImages(true);
 
 		const formData = new FormData();
@@ -116,7 +118,7 @@ const Example: React.FC = () => {
 	useEffect(() => {
 		if (files.length) {
 			(async (): Promise<void> => {
-				await uploadFile(files[0]);
+				await uploadImage(files[0]);
 
 				setFiles(files.filter((_, index) => index !== 0));
 			})();
@@ -280,7 +282,7 @@ const Example: React.FC = () => {
 						className={classes.action}
 					/>
 
-					<FormControl variant='outlined'>
+					<FormControl variant='outlined' className={classes.action}>
 						<InputLabel id='demo-simple-select-label'>Resource type</InputLabel>
 
 						<Select
@@ -294,6 +296,10 @@ const Example: React.FC = () => {
 							<MenuItem value={'audio'}>Audio</MenuItem>
 						</Select>
 					</FormControl>
+
+					<Button onClick={(): void => setAvatarModal(true)} color='primary' variant='outlined'>
+						Avatar modal
+					</Button>
 				</div>
 
 				<CloudinaryContext className={classes.result} cloudName={process.env.REACT_APP_CLOUD_NAME}>
@@ -355,6 +361,8 @@ const Example: React.FC = () => {
 					)}
 				</CloudinaryContext>
 			</div>
+
+			<AvatarModal open={avatarModal} closeModal={(): void => setAvatarModal(false)} />
 
 			<Backdrop open={loading} className={classes.loadingBackdrop}>
 				<CircularProgressWithLabel value={loadingProgress} />

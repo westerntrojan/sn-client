@@ -8,7 +8,7 @@ import './Tag.scss';
 import Loader from '@components/common/loaders/Loader';
 import SmallArticle from '@components/common/SmallArticle';
 import RightBar from '@components/common/RightBar';
-import About from './components/About';
+import About from './About';
 import callApi from '@utils/callApi';
 import {IArticle} from '@store/types';
 import {IFetchData} from './types';

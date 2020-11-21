@@ -176,7 +176,7 @@ const App: React.FC<Props> = ({children}) => {
 
 					{size['large'] && <>{alterDrawer ? <AlterDrawer /> : <MainDrawer />}</>}
 					{!size['large'] && !size['small'] && <AlterDrawer />}
-					<MobileDrawer open={mobileDrawer} close={(): void => setMobileDrawer(false)} />
+					<MobileDrawer open={mobileDrawer} closeDrawer={(): void => setMobileDrawer(false)} />
 
 					<main className='content'>
 						<div className={classes.toolbar} />

@@ -13,7 +13,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import SearchIcon from '@material-ui/icons/Search';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import {useLocation} from 'react-router';
 import PaletteIcon from '@material-ui/icons/Palette';
 import {useTheme} from '@material-ui/core/styles';
 import KeyboardIcon from '@material-ui/icons/Keyboard';
@@ -34,6 +33,7 @@ import ZoomTooltip from '@components/common/tooltips/ZoomTooltip';
 import SignInButton from '@components/common/SignInButton';
 import SearchResult from './components/SearchResult';
 import useDebounce from '@utils/hooks/useDebounce';
+import {useAuthModal} from '@utils/hooks';
 
 type Props = {
 	openDrawer: () => void;
@@ -59,7 +59,7 @@ const Header: React.FC<Props> = ({
 	const [showSearchResult, setShowSearchResult] = useState(false);
 	const debouncedSearchQuery = useDebounce(searchQuery, 600);
 
-	const location = useLocation();
+	const {openAuthModal} = useAuthModal();
 
 	const searchRef = useRef<HTMLInputElement>(null);
 	const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
@@ -98,9 +98,28 @@ const Header: React.FC<Props> = ({
 
 		openThemePickerModal();
 	};
+	const handleSettings = (): void => {
+		handleMenuClose();
+		handleMobileMenuClose();
+
+		openSettingsModal();
+	};
+	const handleNotification = (): void => {
+		handleMenuClose();
+		handleMobileMenuClose();
+	};
+	const handleSignIn = (): void => {
+		handleMenuClose();
+		handleMobileMenuClose();
+
+		openAuthModal();
+	};
 
 	const handleProfileMenuOpen = (e: React.MouseEvent<HTMLDivElement>): void => {
 		setAnchorEl(e.currentTarget);
+	};
+	const handleMobileMenuOpen = (e: React.MouseEvent<HTMLButtonElement>): void => {
+		setMobileMoreAnchorEl(e.currentTarget);
 	};
 
 	const handleFoucs = (): void => {
@@ -109,50 +128,10 @@ const Header: React.FC<Props> = ({
 		}
 	};
 
-	const handleMobileMenuOpen = (e: React.MouseEvent<HTMLButtonElement>): void => {
-		setMobileMoreAnchorEl(e.currentTarget);
-	};
-
-	const menuId = 'primary-search-account-menu';
-	const renderMenu = auth.user && (
-		<Menu
-			anchorEl={anchorEl}
-			anchorOrigin={{vertical: 'top', horizontal: 'right'}}
-			id={menuId}
-			keepMounted
-			transformOrigin={{vertical: 'top', horizontal: 'right'}}
-			open={isMenuOpen}
-			onClose={handleMenuClose}
-		>
-			<Link underline='none' component={RouterLink} to={userLink(auth.user)} color={'inherit'}>
-				<MenuItem onClick={handleMenuClose}>
-					<ListItemIcon>
-						<AccountBoxIcon />
-					</ListItemIcon>
-					<ListItemText primary='My account' />
-				</MenuItem>
-			</Link>
-
-			<MenuItem
-				onClick={(): void => {
-					exit();
-					handleMenuClose();
-				}}
-			>
-				<ListItemIcon>
-					<ExitToAppIcon />
-				</ListItemIcon>
-				<ListItemText primary='Sign out' />
-			</MenuItem>
-		</Menu>
-	);
-
-	const mobileMenuId = 'primary-search-account-menu-mobile';
 	const renderMobileMenu = (
 		<Menu
 			anchorEl={mobileMoreAnchorEl}
 			anchorOrigin={{vertical: 'top', horizontal: 'right'}}
-			id={mobileMenuId}
 			keepMounted
 			transformOrigin={{vertical: 'top', horizontal: 'right'}}
 			open={isMobileMenuOpen}
@@ -168,7 +147,7 @@ const Header: React.FC<Props> = ({
 							<ListItemText primary='My profile' />
 						</MenuItem>
 					</Link>
-					<MenuItem>
+					<MenuItem onClick={handleNotification}>
 						<ListItemIcon>
 							<NotificationsIcon />
 						</ListItemIcon>
@@ -180,7 +159,7 @@ const Header: React.FC<Props> = ({
 						</ListItemIcon>
 						<ListItemText primary='Change theme' />
 					</MenuItem>
-					<MenuItem onClick={openSettingsModal}>
+					<MenuItem onClick={handleSettings}>
 						<ListItemIcon>
 							<SettingsIcon />
 						</ListItemIcon>
@@ -206,27 +185,52 @@ const Header: React.FC<Props> = ({
 						</ListItemIcon>
 						<ListItemText primary='Change theme' />
 					</MenuItem>
-					<MenuItem onClick={openSettingsModal}>
+					<MenuItem onClick={handleSettings}>
 						<ListItemIcon>
 							<SettingsIcon />
 						</ListItemIcon>
 						<ListItemText primary='Settings' />
 					</MenuItem>
-					<Link
-						underline='none'
-						component={RouterLink}
-						to={{pathname: '/auth', state: {from: location}}}
-						color='inherit'
-					>
-						<MenuItem onClick={handleMenuClose}>
-							<ListItemIcon>
-								<AccountBoxIcon />
-							</ListItemIcon>
-							<ListItemText primary='Sign in' />
-						</MenuItem>
-					</Link>
+					<MenuItem onClick={handleSignIn}>
+						<ListItemIcon>
+							<AccountBoxIcon />
+						</ListItemIcon>
+						<ListItemText primary='Sign in' />
+					</MenuItem>
 				</div>
 			)}
+		</Menu>
+	);
+
+	const renderMenu = auth.user && (
+		<Menu
+			anchorEl={anchorEl}
+			anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+			keepMounted
+			transformOrigin={{vertical: 'top', horizontal: 'right'}}
+			open={isMenuOpen}
+			onClose={handleMenuClose}
+		>
+			<Link underline='none' component={RouterLink} to={userLink(auth.user)} color={'inherit'}>
+				<MenuItem onClick={handleMenuClose}>
+					<ListItemIcon>
+						<AccountBoxIcon />
+					</ListItemIcon>
+					<ListItemText primary='My account' />
+				</MenuItem>
+			</Link>
+
+			<MenuItem
+				onClick={(): void => {
+					exit();
+					handleMenuClose();
+				}}
+			>
+				<ListItemIcon>
+					<ExitToAppIcon />
+				</ListItemIcon>
+				<ListItemText primary='Sign out' />
+			</MenuItem>
 		</Menu>
 	);
 
@@ -333,13 +337,7 @@ const Header: React.FC<Props> = ({
 							</div>
 						</div>
 						<div className={classes.sectionMobile}>
-							<IconButton
-								aria-label='Show more'
-								aria-controls={mobileMenuId}
-								aria-haspopup='true'
-								onClick={handleMobileMenuOpen}
-								color='inherit'
-							>
+							<IconButton aria-haspopup='true' onClick={handleMobileMenuOpen} color='inherit'>
 								<MoreIcon />
 							</IconButton>
 						</div>

@@ -6,14 +6,17 @@ import {IUser} from '@store/types';
 import * as types from '../types';
 import {exit} from './auth';
 
-export const addAvatar = (formData: FormData): AppThunk => async (dispatch): Promise<void> => {
-	const data = await callApi.post('/users/avatar', formData);
+export const addAvatar = (newAvatar: string): AppThunk => async (
+	dispatch,
+	getState,
+): Promise<void> => {
+	const data = await callApi.post('/users/avatar', {userId: getState().auth.user._id, newAvatar});
 
 	if (data.success) {
 		dispatch({
-			type: types.CHANGE_AVATAR,
+			type: types.ADD_AVATAR,
 			payload: {
-				image: data.image,
+				newAvatar: data.newAvatar,
 			},
 		});
 	}
@@ -25,8 +28,6 @@ export const removeAvatar = (userId: string, image: string): AppThunk => async (
 	dispatch,
 ): Promise<void> => {
 	const data = await callApi.post('/users/avatar/remove', {userId, image});
-
-	console.log(data);
 
 	if (data.success) {
 		dispatch({

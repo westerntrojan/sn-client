@@ -6,16 +6,17 @@ import {Helmet} from 'react-helmet';
 import './User.scss';
 import Loader from '@components/common/loaders/Loader';
 import {RemoveUserModal} from '@components/common/modals';
-import UserInfo from './components/UserInfo';
-import UserActions from './components/UserActions';
-import UserStatistics from './components/UserStatistics';
-import RemovedAvatar from './components/removed/RemovedAvatar';
-import RemovedInfo from './components/removed/RemovedInfo';
+import UserInfo from './UserInfo';
+import UserActions from './UserActions';
+import UserStatistics from './UserStatistics';
+import RemovedAvatar from './removed/RemovedAvatar';
+import RemovedInfo from './removed/RemovedInfo';
 import callApi from '@utils/callApi';
 import {removeUser} from '@store/auth/actions';
 import {RootState} from '@store/types';
 import {IUserStatistics, IFetchData} from './types';
 import useRedirect from '@utils/hooks/useRedirect';
+import Context from './context';
 
 const User: React.FC = () => {
 	const {userLink} = useParams();
@@ -44,7 +45,7 @@ const User: React.FC = () => {
 		setRemoveModal(true);
 	};
 
-	const handleRemove = async (): Promise<void> => {
+	const handleRemoveUser = async (): Promise<void> => {
 		if (user) {
 			await dispatch(removeUser(user._id));
 		}
@@ -65,27 +66,30 @@ const User: React.FC = () => {
 				</title>
 			</Helmet>
 
-			{user && !user.isRemoved && (
-				<div className='user-data'>
-					<UserActions auth={auth} user={user} handleRemove={openRemoveModal} />
-					<div className='user-subdata'>
-						<UserInfo user={user} />
-						<UserStatistics user={user} />
-					</div>
-				</div>
-			)}
+			<Context.Provider value={{auth, user}}>
+				{user && !user.isRemoved && (
+					<div className='user-data'>
+						<UserActions handleRemoveUser={openRemoveModal} />
 
-			{user && user.isRemoved && (
-				<div className='user-data'>
-					<RemovedAvatar />
-					<RemovedInfo user={user} />
-				</div>
-			)}
+						<div className='user-subdata'>
+							<UserInfo />
+							<UserStatistics />
+						</div>
+					</div>
+				)}
+
+				{user && user.isRemoved && (
+					<div className='user-data'>
+						<RemovedAvatar />
+						<RemovedInfo user={user} />
+					</div>
+				)}
+			</Context.Provider>
 
 			<RemoveUserModal
 				open={removeModal}
 				closeModal={(): void => setRemoveModal(false)}
-				action={handleRemove}
+				action={handleRemoveUser}
 			/>
 		</section>
 	);

@@ -2,6 +2,6 @@ import {createContext} from 'react';
 
 const Context = createContext<any>(null);
 
-Context.displayName = 'AuthContext';
+Context.displayName = 'AuthModalContext';
 
 export default Context;

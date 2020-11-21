@@ -11,10 +11,11 @@ import {
 	restoreCategory,
 	removeCategory,
 } from '@store/category/actions';
-import CategoryForm from './components/CategoryForm';
-import CategoryList from './components/CategoryList';
+import CategoryForm from './CategoryForm';
+import CategoryList from './CategoryList';
 import {ICategoryInputs} from './types';
 import {RootState, ICategory} from '@store/types';
+import Context from './context';
 
 const Categories: React.FC = () => {
 	const allCategory = useSelector((state: RootState) => state.category.all, shallowEqual);
@@ -63,12 +64,11 @@ const Categories: React.FC = () => {
 
 	return (
 		<div className='categories'>
-			<CategoryList
-				allCategory={allCategory}
-				handleEditCategory={handleEditCategory}
-				handleRemoveCategory={handleRemoveCategory}
-			/>
-			<CategoryForm handleSubmit={handleAddCategory} />
+			<Context.Provider value={{handleAddCategory, handleEditCategory, handleRemoveCategory}}>
+				<CategoryList allCategory={allCategory} />
+
+				<CategoryForm handleAddCategory={handleAddCategory} />
+			</Context.Provider>
 		</div>
 	);
 };

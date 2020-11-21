@@ -14,8 +14,8 @@ import {TransitionProps} from '@material-ui/core/transitions';
 import {useDispatch} from 'react-redux';
 
 import {login, sendCode} from '@store/auth/actions';
-import Login from './Login';
-import Register from './Register';
+import Login from './components/Login';
+import Register from './components/Register';
 import callApi from '@utils/callApi';
 import {ILoginInputs, IRegisterInputs} from './types';
 import Context from './context';
@@ -118,7 +118,7 @@ const AuthModal: React.FC<Props> = ({open, closeModal}) => {
 				</Paper>
 
 				<div style={{padding: 8 * 3}} className='content'>
-					<Context.Provider value={{submitCode: handleSubmitCode}}>
+					<Context.Provider value={{handleSubmitCode}}>
 						{tab === 0 && <Login submit={handleSubmitLogin} />}
 						{tab === 1 && <Register submit={handleSubmitRegister} />}
 					</Context.Provider>

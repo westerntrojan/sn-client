@@ -40,7 +40,7 @@ const SettingsModal: React.FC<Props> = ({open, closeModal}) => {
 					textColor='primary'
 					onChange={_handleChangeTab}
 					variant='scrollable'
-					scrollButtons='auto'
+					scrollButtons='on'
 				>
 					<Tab label='General' />
 					<Tab label='User settings' />

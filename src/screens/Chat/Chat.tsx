@@ -5,10 +5,9 @@ import socketIoClient from 'socket.io-client';
 import {useSnackbar} from 'notistack';
 
 import './Chat.scss';
-import Canvas from './components/Canvas';
+import Canvas from './Canvas';
 import {RootState} from '@store/types';
 import {IMessage} from '@components/common/chats/types';
-import {ISendingMessage} from './types';
 import Context from './context';
 import reducer, {initialState} from './reducer';
 
@@ -112,14 +111,12 @@ const Chat: React.FC = () => {
 		socket.emit('remove_messages', {removedMessages});
 	};
 
-	const handleSubmitMessage = async (newMessage: ISendingMessage): Promise<void> => {
+	const handleSubmitMessage = async (text: string): Promise<void> => {
 		const user = auth.user._id;
-		const {type, text} = newMessage;
 
 		socket.emit('new_message', {
 			newMessage: {
 				user,
-				type,
 				text,
 			},
 		});

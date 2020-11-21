@@ -121,31 +121,30 @@ const SmallArticle: React.FC<Props> = ({article, lazy}) => {
 			)}
 
 			{/* image */}
-			{article.image ||
-				(article.video && (
-					<CardActionArea className={classes.imageWrapper}>
-						<Link
-							underline='none'
-							component={RouterLink}
-							to={`/article/${article.slug}`}
-							color='inherit'
-						>
-							<LazyLoadImage
-								src={
-									article.image
-										? `${process.env.REACT_APP_CLOUD_IMAGE_URI}/ar_2.5,c_crop,q_65/${article.image}`
-										: `${process.env.REACT_APP_CLOUD_VIDEO_URI}/ar_2.5,c_crop,q_65/${article.video}.jpg`
-								}
-								title={article.title}
-								width='100%'
-								height='400px'
-								effect='blur'
-								alt={article.title}
-								className={classes.image}
-							/>
-						</Link>
-					</CardActionArea>
-				))}
+			{(article.image || article.video) && (
+				<CardActionArea className={classes.imageWrapper}>
+					<Link
+						underline='none'
+						component={RouterLink}
+						to={`/article/${article.slug}`}
+						color='inherit'
+					>
+						<LazyLoadImage
+							src={
+								article.image
+									? `${process.env.REACT_APP_CLOUD_IMAGE_URI}/ar_2.5,c_crop,q_65/${article.image}`
+									: `${process.env.REACT_APP_CLOUD_VIDEO_URI}/ar_2.5,c_crop,q_65/${article.video}.jpg`
+							}
+							title={article.title}
+							width='100%'
+							height='400px'
+							effect='blur'
+							alt={article.title}
+							className={classes.image}
+						/>
+					</Link>
+				</CardActionArea>
+			)}
 
 			{!article.image && !!!article.images.length && <Divider />}
 

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -9,6 +9,7 @@ import {Link as RouterLink} from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 import Drawer from '@material-ui/core/Drawer';
 import {useTheme} from '@material-ui/core/styles';
+import {useLocation} from 'react-router';
 
 import Footer from './components/Footer';
 import BottomTabs from './components/BottomTabs';
@@ -36,10 +37,10 @@ const useStyles = makeStyles(theme => ({
 
 type Props = {
 	open: boolean;
-	close: () => void;
+	closeDrawer: () => void;
 };
 
-const MobileDrawer: React.FC<Props> = ({open, close}) => {
+const MobileDrawer: React.FC<Props> = ({open, closeDrawer}) => {
 	const title = process.env.REACT_APP_TITLE;
 
 	const classes = useStyles();
@@ -47,14 +48,22 @@ const MobileDrawer: React.FC<Props> = ({open, close}) => {
 
 	const [tab, setTab] = useState(0);
 
+	const location = useLocation();
+
 	const handleChangeTab = (event: React.ChangeEvent<{}>, newValue: string): void => {
 		setTab(Number(newValue));
 	};
 
+	useEffect(() => {
+		closeDrawer();
+
+		// eslint-disable-next-line
+	}, [location]);
+
 	return (
 		<Drawer
 			open={open}
-			onClose={close}
+			onClose={closeDrawer}
 			className={classes.root}
 			classes={{
 				paper: classes.drawerPaper,
@@ -66,12 +75,11 @@ const MobileDrawer: React.FC<Props> = ({open, close}) => {
 						edge='start'
 						className={classes.menuButton}
 						color='inherit'
-						aria-label='Close drawer'
-						onClick={close}
+						onClick={closeDrawer}
 					>
 						<MenuIcon />
 					</IconButton>
-					<Typography variant='h5' noWrap onClick={close}>
+					<Typography variant='h5' noWrap>
 						<Link underline='none' component={RouterLink} to='/' color={'inherit'}>
 							{title}
 						</Link>

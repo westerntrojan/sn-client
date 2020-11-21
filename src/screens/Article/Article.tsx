@@ -12,9 +12,9 @@ import {useMutation} from 'react-apollo';
 
 import './Article.scss';
 import {RemoveModal} from '@components/common/modals';
-import FullArticle from './components/FullArticle';
-import CommentForm from './components/CommentForm';
-import CommentReplies from './components/CommentReplies';
+import FullArticle from './FullArticle';
+import CommentForm from './CommentForm';
+import CommentReplies from './CommentReplies';
 import {useRedirect, useArticle, useAuthModal} from '@utils/hooks';
 import {getCommentsCount} from '@utils/articles';
 import ZoomTooltip from '@components/common/tooltips/ZoomTooltip';
@@ -184,58 +184,58 @@ const Article: React.FC = () => {
 				</title>
 			</Helmet>
 
-			{loading && <Loader disableMargin />}
+			<Context.Provider value={{auth, handleSubmitReply, handleRemoveReply}}>
+				{loading && <Loader disableMargin />}
 
-			{article && (
-				<Context.Provider
-					value={{auth, submitReply: handleSubmitReply, removeReply: handleRemoveReply}}
-				>
-					<FullArticle
-						article={article}
-						addLike={handleAddArticleLike}
-						addDislike={handleAddArticleDislike}
-						addToBookmarks={handleAddArticleToBookmarks}
-						handleRemove={(): void => setRemoveArticleModal(true)}
-					/>
+				{article && (
+					<>
+						<FullArticle
+							article={article}
+							addLike={handleAddArticleLike}
+							addDislike={handleAddArticleDislike}
+							addToBookmarks={handleAddArticleToBookmarks}
+							handleRemove={(): void => setRemoveArticleModal(true)}
+						/>
 
-					<div className='comments'>
-						<div className='comments-title'>
-							<Typography variant='h5' className='caption'>
-								{getCommentsCount(article)} Comments
-							</Typography>
+						<div className='comments'>
+							<div className='comments-title'>
+								<Typography variant='h5' className='caption'>
+									{getCommentsCount(article)} Comments
+								</Typography>
 
-							<ZoomTooltip title='Sort comments'>
-								<Button size='small' startIcon={<SortIcon />} onClick={openSortMenu}>
-									Sort by
-								</Button>
-							</ZoomTooltip>
-							<Menu
-								anchorEl={anchorEl}
-								keepMounted
-								open={Boolean(anchorEl)}
-								onClose={closeSortMenu}
-							>
-								<MenuItem onClick={_handleTopCommentsSort}>Top Comments</MenuItem>
-								<MenuItem onClick={_handleNewestFirstSort}>Newest first</MenuItem>
-							</Menu>
+								<ZoomTooltip title='Sort comments'>
+									<Button size='small' startIcon={<SortIcon />} onClick={openSortMenu}>
+										Sort by
+									</Button>
+								</ZoomTooltip>
+								<Menu
+									anchorEl={anchorEl}
+									keepMounted
+									open={Boolean(anchorEl)}
+									onClose={closeSortMenu}
+								>
+									<MenuItem onClick={_handleTopCommentsSort}>Top Comments</MenuItem>
+									<MenuItem onClick={_handleNewestFirstSort}>Newest first</MenuItem>
+								</Menu>
+							</div>
+
+							<CommentForm handleSubmitComment={handleSubmitComment} />
+
+							<div className='comments-list'>
+								{article.comments.map((comment: IComment) => (
+									<CommentReplies
+										key={comment._id}
+										comment={comment}
+										addLike={handleAddCommentLike}
+										addDislike={handleAddCommentDislike}
+										handleRemove={handleRemoveComment}
+									/>
+								))}
+							</div>
 						</div>
-
-						<CommentForm submit={handleSubmitComment} />
-
-						<div className='comments-list'>
-							{article.comments.map((comment: IComment) => (
-								<CommentReplies
-									key={comment._id}
-									comment={comment}
-									addLike={handleAddCommentLike}
-									addDislike={handleAddCommentDislike}
-									handleRemove={handleRemoveComment}
-								/>
-							))}
-						</div>
-					</div>
-				</Context.Provider>
-			)}
+					</>
+				)}
+			</Context.Provider>
 
 			<RemoveModal
 				open={removeArticleModal}

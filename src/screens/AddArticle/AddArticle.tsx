@@ -4,7 +4,7 @@ import {Helmet} from 'react-helmet';
 
 import {addArticle} from '@store/articles/actions';
 import {RootState} from '@store/types';
-import Form from './components/Form';
+import Form from './Form';
 import {IArticleInputs} from './types';
 import useRedirect from '@utils/hooks/useRedirect';
 
