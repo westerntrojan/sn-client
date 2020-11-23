@@ -14,7 +14,10 @@ import reducer, {initialState} from './reducer';
 let socket: SocketIOClient.Socket;
 
 const Chat: React.FC = () => {
-	const [{activeUsers, messages, loading, removed}, dispatch] = useReducer(reducer, initialState);
+	const [{activeUsers, messages, loading, scrollDown}, dispatch] = useReducer(
+		reducer,
+		initialState,
+	);
 
 	const {enqueueSnackbar} = useSnackbar();
 
@@ -81,6 +84,15 @@ const Chat: React.FC = () => {
 				});
 			});
 
+			socket.on('read_message', (data: {messageId: string}) => {
+				dispatch({
+					type: 'READ_MESSAGE',
+					payload: {
+						messageId: data.messageId,
+					},
+				});
+			});
+
 			socket.on('remove_messages', (data: {removedMessages: string[]}) => {
 				dispatch({
 					type: 'REMOVE_MESSAGES',
@@ -122,18 +134,24 @@ const Chat: React.FC = () => {
 		});
 	};
 
+	const handleReadMessage = (messageId: string): void => {
+		if (auth.isAuth) {
+			socket.emit('read_message', {messageId});
+		}
+	};
+
 	return (
 		<section className='chat'>
 			<Helmet>
 				<title>Chat / {process.env.REACT_APP_TITLE}</title>
 			</Helmet>
 
-			<Context.Provider value={{activeUsers, handleSubmitMessage}}>
+			<Context.Provider value={{activeUsers, handleSubmitMessage, handleReadMessage}}>
 				<Canvas
 					messages={messages.all}
 					auth={auth}
 					loading={loading}
-					removed={removed}
+					scrollDown={scrollDown}
 					loadMore={loadMore}
 					handleRemoveMessages={handleRemoveMessages}
 				/>

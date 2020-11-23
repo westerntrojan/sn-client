@@ -7,7 +7,8 @@ type State = {
 		end: boolean;
 	};
 	loading: boolean;
-	removed: boolean;
+	// true - scroll not to bottom, false - scroll to bottom
+	scrollDown: boolean;
 };
 
 type ACTIVE_USERS = {
@@ -41,6 +42,12 @@ type LOAD_MORE = {
 		end: boolean;
 	};
 };
+type READ_MESSAGE = {
+	type: 'READ_MESSAGE';
+	payload: {
+		messageId: string;
+	};
+};
 type REMOVE_MESSAGES = {
 	type: 'REMOVE_MESSAGES';
 	payload: {
@@ -54,16 +61,17 @@ type Action =
 	| NEW_MESSAGE
 	| NEW_MESSAGE_FROM_ME
 	| LOAD_MORE
+	| READ_MESSAGE
 	| REMOVE_MESSAGES;
 
-export const initialState = {
+export const initialState: State = {
 	activeUsers: 0,
 	messages: {
 		all: [],
 		end: false,
 	},
 	loading: true,
-	removed: false,
+	scrollDown: true,
 };
 
 export default (state: State, action: Action): State => {
@@ -85,7 +93,7 @@ export default (state: State, action: Action): State => {
 		case 'NEW_MESSAGE':
 			return {
 				...state,
-				removed: true,
+				scrollDown: false,
 				messages: {
 					...state.messages,
 					all: state.messages.all.concat(action.payload.newMessage),
@@ -94,7 +102,7 @@ export default (state: State, action: Action): State => {
 		case 'NEW_MESSAGE_FROM_ME':
 			return {
 				...state,
-				removed: false,
+				scrollDown: true,
 				messages: {
 					...state.messages,
 					all: state.messages.all.concat(action.payload.newMessage),
@@ -103,17 +111,35 @@ export default (state: State, action: Action): State => {
 		case 'LOAD_MORE':
 			return {
 				...state,
-				removed: true,
+				scrollDown: false,
 				messages: {
 					...state.messages,
 					all: action.payload.messages.concat(state.messages.all),
 					end: action.payload.end,
 				},
 			};
+		case 'READ_MESSAGE':
+			return {
+				...state,
+				scrollDown: false,
+				messages: {
+					...state.messages,
+					all: state.messages.all.map(message => {
+						if (message._id === action.payload.messageId) {
+							return {
+								...message,
+								isRead: true,
+							};
+						}
+
+						return message;
+					}),
+				},
+			};
 		case 'REMOVE_MESSAGES':
 			return {
 				...state,
-				removed: true,
+				scrollDown: false,
 				messages: {
 					...state.messages,
 					all: state.messages.all.filter(

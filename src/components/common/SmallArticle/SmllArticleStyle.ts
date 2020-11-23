@@ -8,6 +8,8 @@ export const useStyles = makeStyles({
 		'&:last-child': {
 			marginBottom: 0,
 		},
+
+		width: '100%',
 	},
 	title: {
 		marginBottom: 20,

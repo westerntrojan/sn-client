@@ -2,16 +2,17 @@ import React, {useState, useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 import ImageModal from '@components/common/modals/ImageModal';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
 	root: {
 		display: 'flex',
 		flexWrap: 'wrap',
 		justifyContent: 'space-around',
 		overflow: 'hidden',
-		width: '100%',
+		backgroundColor: theme.palette.background.paper,
 	},
 	gridList: {
 		width: '100%',
@@ -19,7 +20,7 @@ const useStyles = makeStyles({
 	img: {
 		cursor: 'pointer',
 	},
-});
+}));
 
 type Props = {
 	images: string[];

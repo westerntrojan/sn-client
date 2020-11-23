@@ -16,6 +16,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
 import ZoomTooltip from '@components/common/tooltips/ZoomTooltip';
 import Divider from '@material-ui/core/Divider';
+import ForumIcon from '@material-ui/icons/Forum';
 
 import {RootState} from '@store/types';
 
@@ -114,6 +115,14 @@ const AlterDrawer: React.FC = () => {
 										<BookmarksIcon />
 									</ListItemIcon>
 									<ListItemText primary={'Bookmarks'} />
+								</ListItem>
+							</ZoomTooltip>
+							<ZoomTooltip title='Chat' placement='right'>
+								<ListItem button selected={isSelected('/chat')} component={RouterLink} to={'/chat'}>
+									<ListItemIcon>
+										<ForumIcon />
+									</ListItemIcon>
+									<ListItemText primary={'Chat'} />
 								</ListItem>
 							</ZoomTooltip>
 						</List>

@@ -38,7 +38,7 @@ type Props = {
 			_id: string;
 		};
 	};
-	removed: boolean;
+	scrollDown: boolean;
 	loading: boolean;
 	loadMore: () => void;
 	handleRemoveMessages: (messages: string[]) => void;
@@ -47,7 +47,7 @@ type Props = {
 const Canvas: React.FC<Props> = ({
 	messages,
 	auth,
-	removed,
+	scrollDown,
 	loading,
 	loadMore,
 	handleRemoveMessages,
@@ -57,13 +57,16 @@ const Canvas: React.FC<Props> = ({
 	const [alterHeader, setAlterHeader] = useState(false);
 	const [selectedMessages, setSelectedMessages] = useState<string[]>([]);
 	const [removeMessagesModal, setRemoveMessagesModal] = useState(false);
-	const messagesContainer = useRef<HTMLDivElement>(null);
+
+	const messagesContainerRef = useRef<HTMLDivElement | null>(null);
 
 	useEffect(() => {
-		if (!removed && messagesContainer.current) {
-			messagesContainer.current.scrollTop = messagesContainer.current.scrollHeight;
+		if (scrollDown) {
+			if (messagesContainerRef.current) {
+				messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+			}
 		}
-	}, [messages, removed]);
+	}, [messages, scrollDown]);
 
 	const openRemoveMessagesModal = (): void => {
 		setRemoveMessagesModal(true);
@@ -114,28 +117,17 @@ const Canvas: React.FC<Props> = ({
 				<Header />
 			)}
 
-			<div className={classes.messages} ref={messagesContainer} onScroll={_handleMessagesScroll}>
+			<div className={classes.messages} ref={messagesContainerRef} onScroll={_handleMessagesScroll}>
 				{loading && <Loader />}
 
 				{auth.user &&
 					messages &&
 					messages.map(message => {
 						if (message.user._id === auth.user._id) {
-							if (message._id === messages[0]._id) {
-								return (
-									<MyMessage
-										key={message._id}
-										message={message}
-										selectMessage={selectMessage}
-										alterHeader={alterHeader}
-									/>
-								);
-							}
-
 							return (
 								<MyMessage
-									message={message}
 									key={message._id}
+									message={message}
 									selectMessage={selectMessage}
 									alterHeader={alterHeader}
 								/>

@@ -48,7 +48,10 @@ export const useStyles = makeStyles(theme => ({
 		maxWidth: 500,
 		width: '100%',
 	},
-	messageCreated: {},
+	messageInfo: {
+		display: 'flex',
+		alignItems: 'center',
+	},
 	imageMessageCreated: {
 		position: 'absolute',
 		color: 'white',
