@@ -6,6 +6,10 @@ import {useTheme} from '@material-ui/core/styles';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import {makeStyles} from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 
 import Loader from '@components/common/loaders/Loader';
 import General from './components/tabs/General';
@@ -14,12 +18,28 @@ const UserSettings = lazy(() => import('./components/tabs/UserSettings'));
 const ChatSettings = lazy(() => import('./components/tabs/ChatSettings'));
 const Advanced = lazy(() => import('./components/tabs/Advanced'));
 
+const useStyles = makeStyles(theme => ({
+	dialogTitle: {
+		margin: 0,
+		paddingTop: theme.spacing(2),
+		paddingBotttom: theme.spacing(2),
+		paddingLeft: theme.spacing(3),
+		paddingRight: theme.spacing(3),
+	},
+	closeIcon: {
+		position: 'absolute',
+		right: theme.spacing(1),
+		top: theme.spacing(1),
+	},
+}));
+
 type Props = {
 	open: boolean;
 	closeModal: () => void;
 };
 
 const SettingsModal: React.FC<Props> = ({open, closeModal}) => {
+	const classes = useStyles();
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
@@ -31,7 +51,13 @@ const SettingsModal: React.FC<Props> = ({open, closeModal}) => {
 
 	return (
 		<Dialog open={open} onClose={closeModal} fullScreen={fullScreen} fullWidth>
-			<DialogTitle>Settings</DialogTitle>
+			<DialogTitle className={classes.dialogTitle} disableTypography>
+				<Typography variant='h6'>Settings</Typography>
+
+				<IconButton className={classes.closeIcon} onClick={closeModal} color='primary'>
+					<CloseIcon />
+				</IconButton>
+			</DialogTitle>
 
 			<DialogContent>
 				<Tabs

@@ -13,7 +13,7 @@ import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import {useSelector, shallowEqual} from 'react-redux';
 import BookmarksIcon from '@material-ui/icons/Bookmarks';
 import Skeleton from '@material-ui/lab/Skeleton';
-import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
+import DynamicFeedIcon from '@material-ui/icons/DynamicFeed';
 import ZoomTooltip from '@components/common/tooltips/ZoomTooltip';
 import Divider from '@material-ui/core/Divider';
 import ForumIcon from '@material-ui/icons/Forum';
@@ -91,17 +91,12 @@ const AlterDrawer: React.FC = () => {
 									<ListItemText primary={'Home'} />
 								</ListItem>
 							</ZoomTooltip>
-							<ZoomTooltip title='Subscriptions' placement='right'>
-								<ListItem
-									button
-									selected={isSelected('/subscriptions')}
-									component={RouterLink}
-									to={'/subscriptions'}
-								>
+							<ZoomTooltip title='Feed' placement='right'>
+								<ListItem button selected={isSelected('/feed')} component={RouterLink} to={'/feed'}>
 									<ListItemIcon>
-										<SubscriptionsIcon />
+										<DynamicFeedIcon />
 									</ListItemIcon>
-									<ListItemText primary={'Subscriptions'} />
+									<ListItemText primary={'Feed'} />
 								</ListItem>
 							</ZoomTooltip>
 							<ZoomTooltip title='Bookmars' placement='right'>

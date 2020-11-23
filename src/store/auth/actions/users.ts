@@ -65,18 +65,18 @@ export const removeUser = (userId: string): AppThunk => async (
 	}
 };
 
-export const subscribeToUser = (userId: string): AppThunk => async (
+export const followToUser = (userId: string): AppThunk => async (
 	dispatch,
 	getState,
 ): Promise<void> => {
-	const data = await callApi.post('/users/subscribe', {
+	const data = await callApi.post('/users/follow', {
 		userId1: getState().auth.user._id,
 		userId2: userId,
 	});
 
 	if (data.success) {
 		dispatch({
-			type: types.SUBSCRIBE_TO_USER,
+			type: types.FOLLOW_TO_USER,
 			payload: {
 				userId,
 			},
@@ -84,18 +84,18 @@ export const subscribeToUser = (userId: string): AppThunk => async (
 	}
 };
 
-export const unsubscribeFromUser = (userId: string): AppThunk => async (
+export const unfollowFromUser = (userId: string): AppThunk => async (
 	dispatch,
 	getState,
 ): Promise<void> => {
-	const data = await callApi.post('/users/unsubscribe', {
+	const data = await callApi.post('/users/unfollow', {
 		userId1: getState().auth.user._id,
 		userId2: userId,
 	});
 
 	if (data.success) {
 		dispatch({
-			type: types.UNSUBSCRIBE_FROM_USER,
+			type: types.UNFOLLOW_FROM_USER,
 			payload: {
 				userId,
 			},

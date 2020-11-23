@@ -29,6 +29,7 @@ import {getCurrentTheme, changeTheme, changeThemeAnimations} from '@utils/app';
 import {ChangeDrawer, Exit} from '@utils/hotKeys';
 import GlobalCss from './GlobalCss';
 import SettingsContext from './SettingsContext';
+
 import settings from './settings.json';
 
 const useStyles = makeStyles(theme => ({

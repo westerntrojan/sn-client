@@ -35,10 +35,10 @@ const RemoveUserModal: React.FC<Props> = ({open, action, closeModal}) => {
 			aria-labelledby='form-dialog-title'
 			fullScreen={fullScreen}
 		>
-			<DialogTitle id='form-dialog-title'>Are you absolutely sure ?</DialogTitle>
+			<DialogTitle id='form-dialog-title'>Are you absolutely sure?</DialogTitle>
 			<DialogContent>
 				<DialogContentText>
-					This action cannot be undone. Are you sure you want to remove this ?
+					This action cannot be undone. Are you sure you want to remove this?
 				</DialogContentText>
 			</DialogContent>
 			<DialogActions>

@@ -3,20 +3,22 @@ import {makeStyles} from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import classNames from 'classnames';
+import ButtonBase from '@material-ui/core/ButtonBase';
 
 import Context from '@screens/User/context';
 
 const useStyles = makeStyles(() => ({
 	root: {
 		width: '100%',
-		padding: 10,
 		display: 'flex',
 		alignItems: 'center',
-		justifyContent: 'center',
+		justifyContent: 'space-around',
 	},
 	item: {
 		textAlign: 'center',
-		margin: '0 20px',
+		padding: 10,
+		display: 'block',
+		flex: 1,
 	},
 }));
 
@@ -25,28 +27,28 @@ const UserInfo: React.FC = () => {
 
 	const {user} = useContext(Context);
 
-	const {articles, comments, messages} = user.statistics;
+	const {articles, followers, following} = user.statistics;
 
 	return (
 		<Card className={classNames('user-statistics', classes.root)}>
-			<div className={classes.item}>
+			<ButtonBase className={classes.item}>
 				<Typography variant='h5' color='primary'>
 					{articles}
 				</Typography>
 				<Typography variant='subtitle1'>articles</Typography>
-			</div>
-			<div className={classes.item}>
+			</ButtonBase>
+			<ButtonBase className={classes.item}>
 				<Typography variant='h5' color='primary'>
-					{comments}
+					{followers}
 				</Typography>
-				<Typography variant='subtitle1'>comments</Typography>
-			</div>
-			<div className={classes.item}>
+				<Typography variant='subtitle1'>followers</Typography>
+			</ButtonBase>
+			<ButtonBase className={classes.item}>
 				<Typography variant='h5' color='primary'>
-					{messages}
+					{following}
 				</Typography>
-				<Typography variant='subtitle1'>messages</Typography>
-			</div>
+				<Typography variant='subtitle1'>following</Typography>
+			</ButtonBase>
 		</Card>
 	);
 };

@@ -43,7 +43,7 @@ import ZoomTooltip from '@components/common/tooltips/ZoomTooltip';
 import {UserAvatar} from '@components/common/avatars';
 import Context from '@screens/Article/context';
 import {useAuthModal} from '@utils/hooks';
-import {subscribeToUser} from '@store/auth/actions';
+import {followToUser} from '@store/auth/actions';
 import ShareMenu from '@components/common/ShareMenu';
 import ImageGallery from '@components/common/ImageGallery';
 
@@ -87,12 +87,12 @@ const FullArticle: React.FC<Props> = ({
 		setShareMenuEl(null);
 	};
 
-	const handleSubscribe = (): void => {
+	const handleFollowToUser = (): void => {
 		if (!auth.isAuth) {
 			openAuthModal();
 		}
 
-		dispatch(subscribeToUser(article.user._id));
+		dispatch(followToUser(article.user._id));
 	};
 
 	return (
@@ -229,7 +229,7 @@ const FullArticle: React.FC<Props> = ({
 					</div>
 				)}
 
-				{article.user._id !== auth.user._id && !auth.user.subscriptions.includes(article.user._id) && (
+				{article.user._id !== auth.user._id && !auth.user.following.includes(article.user._id) && (
 					<Box className={classes.author} borderRadius='borderRadius'>
 						<div className={classes.authorInfo}>
 							<UserAvatar user={article.user} />
@@ -265,10 +265,10 @@ const FullArticle: React.FC<Props> = ({
 						<Button
 							color='primary'
 							variant='outlined'
-							onClick={handleSubscribe}
+							onClick={handleFollowToUser}
 							startIcon={<AddIcon />}
 						>
-							Subscribe
+							Follow
 						</Button>
 					</Box>
 				)}

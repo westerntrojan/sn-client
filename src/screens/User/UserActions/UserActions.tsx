@@ -11,12 +11,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import DeleteIcon from '@material-ui/icons/Delete';
-import {useDispatch} from 'react-redux';
 
 import UserAvatar from './UserAvatar';
 import {userLink} from '@utils/users';
 import {useAuthModal} from '@utils/hooks';
-import {subscribeToUser, unsubscribeFromUser} from '@store/auth/actions';
 import Context from '@screens/User/context';
 
 const useStyles = makeStyles({
@@ -38,9 +36,10 @@ const useStyles = makeStyles({
 
 type Props = {
 	handleRemoveUser: () => void;
+	handleFollowToUser: () => void;
 };
 
-const UserActions: React.FC<Props> = ({handleRemoveUser}) => {
+const UserActions: React.FC<Props> = ({handleRemoveUser, handleFollowToUser}) => {
 	const classes = useStyles();
 
 	const {auth, user} = useContext(Context);
@@ -49,22 +48,12 @@ const UserActions: React.FC<Props> = ({handleRemoveUser}) => {
 
 	const {openAuthModal} = useAuthModal();
 
-	const dispatch = useDispatch();
-
 	const openMenu = (e: React.MouseEvent<HTMLButtonElement>): void => {
 		setAnchorEl(e.currentTarget);
 	};
 
 	const closeMenu = (): void => {
 		setAnchorEl(null);
-	};
-
-	const handleSubscribe = (): void => {
-		if (auth.user.subscriptions.includes(user._id)) {
-			dispatch(unsubscribeFromUser(user._id));
-		} else {
-			dispatch(subscribeToUser(user._id));
-		}
 	};
 
 	return (
@@ -97,12 +86,12 @@ const UserActions: React.FC<Props> = ({handleRemoveUser}) => {
 			{auth.isAuth && auth.user._id !== user._id && (
 				<Button
 					variant='contained'
-					color={auth.user.subscriptions.includes(user._id) ? 'secondary' : 'primary'}
+					color={auth.user.following.includes(user._id) ? 'secondary' : 'primary'}
 					fullWidth
 					style={{margin: '10px 0'}}
-					onClick={handleSubscribe}
+					onClick={handleFollowToUser}
 				>
-					{auth.user.subscriptions.includes(user._id) ? 'Subscribed' : 'Subscribe'}
+					{auth.user.following.includes(user._id) ? 'Following' : 'Follow'}
 				</Button>
 			)}
 

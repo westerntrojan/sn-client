@@ -5,7 +5,7 @@ import {Helmet} from 'react-helmet';
 
 import './User.scss';
 import Loader from '@components/common/loaders/Loader';
-import {RemoveUserModal} from '@components/common/modals';
+import RemoveUserModal from './RemoveUserModal';
 import UserInfo from './UserInfo';
 import UserActions from './UserActions';
 import UserStatistics from './UserStatistics';
@@ -17,6 +17,7 @@ import {RootState} from '@store/types';
 import {IUserStatistics, IFetchData} from './types';
 import useRedirect from '@utils/hooks/useRedirect';
 import Context from './context';
+import {followToUser, unfollowFromUser} from '@store/auth/actions';
 
 const User: React.FC = () => {
 	const {userLink} = useParams();
@@ -45,6 +46,32 @@ const User: React.FC = () => {
 		setRemoveModal(true);
 	};
 
+	const handleFollowToUser = (): void => {
+		if (user) {
+			if (auth.user.following.includes(user._id)) {
+				dispatch(unfollowFromUser(user._id));
+
+				setUser({
+					...user,
+					statistics: {
+						...user.statistics,
+						followers: user.statistics.followers - 1,
+					},
+				});
+			} else {
+				dispatch(followToUser(user._id));
+
+				setUser({
+					...user,
+					statistics: {
+						...user.statistics,
+						followers: user.statistics.followers + 1,
+					},
+				});
+			}
+		}
+	};
+
 	const handleRemoveUser = async (): Promise<void> => {
 		if (user) {
 			await dispatch(removeUser(user._id));
@@ -69,7 +96,10 @@ const User: React.FC = () => {
 			<Context.Provider value={{auth, user}}>
 				{user && !user.isRemoved && (
 					<div className='user-data'>
-						<UserActions handleRemoveUser={openRemoveModal} />
+						<UserActions
+							handleRemoveUser={openRemoveModal}
+							handleFollowToUser={handleFollowToUser}
+						/>
 
 						<div className='user-subdata'>
 							<UserInfo />

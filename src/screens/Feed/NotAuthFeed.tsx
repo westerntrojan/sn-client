@@ -20,7 +20,7 @@ const useStyles = makeStyles({
 	},
 });
 
-const NotAuthSubscriptions: React.FC = () => {
+const NotAuthFeed: React.FC = () => {
 	const classes = useStyles();
 
 	return (
@@ -37,4 +37,4 @@ const NotAuthSubscriptions: React.FC = () => {
 	);
 };
 
-export default NotAuthSubscriptions;
+export default NotAuthFeed;

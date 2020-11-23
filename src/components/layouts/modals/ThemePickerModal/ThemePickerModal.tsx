@@ -20,10 +20,25 @@ import deepPurple from '@material-ui/core/colors/deepPurple';
 import {Color} from '@material-ui/core';
 import {PaletteOptions} from '@material-ui/core/styles/createPalette';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import Typography from '@material-ui/core/Typography';
 
 import FontSizeSlider from './components/FontSizeSlider';
 
 const useStyles = makeStyles(theme => ({
+	dialogTitle: {
+		margin: 0,
+		paddingTop: theme.spacing(2),
+		paddingBotttom: theme.spacing(2),
+		paddingLeft: theme.spacing(3),
+		paddingRight: theme.spacing(3),
+	},
+	closeIcon: {
+		position: 'absolute',
+		right: theme.spacing(1),
+		top: theme.spacing(1),
+	},
 	formControl: {
 		display: 'flex',
 		margin: '20px 0',
@@ -75,6 +90,10 @@ const useStyles = makeStyles(theme => ({
 		},
 	},
 	checked: {},
+	buttons: {
+		display: 'flex',
+		justifyContent: 'space-between',
+	},
 }));
 
 type Props = {
@@ -177,7 +196,13 @@ const ThemePickerModal: React.FC<Props> = ({
 
 	return (
 		<Dialog open={open} onClose={closeModal} fullScreen={fullScreen} fullWidth>
-			<DialogTitle>Appearance</DialogTitle>
+			<DialogTitle className={classes.dialogTitle} disableTypography>
+				<Typography variant='h6'>Appearance</Typography>
+
+				<IconButton className={classes.closeIcon} onClick={closeModal} color='primary'>
+					<CloseIcon />
+				</IconButton>
+			</DialogTitle>
 
 			<DialogContent>
 				<FontSizeSlider handleChangeTheme={handleChangeTheme} />
@@ -289,9 +314,14 @@ const ThemePickerModal: React.FC<Props> = ({
 					</RadioGroup>
 				</FormControl>
 
-				<Button color='primary' onClick={handleResetTheme}>
-					Reset theme
-				</Button>
+				<div className={classes.buttons}>
+					<Button color='primary' onClick={handleResetTheme}>
+						Reset theme
+					</Button>
+					<Button color='primary' onClick={closeModal}>
+						Done
+					</Button>
+				</div>
 			</DialogContent>
 		</Dialog>
 	);

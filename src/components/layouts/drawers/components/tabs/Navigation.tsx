@@ -13,7 +13,7 @@ import {Link as RouterLink} from 'react-router-dom';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import Brightness1Icon from '@material-ui/icons/Brightness1';
 import BookmarksIcon from '@material-ui/icons/Bookmarks';
-import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
+import DynamicFeedIcon from '@material-ui/icons/DynamicFeed';
 import {useSelector, shallowEqual} from 'react-redux';
 
 import {RootState} from '@store/types';
@@ -35,13 +35,13 @@ const Navigation: React.FC = () => {
 				<ListItem
 					button
 					component={RouterLink}
-					to={'/subscriptions'}
-					selected={location.pathname === '/subscriptions'}
+					to={'/feed'}
+					selected={location.pathname === '/feed'}
 				>
 					<ListItemIcon>
-						<SubscriptionsIcon />
+						<DynamicFeedIcon />
 					</ListItemIcon>
-					<ListItemText primary={'Subscriptions'} />
+					<ListItemText primary={'Feed'} />
 				</ListItem>
 				<ListItem
 					button

@@ -1,0 +1,28 @@
+query UserFeed($userId: ID!) {
+	userFeed(userId: $userId) {
+		_id
+		title
+		text
+		slug
+		views
+		image
+		images
+		created
+		user {
+			_id
+			firstName
+			lastName
+			username
+			avatar {
+				color
+				images
+			}
+		}
+		comments {
+			_id
+			replies {
+				_id
+			}
+		}
+	}
+}

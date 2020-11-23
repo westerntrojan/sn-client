@@ -26,7 +26,7 @@ export interface IUser {
 	};
 	readonly role: Role.ADMIN | Role.MODERATOR | Role.USER;
 	bookmarks: string[];
-	subscriptions: string[];
+	following: string[];
 	readonly isRemoved: boolean;
 	readonly emailVerified: boolean;
 	twoFactorAuth: boolean;
