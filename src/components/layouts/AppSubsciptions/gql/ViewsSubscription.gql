@@ -1,5 +1,0 @@
-subscription {
-	viewsAdded {
-		_id
-	}
-}

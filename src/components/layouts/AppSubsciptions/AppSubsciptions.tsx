@@ -3,42 +3,48 @@ import {useDispatch} from 'react-redux';
 import {loader} from 'graphql.macro';
 import {useSubscription} from 'react-apollo';
 
-import {addLike, addDislike, addViews} from '@store/articles/actions';
+import {addView, addLike, addDislike} from '@store/articles/actions';
 
-const LikesSubscription = loader('./gql/LikesSubscription.gql');
-const DislikesSubscription = loader('./gql/DislikesSubscription.gql');
-const ViewsSubscription = loader('./gql/ViewsSubscription.gql');
+const OnViewAdded = loader('./gql/OnViewAdded.gql');
+const OnLikeAdded = loader('./gql/OnLikeAdded.gql');
+const OnDislikeAdded = loader('./gql/OnDislikeAdded.gql');
 
 const AppSubscriptions: React.FC = () => {
 	const dispatch = useDispatch();
 
-	const onLikesAdded = useSubscription(LikesSubscription);
-	const onDislikesAdded = useSubscription(DislikesSubscription);
-	const onViewsAdded = useSubscription(ViewsSubscription);
+	const onViewAdded = useSubscription(OnViewAdded);
+	const onLikeAdded = useSubscription(OnLikeAdded);
+	const onDislikeAdded = useSubscription(OnDislikeAdded);
 
 	useEffect(() => {
-		if (!onLikesAdded.loading) {
-			const {_id} = onLikesAdded.data.likesAdded;
+		if (!onViewAdded.loading) {
+			const {_id} = onViewAdded.data.viewAdded;
+
+			dispatch(addView(_id));
+		}
+
+		// eslint-disable-next-line
+	}, [onViewAdded.loading, onViewAdded.data]);
+
+	useEffect(() => {
+		if (!onLikeAdded.loading) {
+			const {_id} = onLikeAdded.data.likeAdded;
 
 			dispatch(addLike(_id));
 		}
-	}, [onLikesAdded.loading, onLikesAdded.data, dispatch]);
+
+		// eslint-disable-next-line
+	}, [onLikeAdded.loading, onLikeAdded.data]);
 
 	useEffect(() => {
-		if (!onDislikesAdded.loading) {
-			const {_id} = onDislikesAdded.data.dislikesAdded;
+		if (!onDislikeAdded.loading) {
+			const {_id} = onDislikeAdded.data.dislikeAdded;
 
 			dispatch(addDislike(_id));
 		}
-	}, [onDislikesAdded.loading, onDislikesAdded.data, dispatch]);
 
-	useEffect(() => {
-		if (!onViewsAdded.loading) {
-			const {_id} = onViewsAdded.data.viewsAdded;
-
-			dispatch(addViews(_id));
-		}
-	}, [onViewsAdded.loading, onViewsAdded.data, dispatch]);
+		// eslint-disable-next-line
+	}, [onDislikeAdded.loading, onDislikeAdded.data]);
 
 	return <div></div>;
 };

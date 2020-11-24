@@ -23,22 +23,28 @@ import {IComment} from '@store/types';
 import * as articleActions from '@store/articles/actions';
 import Context from './context';
 import Loader from '@components/common/loaders/Loader';
+import {addToBookmarks, removeFromBookmarks} from '@store/auth/actions';
 
 const AddLike = loader('./gql/AddLike.gql');
 const AddDislike = loader('./gql/AddDislike.gql');
 const AddView = loader('./gql/AddView.gql');
+const AddToBookmarks = loader('./gql/AddToBookmarks.gql');
 
 const Article: React.FC = () => {
 	const {slug} = useParams();
 
 	const [removeArticleModal, setRemoveArticleModal] = useState(false);
+	const [removeCommentModal, setRemoveCommentModal] = useState(false);
+	const [removeReplyModal, setRemoveReplyModal] = useState(false);
+	const [removedCommentId, setRemovedCommentId] = useState('');
 	const [loading, setLoading] = useState(true);
 	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 	const [article, setArticleSlug] = useArticle();
 
-	const [addLike] = useMutation(AddLike);
-	const [addDislike] = useMutation(AddDislike);
-	const [addView] = useMutation(AddView);
+	const [addLikeMutation] = useMutation(AddLike);
+	const [addDislikeMutation] = useMutation(AddDislike);
+	const [addViewMutation] = useMutation(AddView);
+	const [addToBookmarksMutation] = useMutation(AddToBookmarks);
 
 	const {redirectTo} = useRedirect();
 	const {openAuthModal} = useAuthModal();
@@ -57,12 +63,14 @@ const Article: React.FC = () => {
 	const setViews = useCallback(() => {
 		if (loading) {
 			if (article) {
-				addView({variables: {id: article._id}});
+				addViewMutation({variables: {id: article._id}});
 
 				setLoading(false);
 			}
 		}
-	}, [article, addView, loading]);
+
+		// eslint-disable-next-line
+	}, [article, loading]);
 
 	useEffect(() => {
 		if (slug) {
@@ -78,7 +86,7 @@ const Article: React.FC = () => {
 		}
 
 		if (article) {
-			addLike({variables: {id: article._id}});
+			addLikeMutation({variables: {id: article._id}});
 		}
 	};
 
@@ -88,17 +96,25 @@ const Article: React.FC = () => {
 		}
 
 		if (article) {
-			addDislike({variables: {id: article._id}});
+			addDislikeMutation({variables: {id: article._id}});
 		}
 	};
 
-	const handleAddArticleToBookmarks = async (): Promise<void> => {
+	const handleAddToBookmarks = async (): Promise<void> => {
 		if (!auth.isAuth) {
 			return openAuthModal();
 		}
 
 		if (article) {
-			await dispatch(articleActions.addToBookmarks(article._id, auth.user._id));
+			const {data} = await addToBookmarksMutation({
+				variables: {userId: auth.user._id, articleId: article._id},
+			});
+
+			if (data.addToBookmarks) {
+				dispatch(addToBookmarks(article._id));
+			} else {
+				dispatch(removeFromBookmarks(article._id));
+			}
 		}
 	};
 
@@ -122,8 +138,10 @@ const Article: React.FC = () => {
 		}
 	};
 
-	const handleRemoveComment = async (commentId: string): Promise<void> => {
-		await dispatch(articleActions.removeComment(commentId));
+	const handleRemoveComment = async (): Promise<void> => {
+		await dispatch(articleActions.removeComment(removedCommentId));
+
+		setRemoveCommentModal(false);
 	};
 
 	const handleSubmitReply = async (comment: {parentId: string; text: string}): Promise<any> => {
@@ -136,8 +154,10 @@ const Article: React.FC = () => {
 		}
 	};
 
-	const handleRemoveReply = async (commentId: string): Promise<void> => {
-		await dispatch(articleActions.removeReply(commentId));
+	const handleRemoveReply = async (): Promise<void> => {
+		await dispatch(articleActions.removeReply(removedCommentId));
+
+		setRemoveReplyModal(false);
 	};
 
 	const _handleTopCommentsSort = (): void => {
@@ -184,7 +204,16 @@ const Article: React.FC = () => {
 				</title>
 			</Helmet>
 
-			<Context.Provider value={{auth, handleSubmitReply, handleRemoveReply}}>
+			<Context.Provider
+				value={{
+					auth,
+					handleSubmitReply,
+					handleRemoveReply: (commentId: string): void => {
+						setRemovedCommentId(commentId);
+						setRemoveReplyModal(true);
+					},
+				}}
+			>
 				{loading && <Loader disableMargin />}
 
 				{article && (
@@ -193,7 +222,7 @@ const Article: React.FC = () => {
 							article={article}
 							addLike={handleAddArticleLike}
 							addDislike={handleAddArticleDislike}
-							addToBookmarks={handleAddArticleToBookmarks}
+							addToBookmarks={handleAddToBookmarks}
 							handleRemove={(): void => setRemoveArticleModal(true)}
 						/>
 
@@ -228,7 +257,10 @@ const Article: React.FC = () => {
 										comment={comment}
 										addLike={handleAddCommentLike}
 										addDislike={handleAddCommentDislike}
-										handleRemove={handleRemoveComment}
+										handleRemove={(commentId: string): void => {
+											setRemovedCommentId(commentId);
+											setRemoveCommentModal(true);
+										}}
 									/>
 								))}
 							</div>
@@ -239,9 +271,21 @@ const Article: React.FC = () => {
 
 			<RemoveModal
 				open={removeArticleModal}
-				text='Do you want to remove this article ?'
+				text='Do you want to remove this article?'
 				action={handleRemoveArticle}
 				closeModal={(): void => setRemoveArticleModal(false)}
+			/>
+			<RemoveModal
+				open={removeCommentModal}
+				text='Do you want to remove this comment?'
+				action={handleRemoveComment}
+				closeModal={(): void => setRemoveCommentModal(false)}
+			/>
+			<RemoveModal
+				open={removeReplyModal}
+				text='Do you want to remove this reply?'
+				action={handleRemoveReply}
+				closeModal={(): void => setRemoveReplyModal(false)}
 			/>
 		</section>
 	);

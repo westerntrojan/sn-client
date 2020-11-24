@@ -2,8 +2,8 @@ import React from 'react';
 import {Helmet} from 'react-helmet';
 import {useDispatch} from 'react-redux';
 import {useSelector, shallowEqual} from 'react-redux';
-import BottomScrollListener from 'react-bottom-scroll-listener';
 import Typography from '@material-ui/core/Typography';
+import BottomScrollListener from 'react-bottom-scroll-listener';
 
 import './Home.scss';
 import Loader from '@components/common/loaders/Loader';

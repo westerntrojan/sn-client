@@ -23,31 +23,40 @@ import ListItemText from '@material-ui/core/ListItemText';
 import FlagIcon from '@material-ui/icons/Flag';
 import Divider from '@material-ui/core/Divider';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
-import {useSelector, shallowEqual} from 'react-redux';
+import {useSelector, shallowEqual, useDispatch} from 'react-redux';
 import {LazyLoadImage} from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
+import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
+import {useMutation} from 'react-apollo';
+import {loader} from 'graphql.macro';
 
 import {useStyles} from './SmllArticleStyle';
 import {userLink} from '@utils/users';
 import {getCommentsCount} from '@utils/articles';
 import {IArticle, RootState} from '@store/types';
-import {ZoomTooltip} from '@components/common/tooltips';
 import {UserAvatar} from '@components/common/avatars';
 import ShareMenu from '@components/common/ShareMenu';
-import ImageGrid from '@components/common/ImageGrid';
+import {useAuthModal} from '@utils/hooks';
+import {addToBookmarks, removeFromBookmarks} from '@store/auth/actions';
+
+const AddToBookmarks = loader('./gql/AddToBookmarks.gql');
 
 type Props = {
 	article: IArticle;
-	lazy?: boolean;
 };
 
-const SmallArticle: React.FC<Props> = ({article, lazy}) => {
+const SmallArticle: React.FC<Props> = ({article}) => {
 	const classes = useStyles();
 
 	const [moreMenuEl, setMoreMenuEl] = useState<HTMLElement | null>(null);
 	const [shareMenuEl, setShareMenuEl] = useState<HTMLElement | null>(null);
 
+	const {openAuthModal} = useAuthModal();
+
+	const [addToBookmarksMutation] = useMutation(AddToBookmarks);
+
 	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
+	const dispatch = useDispatch();
 
 	const openMoreMenu = (e: React.MouseEvent<HTMLButtonElement>): void => {
 		setMoreMenuEl(e.currentTarget);
@@ -62,13 +71,41 @@ const SmallArticle: React.FC<Props> = ({article, lazy}) => {
 		setShareMenuEl(null);
 	};
 
+	const getPreviewLink = (): string => {
+		if (article.image) {
+			return `${process.env.REACT_APP_CLOUD_IMAGE_URI}/ar_2.5,c_crop,q_65/${article.image}`;
+		}
+
+		if (!!article.images.length) {
+			return `${process.env.REACT_APP_CLOUD_IMAGE_URI}/ar_2.5,c_crop,q_65/${article.images[0]}`;
+		}
+
+		return `${process.env.REACT_APP_CLOUD_VIDEO_URI}/ar_2.5,c_crop,q_65/${article.video}.jpg`;
+	};
+
+	const handleAddToBookmarks = async (): Promise<void> => {
+		if (!auth.isAuth) {
+			return openAuthModal();
+		}
+
+		const {data} = await addToBookmarksMutation({
+			variables: {userId: auth.user._id, articleId: article._id},
+		});
+
+		if (data.addToBookmarks) {
+			dispatch(addToBookmarks(article._id));
+		} else {
+			dispatch(removeFromBookmarks(article._id));
+		}
+	};
+
 	return (
 		<Card className={classNames('small-article', classes.root)}>
 			<CardHeader
 				avatar={<UserAvatar user={article.user} link />}
 				action={
 					<>
-						<IconButton>
+						<IconButton onClick={handleAddToBookmarks}>
 							{auth.user.bookmarks.includes(article._id) ? (
 								<BookmarkIcon color='primary' />
 							) : (
@@ -86,42 +123,16 @@ const SmallArticle: React.FC<Props> = ({article, lazy}) => {
 					</>
 				}
 				title={
-					<ZoomTooltip title={`${article.user.firstName} ${article.user.lastName}`.trim()}>
-						<Typography variant='body2' style={{display: 'inline', marginRight: 10}}>
-							<Link
-								underline='none'
-								color='inherit'
-								component={RouterLink}
-								to={userLink(article.user)}
-							>
-								{`${article.user.firstName} ${article.user.lastName}`.trim()}
-							</Link>
-						</Typography>
-					</ZoomTooltip>
+					<Typography variant='body2' style={{display: 'inline', marginRight: 10}}>
+						<Link color='inherit' component={RouterLink} to={userLink(article.user)}>
+							{`${article.user.firstName} ${article.user.lastName}`.trim()}
+						</Link>
+					</Typography>
 				}
 				subheader={moment(article.created).fromNow()}
 			/>
 
-			{/* images */}
-			{!!article.images.length && (
-				<CardActionArea>
-					<Link
-						underline='none'
-						component={RouterLink}
-						to={`/article/${article.slug}`}
-						color='inherit'
-					>
-						<ImageGrid
-							images={article.images.map(
-								image => `${process.env.REACT_APP_CLOUD_IMAGE_URI}/q_65/${image}`,
-							)}
-						/>
-					</Link>
-				</CardActionArea>
-			)}
-
-			{/* image */}
-			{(article.image || article.video) && (
+			{(article.image || !!article.images.length || article.video) && (
 				<CardActionArea className={classes.imageWrapper}>
 					<Link
 						underline='none'
@@ -130,11 +141,7 @@ const SmallArticle: React.FC<Props> = ({article, lazy}) => {
 						color='inherit'
 					>
 						<LazyLoadImage
-							src={
-								article.image
-									? `${process.env.REACT_APP_CLOUD_IMAGE_URI}/ar_2.5,c_crop,q_65/${article.image}`
-									: `${process.env.REACT_APP_CLOUD_VIDEO_URI}/ar_2.5,c_crop,q_65/${article.video}.jpg`
-							}
+							src={getPreviewLink()}
 							title={article.title}
 							width='100%'
 							height='400px'
@@ -143,10 +150,12 @@ const SmallArticle: React.FC<Props> = ({article, lazy}) => {
 							className={classes.image}
 						/>
 					</Link>
+
+					{!!article.images.length && <PhotoLibraryIcon className={classes.galleryIcon} />}
 				</CardActionArea>
 			)}
 
-			{!article.image && !!!article.images.length && <Divider />}
+			{!article.image && !!!article.images.length && !article.video && <Divider />}
 
 			<CardContent>
 				<Typography variant='h5' className={classes.title}>

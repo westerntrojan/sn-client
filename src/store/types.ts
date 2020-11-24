@@ -77,7 +77,6 @@ export interface IArticle {
 	views: number;
 	likes: number;
 	dislikes: number;
-	bookmarksCount: number;
 	comments: IComment[];
 	readonly created: string;
 }

@@ -1,0 +1,3 @@
+mutation AddToBookmarks($userId: ID!, $articleId: ID!) {
+	addToBookmarks(userId: $userId, articleId: $articleId)
+}

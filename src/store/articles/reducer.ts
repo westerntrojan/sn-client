@@ -60,7 +60,7 @@ export default createReducer(initialState, {
 		});
 		state.cache = state.cache.map(article => {
 			if (article._id === action.payload.articleId) {
-				return {...article, dislikes: article.dislikes + 1};
+				return {...article, likes: article.likes + 1};
 			}
 
 			return article;
@@ -82,39 +82,7 @@ export default createReducer(initialState, {
 			return article;
 		});
 	},
-	[types.ADD_TO_BOOKMARKS]: (state, action) => {
-		state.all = state.all.map(article => {
-			if (article._id === action.payload.articleId) {
-				return {...article, bookmarksCount: article.bookmarksCount + 1};
-			}
-
-			return article;
-		});
-		state.cache = state.cache.map(article => {
-			if (article._id === action.payload.articleId) {
-				return {...article, bookmarksCount: article.bookmarksCount + 1};
-			}
-
-			return article;
-		});
-	},
-	[types.REMOVE_FROM_BOOKMARKS]: (state, action) => {
-		state.all = state.all.map(article => {
-			if (article._id === action.payload.articleId) {
-				return {...article, bookmarksCount: article.bookmarksCount - 1};
-			}
-
-			return article;
-		});
-		state.cache = state.cache.map(article => {
-			if (article._id === action.payload.articleId) {
-				return {...article, bookmarksCount: article.bookmarksCount - 1};
-			}
-
-			return article;
-		});
-	},
-	[types.ADD_VIEWS]: (state, action) => {
+	[types.ADD_VIEW]: (state, action) => {
 		state.all = state.all.map(article => {
 			if (article._id === action.payload.articleId) {
 				return {...article, views: article.views + 1};

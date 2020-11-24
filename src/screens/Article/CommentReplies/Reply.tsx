@@ -54,8 +54,8 @@ const Reply: React.FC<Props> = ({reply, addLike, addDislike}) => {
 
 			<div className='content'>
 				<div className='info'>
-					<Typography className='username' variant='subtitle2'>
-						<Link underline='none' component={RouterLink} to={userLink(reply.user)} color='inherit'>
+					<Typography className='username' variant='body2'>
+						<Link component={RouterLink} to={userLink(reply.user)} color='inherit'>
 							{userName}
 						</Link>
 					</Typography>

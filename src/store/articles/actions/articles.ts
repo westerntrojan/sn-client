@@ -91,7 +91,7 @@ export const removeArticle = (articleId: string): AppThunk => async (dispatch): 
 	});
 };
 
-export const addViews = createAction(types.ADD_VIEWS, articleId => ({
+export const addView = createAction(types.ADD_VIEW, articleId => ({
 	payload: {
 		articleId,
 	},
@@ -108,27 +108,3 @@ export const addDislike = createAction(types.ADD_DISLIKE, articleId => ({
 		articleId,
 	},
 }));
-
-export const addToBookmarks = (articleId: string, userId: string): AppThunk => async (
-	dispatch,
-): Promise<void> => {
-	const data = await callApi.get(`/articles/bookmarks/${articleId}/${userId}`);
-
-	if (data.success) {
-		if (data.added) {
-			dispatch({
-				type: types.ADD_TO_BOOKMARKS,
-				payload: {
-					articleId,
-				},
-			});
-		} else if (data.removed) {
-			dispatch({
-				type: types.REMOVE_FROM_BOOKMARKS,
-				payload: {
-					articleId,
-				},
-			});
-		}
-	}
-};

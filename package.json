@@ -104,7 +104,7 @@
 		"react-apollo": "^3.1.5",
 		"react-app-polyfill": "^1.0.4",
 		"react-avatar-editor": "^11.0.13",
-		"react-bottom-scroll-listener": "^3.0.0",
+		"react-bottom-scroll-listener": "^4.1.1",
 		"react-chartjs-2": "^2.11.0",
 		"react-dev-utils": "^9.1.0",
 		"react-dom": "^16.10.2",

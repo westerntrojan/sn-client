@@ -39,7 +39,6 @@ import {userLink} from '@utils/users';
 import {getCommentsCount} from '@utils/articles';
 import {IArticle} from '@store/types';
 import {ImageModal} from '@components/common/modals';
-import ZoomTooltip from '@components/common/tooltips/ZoomTooltip';
 import {UserAvatar} from '@components/common/avatars';
 import Context from '@screens/Article/context';
 import {useAuthModal} from '@utils/hooks';
@@ -119,18 +118,11 @@ const FullArticle: React.FC<Props> = ({
 					</>
 				}
 				title={
-					<ZoomTooltip title={`${article.user.firstName} ${article.user.lastName}`.trim()}>
-						<Typography variant='body2' style={{display: 'inline'}}>
-							<Link
-								underline='none'
-								color='inherit'
-								component={RouterLink}
-								to={userLink(article.user)}
-							>
-								{`${article.user.firstName} ${article.user.lastName}`.trim()}
-							</Link>
-						</Typography>
-					</ZoomTooltip>
+					<Typography variant='body2' style={{display: 'inline'}}>
+						<Link color='inherit' component={RouterLink} to={userLink(article.user)}>
+							{`${article.user.firstName} ${article.user.lastName}`.trim()}
+						</Link>
+					</Typography>
 				}
 				subheader={moment(article.created).format('LL')}
 			/>
@@ -232,25 +224,25 @@ const FullArticle: React.FC<Props> = ({
 				{article.user._id !== auth.user._id && !auth.user.following.includes(article.user._id) && (
 					<Box className={classes.author} borderRadius='borderRadius'>
 						<div className={classes.authorInfo}>
-							<UserAvatar user={article.user} />
+							<Link
+								color='inherit'
+								underline='none'
+								component={RouterLink}
+								to={userLink(article.user)}
+							>
+								<UserAvatar user={article.user} />
+							</Link>
 
 							<div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}}>
 								<Typography variant='caption' style={{textTransform: 'uppercase'}}>
 									Written by
 								</Typography>
 
-								<ZoomTooltip title={`${article.user.firstName} ${article.user.lastName}`.trim()}>
-									<Typography variant='subtitle1'>
-										<Link
-											underline='none'
-											color='inherit'
-											component={RouterLink}
-											to={userLink(article.user)}
-										>
-											{`${article.user.firstName} ${article.user.lastName}`.trim()}
-										</Link>
-									</Typography>
-								</ZoomTooltip>
+								<Typography variant='subtitle1'>
+									<Link color='inherit' component={RouterLink} to={userLink(article.user)}>
+										{`${article.user.firstName} ${article.user.lastName}`.trim()}
+									</Link>
+								</Typography>
 
 								{article.user.bio && (
 									<Typography variant='body2'>
@@ -278,21 +270,17 @@ const FullArticle: React.FC<Props> = ({
 				<div className={classes.actions}>
 					<div className={classes.rating}>
 						<div className={classes.likes}>
-							<ZoomTooltip title='I like this'>
-								<IconButton onClick={addLike}>
-									<ThumbUpIcon />
-								</IconButton>
-							</ZoomTooltip>
+							<IconButton onClick={addLike}>
+								<ThumbUpIcon />
+							</IconButton>
 
 							<span>{article.likes}</span>
 						</div>
 
 						<div className={classes.dislikes}>
-							<ZoomTooltip title='I dislike this'>
-								<IconButton onClick={addDislike}>
-									<ThumbDownIcon />
-								</IconButton>
-							</ZoomTooltip>
+							<IconButton onClick={addDislike}>
+								<ThumbDownIcon />
+							</IconButton>
 
 							<span>{article.dislikes}</span>
 						</div>
@@ -300,27 +288,13 @@ const FullArticle: React.FC<Props> = ({
 
 					<div className={classes.bookmarks}>
 						{auth.user.bookmarks.includes(article._id) ? (
-							<>
-								<ZoomTooltip title='Add to bookmarks'>
-									<IconButton onClick={addToBookmarks}>
-										<BookmarkIcon color='primary' />
-									</IconButton>
-								</ZoomTooltip>
-
-								<Typography variant='body2' color='primary'>
-									{article.bookmarksCount}
-								</Typography>
-							</>
+							<IconButton onClick={addToBookmarks}>
+								<BookmarkIcon color='primary' />
+							</IconButton>
 						) : (
-							<>
-								<ZoomTooltip title='Add to bookmarks'>
-									<IconButton onClick={addToBookmarks}>
-										<BookmarkBorderIcon />
-									</IconButton>
-								</ZoomTooltip>
-
-								<Typography variant='body2'>{article.bookmarksCount}</Typography>
-							</>
+							<IconButton onClick={addToBookmarks}>
+								<BookmarkBorderIcon />
+							</IconButton>
 						)}
 					</div>
 				</div>

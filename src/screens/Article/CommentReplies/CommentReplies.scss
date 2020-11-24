@@ -1,5 +1,7 @@
 .comment-replies {
 	margin-bottom: 20px;
+	word-wrap: break-word;
+	white-space: pre-wrap;
 
 	&:last-child {
 		margin-bottom: 0;

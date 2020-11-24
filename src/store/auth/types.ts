@@ -11,6 +11,8 @@ export const REPLACE_USER = 'auth/replaceUser';
 export const REMOVE_USER = 'auth/removeUser';
 export const FOLLOW_TO_USER = 'auth/followToUser';
 export const UNFOLLOW_FROM_USER = 'auth/unfollowFromUser';
+export const ADD_TO_BOOKMARKS = 'auth/addToBookmarks';
+export const REMOVE_FROM_BOOKMARKS = 'auth/removeFromBookmarks';
 
 type Exit = {
 	type: typeof EXIT;

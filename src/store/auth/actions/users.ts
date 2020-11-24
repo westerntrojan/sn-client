@@ -102,3 +102,14 @@ export const unfollowFromUser = (userId: string): AppThunk => async (
 		});
 	}
 };
+
+export const addToBookmarks = createAction(types.ADD_TO_BOOKMARKS, articleId => ({
+	payload: {
+		articleId,
+	},
+}));
+export const removeFromBookmarks = createAction(types.REMOVE_FROM_BOOKMARKS, articleId => ({
+	payload: {
+		articleId,
+	},
+}));

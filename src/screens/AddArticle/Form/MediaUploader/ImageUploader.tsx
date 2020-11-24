@@ -18,7 +18,7 @@ const useStyles = makeStyles({
 		marginRight: 20,
 	},
 	preview: {
-		width: '80%',
+		maxWidth: 800,
 	},
 	loadingBox: {
 		marginTop: 20,

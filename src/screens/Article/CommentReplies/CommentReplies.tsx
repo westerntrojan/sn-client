@@ -24,7 +24,6 @@ import './CommentReplies.scss';
 import ReplyForm from './ReplyForm';
 import Reply from './Reply';
 import UserAvatar from '@components/common/avatars/UserAvatar';
-import ZoomTooltip from '@components/common/tooltips/ZoomTooltip';
 import {userLink} from '@utils/users';
 import {IComment} from '@store/types';
 import {useAuthModal} from '@utils/hooks';
@@ -65,13 +64,8 @@ const CommentReplies: React.FC<Props> = ({comment, addLike, addDislike, handleRe
 
 				<CardContent className='content'>
 					<div className='info'>
-						<Typography className='username' variant='subtitle2'>
-							<Link
-								underline='none'
-								component={RouterLink}
-								to={userLink(comment.user)}
-								color='inherit'
-							>
+						<Typography className='username' variant='body2'>
+							<Link component={RouterLink} to={userLink(comment.user)} color='inherit'>
 								{userName}
 							</Link>
 						</Typography>
@@ -85,11 +79,9 @@ const CommentReplies: React.FC<Props> = ({comment, addLike, addDislike, handleRe
 
 					<div className='actions'>
 						<div className='rating'>
-							<ZoomTooltip title='Like'>
-								<IconButton color='default' onClick={(): void => addLike(comment._id)}>
-									<ThumbUpIcon />
-								</IconButton>
-							</ZoomTooltip>
+							<IconButton color='default' onClick={(): void => addLike(comment._id)}>
+								<ThumbUpIcon />
+							</IconButton>
 
 							{Boolean(comment.likes) && (
 								<Typography variant='body2' style={{marginRight: 10}}>
@@ -97,11 +89,9 @@ const CommentReplies: React.FC<Props> = ({comment, addLike, addDislike, handleRe
 								</Typography>
 							)}
 
-							<ZoomTooltip title='Dislike'>
-								<IconButton color='default' onClick={(): void => addDislike(comment._id)}>
-									<ThumbDownIcon />
-								</IconButton>
-							</ZoomTooltip>
+							<IconButton color='default' onClick={(): void => addDislike(comment._id)}>
+								<ThumbDownIcon />
+							</IconButton>
 						</div>
 
 						<Button

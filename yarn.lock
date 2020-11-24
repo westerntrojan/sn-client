@@ -11108,10 +11108,10 @@ react-avatar-editor@^11.0.13:
     "@babel/runtime" "^7.11.2"
     prop-types "^15.5.8"
 
-react-bottom-scroll-listener@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/react-bottom-scroll-listener/-/react-bottom-scroll-listener-3.0.0.tgz#46668ccb0d78d2a3ba808d82aba1b50b5423c88e"
-  integrity sha512-psnQvL7wS8LjOEK3SvPmK4aI6CT+OaLn3+WT6wkaf39nCLY4h64zdCIHPLUgxjz531Rr88ePykqqRIWD839Jog==
+react-bottom-scroll-listener@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/react-bottom-scroll-listener/-/react-bottom-scroll-listener-4.1.1.tgz#6c684babb7d9effb48205f62eb9df706f26ccae2"
+  integrity sha512-Qmcu1SuqrlJzZkXPr+AAduelvUy7Drk4hwMAOcVQrl47cGYR2TEkpAJoRQWJ5boCUpNdifhKD5Uuajn8+5lTIQ==
   dependencies:
     lodash.debounce "^4.0.8"
 

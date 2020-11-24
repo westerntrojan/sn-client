@@ -16,6 +16,7 @@ import Button from '@material-ui/core/Button';
 
 import {resetApp} from '@store/app/actions';
 import useRedirect from '@utils/hooks/useRedirect';
+import {SubmitModal} from '@utils/hotKeys';
 
 type ResetAppModalProps = {
 	open: boolean;
@@ -43,6 +44,8 @@ const ResetAppModal: React.FC<ResetAppModalProps> = ({open, closeModal, handleRe
 					Reset
 				</Button>
 			</DialogActions>
+
+			<SubmitModal action={handleResetApp} />
 		</Dialog>
 	);
 };

@@ -16,6 +16,13 @@ export const useStyles = makeStyles({
 	},
 	imageWrapper: {
 		lineHeight: 0,
+		position: 'relative',
+	},
+	galleryIcon: {
+		position: 'absolute',
+		top: 20,
+		right: 20,
+		color: 'white',
 	},
 	image: {
 		objectFit: 'cover',

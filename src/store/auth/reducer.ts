@@ -1,7 +1,6 @@
 import {createReducer} from '@reduxjs/toolkit';
 
 import {defaultUser} from './types';
-import {ADD_TO_BOOKMARKS, REMOVE_FROM_BOOKMARKS} from '@store/articles/types';
 import * as types from './types';
 
 const initialState: types.AuthState = {
@@ -41,10 +40,10 @@ export default createReducer(initialState, {
 	[types.UNFOLLOW_FROM_USER]: (state, action) => {
 		state.user.following = state.user.following.filter(userId => userId !== action.payload.userId);
 	},
-	[ADD_TO_BOOKMARKS]: (state, action) => {
+	[types.ADD_TO_BOOKMARKS]: (state, action) => {
 		state.user.bookmarks = state.user.bookmarks.concat(action.payload.articleId);
 	},
-	[REMOVE_FROM_BOOKMARKS]: (state, action) => {
+	[types.REMOVE_FROM_BOOKMARKS]: (state, action) => {
 		state.user.bookmarks = state.user.bookmarks.filter(
 			articleId => articleId !== action.payload.articleId,
 		);
