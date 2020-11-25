@@ -3,8 +3,8 @@ import classNames from 'classnames';
 import {makeStyles} from '@material-ui/styles';
 import {Theme} from '@material-ui/core';
 
-import TopTags from './components/TopTags';
-import TopArticles from './components/TopArticles';
+import TopTags from './TopTags';
+import TopArticles from './TopArticles';
 
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {

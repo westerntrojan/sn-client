@@ -11,7 +11,7 @@ import axios from 'axios';
 
 import {addAvatar, removeAvatar} from '@store/auth/actions';
 import {userInitials} from '@utils/users';
-import {validateImage} from '@utils/images';
+import {validateImage} from '@utils/media';
 import {ImageModal} from '@components/common/modals';
 import {CircularProgressWithLabel} from '@components/common/loaders';
 import Context from '@screens/User/context';

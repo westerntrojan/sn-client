@@ -25,7 +25,7 @@ import NotFound from '@components/common/NotFound';
 import {RootState} from '@store/types';
 import {exit, changeTwoFactorAuth} from '@store/auth/actions';
 import {loadApp, closeAuthModal} from '@store/app/actions';
-import {getCurrentTheme, changeTheme, changeThemeAnimations} from '@utils/app';
+import {getCurrentTheme, changeTheme, changeThemeAnimations} from '@utils/theme';
 import {ChangeDrawer, Exit} from '@utils/hotKeys';
 import GlobalCss from './GlobalCss';
 import SettingsContext from './SettingsContext';

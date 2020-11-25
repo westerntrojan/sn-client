@@ -11,9 +11,9 @@ import Drawer from '@material-ui/core/Drawer';
 import {useTheme} from '@material-ui/core/styles';
 import {useLocation} from 'react-router';
 
-import Footer from './components/Footer';
-import BottomTabs from './components/BottomTabs';
-import {Navigation, Messages, Groups} from './components/tabs';
+import Footer from './Footer';
+import BottomTabs from './BottomTabs';
+import {Navigation, Messages, Groups} from './tabs';
 
 const drawerWidth = 245;
 

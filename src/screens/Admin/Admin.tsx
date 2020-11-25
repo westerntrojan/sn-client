@@ -7,12 +7,12 @@ import {useQuery} from 'react-apollo';
 import {loader} from 'graphql.macro';
 
 import Loader from '@components/common/loaders/Loader';
-import Dashboard from './Dashboard';
+import Dashboard from './tabs/Dashboard';
 import {IDashboardData} from './types';
 
 const GetArticleStatistics = loader('./gql/GetArticleStatistics.gql');
 
-const Categories = lazy(() => import('./Categories'));
+const Categories = lazy(() => import('./tabs/Categories'));
 
 const Admin: React.FC = () => {
 	const [tab, setTab] = useState(0);

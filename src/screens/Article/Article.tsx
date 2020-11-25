@@ -80,7 +80,7 @@ const Article: React.FC = () => {
 		setViews();
 	}, [slug, setArticleSlug, setViews]);
 
-	const handleAddArticleLike = async (): Promise<void> => {
+	const handleAddArticleLike = (): void => {
 		if (!auth.isAuth) {
 			return openAuthModal();
 		}
@@ -90,7 +90,7 @@ const Article: React.FC = () => {
 		}
 	};
 
-	const handleAddArticleDislike = async (): Promise<void> => {
+	const handleAddArticleDislike = (): void => {
 		if (!auth.isAuth) {
 			return openAuthModal();
 		}

@@ -12,11 +12,11 @@ import {makeStyles} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 
 import Loader from '@components/common/loaders/Loader';
-import General from './components/tabs/General';
+import General from './tabs/General';
 
-const UserSettings = lazy(() => import('./components/tabs/UserSettings'));
-const ChatSettings = lazy(() => import('./components/tabs/ChatSettings'));
-const Advanced = lazy(() => import('./components/tabs/Advanced'));
+const UserSettings = lazy(() => import('./tabs/UserSettings'));
+const ChatSettings = lazy(() => import('./tabs/ChatSettings'));
+const Advanced = lazy(() => import('./tabs/Advanced'));
 
 const useStyles = makeStyles(theme => ({
 	dialogTitle: {

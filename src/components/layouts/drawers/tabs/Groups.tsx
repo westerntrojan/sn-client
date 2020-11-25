@@ -6,7 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ControlPointIcon from '@material-ui/icons/ControlPoint';
 import {useSelector, shallowEqual} from 'react-redux';
 
-import MessageSkeleton from './components/MessageSkeleton';
+import MessageSkeleton from './MessageSkeleton';
 import ZoomTooltip from '@components/common/tooltips/ZoomTooltip';
 import {RootState} from '@store/types';
 import {useAuthModal} from '@utils/hooks';

@@ -1,9 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, Suspense, lazy} from 'react';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
-import ImageUploader from './ImageUploader';
-import VideoUploader from './VideoUploader';
+import Loader from '@components/common/loaders/Loader';
+import ImageUploader from './tabs/ImageUploader';
+
+const VideoUploader = lazy(() => import('./tabs/VideoUploader'));
 
 type Props = {
 	onUploadImages: (image: string[]) => void;
@@ -22,13 +24,13 @@ const MediaUploader: React.FC<Props> = ({
 	onLoadingStart,
 	onLoadingFinish,
 }) => {
-	const [uploadType, setUploadType] = useState(0);
+	const [tab, setTab] = useState(0);
 	const [images, setImages] = useState<string[]>([]);
 	const [video, setVideo] = useState('');
 	const [loading, setLoading] = useState(false);
 
 	const _handleChangeUploadType = (event: React.ChangeEvent<{}>, newValue: number): void => {
-		setUploadType(newValue);
+		setTab(newValue);
 	};
 
 	const _handleUploadImages = (images: string[]): void => {
@@ -64,7 +66,7 @@ const MediaUploader: React.FC<Props> = ({
 	return (
 		<div>
 			<Tabs
-				value={uploadType}
+				value={tab}
 				onChange={_handleChangeUploadType}
 				indicatorColor='primary'
 				textColor='primary'
@@ -74,22 +76,24 @@ const MediaUploader: React.FC<Props> = ({
 			</Tabs>
 
 			<div style={{paddingTop: 20}}>
-				{uploadType === 0 && (
-					<ImageUploader
-						onUploadImages={_handleUploadImages}
-						// onRemoveImage={_handleRemoveImage}
-						onLoadingStart={_handleLoadingStart}
-						onLoadingFinish={_handleLoadingFinish}
-					/>
-				)}
-				{uploadType === 1 && (
-					<VideoUploader
-						onUploadVideo={_handleUploadVideo}
-						onRemoveVideo={_handleRemoveVideo}
-						onLoadingStart={_handleLoadingStart}
-						onLoadingFinish={_handleLoadingFinish}
-					/>
-				)}
+				<Suspense fallback={<Loader />}>
+					{tab === 0 && (
+						<ImageUploader
+							onUploadImages={_handleUploadImages}
+							// onRemoveImage={_handleRemoveImage}
+							onLoadingStart={_handleLoadingStart}
+							onLoadingFinish={_handleLoadingFinish}
+						/>
+					)}
+					{tab === 1 && (
+						<VideoUploader
+							onUploadVideo={_handleUploadVideo}
+							onRemoveVideo={_handleRemoveVideo}
+							onLoadingStart={_handleLoadingStart}
+							onLoadingFinish={_handleLoadingFinish}
+						/>
+					)}
+				</Suspense>
 			</div>
 		</div>
 	);

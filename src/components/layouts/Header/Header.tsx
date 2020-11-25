@@ -31,7 +31,7 @@ import {userLink} from '@utils/users';
 import {SearchFocus} from '@utils/hotKeys';
 import ZoomTooltip from '@components/common/tooltips/ZoomTooltip';
 import SignInButton from '@components/common/SignInButton';
-import SearchResult from './components/SearchResult';
+import SearchResult from './SearchResult';
 import useDebounce from '@utils/hooks/useDebounce';
 import {useAuthModal} from '@utils/hooks';
 

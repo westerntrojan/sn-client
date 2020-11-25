@@ -11,8 +11,8 @@ import Button from '@material-ui/core/Button';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
-import ConfirmEmailModal from './components/ConfirmEmailModal';
-import CodeModal from './components/CodeModal';
+import ConfirmEmailModal from './ConfirmEmailModal';
+import CodeModal from './CodeModal';
 import {ILoginInputs} from '@components/layouts/modals/AuthModal/types';
 
 const useStyles = makeStyles(() => ({

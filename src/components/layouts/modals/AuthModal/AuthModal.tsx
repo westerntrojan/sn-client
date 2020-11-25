@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, Suspense, lazy} from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import Tabs from '@material-ui/core/Tabs';
@@ -13,12 +13,14 @@ import CloseIcon from '@material-ui/icons/Close';
 import {TransitionProps} from '@material-ui/core/transitions';
 import {useDispatch} from 'react-redux';
 
+import Loader from '@components/common/loaders/Loader';
 import {login, sendCode} from '@store/auth/actions';
-import Login from './components/Login';
-import Register from './components/Register';
+import Login from './tabs/Login';
 import callApi from '@utils/callApi';
 import {ILoginInputs, IRegisterInputs} from './types';
 import Context from './context';
+
+const Register = lazy(() => import('./tabs/Register'));
 
 const Transition = React.forwardRef(function Transition(
 	props: TransitionProps & {children?: React.ReactElement},
@@ -119,8 +121,10 @@ const AuthModal: React.FC<Props> = ({open, closeModal}) => {
 
 				<div style={{padding: 8 * 3}} className='content'>
 					<Context.Provider value={{handleSubmitCode}}>
-						{tab === 0 && <Login submit={handleSubmitLogin} />}
-						{tab === 1 && <Register submit={handleSubmitRegister} />}
+						<Suspense fallback={<Loader />}>
+							{tab === 0 && <Login submit={handleSubmitLogin} />}
+							{tab === 1 && <Register submit={handleSubmitRegister} />}
+						</Suspense>
 					</Context.Provider>
 				</div>
 			</DialogContent>

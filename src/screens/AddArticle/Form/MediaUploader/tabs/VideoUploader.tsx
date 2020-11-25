@@ -9,7 +9,7 @@ import VideoCallIcon from '@material-ui/icons/VideoCall';
 
 import {LinearProgressWithLabel, Loader} from '@components/common/loaders';
 import callApi from '@utils/callApi';
-import {validateVideo} from '@utils/video';
+import {validateVideo} from '@utils/media';
 
 const useStyles = makeStyles({
 	root: {

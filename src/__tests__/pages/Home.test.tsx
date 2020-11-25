@@ -8,7 +8,7 @@ import BottomScrollListener from 'react-bottom-scroll-listener';
 import {BrowserRouter as Router} from 'react-router-dom';
 
 import Home from '@screens/Home';
-import {getCurrentTheme} from '@utils/app';
+import {getCurrentTheme} from '@utils/theme';
 import Context from '@App/context';
 import {defaultUser} from '@store/auth/types';
 import SmallArticle from '@components/common/SmallArticle';

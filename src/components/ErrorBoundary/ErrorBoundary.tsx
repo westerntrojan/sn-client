@@ -8,7 +8,7 @@ import {ThemeProvider} from '@material-ui/styles';
 import './ErrorBoundary.scss';
 import {handleAppError} from '@utils/errorHandlers';
 import {RootState} from '@store/types';
-import {getCurrentTheme} from '@utils/app';
+import {getCurrentTheme} from '@utils/theme';
 
 type Props = {
 	error: object;

@@ -38,7 +38,7 @@ type Props = {
 	handleSubmit: (user: IUser) => Promise<any>;
 };
 
-const UserForm: React.FC<Props> = ({user, handleSubmit}) => {
+const Form: React.FC<Props> = ({user, handleSubmit}) => {
 	const classes = useStyles();
 
 	const [firstName, setFirstName] = useState(user.firstName);
@@ -133,7 +133,7 @@ const UserForm: React.FC<Props> = ({user, handleSubmit}) => {
 	};
 
 	return (
-		<div className={classNames('user-form', classes.root)}>
+		<div className={classNames('form', classes.root)}>
 			<div className='form'>
 				<div className={classes.fields}>
 					<TextField
@@ -206,4 +206,4 @@ const UserForm: React.FC<Props> = ({user, handleSubmit}) => {
 	);
 };
 
-export default UserForm;
+export default Form;

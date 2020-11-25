@@ -8,7 +8,7 @@ import {loader} from 'graphql.macro';
 import {useQuery} from 'react-apollo';
 import {IArticle} from '@store/types';
 
-import Article from './components/Article';
+import Article from './Article';
 import Loader from '@components/common/loaders/Loader';
 
 const GetTopArticles = loader('./gql/GetTopArticles.gql');

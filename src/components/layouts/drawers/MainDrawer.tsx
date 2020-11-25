@@ -7,9 +7,9 @@ import ListItem from '@material-ui/core/ListItem';
 import Skeleton from '@material-ui/lab/Skeleton';
 
 import {RootState} from '@store/types';
-import Footer from './components/Footer';
-import BottomTabs from './components/BottomTabs';
-import {Navigation, Messages, Groups} from './components/tabs';
+import Footer from './Footer';
+import BottomTabs from './BottomTabs';
+import {Navigation, Messages, Groups} from './tabs';
 
 const drawerWidth = 245;
 

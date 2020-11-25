@@ -9,7 +9,17 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import {makeStyles} from '@material-ui/core/styles';
 import 'react-image-lightbox/style.css';
 
-import {downloadImage} from '@utils/images';
+export const downloadImage = async (imageUrl: string): Promise<void> => {
+	const response = await fetch(imageUrl);
+
+	const blob = await response.blob();
+
+	const url = window.URL.createObjectURL(blob);
+	const a = document.createElement('a');
+	a.href = url;
+	a.download = '';
+	a.click();
+};
 
 const useStyles = makeStyles({
 	loadingBackdrop: {

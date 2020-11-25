@@ -7,7 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 
 import {ICategory} from '@store/types';
 import EditCategoryModal from './EditCategoryModal';
-import Context from '@screens/Admin/Categories/context';
+import Context from '@screens/Admin/tabs/Categories/context';
 
 type Props = {
 	category: ICategory;

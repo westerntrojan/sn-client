@@ -5,7 +5,7 @@ import {Helmet} from 'react-helmet';
 
 import callApi from '@utils/callApi';
 import {getArticles} from '@store/articles/actions';
-import UserForm from './UserForm';
+import Form from './Form';
 import {RootState} from '@store/types';
 import {IFetchData} from './types';
 import {IUser} from '@store/types';
@@ -63,7 +63,7 @@ const EditUser: React.FC = () => {
 				<title>Edit profile / {process.env.REACT_APP_TITLE}</title>
 			</Helmet>
 
-			{user && <UserForm user={user} handleSubmit={handleSubmit} />}
+			{user && <Form user={user} handleSubmit={handleSubmit} />}
 		</div>
 	);
 };

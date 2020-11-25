@@ -24,7 +24,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 
-import FontSizeSlider from './components/FontSizeSlider';
+import FontSizeSlider from './FontSizeSlider';
 
 const useStyles = makeStyles(theme => ({
 	dialogTitle: {

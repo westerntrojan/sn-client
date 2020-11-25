@@ -10,7 +10,7 @@ import {useTheme, makeStyles} from '@material-ui/core/styles';
 import {useSnackbar} from 'notistack';
 
 import {ICategory} from '@store/types';
-import Context from '@screens/Admin/Categories/context';
+import Context from '@screens/Admin/tabs/Categories/context';
 
 const useStyles = makeStyles({
 	input: {

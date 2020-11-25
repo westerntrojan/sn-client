@@ -45,6 +45,8 @@ const useStyles = makeStyles({
 		overflow: 'hidden',
 		whiteSpace: 'nowrap',
 		textOverflow: 'ellipsis',
+
+		maxWidth: 600,
 	},
 });
 
@@ -84,7 +86,7 @@ const ChatItem: React.FC<Props> = ({chat}) => {
 						</div>
 					}
 					secondary={
-						<Typography className={classes.lastMessageText} variant='body2'>
+						<Typography variant='body2' className={classes.lastMessageText}>
 							{chat.lastMessage.text}
 						</Typography>
 					}

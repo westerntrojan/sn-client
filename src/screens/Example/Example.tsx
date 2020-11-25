@@ -15,7 +15,7 @@ import axios from 'axios';
 
 import callApi from '@utils/callApi';
 import {CircularProgressWithLabel, LinearProgressWithLabel} from '@components/common/loaders';
-import {validateVideo} from '@utils/video';
+import {validateVideo} from '@utils/media';
 import ImageGrid from '@components/common/ImageGrid';
 import AvatarModal from './AvatarModal';
 
