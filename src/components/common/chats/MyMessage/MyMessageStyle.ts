@@ -34,41 +34,6 @@ export const useStyles = makeStyles(theme => ({
 	selectedRoot: {
 		backgroundColor: fade(theme.palette.primary.main, 0.2),
 	},
-	message: {
-		display: 'flex',
-		flexDirection: 'column',
-		position: 'relative',
-	},
-	imageWrapper: {
-		display: 'flex',
-		flexDirection: 'column',
-		borderRadius: '0 !important',
-	},
-	image: {
-		maxWidth: 500,
-		width: '100%',
-	},
-	messageInfo: {
-		display: 'flex',
-		alignItems: 'center',
-	},
-	imageMessageCreated: {
-		position: 'absolute',
-		color: 'white',
-		bottom: 5,
-		right: 5,
-		backgroundColor: 'rgba(0, 0, 0, .6)',
-		borderRadius: 5,
-		padding: '2px 5px',
-	},
-	actions: {
-		display: 'flex',
-		justifyContent: 'flex-end',
-
-		'& button': {
-			marginRight: '10px',
-		},
-	},
 	checkIcon: {
 		opacity: 0,
 	},

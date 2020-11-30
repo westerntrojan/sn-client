@@ -1,17 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import Card from '@material-ui/core/Card';
 import Paper from '@material-ui/core/Paper';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import moment from 'moment';
 import classNames from 'classnames';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import DoneIcon from '@material-ui/icons/Done';
-import DoneAllIcon from '@material-ui/icons/DoneAll';
 
 import {useStyles} from './MyMessageStyle';
 import {IMessage} from '@components/common/chats/types';
+import TextMessage from './TextMessage';
+import AudioMessage from './AudioMessage';
 
 type Props = {
 	message: IMessage;
@@ -53,20 +48,9 @@ const MyMessage: React.FC<Props> = ({message, alterHeader, selectMessage}) => {
 				})}
 			/>
 
-			<Card className={classes.message}>
-				<CardContent>
-					<Typography>{message.text}</Typography>
-				</CardContent>
-				<CardActions className={classes.actions}>
-					<div className={classes.messageInfo}>
-						<Typography className={'small'} style={{marginRight: 10}}>
-							{moment(message.created).format('LT')}
-						</Typography>
+			{message.type === 'text' && <TextMessage message={message} />}
 
-						{message.isRead ? <DoneAllIcon fontSize='small' /> : <DoneIcon fontSize='small' />}
-					</div>
-				</CardActions>
-			</Card>
+			{message.type === 'audio' && <AudioMessage message={message} />}
 		</Paper>
 	);
 };

@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {useTheme} from '@material-ui/core/styles';
 import Radio from '@material-ui/core/Radio';
@@ -90,7 +91,7 @@ const useStyles = makeStyles(theme => ({
 		},
 	},
 	checked: {},
-	buttons: {
+	dialogActions: {
 		display: 'flex',
 		justifyContent: 'space-between',
 	},
@@ -204,7 +205,7 @@ const ThemePickerModal: React.FC<Props> = ({
 				</IconButton>
 			</DialogTitle>
 
-			<DialogContent>
+			<DialogContent dividers>
 				<FontSizeSlider handleChangeTheme={handleChangeTheme} />
 
 				<FormControl component='fieldset' className={classes.formControl}>
@@ -313,16 +314,16 @@ const ThemePickerModal: React.FC<Props> = ({
 						<FormControlLabel value='dark' control={<Radio color='primary' />} label='Dark' />
 					</RadioGroup>
 				</FormControl>
-
-				<div className={classes.buttons}>
-					<Button color='primary' onClick={handleResetTheme}>
-						Reset theme
-					</Button>
-					<Button color='primary' onClick={closeModal}>
-						Done
-					</Button>
-				</div>
 			</DialogContent>
+
+			<DialogActions className={classes.dialogActions}>
+				<Button color='primary' onClick={handleResetTheme}>
+					Reset theme
+				</Button>
+				<Button color='primary' onClick={closeModal}>
+					Done
+				</Button>
+			</DialogActions>
 		</Dialog>
 	);
 };

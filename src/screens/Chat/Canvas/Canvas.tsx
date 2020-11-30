@@ -1,9 +1,10 @@
 import React, {useState, useEffect, useRef} from 'react';
 import Paper from '@material-ui/core/Paper';
 import {makeStyles} from '@material-ui/core/styles';
+import Divider from '@material-ui/core/Divider';
 
 import Loader from '@components/common/loaders/Loader';
-import {RemoveMessageModal} from '@components/common/modals';
+import {RemoveModal} from '@components/common/modals';
 import Header from './Header';
 import Message from './Message';
 import Form from './Form';
@@ -117,6 +118,8 @@ const Canvas: React.FC<Props> = ({
 				<Header />
 			)}
 
+			<Divider />
+
 			<div className={classes.messages} ref={messagesContainerRef} onScroll={_handleMessagesScroll}>
 				{loading && <Loader />}
 
@@ -142,12 +145,18 @@ const Canvas: React.FC<Props> = ({
 					messages.map(message => <Message message={message} key={message._id} />)}
 			</div>
 
+			<Divider />
+
 			<Form auth={auth} />
 
-			<RemoveMessageModal
-				selectedMessages={selectedMessages.length}
+			<RemoveModal
 				open={removeMessagesModal}
 				action={removeMessages}
+				text={
+					selectedMessages.length > 1
+						? `Do you want to remove ${selectedMessages.length} messages ?`
+						: 'Do you want to remove this message ?'
+				}
 				closeModal={(): void => setRemoveMessagesModal(false)}
 			/>
 		</Paper>

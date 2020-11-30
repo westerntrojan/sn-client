@@ -1,19 +1,13 @@
 import React, {useContext, useState} from 'react';
-import {Link as RouterLink} from 'react-router-dom';
-import Link from '@material-ui/core/Link';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
 import {makeStyles} from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import moment from 'moment';
 import classNames from 'classnames';
 import Context from '@screens/Chat/context';
 import VisibilitySensor from 'react-visibility-sensor';
 
 import UserAvatar from '@components/common/avatars/UserAvatar';
-import {userLink} from '@utils/users';
 import {IMessage} from '@components/common/chats/types';
+import TextMessage from './TextMessage';
+import AudioMessage from './AudioMessage';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -76,26 +70,10 @@ const Message: React.FC<Props> = ({message}) => {
 		<VisibilitySensor onChange={handleVisibleChange} offset={{top: 150, bottom: 60}}>
 			<div className={classNames('message', classes.root)}>
 				<UserAvatar user={message.user} className={classes.avatar} link />
-				<Card>
-					<CardContent>
-						<Link
-							underline='none'
-							component={RouterLink}
-							to={userLink(message.user)}
-							color='inherit'
-						>
-							<Typography className={classes.username}>
-								{`${message.user.firstName} ${message.user.lastName}`.trim()}
-							</Typography>
-						</Link>
-						<Typography>{message.text}</Typography>
-					</CardContent>
-					<CardActions className={classes.info}>
-						<div className={classes.info}>
-							<Typography className={'small'}>{moment(message.created).format('LT')}</Typography>
-						</div>
-					</CardActions>
-				</Card>
+
+				{message.type === 'text' && <TextMessage message={message} />}
+
+				{message.type === 'audio' && <AudioMessage message={message} />}
 			</div>
 		</VisibilitySensor>
 	);

@@ -75,9 +75,9 @@ const User: React.FC = () => {
 	const handleRemoveUser = async (): Promise<void> => {
 		if (user) {
 			await dispatch(removeUser(user._id));
-		}
 
-		redirectTo('/');
+			redirectTo('/');
+		}
 	};
 
 	if (loading) {

@@ -7,7 +7,6 @@ type State = {
 		end: boolean;
 	};
 	loading: boolean;
-	// true - scroll not to bottom, false - scroll to bottom
 	scrollDown: boolean;
 };
 
@@ -26,13 +25,13 @@ type PRE_MESSAGES = {
 type NEW_MESSAGE = {
 	type: 'NEW_MESSAGE';
 	payload: {
-		newMessage: IMessage;
+		message: IMessage;
 	};
 };
 type NEW_MESSAGE_FROM_ME = {
 	type: 'NEW_MESSAGE_FROM_ME';
 	payload: {
-		newMessage: IMessage;
+		message: IMessage;
 	};
 };
 type LOAD_MORE = {
@@ -51,7 +50,7 @@ type READ_MESSAGE = {
 type REMOVE_MESSAGES = {
 	type: 'REMOVE_MESSAGES';
 	payload: {
-		removedMessages: string[];
+		messages: string[];
 	};
 };
 
@@ -96,7 +95,7 @@ export default (state: State, action: Action): State => {
 				scrollDown: false,
 				messages: {
 					...state.messages,
-					all: state.messages.all.concat(action.payload.newMessage),
+					all: state.messages.all.concat(action.payload.message),
 				},
 			};
 		case 'NEW_MESSAGE_FROM_ME':
@@ -105,7 +104,7 @@ export default (state: State, action: Action): State => {
 				scrollDown: true,
 				messages: {
 					...state.messages,
-					all: state.messages.all.concat(action.payload.newMessage),
+					all: state.messages.all.concat(action.payload.message),
 				},
 			};
 		case 'LOAD_MORE':
@@ -142,9 +141,7 @@ export default (state: State, action: Action): State => {
 				scrollDown: false,
 				messages: {
 					...state.messages,
-					all: state.messages.all.filter(
-						message => !action.payload.removedMessages.includes(message._id),
-					),
+					all: state.messages.all.filter(message => !action.payload.messages.includes(message._id)),
 				},
 			};
 		default:

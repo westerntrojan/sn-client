@@ -1,9 +1,10 @@
 import React, {useState, useEffect, useRef} from 'react';
 import Paper from '@material-ui/core/Paper';
+import Divider from '@material-ui/core/Divider';
 import {makeStyles} from '@material-ui/core/styles';
 
 import Loader from '@components/common/loaders/Loader';
-import {RemoveMessageModal} from '@components/common/modals';
+import {RemoveModal} from '@components/common/modals';
 import AlterHeader from '@components/common/chats/AlterHeader';
 import MyMessage from '@components/common/chats/MyMessage';
 import {IMessage} from '@components/common/chats/types';
@@ -84,7 +85,7 @@ const Canvas: React.FC<Props> = ({
 		setSelectedMessages([]);
 	};
 
-	const _handleRemoveMessages = (): void => {
+	const removeMessages = (): void => {
 		handleRemoveMessages(selectedMessages);
 		setSelectedMessages([]);
 		closeAlterHeader();
@@ -102,6 +103,8 @@ const Canvas: React.FC<Props> = ({
 			) : (
 				<Header />
 			)}
+
+			<Divider />
 
 			<div className={classes.messages}>
 				{loading && <Loader />}
@@ -127,12 +130,18 @@ const Canvas: React.FC<Props> = ({
 				<div ref={messagesEndRef} />
 			</div>
 
+			<Divider />
+
 			<Form />
 
-			<RemoveMessageModal
-				selectedMessages={selectedMessages.length}
+			<RemoveModal
 				open={removeMessagesModal}
-				action={_handleRemoveMessages}
+				action={removeMessages}
+				text={
+					selectedMessages.length > 1
+						? `Do you want to remove ${selectedMessages.length} messages ?`
+						: 'Do you want to remove this message ?'
+				}
 				closeModal={(): void => setRemoveMessagesModal(false)}
 			/>
 		</Paper>

@@ -1,13 +1,15 @@
-import React, {useEffect, useCallback, useReducer} from 'react';
+import React, {useEffect, useCallback, useReducer, useState} from 'react';
 import {useSelector, shallowEqual} from 'react-redux';
 import {Helmet} from 'react-helmet';
 import socketIoClient from 'socket.io-client';
 import {useSnackbar} from 'notistack';
+import axios from 'axios';
 
 import './Chat.scss';
 import Canvas from './Canvas';
+import {BackdropLoader} from '@components/common/loaders';
 import {RootState} from '@store/types';
-import {IMessage} from '@components/common/chats/types';
+import {IMessage, IMessageInputs} from '@components/common/chats/types';
 import Context from './context';
 import reducer, {initialState} from './reducer';
 
@@ -18,6 +20,7 @@ const Chat: React.FC = () => {
 		reducer,
 		initialState,
 	);
+	const [loadingMedia, setLoadingMedia] = useState(false);
 
 	const {enqueueSnackbar} = useSnackbar();
 
@@ -56,19 +59,19 @@ const Chat: React.FC = () => {
 				});
 			});
 
-			socket.on('new_message', (data: {newMessage: IMessage}) => {
-				if (data.newMessage.user._id === auth.user._id) {
+			socket.on('new_message', (data: {message: IMessage}) => {
+				if (data.message.user._id === auth.user._id) {
 					dispatch({
 						type: 'NEW_MESSAGE_FROM_ME',
 						payload: {
-							newMessage: data.newMessage,
+							message: data.message,
 						},
 					});
 				} else {
 					dispatch({
 						type: 'NEW_MESSAGE',
 						payload: {
-							newMessage: data.newMessage,
+							message: data.message,
 						},
 					});
 				}
@@ -93,11 +96,11 @@ const Chat: React.FC = () => {
 				});
 			});
 
-			socket.on('remove_messages', (data: {removedMessages: string[]}) => {
+			socket.on('remove_messages', (data: {messages: string[]}) => {
 				dispatch({
 					type: 'REMOVE_MESSAGES',
 					payload: {
-						removedMessages: data.removedMessages,
+						messages: data.messages,
 					},
 				});
 			});
@@ -119,19 +122,45 @@ const Chat: React.FC = () => {
 		}
 	};
 
-	const handleRemoveMessages = (removedMessages: string[]): void => {
-		socket.emit('remove_messages', {removedMessages});
+	const handleRemoveMessages = (messages: string[]): void => {
+		socket.emit('remove_messages', {messages});
 	};
 
-	const handleSubmitMessage = async (text: string): Promise<void> => {
+	const handleSubmitMessage = async (message: IMessageInputs): Promise<void> => {
 		const user = auth.user._id;
 
-		socket.emit('new_message', {
-			newMessage: {
-				user,
-				text,
-			},
-		});
+		if (message.type === 'text') {
+			socket.emit('new_message', {
+				message: {
+					...message,
+					user,
+				},
+			});
+		}
+
+		if (message.type === 'audio') {
+			setLoadingMedia(true);
+
+			const formData = new FormData();
+			formData.append('file', message.audio);
+			formData.append('upload_preset', String(process.env.REACT_APP_CLOUD_UPLOAD_PRESET));
+			formData.append('resource_type', 'video');
+			if (process.env.NODE_ENV !== 'production') {
+				formData.append('folder', 'test');
+			}
+
+			const {data} = await axios.post(String(process.env.REACT_APP_CLOUD_UPLOAD_URL), formData);
+
+			socket.emit('new_message', {
+				message: {
+					...message,
+					user,
+					audio: data.public_id,
+				},
+			});
+
+			setLoadingMedia(false);
+		}
 	};
 
 	const handleReadMessage = (messageId: string): void => {
@@ -156,6 +185,8 @@ const Chat: React.FC = () => {
 					handleRemoveMessages={handleRemoveMessages}
 				/>
 			</Context.Provider>
+
+			<BackdropLoader open={loadingMedia} />
 		</section>
 	);
 };

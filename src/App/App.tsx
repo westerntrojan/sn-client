@@ -101,8 +101,8 @@ const App: React.FC<Props> = ({children}) => {
 	}, [dispatch]);
 
 	// app settings
-	const handleChangeTwoFactorAuth = async (): Promise<void> => {
-		await dispatch(changeTwoFactorAuth());
+	const handleChangeTwoFactorAuth = (): void => {
+		dispatch(changeTwoFactorAuth());
 	};
 	const handleChangeThemeAnimations = (): void => {
 		const newTheme = changeThemeAnimations();

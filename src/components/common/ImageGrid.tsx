@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
 	gridList: {
 		width: '100%',
 	},
-	img: {
+	image: {
 		cursor: 'pointer',
 	},
 }));
@@ -27,12 +27,12 @@ type Props = {
 	title?: string;
 };
 
-const ImageGrid: React.FC<Props> = ({images, title = 'img'}) => {
+const ImageGrid: React.FC<Props> = ({images, title = 'image'}) => {
 	const classes = useStyles();
 
 	const [imageModal, setImageModal] = useState(false);
 	const [currentImage, setCurrentImage] = useState(0);
-	const [gridItems, setGridItems] = useState<{img: string; cols: number}[]>([]);
+	const [gridItems, setGridItems] = useState<{image: string; cols: number}[]>([]);
 	const [gridOptions, setGridOptions] = useState({
 		cellHeight: 400,
 		cols: 1,
@@ -45,35 +45,35 @@ const ImageGrid: React.FC<Props> = ({images, title = 'img'}) => {
 					cellHeight: 400,
 					cols: 1,
 				});
-				setGridItems(images.map(image => ({img: image, cols: 1})));
+				setGridItems(images.map(image => ({image, cols: 1})));
 				break;
 			case 2:
 				setGridOptions({
 					cellHeight: 200,
 					cols: 1,
 				});
-				setGridItems(images.map(image => ({img: image, cols: 1})));
+				setGridItems(images.map(image => ({image, cols: 1})));
 				break;
 			case 3:
 				setGridOptions({
 					cellHeight: 200,
 					cols: 2,
 				});
-				setGridItems(images.map((image, index) => ({img: image, cols: index === 0 ? 2 : 1})));
+				setGridItems(images.map((image, index) => ({image, cols: index === 0 ? 2 : 1})));
 				break;
 			case 4:
 				setGridOptions({
 					cellHeight: 200,
 					cols: 3,
 				});
-				setGridItems(images.map((image, index) => ({img: image, cols: index === 0 ? 3 : 1})));
+				setGridItems(images.map((image, index) => ({image, cols: index === 0 ? 3 : 1})));
 				break;
 			case 5:
 				setGridOptions({
 					cellHeight: 200,
 					cols: 3,
 				});
-				setGridItems(images.map((image, index) => ({img: image, cols: index === 0 ? 2 : 1})));
+				setGridItems(images.map((image, index) => ({image, cols: index === 0 ? 2 : 1})));
 				break;
 		}
 	}, [images]);
@@ -93,11 +93,11 @@ const ImageGrid: React.FC<Props> = ({images, title = 'img'}) => {
 			>
 				{gridItems.map((item, index) => (
 					<GridListTile
-						key={item.img}
+						key={item.image}
 						cols={item.cols || 1}
 						onClick={(): void => openImageModal(index)}
 					>
-						<img src={item.img} alt={title} className={classes.img} />
+						<img src={item.image} alt={title} className={classes.image} />
 					</GridListTile>
 				))}
 			</GridList>

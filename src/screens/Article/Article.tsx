@@ -176,23 +176,23 @@ const Article: React.FC = () => {
 		closeSortMenu();
 	};
 
-	const handleAddCommentLike = async (commentId: string): Promise<void> => {
+	const handleAddCommentLike = (commentId: string): void => {
 		if (!auth.isAuth) {
 			return openAuthModal();
 		}
 
 		if (article) {
-			await dispatch(articleActions.addCommentLike(article._id, commentId));
+			dispatch(articleActions.addCommentLike(article._id, commentId));
 		}
 	};
 
-	const handleAddCommentDislike = async (commentId: string): Promise<void> => {
+	const handleAddCommentDislike = (commentId: string): void => {
 		if (!auth.isAuth) {
 			return openAuthModal();
 		}
 
 		if (article) {
-			await dispatch(articleActions.addCommentDislike(article._id, commentId));
+			dispatch(articleActions.addCommentDislike(article._id, commentId));
 		}
 	};
 

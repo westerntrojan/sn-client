@@ -52,7 +52,7 @@ const HotKeysModal: React.FC<Props> = ({open, closeModal}) => {
 				</IconButton>
 			</DialogTitle>
 
-			<DialogContent>
+			<DialogContent dividers>
 				<List>
 					{size.large && (
 						<ListItem>

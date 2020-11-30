@@ -59,7 +59,7 @@ const SettingsModal: React.FC<Props> = ({open, closeModal}) => {
 				</IconButton>
 			</DialogTitle>
 
-			<DialogContent>
+			<DialogContent dividers>
 				<Tabs
 					value={tab}
 					indicatorColor='primary'

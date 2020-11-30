@@ -4,7 +4,6 @@ import SearchIcon from '@material-ui/icons/Search';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import {makeStyles} from '@material-ui/core/styles';
 import GroupIcon from '@material-ui/icons/Group';
-import Divider from '@material-ui/core/Divider';
 
 import Context from '@screens/Chat/context';
 
@@ -41,26 +40,22 @@ const Header: React.FC = () => {
 	const {activeUsers} = useContext(Context);
 
 	return (
-		<>
-			<div className={classes.root}>
-				<div className={classes.leftSide}>
-					<span className={classes.activeUsers}>
-						<GroupIcon className={classes.icon} />
-						{activeUsers}
-					</span>
-				</div>
-				<div className={classes.rightSide}>
-					<IconButton>
-						<SearchIcon />
-					</IconButton>
-					<IconButton>
-						<MoreVertIcon />
-					</IconButton>
-				</div>
+		<div className={classes.root}>
+			<div className={classes.leftSide}>
+				<span className={classes.activeUsers}>
+					<GroupIcon className={classes.icon} />
+					{activeUsers}
+				</span>
 			</div>
-
-			<Divider />
-		</>
+			<div className={classes.rightSide}>
+				<IconButton>
+					<SearchIcon />
+				</IconButton>
+				<IconButton>
+					<MoreVertIcon />
+				</IconButton>
+			</div>
+		</div>
 	);
 };
 
