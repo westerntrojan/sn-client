@@ -30,9 +30,7 @@ class ErrorBoundary extends Component<Props> {
 						</Helmet>
 
 						<Paper className='paper'>
-							<Typography variant='h1' className='message'>
-								Error
-							</Typography>
+							<Typography variant='h1'>Error</Typography>
 						</Paper>
 					</section>
 				</ThemeProvider>

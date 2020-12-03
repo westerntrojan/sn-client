@@ -18,6 +18,7 @@ const useStyles = makeStyles({
 	info: {
 		display: 'flex',
 		alignItems: 'center',
+		opacity: 0.8,
 	},
 });
 
@@ -36,7 +37,13 @@ const TextMessage: React.FC<Props> = ({message}) => {
 
 			<CardActions className={classes.cardActions}>
 				<div className={classes.info}>
-					<Typography className={'small'} style={{marginRight: 10}}>
+					{message.edited && (
+						<Typography variant='caption' style={{marginRight: 10}}>
+							edited
+						</Typography>
+					)}
+
+					<Typography variant='caption' style={{marginRight: 10}}>
 						{moment(message.created).format('LT')}
 					</Typography>
 

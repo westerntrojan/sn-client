@@ -23,13 +23,11 @@ const useStyles = makeStyles({
 	},
 	views: {
 		marginRight: '10px',
-		fontSize: '12px',
 		opacity: 0.5,
 		display: 'flex',
 		alignItems: 'center',
 	},
 	comments: {
-		fontSize: '12px',
 		opacity: 0.5,
 		display: 'flex',
 		alignItems: 'center',
@@ -61,11 +59,11 @@ const Article: React.FC<Props> = ({article}) => {
 				}
 				secondary={
 					<div className={classes.statistics}>
-						<Typography className={classes.views}>
+						<Typography variant='caption' className={classes.views}>
 							<VisibilityIcon fontSize='small' className={classes.icon} />
 							{article.views}
 						</Typography>
-						<Typography className={classes.comments}>
+						<Typography variant='caption' className={classes.comments}>
 							<QuestionAnswerIcon fontSize='small' className={classes.icon} />
 							{article.comments.length}
 						</Typography>

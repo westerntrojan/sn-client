@@ -184,11 +184,11 @@ const SmallArticle: React.FC<Props> = ({article}) => {
 				</Link>
 
 				<div className={classes.statistics}>
-					<Typography className={classes.views}>
+					<Typography variant='caption' className={classes.views}>
 						<VisibilityIcon fontSize='small' className={classes.icon} />
 						{article.views}
 					</Typography>
-					<Typography className={classes.comments}>
+					<Typography variant='caption' className={classes.comments}>
 						<QuestionAnswerIcon fontSize='small' className={classes.icon} />
 						{getCommentsCount(article)}
 					</Typography>

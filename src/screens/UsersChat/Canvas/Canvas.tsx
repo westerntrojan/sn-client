@@ -98,7 +98,7 @@ const Canvas: React.FC<Props> = ({
 				<AlterHeader
 					selectedMessages={selectedMessages.length}
 					closeAlterHeader={closeAlterHeader}
-					openRemoveMessagesModal={openRemoveMessagesModal}
+					handleRemoveMessages={openRemoveMessagesModal}
 				/>
 			) : (
 				<Header />

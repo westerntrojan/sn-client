@@ -29,11 +29,7 @@ const useStyles = makeStyles({
 		justifyContent: 'space-between',
 		marginRight: 10,
 	},
-	date: {
-		fontSize: 14,
-	},
 	text: {
-		fontSize: 14,
 		color: grey[500],
 		marginRight: 10,
 	},
@@ -80,7 +76,7 @@ const ChatItem: React.FC<Props> = ({chat}) => {
 								{`${chat.user.firstName} ${chat.user.lastName}`.trim()}
 							</Typography>
 
-							<Typography className={classes.date}>
+							<Typography variant='caption'>
 								{chat.lastMessage && relativeDate(chat.lastMessage.created)}
 							</Typography>
 						</div>

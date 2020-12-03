@@ -26,6 +26,8 @@ const RemoveModal: React.FC<Props> = ({open, text, action, closeModal}) => {
 		if (!open) {
 			setLoading(false);
 		}
+
+		// eslint-disable-next-line
 	}, [open]);
 
 	const _handleAction = (): void => {
@@ -35,12 +37,7 @@ const RemoveModal: React.FC<Props> = ({open, text, action, closeModal}) => {
 	};
 
 	return (
-		<Dialog
-			open={open}
-			onClose={!loading ? closeModal : undefined}
-			aria-labelledby='form-dialog-title'
-			fullScreen={fullScreen}
-		>
+		<Dialog open={open} onClose={!loading ? closeModal : undefined} fullScreen={fullScreen}>
 			<DialogContent>
 				<DialogContentText>{text}</DialogContentText>
 			</DialogContent>

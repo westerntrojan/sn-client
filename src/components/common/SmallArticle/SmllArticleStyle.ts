@@ -43,13 +43,11 @@ export const useStyles = makeStyles({
 	},
 	views: {
 		marginRight: '10px',
-		fontSize: '14px',
 		opacity: 0.8,
 		display: 'flex',
 		alignItems: 'center',
 	},
 	comments: {
-		fontSize: '14px',
 		opacity: 0.8,
 		display: 'flex',
 		alignItems: 'center',

@@ -1,23 +1,16 @@
 import React from 'react';
-import {Link as RouterLink} from 'react-router-dom';
-import Link from '@material-ui/core/Link';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
 import {makeStyles} from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
+import DoneIcon from '@material-ui/icons/Done';
+import DoneAllIcon from '@material-ui/icons/DoneAll';
 import moment from 'moment';
 
 import {IMessage} from '@components/common/chats/types';
-import {userLink} from '@utils/users';
 
 const useStyles = makeStyles({
-	username: {
-		marginBottom: '5px',
-		position: 'relative',
-		opacity: '.8',
-		display: 'inline-block',
-	},
 	cardActions: {
 		display: 'flex',
 		justifyContent: 'flex-end',
@@ -39,13 +32,9 @@ const TextMessage: React.FC<Props> = ({message}) => {
 	return (
 		<Card>
 			<CardContent>
-				<Link underline='none' component={RouterLink} to={userLink(message.user)} color='inherit'>
-					<Typography variant='caption' className={classes.username}>
-						{`${message.user.firstName} ${message.user.lastName}`.trim()}
-					</Typography>
-				</Link>
 				<Typography>{message.text}</Typography>
 			</CardContent>
+
 			<CardActions className={classes.cardActions}>
 				<div className={classes.info}>
 					{message.edited && (
@@ -54,9 +43,11 @@ const TextMessage: React.FC<Props> = ({message}) => {
 						</Typography>
 					)}
 
-					<Typography variant='caption' style={{margin: 0}}>
+					<Typography variant='caption' style={{marginRight: 10}}>
 						{moment(message.created).format('LT')}
 					</Typography>
+
+					{message.isRead ? <DoneAllIcon fontSize='small' /> : <DoneIcon fontSize='small' />}
 				</div>
 			</CardActions>
 		</Card>

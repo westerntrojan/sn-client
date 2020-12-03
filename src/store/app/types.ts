@@ -5,6 +5,8 @@ export const NOT_FOUND = 'app/notFound';
 export const RESET_APP = 'app/reset';
 export const OPEN_AUTH_MODAL = 'app/openAuthModal';
 export const CLOSE_AUTH_MODAL = 'app/closeAuthModal';
+export const OPENING_MODAL = 'app/openingModal';
+export const CLOSING_MODAL = 'app/closingModal';
 
 type NotFound = {
 	type: typeof NOT_FOUND;

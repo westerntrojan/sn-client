@@ -54,6 +54,7 @@
 		"@typescript-eslint/interface-name-prefix": "off",
 		"jsx-a11y/media-has-caption": "off",
 		"@typescript-eslint/no-explicit-any": "off",
-		"no-alert": "off"
+		"no-alert": "off",
+		"@typescript-eslint/explicit-function-return-type": "off"
 	}
 }

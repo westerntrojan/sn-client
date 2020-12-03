@@ -5,8 +5,10 @@ export interface IMessage {
 	user: IUser;
 	audio: string;
 	text: string;
-	isRead: boolean;
 	type: 'text' | 'audio';
+	loading: boolean;
+	isRead: boolean;
+	edited: boolean;
 	created: string;
 }
 

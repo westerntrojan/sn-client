@@ -11,7 +11,6 @@ import {IUser} from '@store/types';
 const useStyles = makeStyles(() => ({
 	root: {
 		width: '100%',
-		height: 200,
 		display: 'flex',
 		flexDirection: 'column',
 	},
@@ -19,15 +18,15 @@ const useStyles = makeStyles(() => ({
 		marginBottom: 5,
 	},
 	textBlock: {
+		marginTop: 10,
 		width: '100%',
-		height: '100%',
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
 	text: {
 		textAlign: 'center',
-		width: 200,
+		width: 250,
 	},
 }));
 

@@ -1,13 +1,13 @@
 import React, {useContext, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import classNames from 'classnames';
-import Context from '@screens/Chat/context';
 import VisibilitySensor from 'react-visibility-sensor';
 
 import UserAvatar from '@components/common/avatars/UserAvatar';
 import {IMessage} from '@components/common/chats/types';
 import TextMessage from './TextMessage';
 import AudioMessage from './AudioMessage';
+import ChatContext from '@screens/Chat/ChatContext';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -33,18 +33,6 @@ const useStyles = makeStyles(theme => ({
 	avatar: {
 		marginRight: 10,
 	},
-	username: {
-		fontSize: '14px',
-		marginBottom: '5px',
-		position: 'relative',
-		opacity: '.8',
-		display: 'inline-block',
-	},
-	info: {
-		display: 'flex',
-		flexDirection: 'column',
-		alignItems: 'flex-end',
-	},
 }));
 
 type Props = {
@@ -56,7 +44,7 @@ const Message: React.FC<Props> = ({message}) => {
 
 	const [isFirstRender, setIsFirstRender] = useState(true);
 
-	const {handleReadMessage} = useContext(Context);
+	const {handleReadMessage} = useContext(ChatContext);
 
 	const handleVisibleChange = (isVisible: boolean): void => {
 		if (isVisible && !message.isRead && !isFirstRender) {

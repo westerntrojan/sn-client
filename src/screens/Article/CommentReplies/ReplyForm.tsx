@@ -21,7 +21,6 @@ const useStyles = makeStyles({
 	},
 	input: {
 		marginBottom: 10,
-		fontSize: 10,
 	},
 	buttons: {
 		display: 'flex',

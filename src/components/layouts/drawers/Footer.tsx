@@ -1,13 +1,13 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(() => ({
 	root: {
 		padding: '10px',
 	},
 	info: {
-		fontSize: '12px',
 		opacity: 0.8,
 	},
 }));
@@ -20,9 +20,9 @@ const Footer: React.FC = () => {
 			<Divider />
 
 			<footer className={classes.root}>
-				<span className={classes.info}>
+				<Typography variant='caption' className={classes.info}>
 					© {new Date().getFullYear()} {process.env.REACT_APP_TITLE}, LLC
-				</span>
+				</Typography>
 			</footer>
 		</>
 	);

@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CloseIcon from '@material-ui/icons/Close';
 import {makeStyles} from '@material-ui/core/styles';
 
 import {RemoveMessage, Close} from '@utils/hotKeys';
+import CanvasContext from './CanvasContext';
+import * as types from './reducer/types';
 
 const useStyles = makeStyles({
 	root: {
@@ -26,37 +28,35 @@ const useStyles = makeStyles({
 	},
 });
 
-type Props = {
-	selectedMessages: number;
-	closeAlterHeader: () => void;
-	handleRemoveMessages: () => void;
-};
-
-const AlterHeader: React.FC<Props> = ({
-	selectedMessages,
-	closeAlterHeader,
-	handleRemoveMessages,
-}) => {
+const AlterHeader: React.FC = () => {
 	const classes = useStyles();
+
+	const {
+		state: {selectedMessages},
+		dispatch,
+	} = useContext(CanvasContext);
 
 	return (
 		<div className={classes.root}>
 			<div className={classes.leftSide}>
-				<IconButton className={classes.close} onClick={closeAlterHeader}>
+				<IconButton
+					className={classes.close}
+					onClick={() => dispatch({type: types.CLEAR_SELECTED_MESSAGES})}
+				>
 					<CloseIcon />
 				</IconButton>
 				<span>
-					{selectedMessages} message{selectedMessages === 1 ? <></> : <>s</>}
+					{selectedMessages.length} message{selectedMessages.length === 1 ? '' : 's'}
 				</span>
 			</div>
 			<div className={classes.rightSide}>
-				<IconButton onClick={handleRemoveMessages}>
+				<IconButton onClick={() => dispatch({type: types.OPEN_REMOVE_MESSAGES_MODAL})}>
 					<DeleteIcon />
 				</IconButton>
 			</div>
 
-			<Close action={closeAlterHeader} />
-			<RemoveMessage action={handleRemoveMessages} />
+			<Close action={() => dispatch({type: types.CLEAR_SELECTED_MESSAGES})} />
+			<RemoveMessage action={() => dispatch({type: types.OPEN_REMOVE_MESSAGES_MODAL})} />
 		</div>
 	);
 };

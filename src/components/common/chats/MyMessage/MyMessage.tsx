@@ -7,18 +7,22 @@ import {useStyles} from './MyMessageStyle';
 import {IMessage} from '@components/common/chats/types';
 import TextMessage from './TextMessage';
 import AudioMessage from './AudioMessage';
+import MessageMenu from './MessageMenu';
 
 type Props = {
 	message: IMessage;
 	alterHeader: boolean;
-	selectMessage: (_id: string) => void;
+	selectMessage: (messageId: string) => void;
+	editMessage?: (messageId: string) => void;
 };
 
-const MyMessage: React.FC<Props> = ({message, alterHeader, selectMessage}) => {
+const MyMessage: React.FC<Props> = ({message, alterHeader, selectMessage, editMessage}) => {
 	const classes = useStyles();
 
 	const [isSelect, setIsSelect] = useState(false);
 	const [checkIcon, setCheckIcon] = useState(false);
+	const [messageMenu, setMessageMenu] = useState(false);
+	const [menuPosition, setMenuPosition] = useState<{top: number; left: number}>({top: 0, left: 0});
 
 	useEffect(() => {
 		if (!alterHeader) {
@@ -26,9 +30,31 @@ const MyMessage: React.FC<Props> = ({message, alterHeader, selectMessage}) => {
 		}
 	}, [alterHeader]);
 
-	const _handleClickMessage = (): void => {
+	const _handleContextMenu = (e: React.MouseEvent<HTMLDivElement>): void => {
+		e.preventDefault();
+
+		setCheckIcon(false);
+
+		if (messageMenu) {
+			setMessageMenu(false);
+		} else {
+			setMenuPosition({top: e.clientY, left: e.clientX});
+			setMessageMenu(true);
+		}
+	};
+
+	const handleSelect = (): void => {
+		const selection = window.getSelection()?.toString();
+		if (selection) return;
+
 		setIsSelect(!isSelect);
 		selectMessage(message._id);
+	};
+
+	const handleEdit = (): void => {
+		if (editMessage) {
+			editMessage(message._id);
+		}
 	};
 
 	return (
@@ -36,9 +62,10 @@ const MyMessage: React.FC<Props> = ({message, alterHeader, selectMessage}) => {
 			className={classNames('my-message', classes.root, {
 				[classes.selectedRoot]: isSelect,
 			})}
-			onClick={_handleClickMessage}
-			onMouseEnter={(): void => setCheckIcon(true)}
-			onMouseLeave={(): void => setCheckIcon(false)}
+			onClick={handleSelect}
+			onContextMenu={_handleContextMenu}
+			onMouseEnter={() => setCheckIcon(true)}
+			onMouseLeave={() => setCheckIcon(false)}
 		>
 			<CheckCircleIcon
 				color='primary'
@@ -51,6 +78,14 @@ const MyMessage: React.FC<Props> = ({message, alterHeader, selectMessage}) => {
 			{message.type === 'text' && <TextMessage message={message} />}
 
 			{message.type === 'audio' && <AudioMessage message={message} />}
+
+			<MessageMenu
+				open={messageMenu}
+				position={menuPosition}
+				handleSelect={handleSelect}
+				handleEdit={handleEdit}
+				closeMenu={(): void => setMessageMenu(false)}
+			/>
 		</Paper>
 	);
 };

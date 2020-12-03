@@ -5,33 +5,35 @@ type Props = {
 	action: () => void;
 };
 
-const appKeys = {
+const keys = {
 	CHANGE_DRAWER: 'ctrl+b',
 	EXIT: 'ctrl+q',
 	SEARCH_FOCUS: '/',
 	SUBMIT_MODAL: 'enter',
-};
-
-const chatKeys = {
+	CLOSE: 'esc',
 	REMOVE_MESSAGE: 'del',
 };
 
 export const ChangeDrawer: React.FC<Props> = ({action}) => {
-	return <Hotkeys keyName={appKeys.CHANGE_DRAWER} onKeyUp={action} />;
+	return <Hotkeys keyName={keys.CHANGE_DRAWER} onKeyUp={action} />;
 };
 
 export const SubmitModal: React.FC<Props> = ({action}) => {
-	return <Hotkeys keyName={appKeys.SUBMIT_MODAL} onKeyUp={action} />;
+	return <Hotkeys keyName={keys.SUBMIT_MODAL} onKeyUp={action} />;
 };
 
 export const Exit: React.FC<Props> = ({action}) => {
-	return <Hotkeys keyName={appKeys.EXIT} onKeyUp={action} />;
+	return <Hotkeys keyName={keys.EXIT} onKeyUp={action} />;
 };
 
 export const SearchFocus: React.FC<Props> = ({action}) => {
-	return <Hotkeys keyName={appKeys.SEARCH_FOCUS} onKeyUp={action} />;
+	return <Hotkeys keyName={keys.SEARCH_FOCUS} onKeyUp={action} />;
 };
 
 export const RemoveMessage: React.FC<Props> = ({action}) => {
-	return <Hotkeys keyName={chatKeys.REMOVE_MESSAGE} onKeyUp={action} />;
+	return <Hotkeys keyName={keys.REMOVE_MESSAGE} onKeyUp={action} />;
+};
+
+export const Close: React.FC<Props> = ({action}) => {
+	return <Hotkeys keyName={keys.CLOSE} onKeyUp={action} />;
 };

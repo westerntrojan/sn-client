@@ -5,7 +5,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import {makeStyles} from '@material-ui/core/styles';
 import GroupIcon from '@material-ui/icons/Group';
 
-import Context from '@screens/Chat/context';
+import ChatContext from '@screens/Chat/ChatContext';
 
 const useStyles = makeStyles({
 	root: {
@@ -37,7 +37,7 @@ const useStyles = makeStyles({
 const Header: React.FC = () => {
 	const classes = useStyles();
 
-	const {activeUsers} = useContext(Context);
+	const {activeUsers} = useContext(ChatContext);
 
 	return (
 		<div className={classes.root}>

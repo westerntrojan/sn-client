@@ -3,6 +3,7 @@ import Avatar from '@material-ui/core/Avatar';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import IconButton from '@material-ui/core/IconButton';
 import Grow from '@material-ui/core/Grow';
+import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/styles';
 import classNames from 'classnames';
 import {useDispatch} from 'react-redux';
@@ -26,7 +27,6 @@ const useStyles = makeStyles({
 	avatar: {
 		width: '100%',
 		height: '100%',
-		fontSize: 60,
 		overflow: 'hidden',
 	},
 	addAvatar: {
@@ -138,7 +138,7 @@ const UserAvatar: React.FC = () => {
 						: ''
 				}
 			>
-				{userInitials(user)}
+				<Typography variant='h2'>{userInitials(user)}</Typography>
 			</Avatar>
 
 			<ImageModal

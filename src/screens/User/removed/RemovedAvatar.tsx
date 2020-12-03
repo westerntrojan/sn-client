@@ -8,7 +8,6 @@ const useStyles = makeStyles({
 	avatar: {
 		width: 200,
 		height: 200,
-		fontSize: 60,
 		marginRight: 20,
 	},
 	icon: {
