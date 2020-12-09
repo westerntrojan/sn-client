@@ -43,4 +43,13 @@ export const useStyles = makeStyles(theme => ({
 	activeCheckIcon: {
 		opacity: 1,
 	},
+	cardActions: {
+		display: 'flex',
+		justifyContent: 'flex-end',
+	},
+	info: {
+		display: 'flex',
+		alignItems: 'center',
+		opacity: 0.8,
+	},
 }));

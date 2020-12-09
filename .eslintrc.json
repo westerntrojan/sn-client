@@ -42,6 +42,7 @@
 		"no-var": "error",
 		"max-depth": ["warn", 3],
 		"jsx-a11y/no-autofocus": "off",
+		"jsx-a11y/media-has-caption": "off",
 		"react/no-access-state-in-setstate": "warn",
 		"react/no-array-index-key": "warn",
 		"react/no-did-mount-set-state": "warn",
@@ -49,12 +50,11 @@
 		"react/prefer-stateless-function": "warn",
 		"react/jsx-no-target-blank": "warn",
 		"react-hooks/rules-of-hooks": "warn",
-		"react-hooks/exhaustive-deps": "warn",
+		"react-hooks/exhaustive-deps": "off",
 		"@typescript-eslint/camelcase": "off",
 		"@typescript-eslint/interface-name-prefix": "off",
-		"jsx-a11y/media-has-caption": "off",
 		"@typescript-eslint/no-explicit-any": "off",
-		"no-alert": "off",
-		"@typescript-eslint/explicit-function-return-type": "off"
+		"@typescript-eslint/explicit-function-return-type": "off",
+		"no-alert": "off"
 	}
 }

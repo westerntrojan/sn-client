@@ -6,9 +6,9 @@ export interface IMessage {
 	audio: string;
 	text: string;
 	type: 'text' | 'audio';
-	loading: boolean;
 	isRead: boolean;
 	edited: boolean;
+	loadingId: string;
 	created: string;
 }
 

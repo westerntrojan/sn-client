@@ -114,6 +114,12 @@ const UserAvatar: React.FC = () => {
 
 		await dispatch(removeAvatar(auth.user._id, image.split('/').reverse()[0]));
 
+		if (process.env.NDOE_ENV === 'production') {
+			await dispatch(removeAvatar(auth.user._id, image.split('/').reverse()[0]));
+		} else {
+			await dispatch(removeAvatar(auth.user._id, `test/${image.split('/').reverse()[0]}`));
+		}
+
 		setLoading(false);
 	};
 
@@ -134,7 +140,7 @@ const UserAvatar: React.FC = () => {
 				onClick={(): void => setImageModal(true)}
 				src={
 					currentAvatar
-						? `${process.env.REACT_APP_CLOUD_IMAGE_URI}/c_fill,h_200,w_200,q_65/${currentAvatar}`
+						? `${process.env.REACT_APP_CLOUD_IMAGE_URI}/c_fill,h_240,w_240,q_65/${currentAvatar}`
 						: ''
 				}
 			>

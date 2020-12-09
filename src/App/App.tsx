@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import {ThemeProvider} from '@material-ui/styles';
 import {makeStyles} from '@material-ui/core/styles';
@@ -7,6 +7,8 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {PaletteOptions} from '@material-ui/core/styles/createPalette';
 import {SnackbarProvider} from 'notistack';
 import {useHistory} from 'react-router';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 import './App.scss';
 import Header from '@components/layouts/Header';
@@ -59,12 +61,31 @@ const App: React.FC<Props> = ({children}) => {
 	const [mobileDrawer, setMobileDrawer] = useState(false);
 	const [scrollButton, setScrollButton] = useState(false);
 	const [theme, setTheme] = useState(getCurrentTheme());
+	const notistackRef = useRef<any>();
 
 	const app = useSelector((state: RootState) => state.app, shallowEqual);
 	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
 	const dispatch = useDispatch();
 
 	const history = useHistory();
+
+	const _handleScroll = (): void => {
+		if (window.scrollY > 400) {
+			setScrollButton(true);
+		} else {
+			setScrollButton(false);
+		}
+	};
+
+	const _handleKey = (e: KeyboardEvent): void => {
+		if (e.ctrlKey && (e.key === 'b' || e.key === 'q')) {
+			e.preventDefault();
+		}
+
+		if (e.key === '/') {
+			e.preventDefault();
+		}
+	};
 
 	// loading app
 	useEffect(() => {
@@ -73,24 +94,6 @@ const App: React.FC<Props> = ({children}) => {
 
 	// added app events
 	useEffect(() => {
-		const _handleScroll = (): void => {
-			if (window.scrollY > 400) {
-				setScrollButton(true);
-			} else {
-				setScrollButton(false);
-			}
-		};
-
-		const _handleKey = (e: KeyboardEvent): void => {
-			if (e.ctrlKey && (e.key === 'b' || e.key === 'q')) {
-				e.preventDefault();
-			}
-
-			if (e.key === '/') {
-				e.preventDefault();
-			}
-		};
-
 		window.addEventListener('scroll', _handleScroll);
 		document.addEventListener('keydown', _handleKey);
 
@@ -146,6 +149,12 @@ const App: React.FC<Props> = ({children}) => {
 		history.push('/');
 	};
 
+	const handleCloseSnackbar = (key: string | number) => {
+		if (notistackRef.current) {
+			notistackRef.current.closeSnackbar(key);
+		}
+	};
+
 	return (
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
@@ -154,6 +163,7 @@ const App: React.FC<Props> = ({children}) => {
 			<AppSubsciptions />
 
 			<SnackbarProvider
+				ref={notistackRef}
 				maxSnack={4}
 				anchorOrigin={{
 					vertical: 'bottom',
@@ -165,6 +175,15 @@ const App: React.FC<Props> = ({children}) => {
 					variantWarning: classes.snackbar,
 					variantInfo: classes.snackbar,
 				}}
+				action={key => (
+					<IconButton
+						style={{color: 'white'}}
+						size='small'
+						onClick={() => handleCloseSnackbar(key)}
+					>
+						<CloseIcon fontSize='small' />
+					</IconButton>
+				)}
 			>
 				<div id='root'>
 					<Header

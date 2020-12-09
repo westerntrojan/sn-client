@@ -6,15 +6,16 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
 import AddBoxIcon from '@material-ui/icons/AddBox';
-import ForumIcon from '@material-ui/icons/Forum';
 import Dashboard from '@material-ui/icons/Dashboard';
 import Divider from '@material-ui/core/Divider';
 import {Link as RouterLink} from 'react-router-dom';
+import PersonIcon from '@material-ui/icons/Person';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import Brightness1Icon from '@material-ui/icons/Brightness1';
 import BookmarksIcon from '@material-ui/icons/Bookmarks';
 import DynamicFeedIcon from '@material-ui/icons/DynamicFeed';
 import {useSelector, shallowEqual} from 'react-redux';
+import PublicIcon from '@material-ui/icons/Public';
 
 import {RootState} from '@store/types';
 
@@ -57,13 +58,13 @@ const Navigation: React.FC = () => {
 				<ListItem
 					button
 					component={RouterLink}
-					to={'/chat'}
-					selected={location.pathname === '/chat'}
+					to={'/global'}
+					selected={location.pathname === '/global'}
 				>
 					<ListItemIcon>
-						<ForumIcon />
+						<PublicIcon />
 					</ListItemIcon>
-					<ListItemText primary={'Chat'} />
+					<ListItemText primary={'Global chat'} />
 				</ListItem>
 			</List>
 			{auth.isAuth && (
@@ -86,13 +87,24 @@ const Navigation: React.FC = () => {
 						<ListItem
 							button
 							component={RouterLink}
-							to={'/messages'}
-							selected={location.pathname === '/messages'}
+							to={'/direct'}
+							selected={location.pathname === '/direct'}
+						>
+							<ListItemIcon>
+								<PersonIcon />
+							</ListItemIcon>
+							<ListItemText primary={'Direct messages'} />
+						</ListItem>
+						<ListItem
+							button
+							component={RouterLink}
+							to={'/group'}
+							selected={location.pathname === '/group'}
 						>
 							<ListItemIcon>
 								<PeopleAltIcon />
 							</ListItemIcon>
-							<ListItemText primary={'Messages'} />
+							<ListItemText primary={'Group'} />
 						</ListItem>
 					</List>
 				</>

@@ -7,12 +7,11 @@ import NotFound from '@components/common/NotFound';
 type Props = {
 	children: React.ReactNode;
 	condition: boolean;
-	redirectTo: string;
 	path: string;
 	exact?: boolean;
 };
 
-const PrivateRoute: React.FC<Props> = ({children, condition, redirectTo, ...rest}) => {
+const PrivateRoute: React.FC<Props> = ({children, condition, ...rest}) => {
 	return (
 		<Route
 			{...rest}

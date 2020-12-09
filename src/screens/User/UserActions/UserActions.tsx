@@ -11,11 +11,14 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import DeleteIcon from '@material-ui/icons/Delete';
+import {useHistory} from 'react-router';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import UserAvatar from './UserAvatar';
 import {userLink} from '@utils/users';
 import {useAuthModal} from '@utils/hooks';
 import Context from '@screens/User/context';
+import callApi from '@utils/callApi';
 
 const useStyles = makeStyles({
 	root: {
@@ -29,8 +32,19 @@ const useStyles = makeStyles({
 		display: 'flex',
 		alignItems: 'center',
 	},
+	buttonWrapper: {
+		width: '100%',
+		position: 'relative',
+	},
 	button: {
 		width: '100%',
+	},
+	buttonLoader: {
+		position: 'absolute',
+		top: '50%',
+		left: '50%',
+		marginTop: -12,
+		marginLeft: -12,
 	},
 });
 
@@ -44,9 +58,12 @@ const UserActions: React.FC<Props> = ({handleRemoveUser, handleFollowToUser}) =>
 
 	const {auth, user} = useContext(Context);
 
+	const [loadingChatId, setLoadingChatId] = useState(false);
 	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
 	const {openAuthModal} = useAuthModal();
+
+	const history = useHistory();
 
 	const openMenu = (e: React.MouseEvent<HTMLButtonElement>): void => {
 		setAnchorEl(e.currentTarget);
@@ -54,6 +71,14 @@ const UserActions: React.FC<Props> = ({handleRemoveUser, handleFollowToUser}) =>
 
 	const closeMenu = (): void => {
 		setAnchorEl(null);
+	};
+
+	const handleSendMessage = async () => {
+		setLoadingChatId(true);
+
+		const data = await callApi.get(`/chats/id/${auth.user._id}/${user._id}`);
+
+		history.push(`/messages/${data.chatId}`);
 	};
 
 	return (
@@ -71,16 +96,20 @@ const UserActions: React.FC<Props> = ({handleRemoveUser, handleFollowToUser}) =>
 				</Button>
 			)}
 			{auth.isAuth && auth.user._id !== user._id && (
-				<Link
-					underline='none'
-					component={RouterLink}
-					to={`/users-chat/${user._id}`}
-					className={classes.button}
-				>
-					<Button variant='contained' color='primary' fullWidth className='button'>
+				<div className={classes.buttonWrapper}>
+					<Button
+						variant='contained'
+						color='primary'
+						className='button'
+						disabled={loadingChatId}
+						onClick={handleSendMessage}
+						fullWidth
+					>
 						Send message
 					</Button>
-				</Link>
+
+					{loadingChatId && <CircularProgress size={24} className={classes.buttonLoader} />}
+				</div>
 			)}
 
 			{auth.isAuth && auth.user._id !== user._id && (
@@ -95,7 +124,7 @@ const UserActions: React.FC<Props> = ({handleRemoveUser, handleFollowToUser}) =>
 				</Button>
 			)}
 
-			{(auth.user && auth.user._id === user._id) || auth.isAdmin ? (
+			{(auth.isAuth && auth.user._id === user._id) || auth.isAdmin ? (
 				<div className={classes.actions}>
 					<Link
 						underline='none'

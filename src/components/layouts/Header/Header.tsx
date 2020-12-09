@@ -179,6 +179,12 @@ const Header: React.FC<Props> = ({
 				</div>
 			) : (
 				<div>
+					<MenuItem onClick={handleSignIn}>
+						<ListItemIcon>
+							<AccountBoxIcon />
+						</ListItemIcon>
+						<ListItemText primary='Sign in' />
+					</MenuItem>
 					<MenuItem onClick={handleAppearance}>
 						<ListItemIcon>
 							<PaletteIcon />
@@ -190,12 +196,6 @@ const Header: React.FC<Props> = ({
 							<SettingsIcon />
 						</ListItemIcon>
 						<ListItemText primary='Settings' />
-					</MenuItem>
-					<MenuItem onClick={handleSignIn}>
-						<ListItemIcon>
-							<AccountBoxIcon />
-						</ListItemIcon>
-						<ListItemText primary='Sign in' />
 					</MenuItem>
 				</div>
 			)}

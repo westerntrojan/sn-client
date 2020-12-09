@@ -9,14 +9,15 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import HomeIcon from '@material-ui/icons/Home';
 import ListItemText from '@material-ui/core/ListItemText';
 import AddBoxIcon from '@material-ui/icons/AddBox';
-import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import {useSelector, shallowEqual} from 'react-redux';
 import BookmarksIcon from '@material-ui/icons/Bookmarks';
+import PersonIcon from '@material-ui/icons/Person';
 import Skeleton from '@material-ui/lab/Skeleton';
 import DynamicFeedIcon from '@material-ui/icons/DynamicFeed';
 import ZoomTooltip from '@components/common/tooltips/ZoomTooltip';
 import Divider from '@material-ui/core/Divider';
-import ForumIcon from '@material-ui/icons/Forum';
+import PublicIcon from '@material-ui/icons/Public';
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 
 import {RootState} from '@store/types';
 
@@ -112,12 +113,17 @@ const AlterDrawer: React.FC = () => {
 									<ListItemText primary={'Bookmarks'} />
 								</ListItem>
 							</ZoomTooltip>
-							<ZoomTooltip title='Chat' placement='right'>
-								<ListItem button selected={isSelected('/chat')} component={RouterLink} to={'/chat'}>
+							<ZoomTooltip title='Global chat' placement='right'>
+								<ListItem
+									button
+									selected={isSelected('/global')}
+									component={RouterLink}
+									to={'/global'}
+								>
 									<ListItemIcon>
-										<ForumIcon />
+										<PublicIcon />
 									</ListItemIcon>
-									<ListItemText primary={'Chat'} />
+									<ListItemText primary={'Global chat'} />
 								</ListItem>
 							</ZoomTooltip>
 						</List>
@@ -141,17 +147,31 @@ const AlterDrawer: React.FC = () => {
 										</ListItem>
 									</ZoomTooltip>
 
-									<ZoomTooltip title='Messages' placement='right'>
+									<ZoomTooltip title='Direct messages' placement='right'>
 										<ListItem
 											button
-											selected={isSelected('/messages')}
+											selected={isSelected('/direct')}
 											component={RouterLink}
-											to={'/messages'}
+											to={'/direct'}
+										>
+											<ListItemIcon>
+												<PersonIcon />
+											</ListItemIcon>
+											<ListItemText primary={'Direct messages'} />
+										</ListItem>
+									</ZoomTooltip>
+
+									<ZoomTooltip title='Group' placement='right'>
+										<ListItem
+											button
+											selected={isSelected('/group')}
+											component={RouterLink}
+											to={'/group'}
 										>
 											<ListItemIcon>
 												<PeopleAltIcon />
 											</ListItemIcon>
-											<ListItemText primary={'Messages'} />
+											<ListItemText primary={'Group'} />
 										</ListItem>
 									</ZoomTooltip>
 								</List>

@@ -17,7 +17,6 @@ import callApi from '@utils/callApi';
 import {CircularProgressWithLabel, LinearProgressWithLabel} from '@components/common/loaders';
 import {validateVideo} from '@utils/media';
 import ImageGrid from '@components/common/ImageGrid';
-import AvatarModal from './AvatarModal';
 
 const useStyles = makeStyles(theme => ({
 	loadingBackdrop: {
@@ -70,7 +69,6 @@ const useStyles = makeStyles(theme => ({
 const Example: React.FC = () => {
 	const classes = useStyles();
 
-	const [avatarModal, setAvatarModal] = useState(false);
 	const [files, setFiles] = useState<File[]>([]);
 	const [images, setImages] = useState<string[]>([]);
 	const [loadingImages, setLoadingImages] = useState(false);
@@ -297,10 +295,6 @@ const Example: React.FC = () => {
 							<MenuItem value={'audio'}>Audio</MenuItem>
 						</Select>
 					</FormControl>
-
-					<Button onClick={(): void => setAvatarModal(true)} color='primary' variant='outlined'>
-						Avatar modal
-					</Button>
 				</div>
 
 				<CloudinaryContext className={classes.result} cloudName={process.env.REACT_APP_CLOUD_NAME}>
@@ -362,8 +356,6 @@ const Example: React.FC = () => {
 					)}
 				</CloudinaryContext>
 			</div>
-
-			<AvatarModal open={avatarModal} closeModal={(): void => setAvatarModal(false)} />
 
 			<Backdrop open={loading} className={classes.loadingBackdrop}>
 				<CircularProgressWithLabel value={loadingProgress} />
