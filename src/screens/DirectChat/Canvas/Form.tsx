@@ -57,13 +57,13 @@ const Form: React.FC = () => {
 		}
 	}, []);
 
-	const _handleChangeText = (e: React.ChangeEvent<HTMLInputElement>): void => {
+	const _handleChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setText(e.target.value);
 
 		handleTyping();
 	};
 
-	const _handleSubmit = (): void => {
+	const _handleSubmit = () => {
 		if (!text.trim()) return;
 
 		handleSubmitMessage(text);
@@ -72,7 +72,7 @@ const Form: React.FC = () => {
 		handleTypingEnd();
 	};
 
-	const _handleKeyPressInput = (target: React.KeyboardEvent): void => {
+	const _handleKeyPressInput = (target: React.KeyboardEvent) => {
 		if (target.ctrlKey && target.charCode === 13) {
 			_handleSubmit();
 		}

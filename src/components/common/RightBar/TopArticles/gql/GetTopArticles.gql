@@ -1,4 +1,4 @@
-query TopArticles($limit: Int) {
+query GetTopArticles($limit: Int) {
 	topArticles(limit: $limit) {
 		_id
 		title

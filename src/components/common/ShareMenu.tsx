@@ -33,7 +33,7 @@ const ShareMenu: React.FC<Props> = ({anchorEl, closeMenu, url}) => {
 
 	const {enqueueSnackbar} = useSnackbar();
 
-	const copyToClipboard = (): void => {
+	const copyToClipboard = () => {
 		copy(url);
 
 		enqueueSnackbar('Link copied to clipboard', {variant: 'success'});

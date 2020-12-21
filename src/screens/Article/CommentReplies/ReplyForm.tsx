@@ -67,12 +67,12 @@ const ReplyForm: React.FC<Props> = ({parentId, comment, handleClose}) => {
 		setText(defaultText);
 	}, [defaultText]);
 
-	const _handleCancel = (): void => {
+	const _handleCancel = () => {
 		setText('');
 		handleClose();
 	};
 
-	const _handleChangeText = (e: React.ChangeEvent<HTMLInputElement>): void => {
+	const _handleChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setText(e.target.value);
 	};
 
@@ -95,7 +95,7 @@ const ReplyForm: React.FC<Props> = ({parentId, comment, handleClose}) => {
 		setLoading(false);
 	};
 
-	const _handleKeyPressTextarea = (target: React.KeyboardEvent): void => {
+	const _handleKeyPressTextarea = (target: React.KeyboardEvent) => {
 		if (target.ctrlKey && target.charCode === 13) {
 			_handleSubmit();
 		}

@@ -16,7 +16,7 @@ type Props = {
 };
 
 class ErrorBoundary extends Component<Props> {
-	componentDidCatch(error: Error, errorInfo: object): void {
+	componentDidCatch(error: Error, errorInfo: object) {
 		handleAppError(error);
 	}
 

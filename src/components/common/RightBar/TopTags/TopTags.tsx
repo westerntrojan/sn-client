@@ -54,8 +54,7 @@ const TopTags: React.FC = () => {
 
 			{loading && <Loader />}
 
-			{!loading &&
-				data &&
+			{data &&
 				data.topTags.map((tag: string) => (
 					<Chip
 						label={`#${tag}`}

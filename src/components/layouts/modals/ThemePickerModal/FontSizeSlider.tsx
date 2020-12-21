@@ -42,7 +42,7 @@ const FontSizeSlider: React.FC<Props> = ({handleChangeTheme}) => {
 
 	const [sliderValue, setSliderValue] = useState(getDefaultValue());
 
-	const _handleChange = (event: React.ChangeEvent<{}>, value: number | number[]): void => {
+	const _handleChange = (event: React.ChangeEvent<{}>, value: number | number[]) => {
 		switch (value) {
 			case 0:
 				setSliderValue(value);

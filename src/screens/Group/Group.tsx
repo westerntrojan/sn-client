@@ -33,7 +33,7 @@ const Group: React.FC = () => {
 		fetchGroups();
 	}, [auth]);
 
-	const handleSearch = (text: string): void => setQuery(text);
+	const handleSearch = (text: string) => setQuery(text);
 
 	const handleAddGroup = async ({name, members}: {name: string; members: string[]}) => {
 		const data = await callApi.post('/groups', {

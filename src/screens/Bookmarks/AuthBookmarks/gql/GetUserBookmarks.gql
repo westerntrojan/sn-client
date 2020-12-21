@@ -1,4 +1,4 @@
-query UserBookmarks($userId: ID!) {
+query GetUserBookmarks($userId: ID!) {
 	userBookmarks(userId: $userId) {
 		_id
 		title

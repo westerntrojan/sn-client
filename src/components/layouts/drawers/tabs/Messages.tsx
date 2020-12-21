@@ -29,7 +29,7 @@ const Messages: React.FC = () => {
 
 	const {openAuthModal} = useAuthModal();
 
-	const handleSendMessage = (): void => {
+	const handleSendMessage = () => {
 		if (!auth.isAuth) {
 			openAuthModal();
 		}

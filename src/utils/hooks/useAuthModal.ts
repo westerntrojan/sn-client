@@ -10,7 +10,7 @@ export default (): ReturningData => {
 	const dispatch = useDispatch();
 
 	return {
-		openAuthModal(): void {
+		openAuthModal() {
 			dispatch(openAuthModal());
 		},
 	};

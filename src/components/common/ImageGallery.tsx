@@ -53,19 +53,19 @@ const ImageGallery: React.FC<Props> = ({images, withModal = false}) => {
 	const [imageModal, setImageModal] = useState(false);
 	const maxSteps = images.length;
 
-	const handleNext = (): void => {
+	const handleNext = () => {
 		setActiveStep(prevActiveStep => prevActiveStep + 1);
 	};
 
-	const handleBack = (): void => {
+	const handleBack = () => {
 		setActiveStep(prevActiveStep => prevActiveStep - 1);
 	};
 
-	const handleStepChange = (step: number): void => {
+	const handleStepChange = (step: number) => {
 		setActiveStep(step);
 	};
 
-	const _handleClickImage = (): void => {
+	const _handleClickImage = () => {
 		if (withModal) {
 			setImageModal(true);
 		}
@@ -117,7 +117,7 @@ const ImageGallery: React.FC<Props> = ({images, withModal = false}) => {
 
 			<ImageModal
 				open={imageModal}
-				closeModal={(): void => setImageModal(false)}
+				closeModal={() => setImageModal(false)}
 				images={images}
 				currentImage={activeStep}
 			/>

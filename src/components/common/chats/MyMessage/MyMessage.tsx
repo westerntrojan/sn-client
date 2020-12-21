@@ -10,14 +10,16 @@ import moment from 'moment';
 
 import {useStyles} from './MyMessageStyle';
 import {IMessage} from '@components/common/chats/types';
+import DayMeta from '@components/common/chats/DayMeta';
 
 type Props = {
 	message: IMessage;
 	alterHeader: boolean;
 	selectMessage: (messageId: string) => void;
+	showDate?: boolean;
 };
 
-const MyMessage: React.FC<Props> = ({message, alterHeader, selectMessage}) => {
+const MyMessage: React.FC<Props> = ({message, alterHeader, selectMessage, showDate}) => {
 	const classes = useStyles();
 
 	const [isSelect, setIsSelect] = useState(false);
@@ -29,7 +31,7 @@ const MyMessage: React.FC<Props> = ({message, alterHeader, selectMessage}) => {
 		}
 	}, [alterHeader]);
 
-	const handleSelect = (): void => {
+	const handleSelect = () => {
 		const selection = window.getSelection()?.toString();
 		if (selection) return;
 
@@ -38,34 +40,38 @@ const MyMessage: React.FC<Props> = ({message, alterHeader, selectMessage}) => {
 	};
 
 	return (
-		<Paper
-			className={classNames('my-message', classes.root, {
-				[classes.selectedRoot]: isSelect,
-			})}
-			onClick={handleSelect}
-			onMouseEnter={() => setCheckIcon(true)}
-			onMouseLeave={() => setCheckIcon(false)}
-		>
-			<CheckCircleIcon
-				color='primary'
-				className={classNames(classes.checkIcon, {
-					[classes.hoverCheckIcon]: checkIcon,
-					[classes.activeCheckIcon]: isSelect,
+		<div>
+			{showDate && <DayMeta date={message.created} />}
+
+			<Paper
+				className={classNames('my-message', classes.message, {
+					[classes.selectedRoot]: isSelect,
 				})}
-			/>
+				onClick={handleSelect}
+				onMouseEnter={() => setCheckIcon(true)}
+				onMouseLeave={() => setCheckIcon(false)}
+			>
+				<CheckCircleIcon
+					color='primary'
+					className={classNames(classes.checkIcon, {
+						[classes.hoverCheckIcon]: checkIcon,
+						[classes.activeCheckIcon]: isSelect,
+					})}
+				/>
 
-			<Card>
-				<CardContent>
-					<Typography>{message.text}</Typography>
-				</CardContent>
+				<Card>
+					<CardContent>
+						<Typography>{message.text}</Typography>
+					</CardContent>
 
-				<CardActions className={classes.cardActions}>
-					<div className={classes.info}>
-						<Typography variant='caption'>{moment(message.created).format('LT')}</Typography>
-					</div>
-				</CardActions>
-			</Card>
-		</Paper>
+					<CardActions className={classes.cardActions}>
+						<div className={classes.info}>
+							<Typography variant='caption'>{moment(message.created).format('LT')}</Typography>
+						</div>
+					</CardActions>
+				</Card>
+			</Paper>
+		</div>
 	);
 };
 

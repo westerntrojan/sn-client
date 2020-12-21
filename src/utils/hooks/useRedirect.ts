@@ -9,7 +9,7 @@ export default (): ReturningData => {
 	const location = useLocation();
 
 	return {
-		redirectTo(pathname: string): void {
+		redirectTo(pathname: string) {
 			return history.push({
 				pathname,
 				state: {from: location},

@@ -29,36 +29,36 @@ const MediaUploader: React.FC<Props> = ({
 	const [video, setVideo] = useState('');
 	const [loading, setLoading] = useState(false);
 
-	const _handleChangeUploadType = (event: React.ChangeEvent<{}>, newValue: number): void => {
+	const _handleChangeUploadType = (event: React.ChangeEvent<{}>, newValue: number) => {
 		setTab(newValue);
 	};
 
-	const _handleUploadImages = (images: string[]): void => {
+	const _handleUploadImages = (images: string[]) => {
 		setImages(images);
 		onUploadImages(images);
 	};
 
-	// const _handleRemoveImage = (): void => {
+	// const _handleRemoveImage = () => {
 	// 	setImage('');
 	// 	onRemoveImage();
 	// };
 
-	const _handleUploadVideo = (video: string): void => {
+	const _handleUploadVideo = (video: string) => {
 		setVideo(video);
 		onUploadVideo(video);
 	};
 
-	const _handleRemoveVideo = (): void => {
+	const _handleRemoveVideo = () => {
 		setVideo('');
 		onRemoveVideo();
 	};
 
-	const _handleLoadingStart = (): void => {
+	const _handleLoadingStart = () => {
 		setLoading(true);
 		onLoadingStart();
 	};
 
-	const _handleLoadingFinish = (): void => {
+	const _handleLoadingFinish = () => {
 		setLoading(false);
 		onLoadingFinish();
 	};

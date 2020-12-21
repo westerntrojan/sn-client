@@ -91,7 +91,7 @@ const ChatItem: React.FC<Props> = ({chat}) => {
 				/>
 
 				<ListItemSecondaryAction>
-					<IconButton edge='end' onClick={(): void => handleRemoveModal(chat._id)}>
+					<IconButton edge='end' onClick={() => handleRemoveModal(chat._id)}>
 						<DeleteIcon />
 					</IconButton>
 				</ListItemSecondaryAction>

@@ -58,12 +58,12 @@ const CommentForm: React.FC<Props> = ({handleSubmitComment}) => {
 		validate();
 	}, [validate]);
 
-	const _handleCancel = (): void => {
+	const _handleCancel = () => {
 		setText('');
 		setShowButtons(false);
 	};
 
-	const _handleChangeText = (e: React.ChangeEvent<HTMLInputElement>): void => {
+	const _handleChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setText(e.target.value);
 	};
 
@@ -85,13 +85,13 @@ const CommentForm: React.FC<Props> = ({handleSubmitComment}) => {
 		setLoading(false);
 	};
 
-	const _handleKeyPressTextarea = (target: React.KeyboardEvent): void => {
+	const _handleKeyPressTextarea = (target: React.KeyboardEvent) => {
 		if (target.ctrlKey && target.charCode === 13) {
 			_handleSubmit();
 		}
 	};
 
-	const _handleMouseDown = (): void => {
+	const _handleMouseDown = () => {
 		if (!auth.isAuth) {
 			return openAuthModal();
 		}

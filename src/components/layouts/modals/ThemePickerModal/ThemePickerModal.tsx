@@ -169,7 +169,7 @@ const ThemePickerModal: React.FC<Props> = ({
 		getColorString(theme.palette.primary.main),
 	);
 
-	const handleChangeTypeTheme = (e: React.ChangeEvent<HTMLInputElement>): void => {
+	const handleChangeTypeTheme = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const value = getThemeType(e.target.value);
 
 		setTypeTheme(value);
@@ -182,7 +182,7 @@ const ThemePickerModal: React.FC<Props> = ({
 		});
 	};
 
-	const handleChangePrimaryColor = (e: React.ChangeEvent<{value: unknown}>): void => {
+	const handleChangePrimaryColor = (e: React.ChangeEvent<{value: unknown}>) => {
 		const value = e.target.value as string;
 
 		setPrimaryColor(value);

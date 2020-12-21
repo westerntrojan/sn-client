@@ -46,7 +46,7 @@ const Message: React.FC<Props> = ({message}) => {
 
 	const {handleReadMessage} = useContext(GlobalChatContext);
 
-	const handleVisibleChange = (isVisible: boolean): void => {
+	const handleVisibleChange = (isVisible: boolean) => {
 		if (isVisible && !message.isRead && !isFirstRender) {
 			handleReadMessage(message._id);
 		}

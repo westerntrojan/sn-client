@@ -38,11 +38,21 @@ type Props = {
 	error: boolean;
 	loading: boolean;
 	messages: IMessage[];
+	endMessages: boolean;
 	scrollDown: boolean;
+	handleLoadMore: () => void;
 	handleRemoveMessages: (messages: string[]) => void;
 };
 
-const Canvas: React.FC<Props> = ({loading, error, messages, scrollDown, handleRemoveMessages}) => {
+const Canvas: React.FC<Props> = ({
+	loading,
+	error,
+	messages,
+	endMessages,
+	scrollDown,
+	handleLoadMore,
+	handleRemoveMessages,
+}) => {
 	const classes = useStyles();
 
 	const [alterHeader, setAlterHeader] = useState(false);
@@ -60,11 +70,11 @@ const Canvas: React.FC<Props> = ({loading, error, messages, scrollDown, handleRe
 		}
 	}, [messages, scrollDown, error]);
 
-	const openRemoveMessagesModal = (): void => {
+	const openRemoveMessagesModal = () => {
 		setRemoveMessagesModal(true);
 	};
 
-	const selectMessage = (_id: string): void => {
+	const selectMessage = (_id: string) => {
 		if (!alterHeader) {
 			setAlterHeader(true);
 		}
@@ -76,16 +86,43 @@ const Canvas: React.FC<Props> = ({loading, error, messages, scrollDown, handleRe
 		}
 	};
 
-	const closeAlterHeader = (): void => {
+	const closeAlterHeader = () => {
 		setAlterHeader(false);
 		setSelectedMessages([]);
 	};
 
-	const removeMessages = (): void => {
+	const removeMessages = () => {
 		handleRemoveMessages(selectedMessages);
 		setSelectedMessages([]);
 		closeAlterHeader();
 		setRemoveMessagesModal(false);
+	};
+
+	const handleScroll = (e: React.UIEvent<HTMLElement>) => {
+		const scrollTop = Math.trunc(e.currentTarget.scrollTop);
+
+		if (scrollTop <= 300 && !endMessages) {
+			handleLoadMore();
+		}
+	};
+
+	const showMessageDate = (message: IMessage, prevMessage: IMessage | null, isFirst: boolean) => {
+		if (isFirst) {
+			return true;
+		}
+
+		const date = new Date(message.created);
+		const prevDate = prevMessage ? new Date(prevMessage.created) : date;
+
+		if (
+			date.getFullYear() !== prevDate.getFullYear() ||
+			date.getMonth() !== prevDate.getMonth() ||
+			date.getDate() !== prevDate.getDate()
+		) {
+			return true;
+		}
+
+		return false;
 	};
 
 	return (
@@ -102,10 +139,13 @@ const Canvas: React.FC<Props> = ({loading, error, messages, scrollDown, handleRe
 
 			<Divider />
 
-			<div className={classes.messages} ref={messagesContainerRef}>
+			<div className={classes.messages} ref={messagesContainerRef} onScroll={handleScroll}>
 				{loading && <Loader />}
 
-				{messages.map(message => {
+				{messages.map((message, i) => {
+					const prevMessage = i > 0 ? messages[i - 1] : null;
+					const showDate = showMessageDate(message, prevMessage, i === 0);
+
 					if (message.user._id === auth.user._id) {
 						return (
 							<MyMessage
@@ -113,11 +153,12 @@ const Canvas: React.FC<Props> = ({loading, error, messages, scrollDown, handleRe
 								message={message}
 								selectMessage={selectMessage}
 								alterHeader={alterHeader}
+								showDate={showDate}
 							/>
 						);
 					}
 
-					return <Message key={message._id} message={message} />;
+					return <Message key={message._id} message={message} showDate={showDate} />;
 				})}
 
 				{error && (
@@ -141,7 +182,7 @@ const Canvas: React.FC<Props> = ({loading, error, messages, scrollDown, handleRe
 						? `Do you want to remove ${selectedMessages.length} messages ?`
 						: 'Do you want to remove this message ?'
 				}
-				closeModal={(): void => setRemoveMessagesModal(false)}
+				closeModal={() => setRemoveMessagesModal(false)}
 			/>
 		</Paper>
 	);

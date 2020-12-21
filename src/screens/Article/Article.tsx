@@ -49,11 +49,11 @@ const Article: React.FC = () => {
 	const {redirectTo} = useRedirect();
 	const {openAuthModal} = useAuthModal();
 
-	const openSortMenu = (e: React.MouseEvent<HTMLButtonElement>): void => {
+	const openSortMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
 		setAnchorEl(e.currentTarget);
 	};
 
-	const closeSortMenu = (): void => {
+	const closeSortMenu = () => {
 		setAnchorEl(null);
 	};
 
@@ -80,7 +80,7 @@ const Article: React.FC = () => {
 		setViews();
 	}, [slug, setArticleSlug, setViews]);
 
-	const handleAddArticleLike = (): void => {
+	const handleAddArticleLike = () => {
 		if (!auth.isAuth) {
 			return openAuthModal();
 		}
@@ -90,7 +90,7 @@ const Article: React.FC = () => {
 		}
 	};
 
-	const handleAddArticleDislike = (): void => {
+	const handleAddArticleDislike = () => {
 		if (!auth.isAuth) {
 			return openAuthModal();
 		}
@@ -160,7 +160,7 @@ const Article: React.FC = () => {
 		setRemoveReplyModal(false);
 	};
 
-	const _handleTopCommentsSort = (): void => {
+	const _handleTopCommentsSort = () => {
 		if (article) {
 			dispatch(articleActions.sortCommentsByTopArticles(article._id));
 		}
@@ -168,7 +168,7 @@ const Article: React.FC = () => {
 		closeSortMenu();
 	};
 
-	const _handleNewestFirstSort = (): void => {
+	const _handleNewestFirstSort = () => {
 		if (article) {
 			dispatch(articleActions.sortCommentsByNewestFirst(article._id));
 		}
@@ -176,7 +176,7 @@ const Article: React.FC = () => {
 		closeSortMenu();
 	};
 
-	const handleAddCommentLike = (commentId: string): void => {
+	const handleAddCommentLike = (commentId: string) => {
 		if (!auth.isAuth) {
 			return openAuthModal();
 		}
@@ -186,7 +186,7 @@ const Article: React.FC = () => {
 		}
 	};
 
-	const handleAddCommentDislike = (commentId: string): void => {
+	const handleAddCommentDislike = (commentId: string) => {
 		if (!auth.isAuth) {
 			return openAuthModal();
 		}
@@ -208,7 +208,7 @@ const Article: React.FC = () => {
 				value={{
 					auth,
 					handleSubmitReply,
-					handleRemoveReply: (commentId: string): void => {
+					handleRemoveReply: (commentId: string) => {
 						setRemovedCommentId(commentId);
 						setRemoveReplyModal(true);
 					},
@@ -223,7 +223,7 @@ const Article: React.FC = () => {
 							addLike={handleAddArticleLike}
 							addDislike={handleAddArticleDislike}
 							addToBookmarks={handleAddToBookmarks}
-							handleRemove={(): void => setRemoveArticleModal(true)}
+							handleRemove={() => setRemoveArticleModal(true)}
 						/>
 
 						<div className='comments'>
@@ -257,7 +257,7 @@ const Article: React.FC = () => {
 										comment={comment}
 										addLike={handleAddCommentLike}
 										addDislike={handleAddCommentDislike}
-										handleRemove={(commentId: string): void => {
+										handleRemove={(commentId: string) => {
 											setRemovedCommentId(commentId);
 											setRemoveCommentModal(true);
 										}}
@@ -273,19 +273,19 @@ const Article: React.FC = () => {
 				open={removeArticleModal}
 				text='Do you want to remove this article?'
 				action={handleRemoveArticle}
-				closeModal={(): void => setRemoveArticleModal(false)}
+				closeModal={() => setRemoveArticleModal(false)}
 			/>
 			<RemoveModal
 				open={removeCommentModal}
 				text='Do you want to remove this comment?'
 				action={handleRemoveComment}
-				closeModal={(): void => setRemoveCommentModal(false)}
+				closeModal={() => setRemoveCommentModal(false)}
 			/>
 			<RemoveModal
 				open={removeReplyModal}
 				text='Do you want to remove this reply?'
 				action={handleRemoveReply}
-				closeModal={(): void => setRemoveReplyModal(false)}
+				closeModal={() => setRemoveReplyModal(false)}
 			/>
 		</section>
 	);

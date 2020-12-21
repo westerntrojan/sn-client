@@ -21,7 +21,7 @@ export default (): ReturningData => {
 		shallowEqual,
 	);
 
-	const setArticleSlug = (slug: string): void => {
+	const setArticleSlug = (slug: string) => {
 		setSlug(slug);
 	};
 

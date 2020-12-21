@@ -33,14 +33,13 @@ const AuthBookmarks: React.FC = () => {
 		<div className='auth-bookmarks'>
 			{loading && <Loader disableMargin />}
 
-			{!loading && data && !data.userBookmarks.length && (
+			{data && !data.userBookmarks.length && (
 				<div className={classes.noInfo}>
 					<Typography variant='h5'>No articles</Typography>
 				</div>
 			)}
 
-			{!loading &&
-				data &&
+			{data &&
 				data.userBookmarks.map(article => <SmallArticle key={article._id} article={article} />)}
 		</div>
 	);

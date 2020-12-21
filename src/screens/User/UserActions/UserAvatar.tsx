@@ -87,7 +87,7 @@ const UserAvatar: React.FC = () => {
 				}
 
 				const config = {
-					onUploadProgress: (progressEvent: {loaded: number; total: number}): void => {
+					onUploadProgress: (progressEvent: {loaded: number; total: number}) => {
 						const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
 
 						setLoadingProgress(percentCompleted);
@@ -130,14 +130,14 @@ const UserAvatar: React.FC = () => {
 	return (
 		<div
 			className={classes.root}
-			onMouseEnter={(): void => setActionButton(true)}
-			onMouseLeave={(): void => setActionButton(false)}
+			onMouseEnter={() => setActionButton(true)}
+			onMouseLeave={() => setActionButton(false)}
 		>
 			<Avatar
 				variant='rounded'
 				className={classNames(classes.avatar, 'avatar')}
 				style={{backgroundColor: user.avatar.color, cursor: currentAvatar ? 'pointer' : 'default'}}
-				onClick={(): void => setImageModal(true)}
+				onClick={() => setImageModal(true)}
 				src={
 					currentAvatar
 						? `${process.env.REACT_APP_CLOUD_IMAGE_URI}/c_fill,h_240,w_240,q_65/${currentAvatar}`
@@ -154,7 +154,7 @@ const UserAvatar: React.FC = () => {
 				)}
 				handleRemoveImage={handleRemoveImage}
 				loading={loading}
-				closeModal={(): void => setImageModal(false)}
+				closeModal={() => setImageModal(false)}
 			/>
 
 			<ImageModal
@@ -162,7 +162,7 @@ const UserAvatar: React.FC = () => {
 				images={allAvatars.map(
 					(avatar: string) => `${process.env.REACT_APP_CLOUD_IMAGE_URI}/q_65/${avatar}`,
 				)}
-				closeModal={(): void => setImageModal(false)}
+				closeModal={() => setImageModal(false)}
 			/>
 
 			{loading && (

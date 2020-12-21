@@ -56,7 +56,7 @@ const TopArticles: React.FC = () => {
 
 			{loading && <Loader />}
 
-			{!loading && data && (
+			{data && (
 				<List className={classes.list}>
 					{data.topArticles.map((article: IArticle) => (
 						<Article article={article} key={article._id} />

@@ -30,7 +30,7 @@ const RemoveModal: React.FC<Props> = ({open, text, action, closeModal}) => {
 		// eslint-disable-next-line
 	}, [open]);
 
-	const _handleAction = (): void => {
+	const _handleAction = () => {
 		setLoading(true);
 
 		action();

@@ -34,11 +34,11 @@ const PasswordResetVerify: React.FC = () => {
 		validateToken();
 	}, [token]);
 
-	const _handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>): void => {
+	const _handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setPassword(e.target.value);
 	};
 
-	const _handleChangeRepeatPassword = (e: React.ChangeEvent<HTMLInputElement>): void => {
+	const _handleChangeRepeatPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setRepeatPassword(e.target.value);
 	};
 
@@ -61,7 +61,7 @@ const PasswordResetVerify: React.FC = () => {
 		}
 	};
 
-	const _handleKeyPress = (e: React.KeyboardEvent): void => {
+	const _handleKeyPress = (e: React.KeyboardEvent) => {
 		if (e.key === 'Enter') {
 			_handleSubmit();
 		}

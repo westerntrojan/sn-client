@@ -9,6 +9,8 @@ import {SnackbarProvider} from 'notistack';
 import {useHistory} from 'react-router';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import {useMutation} from 'react-apollo';
+import {loader} from 'graphql.macro';
 
 import './App.scss';
 import Header from '@components/layouts/Header';
@@ -31,11 +33,16 @@ import {getCurrentTheme, changeTheme, changeThemeAnimations} from '@utils/theme'
 import {ChangeDrawer, Exit} from '@utils/hotKeys';
 import GlobalCss from './GlobalCss';
 import SettingsContext from './SettingsContext';
-
 import settings from './settings.json';
 
+const StartSession = loader('./gql/StartSession.gql');
+const EndSession = loader('./gql/EndSession.gql');
+
 const useStyles = makeStyles(theme => ({
-	toolbar: {...theme.mixins.toolbar},
+	toolbar: {
+		...theme.mixins.toolbar,
+		boxShadow: 'none',
+	},
 	snackbar: {
 		color: 'white',
 	},
@@ -67,9 +74,12 @@ const App: React.FC<Props> = ({children}) => {
 	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
 	const dispatch = useDispatch();
 
+	const [startSession] = useMutation(StartSession);
+	const [endSession] = useMutation(EndSession);
+
 	const history = useHistory();
 
-	const _handleScroll = (): void => {
+	const handleScroll = () => {
 		if (window.scrollY > 400) {
 			setScrollButton(true);
 		} else {
@@ -77,7 +87,7 @@ const App: React.FC<Props> = ({children}) => {
 		}
 	};
 
-	const _handleKey = (e: KeyboardEvent): void => {
+	const handleKeyDown = (e: KeyboardEvent) => {
 		if (e.ctrlKey && (e.key === 'b' || e.key === 'q')) {
 			e.preventDefault();
 		}
@@ -87,27 +97,35 @@ const App: React.FC<Props> = ({children}) => {
 		}
 	};
 
-	// loading app
+	const handleBeforeUnload = () => {
+		endSession();
+	};
+
 	useEffect(() => {
 		dispatch(loadApp());
-	}, [dispatch]);
 
-	// added app events
-	useEffect(() => {
-		window.addEventListener('scroll', _handleScroll);
-		document.addEventListener('keydown', _handleKey);
+		window.addEventListener('beforeunload', handleBeforeUnload);
+		document.addEventListener('scroll', handleScroll);
+		document.addEventListener('keydown', handleKeyDown);
 
-		return function cleanup(): void {
-			window.removeEventListener('scroll', _handleScroll);
-			document.removeEventListener('keydown', _handleKey);
+		return () => {
+			window.removeEventListener('beforeunload', handleBeforeUnload);
+			document.removeEventListener('scroll', handleScroll);
+			document.removeEventListener('keydown', handleKeyDown);
 		};
-	}, [dispatch]);
+	}, []);
+
+	useEffect(() => {
+		if (auth.isAuth) {
+			startSession();
+		}
+	}, [auth.isAuth]);
 
 	// app settings
-	const handleChangeTwoFactorAuth = (): void => {
+	const handleChangeTwoFactorAuth = () => {
 		dispatch(changeTwoFactorAuth());
 	};
-	const handleChangeThemeAnimations = (): void => {
+	const handleChangeThemeAnimations = () => {
 		const newTheme = changeThemeAnimations();
 
 		setTheme(newTheme);
@@ -120,12 +138,12 @@ const App: React.FC<Props> = ({children}) => {
 	}: {
 		palette?: PaletteOptions;
 		fontSize?: number;
-	}): void => {
+	}) => {
 		const newTheme = changeTheme({palette, fontSize});
 
 		setTheme(newTheme);
 	};
-	const handleResetTheme = (): void => {
+	const handleResetTheme = () => {
 		localStorage.removeItem('theme');
 
 		const newTheme = getCurrentTheme();
@@ -133,15 +151,17 @@ const App: React.FC<Props> = ({children}) => {
 		setTheme(newTheme);
 	};
 
-	const handleChangeDrawer = (): void => {
+	const handleChangeDrawer = () => {
 		alterDrawer ? setAlterDrawer(false) : setAlterDrawer(true);
 	};
 
-	const openMobileDrawer = (): void => {
+	const openMobileDrawer = () => {
 		setMobileDrawer(true);
 	};
 
-	const handleExit = (): void => {
+	const handleExit = async () => {
+		await endSession();
+
 		setExitModal(false);
 
 		dispatch(exit());
@@ -188,15 +208,15 @@ const App: React.FC<Props> = ({children}) => {
 				<div id='root'>
 					<Header
 						openDrawer={size['large'] ? handleChangeDrawer : openMobileDrawer}
-						openThemePickerModal={(): void => setThemePickerModal(true)}
-						openHotKeysModal={(): void => setHotKeysModal(true)}
-						openSettingsModal={(): void => setSettingsModal(true)}
-						exit={(): void => setExitModal(true)}
+						openThemePickerModal={() => setThemePickerModal(true)}
+						openHotKeysModal={() => setHotKeysModal(true)}
+						openSettingsModal={() => setSettingsModal(true)}
+						exit={() => setExitModal(true)}
 					/>
 
 					{size['large'] && <>{alterDrawer ? <AlterDrawer /> : <MainDrawer />}</>}
 					{!size['large'] && !size['small'] && <AlterDrawer />}
-					<MobileDrawer open={mobileDrawer} closeDrawer={(): void => setMobileDrawer(false)} />
+					<MobileDrawer open={mobileDrawer} closeDrawer={() => setMobileDrawer(false)} />
 
 					<main className='content'>
 						<div className={classes.toolbar} />
@@ -209,22 +229,18 @@ const App: React.FC<Props> = ({children}) => {
 
 					<ThemePickerModal
 						open={themePickerModal}
-						closeModal={(): void => setThemePickerModal(false)}
+						closeModal={() => setThemePickerModal(false)}
 						handleChangeTheme={handleChangeTheme}
 						handleResetTheme={handleResetTheme}
 					/>
-					<HotKeysModal open={hotKeysModal} closeModal={(): void => setHotKeysModal(false)} />
+					<HotKeysModal open={hotKeysModal} closeModal={() => setHotKeysModal(false)} />
 					<SettingsContext.Provider
 						value={{handleChangeTwoFactorAuth, handleChangeThemeAnimations}}
 					>
-						<SettingsModal open={settingsModal} closeModal={(): void => setSettingsModal(false)} />
+						<SettingsModal open={settingsModal} closeModal={() => setSettingsModal(false)} />
 					</SettingsContext.Provider>
 					<AuthModal open={app.authModal} closeModal={(): any => dispatch(closeAuthModal())} />
-					<ExitModal
-						open={exitModal}
-						closeModal={(): void => setExitModal(false)}
-						action={handleExit}
-					/>
+					<ExitModal open={exitModal} closeModal={() => setExitModal(false)} action={handleExit} />
 
 					{/* hot keys */}
 					<ChangeDrawer action={handleChangeDrawer} />

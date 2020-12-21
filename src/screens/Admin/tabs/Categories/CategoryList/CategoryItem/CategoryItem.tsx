@@ -20,10 +20,10 @@ const CategoryItem: React.FC<Props> = ({category}) => {
 
 	return (
 		<>
-			<ListItem key={category._id} button onClick={(): void => setEditModal(true)}>
+			<ListItem key={category._id} button onClick={() => setEditModal(true)}>
 				<ListItemText primary={category.title} />
 				<ListItemSecondaryAction>
-					<IconButton edge='end' onClick={(): void => handleRemoveCategory(category._id)}>
+					<IconButton edge='end' onClick={() => handleRemoveCategory(category._id)}>
 						<DeleteIcon />
 					</IconButton>
 				</ListItemSecondaryAction>
@@ -32,7 +32,7 @@ const CategoryItem: React.FC<Props> = ({category}) => {
 			<EditCategoryModal
 				open={editModal}
 				category={category}
-				closeModal={(): void => setEditModal(false)}
+				closeModal={() => setEditModal(false)}
 			/>
 		</>
 	);

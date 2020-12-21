@@ -1,4 +1,4 @@
-query UserFeed($userId: ID!) {
+query GetUserFeed($userId: ID!) {
 	userFeed(userId: $userId) {
 		_id
 		title

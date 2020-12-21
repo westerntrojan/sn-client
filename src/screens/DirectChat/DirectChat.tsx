@@ -19,7 +19,7 @@ let socket: SocketIOClient.Socket;
 const Direct: React.FC = () => {
 	const {chatId} = useParams();
 
-	const [{error, loading, messages, scrollDown, typing}, dispatch] = useReducer(
+	const [{messages, endMessages, loading, scrollDown, typing, error}, dispatch] = useReducer(
 		reducer,
 		initialState,
 	);
@@ -86,6 +86,15 @@ const Direct: React.FC = () => {
 				});
 			});
 
+			socket.on('load_more', (data: {messages: IMessage[]; endMessages: boolean}) => {
+				dispatch({
+					type: types.LOAD_MORE,
+					payload: {
+						messages: data.messages,
+					},
+				});
+			});
+
 			socket.on('typing', () => {
 				dispatch({type: types.TYPING});
 			});
@@ -102,7 +111,7 @@ const Direct: React.FC = () => {
 		socketInit();
 		socketListeners();
 
-		return function cleanup() {
+		return () => {
 			socket.close();
 		};
 	}, [socketInit, socketListeners]);
@@ -128,6 +137,10 @@ const Direct: React.FC = () => {
 		socket.emit('remove_messages', {messages});
 	};
 
+	const handleLoadMore = () => {
+		socket.emit('load_more');
+	};
+
 	return (
 		<section className='direct-chat'>
 			<Helmet>
@@ -144,9 +157,11 @@ const Direct: React.FC = () => {
 			>
 				<Canvas
 					messages={messages}
+					endMessages={endMessages}
 					loading={loading}
 					error={error}
 					scrollDown={scrollDown}
+					handleLoadMore={handleLoadMore}
 					handleRemoveMessages={handleRemoveMessages}
 				/>
 			</Context.Provider>

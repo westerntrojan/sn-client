@@ -83,46 +83,46 @@ const Header: React.FC<Props> = ({
 		}
 	};
 
-	const handleMobileMenuClose = (): void => {
+	const handleMobileMenuClose = () => {
 		setMobileMoreAnchorEl(null);
 	};
 
-	const handleMenuClose = (): void => {
+	const handleMenuClose = () => {
 		setAnchorEl(null);
 		handleMobileMenuClose();
 	};
 
-	const handleAppearance = (): void => {
+	const handleAppearance = () => {
 		handleMenuClose();
 		handleMobileMenuClose();
 
 		openThemePickerModal();
 	};
-	const handleSettings = (): void => {
+	const handleSettings = () => {
 		handleMenuClose();
 		handleMobileMenuClose();
 
 		openSettingsModal();
 	};
-	const handleNotification = (): void => {
+	const handleNotification = () => {
 		handleMenuClose();
 		handleMobileMenuClose();
 	};
-	const handleSignIn = (): void => {
+	const handleSignIn = () => {
 		handleMenuClose();
 		handleMobileMenuClose();
 
 		openAuthModal();
 	};
 
-	const handleProfileMenuOpen = (e: React.MouseEvent<HTMLDivElement>): void => {
+	const handleProfileMenuOpen = (e: React.MouseEvent<HTMLDivElement>) => {
 		setAnchorEl(e.currentTarget);
 	};
-	const handleMobileMenuOpen = (e: React.MouseEvent<HTMLButtonElement>): void => {
+	const handleMobileMenuOpen = (e: React.MouseEvent<HTMLButtonElement>) => {
 		setMobileMoreAnchorEl(e.currentTarget);
 	};
 
-	const handleFoucs = (): void => {
+	const handleFoucs = () => {
 		if (searchRef.current) {
 			searchRef.current.focus();
 		}
@@ -166,7 +166,7 @@ const Header: React.FC<Props> = ({
 						<ListItemText primary='Settings' />
 					</MenuItem>
 					<MenuItem
-						onClick={(): void => {
+						onClick={() => {
 							handleMenuClose();
 							exit();
 						}}
@@ -221,7 +221,7 @@ const Header: React.FC<Props> = ({
 			</Link>
 
 			<MenuItem
-				onClick={(): void => {
+				onClick={() => {
 					exit();
 					handleMenuClose();
 				}}
@@ -269,18 +269,18 @@ const Header: React.FC<Props> = ({
 								disabled={appLoading}
 								value={searchQuery}
 								onChange={handleChangeSearch}
-								onFocus={(): void => {
+								onFocus={() => {
 									if (searchQuery) {
 										setShowSearchResult(true);
 									}
 								}}
-								// onBlur={(): void => setShowSearchResult(false)}
+								// onBlur={() => setShowSearchResult(false)}
 							/>
 
 							{showSearchResult && (
 								<SearchResult
 									searchQuery={debouncedSearchQuery}
-									handleLinkClick={(): void => {
+									handleLinkClick={() => {
 										setSearchQuery('');
 										setShowSearchResult(false);
 									}}

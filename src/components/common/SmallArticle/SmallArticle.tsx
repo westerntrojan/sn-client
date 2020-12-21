@@ -58,16 +58,16 @@ const SmallArticle: React.FC<Props> = ({article}) => {
 	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
 	const dispatch = useDispatch();
 
-	const openMoreMenu = (e: React.MouseEvent<HTMLButtonElement>): void => {
+	const openMoreMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
 		setMoreMenuEl(e.currentTarget);
 	};
-	const closeMoreMenu = (): void => {
+	const closeMoreMenu = () => {
 		setMoreMenuEl(null);
 	};
-	const openShareMenu = (e: React.MouseEvent<HTMLButtonElement>): void => {
+	const openShareMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
 		setShareMenuEl(e.currentTarget);
 	};
-	const closeShareMenu = (): void => {
+	const closeShareMenu = () => {
 		setShareMenuEl(null);
 	};
 

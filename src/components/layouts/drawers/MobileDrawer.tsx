@@ -50,7 +50,7 @@ const MobileDrawer: React.FC<Props> = ({open, closeDrawer}) => {
 
 	const location = useLocation();
 
-	const handleChangeTab = (event: React.ChangeEvent<{}>, newValue: string): void => {
+	const handleChangeTab = (event: React.ChangeEvent<{}>, newValue: string) => {
 		setTab(Number(newValue));
 	};
 

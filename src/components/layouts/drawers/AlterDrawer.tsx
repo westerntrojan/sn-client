@@ -37,7 +37,10 @@ const useStyles = makeStyles(theme => ({
 	menuButton: {
 		marginRight: theme.spacing(2),
 	},
-	toolbar: {...theme.mixins.toolbar},
+	toolbar: {
+		...theme.mixins.toolbar,
+		boxShadow: 'none',
+	},
 }));
 
 const AlterDrawer: React.FC = () => {

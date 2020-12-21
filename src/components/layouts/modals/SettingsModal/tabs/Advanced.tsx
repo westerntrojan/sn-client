@@ -14,7 +14,7 @@ const Advanced: React.FC = () => {
 
 	const {handleChangeThemeAnimations} = useContext(SettingsContext);
 
-	const _handleChangeThemeAnimations = (): void => {
+	const _handleChangeThemeAnimations = () => {
 		setEnableAnimations(!enableAnimations);
 
 		handleChangeThemeAnimations();

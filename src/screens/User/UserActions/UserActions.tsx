@@ -65,11 +65,11 @@ const UserActions: React.FC<Props> = ({handleRemoveUser, handleFollowToUser}) =>
 
 	const history = useHistory();
 
-	const openMenu = (e: React.MouseEvent<HTMLButtonElement>): void => {
+	const openMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
 		setAnchorEl(e.currentTarget);
 	};
 
-	const closeMenu = (): void => {
+	const closeMenu = () => {
 		setAnchorEl(null);
 	};
 
@@ -143,7 +143,7 @@ const UserActions: React.FC<Props> = ({handleRemoveUser, handleFollowToUser}) =>
 
 					<Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={closeMenu}>
 						<MenuItem
-							onClick={(): void => {
+							onClick={() => {
 								closeMenu();
 
 								handleRemoveUser();

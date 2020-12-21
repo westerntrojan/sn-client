@@ -95,18 +95,14 @@ const ImageModal: React.FC<Props> = ({
 					toolbarButtons={[
 						<IconButton
 							color='primary'
-							onClick={(): void => {
+							onClick={() => {
 								downloadImage(image);
 							}}
 						>
 							<GetAppIcon />
 						</IconButton>,
 						handleRemoveImage && (
-							<Button
-								variant='outlined'
-								color='secondary'
-								onClick={(): void => handleRemoveImage(image)}
-							>
+							<Button variant='outlined' color='secondary' onClick={() => handleRemoveImage(image)}>
 								Remove
 							</Button>
 						),
@@ -131,10 +127,10 @@ const ImageModal: React.FC<Props> = ({
 					mainSrc={images[photoIndex]}
 					nextSrc={images[(photoIndex + 1) % images.length]}
 					prevSrc={images[(photoIndex + images.length - 1) % images.length]}
-					onMovePrevRequest={(): void => {
+					onMovePrevRequest={() => {
 						setPhotoIndex((photoIndex + images.length - 1) % images.length);
 					}}
-					onMoveNextRequest={(): void => {
+					onMoveNextRequest={() => {
 						setPhotoIndex((photoIndex + 1) % images.length);
 					}}
 					onCloseRequest={closeModal}
@@ -147,17 +143,14 @@ const ImageModal: React.FC<Props> = ({
 					toolbarButtons={[
 						<IconButton
 							color='primary'
-							onClick={(): void => {
+							onClick={() => {
 								downloadImage(images[photoIndex]);
 							}}
 						>
 							<GetAppIcon />
 						</IconButton>,
 						handleRemoveImage && (
-							<IconButton
-								color='secondary'
-								onClick={(): void => handleRemoveImage(images[photoIndex])}
-							>
+							<IconButton color='secondary' onClick={() => handleRemoveImage(images[photoIndex])}>
 								<DeleteOutlineIcon />
 							</IconButton>
 						),

@@ -62,7 +62,7 @@ const ImageUploader: React.FC<Props> = ({
 		}
 
 		const config = {
-			onUploadProgress: (progressEvent: {loaded: number; total: number}): void => {
+			onUploadProgress: (progressEvent: {loaded: number; total: number}) => {
 				const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
 
 				setLoadingImageProgress(percentCompleted);

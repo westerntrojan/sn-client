@@ -22,7 +22,7 @@ const RemoveUserModal: React.FC<Props> = ({open, action, closeModal}) => {
 
 	const [loading, setLoading] = useState(false);
 
-	const _handleAction = (): void => {
+	const _handleAction = () => {
 		setLoading(true);
 
 		action();

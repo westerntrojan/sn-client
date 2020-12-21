@@ -57,19 +57,19 @@ const Login: React.FC<Props> = ({submit}) => {
 		validate();
 	}, [validate]);
 
-	const handleClickShowPassword = (): void => setShowPassword(!showPassword);
+	const handleClickShowPassword = () => setShowPassword(!showPassword);
 
-	const handleMouseDownPassword = (e: React.MouseEvent): void => e.preventDefault();
+	const handleMouseDownPassword = (e: React.MouseEvent) => e.preventDefault();
 
-	const _handleChangeUserLink = (e: React.ChangeEvent<HTMLInputElement>): void => {
+	const _handleChangeUserLink = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setUserLink(e.target.value);
 	};
 
-	const _handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>): void => {
+	const _handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setPassword(e.target.value);
 	};
 
-	const _handleChangeRememberMe = (e: React.ChangeEvent<HTMLInputElement>): void => {
+	const _handleChangeRememberMe = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setRememberMe(e.target.checked);
 	};
 
@@ -93,7 +93,7 @@ const Login: React.FC<Props> = ({submit}) => {
 		}
 	};
 
-	const _handleKeyPressInput = (target: React.KeyboardEvent): void => {
+	const _handleKeyPressInput = (target: React.KeyboardEvent) => {
 		if (target.charCode === 13) {
 			_handleSubmit();
 		}
@@ -140,7 +140,7 @@ const Login: React.FC<Props> = ({submit}) => {
 				<div className={classes.actions}>
 					<Link
 						color='primary'
-						onClick={(): void => setConfirmEmailModal(true)}
+						onClick={() => setConfirmEmailModal(true)}
 						style={{cursor: 'pointer', marginBottom: 5}}
 					>
 						Forgot password ?
@@ -171,13 +171,10 @@ const Login: React.FC<Props> = ({submit}) => {
 
 			<CodeModal
 				open={twoFactorAuth}
-				closeModal={(): void => setTwoFactorAuth(false)}
+				closeModal={() => setTwoFactorAuth(false)}
 				rememberMe={rememberMe}
 			/>
-			<ConfirmEmailModal
-				open={confirmEmailModal}
-				closeModal={(): void => setConfirmEmailModal(false)}
-			/>
+			<ConfirmEmailModal open={confirmEmailModal} closeModal={() => setConfirmEmailModal(false)} />
 		</div>
 	);
 };

@@ -40,13 +40,13 @@ const User: React.FC = () => {
 			setLoading(false);
 		};
 		fetchUser();
-	}, [userLink, dispatch]);
+	}, [userLink]);
 
-	const openRemoveModal = (): void => {
+	const openRemoveModal = () => {
 		setRemoveModal(true);
 	};
 
-	const handleFollowToUser = (): void => {
+	const handleFollowToUser = () => {
 		if (user) {
 			if (auth.user.following.includes(user._id)) {
 				dispatch(unfollowFromUser(user._id));
@@ -118,7 +118,7 @@ const User: React.FC = () => {
 
 			<RemoveUserModal
 				open={removeModal}
-				closeModal={(): void => setRemoveModal(false)}
+				closeModal={() => setRemoveModal(false)}
 				action={handleRemoveUser}
 			/>
 		</section>

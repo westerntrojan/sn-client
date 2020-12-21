@@ -33,15 +33,13 @@ const Feed: React.FC = () => {
 		<div className='auth-feed'>
 			{loading && <Loader disableMargin />}
 
-			{!loading && data && !data.userFeed.length && (
+			{data && !data.userFeed.length && (
 				<div className={classes.noInfo}>
 					<Typography variant='h5'>No articles</Typography>
 				</div>
 			)}
 
-			{!loading &&
-				data &&
-				data.userFeed.map(article => <SmallArticle key={article._id} article={article} />)}
+			{data && data.userFeed.map(article => <SmallArticle key={article._id} article={article} />)}
 		</div>
 	);
 };

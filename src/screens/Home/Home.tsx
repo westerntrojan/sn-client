@@ -18,7 +18,7 @@ const Home: React.FC = () => {
 	const articles = useSelector((state: RootState) => state.articles, shallowEqual);
 	const dispatch = useDispatch();
 
-	const loadMore = (): void => {
+	const loadMore = () => {
 		dispatch(fetchArticles());
 	};
 

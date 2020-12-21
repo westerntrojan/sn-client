@@ -67,7 +67,7 @@ const About: React.FC<Props> = ({category}) => {
 							variant='inherit'
 							color='primary'
 							className={classes.more}
-							onClick={(): void => setFullDesc(true)}
+							onClick={() => setFullDesc(true)}
 						>
 							more
 						</Typography>

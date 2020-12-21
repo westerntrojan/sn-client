@@ -151,7 +151,7 @@ const AudioMessage: React.FC<Props> = ({isSelect, message}) => {
 		};
 	}, []);
 
-	const togglePlaying = (e: React.MouseEvent): void => {
+	const togglePlaying = (e: React.MouseEvent) => {
 		if (isSelect) return;
 
 		e.stopPropagation();

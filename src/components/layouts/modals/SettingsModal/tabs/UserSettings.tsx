@@ -18,7 +18,7 @@ const UserSettings: React.FC = () => {
 		shallowEqual,
 	);
 
-	const _handleChangeTwoFactorAuth = (): void => {
+	const _handleChangeTwoFactorAuth = () => {
 		handleChangeTwoFactorAuth();
 	};
 

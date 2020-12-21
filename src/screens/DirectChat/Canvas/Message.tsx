@@ -8,9 +8,10 @@ import moment from 'moment';
 import classNames from 'classnames';
 
 import {IMessage} from '@components/common/chats/types';
+import DayMeta from '@components/common/chats/DayMeta';
 
 const useStyles = makeStyles(theme => ({
-	root: {
+	message: {
 		display: 'flex',
 		alignItems: 'flex-end',
 		wordWrap: 'break-word',
@@ -39,23 +40,28 @@ const useStyles = makeStyles(theme => ({
 
 type Props = {
 	message: IMessage;
+	showDate: boolean;
 };
 
-const Message: React.FC<Props> = ({message}) => {
+const Message: React.FC<Props> = ({message, showDate}) => {
 	const classes = useStyles();
 
 	return (
-		<div className={classNames('message', classes.root)}>
-			<Card>
-				<CardContent>
-					<Typography>{message.text}</Typography>
-				</CardContent>
-				<CardActions className={classes.info}>
-					<div className={classes.info}>
-						<Typography className={'small'}>{moment(message.created).format('LT')}</Typography>
-					</div>
-				</CardActions>
-			</Card>
+		<div>
+			{showDate && <DayMeta date={message.created} />}
+
+			<div className={classNames('message', classes.message)}>
+				<Card>
+					<CardContent>
+						<Typography>{message.text}</Typography>
+					</CardContent>
+					<CardActions className={classes.info}>
+						<div className={classes.info}>
+							<Typography className={'small'}>{moment(message.created).format('LT')}</Typography>
+						</div>
+					</CardActions>
+				</Card>
+			</div>
 		</div>
 	);
 };

@@ -32,13 +32,13 @@ const Direct: React.FC = () => {
 		fetchChats();
 	}, [auth]);
 
-	const openRemoveChatModal = (chatId: string): void => {
+	const openRemoveChatModal = (chatId: string) => {
 		setRemoveChatModal(true);
 
 		setChatId(chatId);
 	};
 
-	const handleSearch = (text: string): void => setQuery(text);
+	const handleSearch = (text: string) => setQuery(text);
 
 	const handleRemoveChat = async (): Promise<void> => {
 		const data = await callApi.delete(`/chats/${chatId}`);
@@ -68,7 +68,7 @@ const Direct: React.FC = () => {
 				open={removeChatModal}
 				text='Are you sure you want to remove this chat ?'
 				action={handleRemoveChat}
-				closeModal={(): void => setRemoveChatModal(false)}
+				closeModal={() => setRemoveChatModal(false)}
 			/>
 		</Paper>
 	);

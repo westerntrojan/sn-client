@@ -49,11 +49,11 @@ const CommentReplies: React.FC<Props> = ({comment, addLike, addDislike, handleRe
 
 	const userName = `${comment.user.firstName} ${comment.user.lastName}`.trim();
 
-	const openMenu = (e: React.MouseEvent<HTMLButtonElement>): void => {
+	const openMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
 		setAnchorEl(e.currentTarget);
 	};
 
-	const closeMenu = (): void => {
+	const closeMenu = () => {
 		setAnchorEl(null);
 	};
 
@@ -79,7 +79,7 @@ const CommentReplies: React.FC<Props> = ({comment, addLike, addDislike, handleRe
 
 					<div className='actions'>
 						<div className='rating'>
-							<IconButton color='default' onClick={(): void => addLike(comment._id)}>
+							<IconButton color='default' onClick={() => addLike(comment._id)}>
 								<ThumbUpIcon />
 							</IconButton>
 
@@ -89,14 +89,14 @@ const CommentReplies: React.FC<Props> = ({comment, addLike, addDislike, handleRe
 								</Typography>
 							)}
 
-							<IconButton color='default' onClick={(): void => addDislike(comment._id)}>
+							<IconButton color='default' onClick={() => addDislike(comment._id)}>
 								<ThumbDownIcon />
 							</IconButton>
 						</div>
 
 						<Button
 							size='small'
-							onClick={(): void => {
+							onClick={() => {
 								if (!auth.isAuth) {
 									return openAuthModal();
 								}
@@ -112,7 +112,7 @@ const CommentReplies: React.FC<Props> = ({comment, addLike, addDislike, handleRe
 						<ReplyForm
 							parentId={comment._id}
 							comment={comment}
-							handleClose={(): void => setReplyForm(false)}
+							handleClose={() => setReplyForm(false)}
 						/>
 					)}
 				</CardContent>
@@ -138,7 +138,7 @@ const CommentReplies: React.FC<Props> = ({comment, addLike, addDislike, handleRe
 								<ListItemText primary='Edit' />
 							</MenuItem>
 
-							<MenuItem onClick={(): void => handleRemove(comment._id)}>
+							<MenuItem onClick={() => handleRemove(comment._id)}>
 								<ListItemIcon>
 									<DeleteIcon />
 								</ListItemIcon>
@@ -162,7 +162,7 @@ const CommentReplies: React.FC<Props> = ({comment, addLike, addDislike, handleRe
 						<Button
 							size='small'
 							startIcon={showReplies ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-							onClick={(): void => setShowReplies(!showReplies)}
+							onClick={() => setShowReplies(!showReplies)}
 						>
 							{showReplies
 								? `Hide ${repliesCount > 1 ? `${repliesCount} replies` : 'reply'}`

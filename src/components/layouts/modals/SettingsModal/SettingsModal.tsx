@@ -45,7 +45,7 @@ const SettingsModal: React.FC<Props> = ({open, closeModal}) => {
 
 	const [tab, setTab] = useState(0);
 
-	const _handleChangeTab = (event: React.ChangeEvent<{}>, newValue: number): void => {
+	const _handleChangeTab = (event: React.ChangeEvent<{}>, newValue: number) => {
 		setTab(newValue);
 	};
 

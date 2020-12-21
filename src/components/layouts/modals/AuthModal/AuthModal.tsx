@@ -57,7 +57,7 @@ const AuthModal: React.FC<Props> = ({open, closeModal}) => {
 
 	const dispatch = useDispatch();
 
-	const _handleChangeTab = (e: React.ChangeEvent<{}>, newValue: number): void => {
+	const _handleChangeTab = (e: React.ChangeEvent<{}>, newValue: number) => {
 		setTab(newValue);
 	};
 

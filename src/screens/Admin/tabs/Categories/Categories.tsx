@@ -24,7 +24,7 @@ const Categories: React.FC = () => {
 	const {enqueueSnackbar, closeSnackbar} = useSnackbar();
 
 	useEffect(() => {
-		return function cleanup(): void {
+		return () => {
 			dispatch(removeCategory());
 		};
 	}, [dispatch]);
@@ -49,7 +49,7 @@ const Categories: React.FC = () => {
 		const key = enqueueSnackbar('Сategory removed successfully', {
 			action: (
 				<Button
-					onClick={(): void => {
+					onClick={() => {
 						dispatch(restoreCategory(categoryId));
 
 						closeSnackbar(key);

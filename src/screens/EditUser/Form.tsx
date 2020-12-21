@@ -75,23 +75,23 @@ const Form: React.FC<Props> = ({user, handleSubmit}) => {
 		validate();
 	}, [validate]);
 
-	const _handleChangeFirstName = (e: React.ChangeEvent<HTMLInputElement>): void => {
+	const _handleChangeFirstName = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setFirstName(e.target.value);
 	};
 
-	const _handleChangeLastName = (e: React.ChangeEvent<HTMLInputElement>): void => {
+	const _handleChangeLastName = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setLastName(e.target.value);
 	};
 
-	const _handleChangeUsername = (e: React.ChangeEvent<HTMLInputElement>): void => {
+	const _handleChangeUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setUsername(e.target.value);
 	};
 
-	const _handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>): void => {
+	const _handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setEmail(e.target.value);
 	};
 
-	const _handleChangeBio = (e: React.ChangeEvent<HTMLInputElement>): void => {
+	const _handleChangeBio = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setBio(e.target.value);
 	};
 
@@ -120,13 +120,13 @@ const Form: React.FC<Props> = ({user, handleSubmit}) => {
 		setLoading(false);
 	};
 
-	const _handleKeyPressInput = (target: React.KeyboardEvent): void => {
+	const _handleKeyPressInput = (target: React.KeyboardEvent) => {
 		if (target.charCode === 13) {
 			_handleSubmit();
 		}
 	};
 
-	const _handleKeyPressTextarea = (target: React.KeyboardEvent): void => {
+	const _handleKeyPressTextarea = (target: React.KeyboardEvent) => {
 		if (target.ctrlKey && target.charCode === 13) {
 			_handleSubmit();
 		}

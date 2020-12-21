@@ -76,11 +76,11 @@ const AdminButton: React.FC = () => {
 
 	const {redirectTo} = useRedirect();
 
-	const handleClose = (): void => {
+	const handleClose = () => {
 		setOpen(false);
 	};
 
-	const handleOpen = (): void => {
+	const handleOpen = () => {
 		setOpen(true);
 	};
 
@@ -113,14 +113,14 @@ const AdminButton: React.FC = () => {
 				<SpeedDialAction
 					icon={<RotateLeftIcon />}
 					tooltipTitle={'Reset application'}
-					onClick={(): void => setResetAppModal(true)}
+					onClick={() => setResetAppModal(true)}
 					tooltipOpen
 				/>
 			</SpeedDial>
 
 			<ResetAppModal
 				open={resetAppModal}
-				closeModal={(): void => setResetAppModal(false)}
+				closeModal={() => setResetAppModal(false)}
 				handleResetApp={handleResetApp}
 			/>
 		</>

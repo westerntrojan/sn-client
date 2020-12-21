@@ -73,20 +73,20 @@ const FullArticle: React.FC<Props> = ({
 
 	const {openAuthModal} = useAuthModal();
 
-	const openMoreMenu = (e: React.MouseEvent<HTMLButtonElement>): void => {
+	const openMoreMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
 		setMoreMenuEl(e.currentTarget);
 	};
-	const closeMoreMenu = (): void => {
+	const closeMoreMenu = () => {
 		setMoreMenuEl(null);
 	};
-	const openShareMenu = (e: React.MouseEvent<HTMLButtonElement>): void => {
+	const openShareMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
 		setShareMenuEl(e.currentTarget);
 	};
-	const closeShareMenu = (): void => {
+	const closeShareMenu = () => {
 		setShareMenuEl(null);
 	};
 
-	const handleFollowToUser = (): void => {
+	const handleFollowToUser = () => {
 		if (!auth.isAuth) {
 			openAuthModal();
 		}
@@ -145,7 +145,7 @@ const FullArticle: React.FC<Props> = ({
 					image={`${process.env.REACT_APP_CLOUD_IMAGE_URI}/ar_1.8,c_crop,q_65,fl_progressive/${article.image}`}
 					title={article.title}
 					className={classes.image}
-					onClick={(): void => setImageModal(true)}
+					onClick={() => setImageModal(true)}
 				/>
 			)}
 
@@ -314,7 +314,7 @@ const FullArticle: React.FC<Props> = ({
 			<ImageModal
 				open={imageModal}
 				image={`${process.env.REACT_APP_CLOUD_IMAGE_URI}/q_65,fl_progressive/${article.image}`}
-				closeModal={(): void => setImageModal(false)}
+				closeModal={() => setImageModal(false)}
 			/>
 
 			<ShareMenu
@@ -348,7 +348,7 @@ const FullArticle: React.FC<Props> = ({
 						</Link>
 
 						<MenuItem
-							onClick={(): void => {
+							onClick={() => {
 								closeMoreMenu();
 
 								handleRemove();

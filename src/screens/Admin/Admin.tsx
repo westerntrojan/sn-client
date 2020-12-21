@@ -21,7 +21,7 @@ const Admin: React.FC = () => {
 		fetchPolicy: 'cache-and-network',
 	});
 
-	const _handleChangeTab = (e: React.ChangeEvent<{}>, newValue: number): void => {
+	const _handleChangeTab = (e: React.ChangeEvent<{}>, newValue: number) => {
 		setTab(newValue);
 	};
 
@@ -47,7 +47,7 @@ const Admin: React.FC = () => {
 				<Suspense fallback={<Loader />}>
 					{loading && <Loader />}
 
-					{!loading && data && (
+					{data && (
 						<>
 							{tab === 0 && <Dashboard data={data.articleStatistics} />}
 							{tab === 1 && <Categories />}

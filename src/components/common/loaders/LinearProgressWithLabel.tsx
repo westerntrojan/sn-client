@@ -35,7 +35,7 @@ const LinearProgressWithLabel: React.FC<Props> = ({value, ...props}) => {
 // 		const timer = setInterval(() => {
 // 			setProgress(prevProgress => (prevProgress >= 100 ? 10 : prevProgress + 10));
 // 		}, 800);
-// 		return (): void => {
+// 		return () => {
 // 			clearInterval(timer);
 // 		};
 // 	}, []);

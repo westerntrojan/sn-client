@@ -27,7 +27,7 @@ const ExitModal: React.FC<Props> = ({open, action, closeModal}) => {
 		}
 	}, [open]);
 
-	const _handleAction = (): void => {
+	const _handleAction = () => {
 		setLoading(true);
 
 		action();

@@ -65,7 +65,7 @@ const Header: React.FC = () => {
 	return (
 		<div className={classes.root}>
 			<div className={classes.leftSide}>
-				<IconButton className={classes.arrowBack} onClick={(): void => history.goBack()}>
+				<IconButton className={classes.arrowBack} onClick={() => history.goBack()}>
 					<ArrowBackIcon />
 				</IconButton>
 			</div>

@@ -49,7 +49,7 @@ const CodeModal: React.FC<Props> = ({open, closeModal, rememberMe}) => {
 		}
 	};
 
-	const _handleKeyPressInput = (target: React.KeyboardEvent): void => {
+	const _handleKeyPressInput = (target: React.KeyboardEvent) => {
 		if (target.charCode === 13) {
 			_handleSubmit();
 		}

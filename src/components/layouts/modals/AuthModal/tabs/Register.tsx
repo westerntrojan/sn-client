@@ -81,27 +81,27 @@ const Register: React.FC<Props> = ({submit}) => {
 		validate();
 	}, [validate]);
 
-	const handleClickShowPassword = (): void => setShowPassword(!showPassword);
+	const handleClickShowPassword = () => setShowPassword(!showPassword);
 
-	const handleMouseDownPassword = (e: React.MouseEvent): void => e.preventDefault();
+	const handleMouseDownPassword = (e: React.MouseEvent) => e.preventDefault();
 
-	const _handleChangeFirstName = (e: React.ChangeEvent<HTMLInputElement>): void => {
+	const _handleChangeFirstName = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setFirstName(e.target.value);
 	};
 
-	const _handleChangeLastName = (e: React.ChangeEvent<HTMLInputElement>): void => {
+	const _handleChangeLastName = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setLastName(e.target.value);
 	};
 
-	const _handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>): void => {
+	const _handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setEmail(e.target.value);
 	};
 
-	const _handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>): void => {
+	const _handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setPassword(e.target.value);
 	};
 
-	const _handleChangeConfirmPassword = (e: React.ChangeEvent<HTMLInputElement>): void => {
+	const _handleChangeConfirmPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setConfirmPassword(e.target.value);
 	};
 
@@ -128,7 +128,7 @@ const Register: React.FC<Props> = ({submit}) => {
 		}
 	};
 
-	const _handleKeyPressInput = (target: React.KeyboardEvent): void => {
+	const _handleKeyPressInput = (target: React.KeyboardEvent) => {
 		if (target.charCode === 13) {
 			_handleSubmit();
 		}

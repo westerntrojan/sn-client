@@ -40,11 +40,11 @@ const Reply: React.FC<Props> = ({reply, addLike, addDislike}) => {
 
 	const userName = `${reply.user.firstName} ${reply.user.lastName}`.trim();
 
-	const openMenu = (e: React.MouseEvent<HTMLButtonElement>): void => {
+	const openMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
 		setAnchorEl(e.currentTarget);
 	};
 
-	const closeMenu = (): void => {
+	const closeMenu = () => {
 		setAnchorEl(null);
 	};
 
@@ -70,7 +70,7 @@ const Reply: React.FC<Props> = ({reply, addLike, addDislike}) => {
 				<div className='actions'>
 					<div className='rating'>
 						<ZoomTooltip title='Like'>
-							<IconButton color='default' onClick={(): void => addLike(reply._id)}>
+							<IconButton color='default' onClick={() => addLike(reply._id)}>
 								<ThumbUpIcon />
 							</IconButton>
 						</ZoomTooltip>
@@ -82,7 +82,7 @@ const Reply: React.FC<Props> = ({reply, addLike, addDislike}) => {
 						)}
 
 						<ZoomTooltip title='Dislike'>
-							<IconButton color='default' onClick={(): void => addDislike(reply._id)}>
+							<IconButton color='default' onClick={() => addDislike(reply._id)}>
 								<ThumbDownIcon />
 							</IconButton>
 						</ZoomTooltip>
@@ -90,7 +90,7 @@ const Reply: React.FC<Props> = ({reply, addLike, addDislike}) => {
 
 					<Button
 						size='small'
-						onClick={(): void => {
+						onClick={() => {
 							if (!auth.isAuth) {
 								return openAuthModal();
 							}
@@ -106,7 +106,7 @@ const Reply: React.FC<Props> = ({reply, addLike, addDislike}) => {
 					<ReplyForm
 						parentId={reply.parentId}
 						comment={reply}
-						handleClose={(): void => setReplyForm(false)}
+						handleClose={() => setReplyForm(false)}
 					/>
 				)}
 			</div>
@@ -132,7 +132,7 @@ const Reply: React.FC<Props> = ({reply, addLike, addDislike}) => {
 							<ListItemText primary='Edit' />
 						</MenuItem>
 
-						<MenuItem onClick={(): void => handleRemoveReply(reply._id)}>
+						<MenuItem onClick={() => handleRemoveReply(reply._id)}>
 							<ListItemIcon>
 								<DeleteIcon />
 							</ListItemIcon>

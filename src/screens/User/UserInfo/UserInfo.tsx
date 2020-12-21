@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -8,8 +8,14 @@ import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import {useQuery, useSubscription} from 'react-apollo';
+import {loader} from 'graphql.macro';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 import Context from '@screens/User/context';
+
+const GetUserOnline = loader('./gql/GetUserOnline.gql');
+const OnUserOnline = loader('./gql/OnUserOnline.gql');
 
 const useStyles = makeStyles(() => ({
 	root: {
@@ -39,15 +45,51 @@ const UserInfo: React.FC = () => {
 
 	const {user} = useContext(Context);
 
+	const [online, setOnline] = useState(false);
+
+	const {loading, data} = useQuery<{userOnline: {online: boolean}}>(GetUserOnline, {
+		variables: {
+			userId: user._id,
+		},
+		fetchPolicy: 'cache-and-network',
+	});
+	const onUserOnline = useSubscription(OnUserOnline, {
+		variables: {
+			userId: user._id,
+		},
+	});
+
+	useEffect(() => {
+		if (data) {
+			setOnline(data.userOnline.online);
+		}
+	}, [data]);
+
+	useEffect(() => {
+		if (onUserOnline.data) {
+			setOnline(onUserOnline.data.userOnline.online);
+		}
+	}, [onUserOnline.data]);
+
 	return (
 		<Card className={classNames('user-info', classes.root)}>
 			<CardContent>
 				<div className={classes.titleBlock}>
 					<Typography variant='h5'>{`${user.firstName} ${user.lastName}`.trim()}</Typography>
 
-					<Typography variant='subtitle2' color='primary'>
-						Online
-					</Typography>
+					{loading && <Skeleton width={60} height={30} />}
+
+					{!loading && online && (
+						<Typography variant='subtitle2' color='primary'>
+							Online
+						</Typography>
+					)}
+
+					{!loading && !online && (
+						<Typography variant='subtitle2' color='textSecondary'>
+							Offline
+						</Typography>
+					)}
 				</div>
 
 				<Divider />

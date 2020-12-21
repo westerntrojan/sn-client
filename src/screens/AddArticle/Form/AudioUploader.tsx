@@ -73,7 +73,7 @@ const AudioUploader: React.FC<Props> = ({
 					formData.append('folder', 'test');
 				}
 				const config = {
-					onUploadProgress: (progressEvent: {loaded: number; total: number}): void => {
+					onUploadProgress: (progressEvent: {loaded: number; total: number}) => {
 						const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
 						setLoadingAudioProgress(percentCompleted);
 					},

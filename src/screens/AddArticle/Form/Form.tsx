@@ -66,27 +66,27 @@ const Form: React.FC<Props> = ({handleSubmit}) => {
 		validate();
 	}, [validate]);
 
-	const _handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>): void => {
+	const _handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setTitle(e.target.value);
 	};
 
-	const _handleChangeText = (e: React.ChangeEvent<HTMLInputElement>): void => {
+	const _handleChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setText(e.target.value);
 	};
 
-	const _handleAddTag = (newTag: string): void => {
+	const _handleAddTag = (newTag: string) => {
 		const newTags = tags.concat(newTag);
 
 		setTags(newTags);
 	};
 
-	const _handleRemoveTag = (removedTag: string): void => {
+	const _handleRemoveTag = (removedTag: string) => {
 		const newTags = tags.filter(tag => tag !== removedTag);
 
 		setTags(newTags);
 	};
 
-	const _handleChangeCategory = (e: React.ChangeEvent<{value: unknown}>): void => {
+	const _handleChangeCategory = (e: React.ChangeEvent<{value: unknown}>) => {
 		const value = e.target.value as string;
 
 		setCategory(value);
@@ -107,13 +107,13 @@ const Form: React.FC<Props> = ({handleSubmit}) => {
 		}
 	};
 
-	const _handleKeyPressInput = (target: React.KeyboardEvent): void => {
+	const _handleKeyPressInput = (target: React.KeyboardEvent) => {
 		if (target.charCode === 13) {
 			_handleSubmit();
 		}
 	};
 
-	const _handleKeyPressTextarea = (target: React.KeyboardEvent): void => {
+	const _handleKeyPressTextarea = (target: React.KeyboardEvent) => {
 		if (target.ctrlKey && target.charCode === 13) {
 			_handleSubmit();
 		}
@@ -145,21 +145,21 @@ const Form: React.FC<Props> = ({handleSubmit}) => {
 			/>
 
 			<MediaUploader
-				onUploadImages={(images: string[]): void => setImages(images)}
-				// onRemoveImage={(): void => setImage('')}
-				onUploadVideo={(video: string): void => setVideo(video)}
-				onRemoveVideo={(): void => setVideo('')}
-				onLoadingStart={(): void => setLoadingMedia(true)}
-				onLoadingFinish={(): void => setLoadingMedia(false)}
+				onUploadImages={(images: string[]) => setImages(images)}
+				// onRemoveImage={() => setImage('')}
+				onUploadVideo={(video: string) => setVideo(video)}
+				onRemoveVideo={() => setVideo('')}
+				onLoadingStart={() => setLoadingMedia(true)}
+				onLoadingFinish={() => setLoadingMedia(false)}
 			/>
 
 			<AudioUploader
-				onUploadAudio={(audioTrack: IAudioTrack): void => setAudio(audio.concat(audioTrack))}
-				onRemoveAudio={(filename: string): void =>
+				onUploadAudio={(audioTrack: IAudioTrack) => setAudio(audio.concat(audioTrack))}
+				onRemoveAudio={(filename: string) =>
 					setAudio(audio.filter(audioTrack => audioTrack.filename !== filename))
 				}
-				onLoadingStart={(): void => setLoadingMedia(true)}
-				onLoadingFinish={(): void => setLoadingMedia(false)}
+				onLoadingStart={() => setLoadingMedia(true)}
+				onLoadingFinish={() => setLoadingMedia(false)}
 			/>
 
 			<ChipInput

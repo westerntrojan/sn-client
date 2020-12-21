@@ -2,6 +2,7 @@ import * as types from './types';
 
 export const initialState: types.State = {
 	messages: [],
+	endMessages: false,
 	loading: true,
 	scrollDown: true,
 	typing: false,
@@ -33,6 +34,13 @@ export default (state: types.State, action: types.Action): types.State => {
 				...state,
 				scrollDown: false,
 				messages: state.messages.filter(message => !action.payload.messages.includes(message._id)),
+			};
+		case types.LOAD_MORE:
+			return {
+				...state,
+				scrollDown: false,
+				messages: action.payload.messages.concat(state.messages),
+				endMessages: !action.payload.messages.length,
 			};
 		case types.TYPING:
 			return {

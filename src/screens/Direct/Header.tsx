@@ -15,7 +15,7 @@ const Header: React.FC<Props> = ({query, handleSearch}) => {
 				type='search'
 				variant='filled'
 				fullWidth
-				onChange={(e: React.ChangeEvent<HTMLInputElement>): void => handleSearch(e.target.value)}
+				onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleSearch(e.target.value)}
 			/>
 		</div>
 	);

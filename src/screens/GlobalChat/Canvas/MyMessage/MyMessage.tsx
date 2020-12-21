@@ -38,7 +38,7 @@ const MyMessage: React.FC<Props> = ({message}) => {
 		}
 	}, [selectedMessages]);
 
-	const _handleContextMenu = (e: React.MouseEvent<HTMLDivElement>): void => {
+	const _handleContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
 		e.preventDefault();
 
 		if (message.type === 'audio' && !message.audio) return;
@@ -53,7 +53,7 @@ const MyMessage: React.FC<Props> = ({message}) => {
 		}
 	};
 
-	const handleSelect = (): void => {
+	const handleSelect = () => {
 		if (message.type === 'audio' && !message.audio) return;
 
 		const selection = window.getSelection()?.toString();
@@ -68,7 +68,7 @@ const MyMessage: React.FC<Props> = ({message}) => {
 		});
 	};
 
-	const handleEdit = (): void => {
+	const handleEdit = () => {
 		dispatch({
 			type: types.SET_EDITED_MESSAGE,
 			payload: {
@@ -77,15 +77,15 @@ const MyMessage: React.FC<Props> = ({message}) => {
 		});
 	};
 
-	const handleRemove = (): void => {
+	const handleRemove = () => {
 		handleRemoveMessages([message._id]);
 	};
 
-	const handleClearSelected = (): void => {
+	const handleClearSelected = () => {
 		dispatch({type: types.CLEAR_SELECTED_MESSAGES});
 	};
 
-	const handleRemoveSelected = (): void => {
+	const handleRemoveSelected = () => {
 		dispatch({type: types.OPEN_REMOVE_MESSAGES_MODAL});
 	};
 
@@ -117,7 +117,7 @@ const MyMessage: React.FC<Props> = ({message}) => {
 					position={menuPosition}
 					handleClearSelected={handleClearSelected}
 					handleRemoveSelected={handleRemoveSelected}
-					closeMenu={(): void => setMessageMenu(false)}
+					closeMenu={() => setMessageMenu(false)}
 				/>
 			)}
 
@@ -126,7 +126,7 @@ const MyMessage: React.FC<Props> = ({message}) => {
 					open={messageMenu}
 					position={menuPosition}
 					handleSelect={handleSelect}
-					closeMenu={(): void => setMessageMenu(false)}
+					closeMenu={() => setMessageMenu(false)}
 				/>
 			)}
 
@@ -137,7 +137,7 @@ const MyMessage: React.FC<Props> = ({message}) => {
 					handleSelect={handleSelect}
 					handleEdit={handleEdit}
 					handleRemove={() => setRemoveMessageModal(true)}
-					closeMenu={(): void => setMessageMenu(false)}
+					closeMenu={() => setMessageMenu(false)}
 				/>
 			)}
 

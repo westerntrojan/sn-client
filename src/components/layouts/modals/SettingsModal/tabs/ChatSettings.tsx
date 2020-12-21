@@ -17,7 +17,7 @@ const ChatSettings: React.FC = () => {
 
 	const [sendingkey, setSendingKey] = useState('enter');
 
-	const _handleChangeSendingVariant = (e: any): void => {
+	const _handleChangeSendingVariant = (e: any) => {
 		setSendingKey(e.target.value);
 	};
 

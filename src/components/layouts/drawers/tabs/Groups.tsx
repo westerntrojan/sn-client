@@ -29,7 +29,7 @@ const Groups: React.FC = () => {
 
 	const {openAuthModal} = useAuthModal();
 
-	const handleAddGroup = (): void => {
+	const handleAddGroup = () => {
 		if (!auth.isAuth) {
 			openAuthModal();
 		}

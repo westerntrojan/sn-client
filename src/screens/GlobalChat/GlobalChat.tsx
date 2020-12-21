@@ -27,7 +27,7 @@ const GlobalChat: React.FC = () => {
 	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
 
 	const _handleError = useCallback(
-		(e: Error): void => {
+		(e: Error) => {
 			if (e.message === 'xhr poll error') {
 				return;
 			}
@@ -128,7 +128,7 @@ const GlobalChat: React.FC = () => {
 		socketInit();
 		socketListeners();
 
-		return function cleanup() {
+		return () => {
 			socket.close();
 		};
 	}, [socketInit, socketListeners]);

@@ -1,4 +1,4 @@
-{
+query GetArticleStatistics {
 	articleStatistics {
 		labels
 		views

@@ -86,15 +86,15 @@ export const useStyles = makeStyles(theme => ({
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'flex-end',
+		opacity: 0.8,
 	},
 	views: {
 		marginRight: '10px',
-		opacity: 0.8,
+
 		display: 'flex',
 		alignItems: 'center',
 	},
 	comments: {
-		opacity: 0.8,
 		display: 'flex',
 		alignItems: 'center',
 	},

@@ -83,14 +83,14 @@ const Example: React.FC = () => {
 	const {enqueueSnackbar} = useSnackbar();
 
 	const axiosConfig = {
-		onUploadProgress: (progressEvent: {loaded: number; total: number}): void => {
+		onUploadProgress: (progressEvent: {loaded: number; total: number}) => {
 			const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
 
 			setLoadingProgress(percentCompleted);
 		},
 	};
 
-	const _handleChangeResourceType = (event: React.ChangeEvent<{value: unknown}>): void => {
+	const _handleChangeResourceType = (event: React.ChangeEvent<{value: unknown}>) => {
 		setResourceType(event.target.value as string);
 	};
 
@@ -186,11 +186,11 @@ const Example: React.FC = () => {
 		}
 	};
 
-	const _handleChangeAudios = (e: React.ChangeEvent<HTMLInputElement>): void => {
+	const _handleChangeAudios = (e: React.ChangeEvent<HTMLInputElement>) => {
 		console.log(e.target.files);
 	};
 
-	const _handleChangePublicId = (e: React.ChangeEvent<HTMLInputElement>): void => {
+	const _handleChangePublicId = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setPublicId(e.target.value);
 	};
 
@@ -214,7 +214,7 @@ const Example: React.FC = () => {
 		setDisabledActions(false);
 	};
 
-	const _handleKeyPressInput = (target: React.KeyboardEvent): void => {
+	const _handleKeyPressInput = (target: React.KeyboardEvent) => {
 		if (target.charCode === 13) {
 			_handleSubmitPublicId();
 		}
@@ -388,10 +388,10 @@ export default Example;
 // 	secure='true'
 // 	alt={image}
 // 	fetchFormat='auto'
-// 	onClick={(): void => setImageModal(true)}
+// 	onClick={() => setImageModal(true)}
 // 	className={classes.image}
 // 	responsive
-// 	onLoad={(): void => console.log('image loading')}
+// 	onLoad={() => console.log('image loading')}
 // >
 // 	<Transformation quality='65' />
 // 	<Transformation width='400' height='300' crop='fill' />

@@ -78,7 +78,7 @@ const ImageGrid: React.FC<Props> = ({images, title = 'image'}) => {
 		}
 	}, [images]);
 
-	const openImageModal = (currentImage: number): void => {
+	const openImageModal = (currentImage: number) => {
 		setCurrentImage(currentImage);
 
 		setImageModal(true);
@@ -95,7 +95,7 @@ const ImageGrid: React.FC<Props> = ({images, title = 'image'}) => {
 					<GridListTile
 						key={item.image}
 						cols={item.cols || 1}
-						onClick={(): void => openImageModal(index)}
+						onClick={() => openImageModal(index)}
 					>
 						<img src={item.image} alt={title} className={classes.image} />
 					</GridListTile>
@@ -104,7 +104,7 @@ const ImageGrid: React.FC<Props> = ({images, title = 'image'}) => {
 
 			<ImageModal
 				open={imageModal}
-				closeModal={(): void => setImageModal(false)}
+				closeModal={() => setImageModal(false)}
 				currentImage={currentImage}
 				images={images}
 			/>

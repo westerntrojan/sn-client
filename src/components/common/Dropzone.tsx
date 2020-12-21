@@ -88,7 +88,7 @@ const Dropzone: React.FC<Props> = ({
 				<CardActionArea
 					disabled={loadingImage}
 					className={classes.imageWrapper}
-					onClick={(): void => setImageModal(true)}
+					onClick={() => setImageModal(true)}
 				>
 					<img src={imagePreview} alt='' className={classes.image} />
 
@@ -100,11 +100,7 @@ const Dropzone: React.FC<Props> = ({
 				</CardActionArea>
 			)}
 
-			<ImageModal
-				open={imageModal}
-				image={imagePreview}
-				closeModal={(): void => setImageModal(false)}
-			/>
+			<ImageModal open={imageModal} image={imagePreview} closeModal={() => setImageModal(false)} />
 		</div>
 	);
 };

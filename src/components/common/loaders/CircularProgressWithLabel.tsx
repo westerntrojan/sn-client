@@ -38,7 +38,7 @@ const CircularProgressWithLabel: React.FC<Props> = ({value, ...props}) => {
 // 			setProgress(prevProgress => (prevProgress >= 100 ? 10 : prevProgress + 10));
 // 		}, 800);
 
-// 		return (): void => {
+// 		return () => {
 // 			clearInterval(timer);
 // 		};
 // 	}, []);

@@ -45,11 +45,11 @@ const CategoryForm: React.FC<Props> = ({handleAddCategory}) => {
 		validate();
 	}, [validate]);
 
-	const _handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>): void => {
+	const _handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setTitle(e.target.value);
 	};
 
-	const _handleChangeDesc = (e: React.ChangeEvent<HTMLInputElement>): void => {
+	const _handleChangeDesc = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setDesc(e.target.value);
 	};
 
@@ -75,13 +75,13 @@ const CategoryForm: React.FC<Props> = ({handleAddCategory}) => {
 		setDesc('');
 	};
 
-	const _handleKeyPressInput = (target: React.KeyboardEvent): void => {
+	const _handleKeyPressInput = (target: React.KeyboardEvent) => {
 		if (target.charCode === 13) {
 			_handleSubmit();
 		}
 	};
 
-	const _handleKeyPressTextarea = (target: React.KeyboardEvent): void => {
+	const _handleKeyPressTextarea = (target: React.KeyboardEvent) => {
 		if (target.ctrlKey && target.charCode === 13) {
 			_handleSubmit();
 		}

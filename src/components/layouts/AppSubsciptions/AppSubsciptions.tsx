@@ -17,34 +17,28 @@ const AppSubscriptions: React.FC = () => {
 	const onDislikeAdded = useSubscription(OnDislikeAdded);
 
 	useEffect(() => {
-		if (!onViewAdded.loading) {
+		if (onViewAdded.data) {
 			const {_id} = onViewAdded.data.viewAdded;
 
 			dispatch(addView(_id));
 		}
-
-		// eslint-disable-next-line
-	}, [onViewAdded.loading, onViewAdded.data]);
+	}, [onViewAdded.data]);
 
 	useEffect(() => {
-		if (!onLikeAdded.loading) {
+		if (onLikeAdded.data) {
 			const {_id} = onLikeAdded.data.likeAdded;
 
 			dispatch(addLike(_id));
 		}
-
-		// eslint-disable-next-line
-	}, [onLikeAdded.loading, onLikeAdded.data]);
+	}, [onLikeAdded.data]);
 
 	useEffect(() => {
-		if (!onDislikeAdded.loading) {
+		if (onDislikeAdded.data) {
 			const {_id} = onDislikeAdded.data.dislikeAdded;
 
 			dispatch(addDislike(_id));
 		}
-
-		// eslint-disable-next-line
-	}, [onDislikeAdded.loading, onDislikeAdded.data]);
+	}, [onDislikeAdded.data]);
 
 	return <div></div>;
 };

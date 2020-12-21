@@ -28,7 +28,7 @@ const ConfigEmailModal: React.FC<Props> = ({open, closeModal}) => {
 
 	const {enqueueSnackbar} = useSnackbar();
 
-	const _handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>): void => {
+	const _handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setEmail(e.target.value);
 	};
 
@@ -51,7 +51,7 @@ const ConfigEmailModal: React.FC<Props> = ({open, closeModal}) => {
 		}
 	};
 
-	const _handleKeyPressInput = (target: React.KeyboardEvent): void => {
+	const _handleKeyPressInput = (target: React.KeyboardEvent) => {
 		if (target.charCode === 13) {
 			_handleSubmit();
 		}

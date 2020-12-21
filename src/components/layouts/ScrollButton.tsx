@@ -20,7 +20,7 @@ type Props = {
 const ScrollButton: React.FC<Props> = ({open}) => {
 	const classes = useStyles();
 
-	const executeScrollUp = (): void => {
+	const executeScrollUp = () => {
 		const enableAnimations = JSON.parse(localStorage.getItem('enableAnimations') || 'true');
 
 		if (enableAnimations) {

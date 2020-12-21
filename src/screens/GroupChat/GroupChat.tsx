@@ -89,7 +89,7 @@ const GroupChat: React.FC = () => {
 		socketInit();
 		socketListeners();
 
-		return function cleanup() {
+		return () => {
 			socket.close();
 		};
 	}, [socketInit, socketListeners]);
