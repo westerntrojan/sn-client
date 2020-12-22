@@ -12,6 +12,7 @@ import Slide from '@material-ui/core/Slide';
 import CloseIcon from '@material-ui/icons/Close';
 import {TransitionProps} from '@material-ui/core/transitions';
 import {useDispatch} from 'react-redux';
+import {useHistory} from 'react-router';
 
 import Loader from '@components/common/loaders/Loader';
 import {login, sendCode} from '@store/auth/actions';
@@ -52,6 +53,8 @@ type Props = {
 const AuthModal: React.FC<Props> = ({open, closeModal}) => {
 	const classes = useStyles();
 
+	const history = useHistory();
+
 	const [tab, setTab] = useState(0);
 	const [userId, setUserId] = useState('');
 
@@ -61,11 +64,15 @@ const AuthModal: React.FC<Props> = ({open, closeModal}) => {
 		setTab(newValue);
 	};
 
-	const handleSubmitLogin = async (userData: ILoginInputs): Promise<any> => {
-		const data: any = await dispatch(login(userData));
+	const handleSubmitLogin = async (user: ILoginInputs): Promise<any> => {
+		const data: any = await dispatch(login(user));
 
 		if (data.success) {
 			closeModal();
+
+			if (window.location.pathname.split('/').includes('verify')) {
+				history.push('/');
+			}
 		} else if (data.twoFactorAuth) {
 			setUserId(data.userId);
 		}
@@ -73,8 +80,10 @@ const AuthModal: React.FC<Props> = ({open, closeModal}) => {
 		return data;
 	};
 
-	const handleSubmitRegister = async (userData: IRegisterInputs): Promise<any> => {
-		const data = await callApi.post('/auth/register', userData);
+	const handleSubmitRegister = async (user: IRegisterInputs): Promise<any> => {
+		const registerUri = window.location.protocol + '//' + window.location.host + '/register/verify';
+
+		const data = await callApi.post('/auth/register', {user, registerUri});
 
 		return data;
 	};

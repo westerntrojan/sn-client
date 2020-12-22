@@ -10,14 +10,14 @@ import callApi from '@utils/callApi';
 import Loader from '@components/common/loaders/Loader';
 
 const PasswordResetVerify: React.FC = () => {
+	const {token} = useParams<{token: string}>();
+
 	const [verified, setVerified] = useState(false);
 	const [password, setPassword] = useState('');
 	const [repeatPassword, setRepeatPassword] = useState('');
 	const [success, setSuccess] = useState(false);
 	const [loadingData, setLoadingData] = useState(true);
 	const [loading, setLoading] = useState(false);
-
-	const {token} = useParams();
 
 	const {enqueueSnackbar} = useSnackbar();
 
@@ -75,7 +75,7 @@ const PasswordResetVerify: React.FC = () => {
 		<section className='password-reset-verify'>
 			{verified ? (
 				success ? (
-					<Typography variant='h2'>Success ! You can now log in</Typography>
+					<Typography variant='h2'>Success! You can now log in</Typography>
 				) : (
 					<div className='form'>
 						<Typography variant='h5' style={{marginBottom: 20}}>

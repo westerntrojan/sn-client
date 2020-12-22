@@ -1,19 +1,19 @@
 import React, {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
-import {useParams} from 'react-router';
+import {useParams, useHistory} from 'react-router';
 import {Helmet} from 'react-helmet';
 
 import Loader from '@components/common/loaders/Loader';
 import Form from './Form';
 import {editArticle} from '@store/articles/actions';
-import {useRedirect, useArticle} from '@utils/hooks';
+import {useArticle} from '@utils/hooks';
 import {IArticleInputs} from './types';
 
 const EditArticle: React.FC = () => {
-	const {slug} = useParams();
+	const {slug} = useParams<{slug: string}>();
+	const history = useHistory();
 
 	const [article, setArticleSlug] = useArticle();
-	const {redirectTo} = useRedirect();
 
 	const dispatch = useDispatch();
 
@@ -28,7 +28,7 @@ const EditArticle: React.FC = () => {
 			const data: any = await dispatch(editArticle({...article, ...updatedArticle}));
 
 			if (data.success) {
-				redirectTo(`/article/${data.article.slug}`);
+				history.push(`/article/${data.article.slug}`);
 			}
 
 			return data;

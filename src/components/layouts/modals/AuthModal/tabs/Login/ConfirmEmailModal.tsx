@@ -39,8 +39,12 @@ const ConfigEmailModal: React.FC<Props> = ({open, closeModal}) => {
 
 		setLoading(true);
 
+		const passwordResetUri =
+			window.location.protocol + '//' + window.location.host + '/password_reset/verify';
+
 		const data = await callApi.post('/auth/password_reset/email', {
 			email,
+			passwordResetUri,
 		});
 
 		if (data.success) {

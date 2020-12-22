@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch, shallowEqual} from 'react-redux';
-import {useParams} from 'react-router';
+import {useParams, useHistory} from 'react-router';
 import {Helmet} from 'react-helmet';
 
 import './User.scss';
@@ -15,18 +15,16 @@ import callApi from '@utils/callApi';
 import {removeUser} from '@store/auth/actions';
 import {RootState} from '@store/types';
 import {IUserStatistics, IFetchData} from './types';
-import useRedirect from '@utils/hooks/useRedirect';
 import Context from './context';
 import {followToUser, unfollowFromUser} from '@store/auth/actions';
 
 const User: React.FC = () => {
-	const {userLink} = useParams();
+	const {userLink} = useParams<{userLink: string}>();
+	const history = useHistory();
 
 	const [user, setUser] = useState<IUserStatistics | null>(null);
 	const [removeModal, setRemoveModal] = useState(false);
 	const [loading, setLoading] = useState(true);
-
-	const {redirectTo} = useRedirect();
 
 	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
 	const dispatch = useDispatch();
@@ -76,7 +74,7 @@ const User: React.FC = () => {
 		if (user) {
 			await dispatch(removeUser(user._id));
 
-			redirectTo('/');
+			history.push('/');
 		}
 	};
 

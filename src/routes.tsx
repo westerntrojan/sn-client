@@ -25,7 +25,6 @@ const RegisterVerify = lazy(() => import('./screens/RegisterVerify'));
 const PasswordResetVerify = lazy(() => import('./screens/PasswordResetVerify'));
 const Feed = lazy(() => import('./screens/Feed'));
 const Bookmarks = lazy(() => import('./screens/Bookmarks'));
-const Example = lazy(() => import('./screens/Example'));
 
 const Routes: React.FC = () => {
 	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
@@ -94,9 +93,6 @@ const Routes: React.FC = () => {
 				</PrivateRoute>
 				<PrivateRoute path='/password_reset/verify/:token' condition={!auth.isAuth}>
 					<PasswordResetVerify />
-				</PrivateRoute>
-				<PrivateRoute path='/example' condition={auth.isAdmin}>
-					<Example />
 				</PrivateRoute>
 
 				<Route component={NotFound} />

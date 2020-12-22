@@ -57,8 +57,9 @@ const App: React.FC<Props> = ({children}) => {
 		small: useMediaQuery(`(max-width:${settings.display.small})`),
 		large: useMediaQuery(`(min-width:${settings.display.large})`),
 	};
-
 	const classes = useStyles();
+
+	const history = useHistory();
 
 	const [themePickerModal, setThemePickerModal] = useState(false);
 	const [hotKeysModal, setHotKeysModal] = useState(false);
@@ -76,8 +77,6 @@ const App: React.FC<Props> = ({children}) => {
 
 	const [startSession] = useMutation(StartSession);
 	const [endSession] = useMutation(EndSession);
-
-	const history = useHistory();
 
 	const handleScroll = () => {
 		if (window.scrollY > 400) {

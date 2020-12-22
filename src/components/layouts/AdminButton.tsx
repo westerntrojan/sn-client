@@ -13,9 +13,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
+import {useHistory} from 'react-router';
 
 import {resetApp} from '@store/app/actions';
-import useRedirect from '@utils/hooks/useRedirect';
 import {SubmitModal} from '@utils/hotKeys';
 
 type ResetAppModalProps = {
@@ -68,13 +68,13 @@ const useStyles = makeStyles(theme => ({
 const AdminButton: React.FC = () => {
 	const classes = useStyles();
 
+	const history = useHistory();
+
 	const [open, setOpen] = useState(false);
 	const [resetAppModal, setResetAppModal] = useState(false);
 	const [loading, setLoading] = useState(false);
 
 	const dispatch = useDispatch();
-
-	const {redirectTo} = useRedirect();
 
 	const handleClose = () => {
 		setOpen(false);
@@ -90,7 +90,7 @@ const AdminButton: React.FC = () => {
 
 		await dispatch(resetApp());
 
-		redirectTo('/');
+		history.push('/');
 	};
 
 	return (

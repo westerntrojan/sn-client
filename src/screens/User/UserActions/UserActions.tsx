@@ -56,14 +56,14 @@ type Props = {
 const UserActions: React.FC<Props> = ({handleRemoveUser, handleFollowToUser}) => {
 	const classes = useStyles();
 
+	const history = useHistory();
+
 	const {auth, user} = useContext(Context);
 
 	const [loadingChatId, setLoadingChatId] = useState(false);
 	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
 	const {openAuthModal} = useAuthModal();
-
-	const history = useHistory();
 
 	const openMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
 		setAnchorEl(e.currentTarget);

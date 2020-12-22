@@ -13,7 +13,7 @@ import {replaceUser} from '@store/auth/actions';
 import Loader from '@components/common/loaders/Loader';
 
 const EditUser: React.FC = () => {
-	const {userLink} = useParams();
+	const {userLink} = useParams<{userLink: string}>();
 	const history = useHistory();
 
 	const [user, setUser] = useState<IUser | null>(null);

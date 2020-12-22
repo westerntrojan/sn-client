@@ -11,7 +11,6 @@ import Divider from '@material-ui/core/Divider';
 import {Link as RouterLink} from 'react-router-dom';
 import PersonIcon from '@material-ui/icons/Person';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
-import Brightness1Icon from '@material-ui/icons/Brightness1';
 import BookmarksIcon from '@material-ui/icons/Bookmarks';
 import DynamicFeedIcon from '@material-ui/icons/DynamicFeed';
 import {useSelector, shallowEqual} from 'react-redux';
@@ -24,21 +23,20 @@ const Navigation: React.FC = () => {
 
 	const location = useLocation();
 
+	const isSelected = (path: string): boolean => {
+		return location.pathname === path;
+	};
+
 	return (
 		<>
 			<List>
-				<ListItem button component={RouterLink} to={'/'} selected={location.pathname === '/'}>
+				<ListItem button component={RouterLink} to={'/'} selected={isSelected('/')}>
 					<ListItemIcon>
 						<HomeIcon />
 					</ListItemIcon>
 					<ListItemText primary={'Home'} />
 				</ListItem>
-				<ListItem
-					button
-					component={RouterLink}
-					to={'/feed'}
-					selected={location.pathname === '/feed'}
-				>
+				<ListItem button component={RouterLink} to={'/feed'} selected={isSelected('/feed')}>
 					<ListItemIcon>
 						<DynamicFeedIcon />
 					</ListItemIcon>
@@ -48,19 +46,14 @@ const Navigation: React.FC = () => {
 					button
 					component={RouterLink}
 					to={'/bookmarks'}
-					selected={location.pathname === '/bookmarks'}
+					selected={isSelected('/bookmarks')}
 				>
 					<ListItemIcon>
 						<BookmarksIcon />
 					</ListItemIcon>
 					<ListItemText primary={'Bookmarks'} />
 				</ListItem>
-				<ListItem
-					button
-					component={RouterLink}
-					to={'/global'}
-					selected={location.pathname === '/global'}
-				>
+				<ListItem button component={RouterLink} to={'/global'} selected={isSelected('/global')}>
 					<ListItemIcon>
 						<PublicIcon />
 					</ListItemIcon>
@@ -76,7 +69,7 @@ const Navigation: React.FC = () => {
 							button
 							component={RouterLink}
 							to={'/article/add'}
-							selected={location.pathname === '/article/add'}
+							selected={isSelected('/article/add')}
 						>
 							<ListItemIcon>
 								<AddBoxIcon />
@@ -84,23 +77,13 @@ const Navigation: React.FC = () => {
 							<ListItemText primary={'Add article'} />
 						</ListItem>
 
-						<ListItem
-							button
-							component={RouterLink}
-							to={'/direct'}
-							selected={location.pathname === '/direct'}
-						>
+						<ListItem button component={RouterLink} to={'/direct'} selected={isSelected('/direct')}>
 							<ListItemIcon>
 								<PersonIcon />
 							</ListItemIcon>
 							<ListItemText primary={'Direct messages'} />
 						</ListItem>
-						<ListItem
-							button
-							component={RouterLink}
-							to={'/group'}
-							selected={location.pathname === '/group'}
-						>
+						<ListItem button component={RouterLink} to={'/group'} selected={isSelected('/group')}>
 							<ListItemIcon>
 								<PeopleAltIcon />
 							</ListItemIcon>
@@ -114,28 +97,11 @@ const Navigation: React.FC = () => {
 					<Divider />
 
 					<List>
-						<ListItem
-							button
-							component={RouterLink}
-							to={'/admin'}
-							selected={location.pathname === '/admin'}
-						>
+						<ListItem button component={RouterLink} to={'/admin'} selected={isSelected('/admin')}>
 							<ListItemIcon>
 								<Dashboard />
 							</ListItemIcon>
 							<ListItemText primary={'Admin'} />
-						</ListItem>
-
-						<ListItem
-							button
-							component={RouterLink}
-							to='/example'
-							selected={location.pathname === '/example'}
-						>
-							<ListItemIcon>
-								<Brightness1Icon />
-							</ListItemIcon>
-							<ListItemText primary='Example' />
 						</ListItem>
 					</List>
 				</>

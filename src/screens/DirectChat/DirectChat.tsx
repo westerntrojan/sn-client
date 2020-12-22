@@ -17,7 +17,7 @@ import * as types from './reducer/types';
 let socket: SocketIOClient.Socket;
 
 const Direct: React.FC = () => {
-	const {chatId} = useParams();
+	const {chatId} = useParams<{chatId: string}>();
 
 	const [{messages, endMessages, loading, scrollDown, typing, error}, dispatch] = useReducer(
 		reducer,

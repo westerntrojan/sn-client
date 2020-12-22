@@ -14,14 +14,14 @@ import {RootState} from '@store/types';
 import {IGroup} from './types';
 
 const Group: React.FC = () => {
+	const history = useHistory();
+
 	const [query, setQuery] = useState('');
 	const [groups, setGroups] = useState<IGroup[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [addGroupModal, setAddGroupModal] = useState(false);
 
 	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
-
-	const history = useHistory();
 
 	useEffect(() => {
 		const fetchGroups = async (): Promise<void> => {

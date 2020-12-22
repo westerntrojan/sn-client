@@ -2,7 +2,7 @@ import React, {useState, useEffect, useCallback} from 'react';
 import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import {Helmet} from 'react-helmet';
 import Typography from '@material-ui/core/Typography';
-import {useParams} from 'react-router';
+import {useParams, useHistory} from 'react-router';
 import SortIcon from '@material-ui/icons/Sort';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
@@ -15,7 +15,7 @@ import {RemoveModal} from '@components/common/modals';
 import FullArticle from './FullArticle';
 import CommentForm from './CommentForm';
 import CommentReplies from './CommentReplies';
-import {useRedirect, useArticle, useAuthModal} from '@utils/hooks';
+import {useArticle, useAuthModal} from '@utils/hooks';
 import {getCommentsCount} from '@utils/articles';
 import ZoomTooltip from '@components/common/tooltips/ZoomTooltip';
 import {RootState} from '@store/types';
@@ -31,7 +31,8 @@ const AddView = loader('./gql/AddView.gql');
 const AddToBookmarks = loader('./gql/AddToBookmarks.gql');
 
 const Article: React.FC = () => {
-	const {slug} = useParams();
+	const {slug} = useParams<{slug: string}>();
+	const history = useHistory();
 
 	const [removeArticleModal, setRemoveArticleModal] = useState(false);
 	const [removeCommentModal, setRemoveCommentModal] = useState(false);
@@ -46,7 +47,6 @@ const Article: React.FC = () => {
 	const [addViewMutation] = useMutation(AddView);
 	const [addToBookmarksMutation] = useMutation(AddToBookmarks);
 
-	const {redirectTo} = useRedirect();
 	const {openAuthModal} = useAuthModal();
 
 	const openSortMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -124,7 +124,7 @@ const Article: React.FC = () => {
 
 			setRemoveArticleModal(false);
 
-			redirectTo('/');
+			history.push('/');
 		}
 	};
 

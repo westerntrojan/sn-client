@@ -17,7 +17,7 @@ import {getToken} from '@utils/auth';
 let socket: SocketIOClient.Socket;
 
 const GroupChat: React.FC = () => {
-	const {groupId} = useParams();
+	const {groupId} = useParams<{groupId: string}>();
 
 	const [{messages, loading, scrollDown}, dispatch] = useReducer(reducer, initialState);
 

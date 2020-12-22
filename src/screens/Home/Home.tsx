@@ -4,6 +4,7 @@ import {useDispatch} from 'react-redux';
 import {useSelector, shallowEqual} from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 import BottomScrollListener from 'react-bottom-scroll-listener';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 import './Home.scss';
 import Loader from '@components/common/loaders/Loader';
@@ -43,10 +44,11 @@ const Home: React.FC = () => {
 					))}
 
 				{!appLoading && !articles.end && (
-					<>
-						<Loader />
+					<div className='more-loader'>
+						<Skeleton width={200} height={40} />
+
 						<BottomScrollListener onBottom={loadMore} />
-					</>
+					</div>
 				)}
 			</div>
 

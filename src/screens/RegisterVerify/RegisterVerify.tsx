@@ -8,10 +8,10 @@ import Loader from '@components/common/loaders/Loader';
 import callApi from '@utils/callApi';
 
 const RegisterVerfiy: React.FC = () => {
+	const {token} = useParams<{token: string}>();
+
 	const [verified, setVerified] = useState(false);
 	const [loading, setLoading] = useState(true);
-
-	const {token} = useParams();
 
 	useEffect(() => {
 		const validateToken = async (): Promise<void> => {
@@ -37,7 +37,7 @@ const RegisterVerfiy: React.FC = () => {
 			</Helmet>
 
 			{verified ? (
-				<Typography variant='h2'>Success ! You can now log in</Typography>
+				<Typography variant='h2'>Success! You can now log in</Typography>
 			) : (
 				<Typography variant='h2'>Something went wrong. Try reloading the page</Typography>
 			)}

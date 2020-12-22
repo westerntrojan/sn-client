@@ -3,6 +3,7 @@ import {useParams} from 'react-router';
 import Typography from '@material-ui/core/Typography';
 import BottomScrollListener from 'react-bottom-scroll-listener';
 import {Helmet} from 'react-helmet';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 import './Tag.scss';
 import Loader from '@components/common/loaders/Loader';
@@ -14,7 +15,7 @@ import {IArticle} from '@store/types';
 import {IFetchData} from './types';
 
 const Tag: React.FC = () => {
-	const {slug} = useParams();
+	const {slug} = useParams<{slug: string}>();
 
 	const [articles, setArticles] = useState<IArticle[]>([]);
 	const [loading, setLoading] = useState(true);
@@ -71,10 +72,11 @@ const Tag: React.FC = () => {
 					articles.map((article: IArticle) => <SmallArticle key={article._id} article={article} />)}
 
 				{Boolean(articles.length) && !end && (
-					<>
-						<Loader />
+					<div className='more-loader'>
+						<Skeleton width={200} height={40} />
+
 						<BottomScrollListener onBottom={loadMore} />
-					</>
+					</div>
 				)}
 			</div>
 
