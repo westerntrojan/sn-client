@@ -1,5 +1,6 @@
 query GetUserOnline($userId: ID!) {
 	userOnline(userId: $userId) {
 		online
+		lastSeen
 	}
 }

@@ -11,6 +11,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import {useQuery, useSubscription} from 'react-apollo';
 import {loader} from 'graphql.macro';
 import Skeleton from '@material-ui/lab/Skeleton';
+import moment from 'moment';
 
 import Context from '@screens/User/context';
 
@@ -45,14 +46,20 @@ const UserInfo: React.FC = () => {
 
 	const {user} = useContext(Context);
 
-	const [online, setOnline] = useState(false);
-
-	const {loading, data} = useQuery<{userOnline: {online: boolean}}>(GetUserOnline, {
-		variables: {
-			userId: user._id,
-		},
-		fetchPolicy: 'cache-and-network',
+	const [userStatus, setUserStatus] = useState({
+		online: false,
+		lastSeen: 'recently',
 	});
+
+	const {loading, data} = useQuery<{userOnline: {online: boolean; lastSeen: string}}>(
+		GetUserOnline,
+		{
+			variables: {
+				userId: user._id,
+			},
+			fetchPolicy: 'cache-and-network',
+		},
+	);
 	const onUserOnline = useSubscription(OnUserOnline, {
 		variables: {
 			userId: user._id,
@@ -61,13 +68,19 @@ const UserInfo: React.FC = () => {
 
 	useEffect(() => {
 		if (data) {
-			setOnline(data.userOnline.online);
+			setUserStatus({
+				online: data.userOnline.online,
+				lastSeen: moment(data.userOnline.lastSeen).fromNow(),
+			});
 		}
 	}, [data]);
 
 	useEffect(() => {
 		if (onUserOnline.data) {
-			setOnline(onUserOnline.data.userOnline.online);
+			setUserStatus({
+				online: onUserOnline.data.userOnline.online,
+				lastSeen: moment(onUserOnline.data.userOnline.lastSeen).fromNow(),
+			});
 		}
 	}, [onUserOnline.data]);
 
@@ -79,15 +92,15 @@ const UserInfo: React.FC = () => {
 
 					{loading && <Skeleton width={60} height={30} />}
 
-					{!loading && online && (
+					{!loading && userStatus.online && (
 						<Typography variant='subtitle2' color='primary'>
 							Online
 						</Typography>
 					)}
 
-					{!loading && !online && (
+					{!loading && !userStatus.online && (
 						<Typography variant='subtitle2' color='textSecondary'>
-							Offline
+							last seen {userStatus.lastSeen}
 						</Typography>
 					)}
 				</div>

@@ -1,6 +1,6 @@
 subscription OnUserOnline($userId: ID!) {
 	userOnline(userId: $userId) {
-		userId
 		online
+		lastSeen
 	}
 }
