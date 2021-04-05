@@ -1,5 +1,5 @@
 import React, {useState, useRef} from 'react';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MusicNoteIcon from '@material-ui/icons/MusicNote';
 import Button from '@material-ui/core/Button';

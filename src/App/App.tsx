@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {useSelector, useDispatch, shallowEqual} from 'react-redux';
-import {ThemeProvider} from '@material-ui/styles';
+import {ThemeProvider} from '@material-ui/core/styles';
 import {makeStyles} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import useMediaQuery from '@material-ui/core/useMediaQuery';

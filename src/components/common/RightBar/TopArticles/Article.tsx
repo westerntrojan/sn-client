@@ -1,6 +1,6 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import ListItem from '@material-ui/core/ListItem';

@@ -1,7 +1,7 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import {useSelector, shallowEqual} from 'react-redux';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import {loader} from 'graphql.macro';
 import {useQuery} from 'react-apollo';
 

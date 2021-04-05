@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {Helmet} from 'react-helmet';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import {ThemeProvider} from '@material-ui/styles';
+import {ThemeProvider} from '@material-ui/core/styles';
 
 import './ErrorBoundary.scss';
 import {handleAppError} from '@utils/errorHandlers';

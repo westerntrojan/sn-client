@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import ImageIcon from '@material-ui/icons/Image';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';

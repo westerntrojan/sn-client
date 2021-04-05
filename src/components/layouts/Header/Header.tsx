@@ -123,9 +123,7 @@ const Header: React.FC<Props> = ({
 	};
 
 	const handleFoucs = () => {
-		if (searchRef.current) {
-			searchRef.current.focus();
-		}
+		searchRef.current!.focus();
 	};
 
 	const renderMobileMenu = (

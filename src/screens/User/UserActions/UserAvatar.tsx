@@ -4,7 +4,7 @@ import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import IconButton from '@material-ui/core/IconButton';
 import Grow from '@material-ui/core/Grow';
 import Typography from '@material-ui/core/Typography';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import classNames from 'classnames';
 import {useDispatch} from 'react-redux';
 import {useSnackbar} from 'notistack';
