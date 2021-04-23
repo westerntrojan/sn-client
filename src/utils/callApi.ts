@@ -1,7 +1,7 @@
 import axios, {AxiosRequestConfig} from 'axios';
 
 import {handleNetworkError} from './errorHandlers';
-import {getToken} from '@utils/auth';
+import {getToken} from '@/utils/auth';
 
 const request = axios.create({
 	baseURL: String(process.env.REACT_APP_API),

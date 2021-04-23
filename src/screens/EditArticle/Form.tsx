@@ -7,12 +7,14 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import {useSelector, shallowEqual} from 'react-redux';
 import {useSnackbar} from 'notistack';
 import Button from '@material-ui/core/Button';
+import {useQuery} from 'react-query';
 
-import {IArticle, RootState} from '@store/types';
+import {IArticle, ICategory} from '@/store/types';
 import {IArticleInputs} from './types';
+import callApi from '@/utils/callApi';
+import Loader from '@/components/common/loaders/Loader';
 
 const useStyles = makeStyles({
 	input: {
@@ -38,8 +40,6 @@ type Props = {
 const Form: React.FC<Props> = ({article, handleSubmit}) => {
 	const classes = useStyles();
 
-	const allCategory = useSelector((state: RootState) => state.category.all, shallowEqual);
-
 	const [title, setTitle] = useState(article.title);
 	const [text, setText] = useState(article.text);
 	const [tags, setTags] = useState(article.tags);
@@ -51,6 +51,15 @@ const Form: React.FC<Props> = ({article, handleSubmit}) => {
 	const [labelWidth, setLabelWidth] = useState(0);
 
 	const {enqueueSnackbar} = useSnackbar();
+
+	const {isLoading: loadingCategories, data: categories = []} = useQuery<ICategory[]>(
+		'/categories',
+		async () => {
+			const {categories} = await callApi.get('/categories');
+
+			return categories;
+		},
+	);
 
 	const validate = useCallback(() => {
 		if (
@@ -182,7 +191,9 @@ const Form: React.FC<Props> = ({article, handleSubmit}) => {
 						onChange={_handleChangeCategory}
 						labelWidth={labelWidth}
 					>
-						{allCategory.map(category => (
+						{loadingCategories && <Loader disableMargin />}
+
+						{categories.map(category => (
 							<MenuItem key={category._id} value={category._id}>
 								{category.title}
 							</MenuItem>

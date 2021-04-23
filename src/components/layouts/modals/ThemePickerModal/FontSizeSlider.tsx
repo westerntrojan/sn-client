@@ -3,7 +3,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
 
-import {getCurrentTheme} from '@utils/theme';
+import {getCurrentTheme} from '@/utils/theme';
 
 const useStyles = makeStyles({
 	root: {},

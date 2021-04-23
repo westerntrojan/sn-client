@@ -2,20 +2,20 @@ import React, {useState, useCallback, useEffect} from 'react';
 import {useParams} from 'react-router';
 import Typography from '@material-ui/core/Typography';
 import BottomScrollListener from 'react-bottom-scroll-listener';
-import {useDispatch, useSelector, shallowEqual} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {Helmet} from 'react-helmet';
 import Skeleton from '@material-ui/lab/Skeleton';
+import {useQuery} from 'react-query';
 
 import './Category.scss';
-import Loader from '@components/common/loaders/Loader';
-import SmallArticle from '@components/common/SmallArticle';
-import RightBar from '@components/common/RightBar';
+import SmallArticle from '@/components/common/SmallArticle';
+import SmallArticleSkeleton from '@/components/common/SmallArticle/SmallArticleSkeleton';
+import RightBar from '@/components/common/RightBar';
 import About from './About';
-import callApi from '@utils/callApi';
-import {IArticle} from '@store/types';
-import {notFound} from '@store/app/actions';
+import callApi from '@/utils/callApi';
+import {IArticle, ICategory} from '@/store/types';
+import {notFound} from '@/store/app/actions';
 import {IFetchData} from './types';
-import {RootState} from '@store/types';
 
 const Category: React.FC = () => {
 	const {slug} = useParams<{slug: string}>();
@@ -24,10 +24,15 @@ const Category: React.FC = () => {
 	const [loading, setLoading] = useState(true);
 	const [end, setEnd] = useState(false);
 
-	const category = useSelector(
-		(state: RootState) => state.category.all.find(c => c.slug === slug),
-		shallowEqual,
+	const {isLoading: loadingCategory, data: category = {} as ICategory} = useQuery<ICategory>(
+		`/categories/${slug}`,
+		async () => {
+			const {category} = await callApi.get(`/categories/${slug}`);
+
+			return category;
+		},
 	);
+
 	const dispatch = useDispatch();
 
 	const loadMore = useCallback(async () => {
@@ -63,12 +68,14 @@ const Category: React.FC = () => {
 	}, [dispatch, category]);
 
 	useEffect(() => {
-		getArticles();
-	}, [getArticles, loading]);
+		if (!loadingCategory) {
+			getArticles();
+		}
+	}, [getArticles, loadingCategory]);
 
 	return (
 		<section className='category'>
-			{category && (
+			{!loadingCategory && (
 				<Helmet>
 					<title>
 						{category.title} / {process.env.REACT_APP_TITLE}
@@ -77,9 +84,9 @@ const Category: React.FC = () => {
 			)}
 
 			<div className='articles'>
-				{category && <About category={category} />}
+				{!loadingCategory && <About category={category} />}
 
-				{loading && <Loader />}
+				{loading && <SmallArticleSkeleton />}
 
 				{!loading && !articles.length && (
 					<div className='no-info'>

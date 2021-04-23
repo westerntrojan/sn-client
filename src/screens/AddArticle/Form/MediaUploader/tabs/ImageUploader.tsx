@@ -5,8 +5,8 @@ import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import Typography from '@material-ui/core/Typography';
 
-import {LinearProgressWithLabel} from '@components/common/loaders';
-import ImageGrid from '@components/common/ImageGrid';
+import {LinearProgressWithLabel} from '@/components/common/loaders';
+import ImageGrid from '@/components/common/ImageGrid';
 
 const useStyles = makeStyles({
 	root: {

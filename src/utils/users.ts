@@ -1,4 +1,4 @@
-import {IUser} from '@store/types';
+import {IUser} from '@/store/types';
 
 export const userName = (user: IUser): string => {
 	const name = `${user.firstName} ${user.lastName}`.trim();

@@ -1,12 +1,12 @@
 import {useDispatch} from 'react-redux';
 
-import {openAuthModal} from '@store/app/actions';
+import {openAuthModal} from '@/store/app/actions';
 
 type ReturningData = {
 	openAuthModal: () => void;
 };
 
-export default (): ReturningData => {
+function useAuthModal(): ReturningData {
 	const dispatch = useDispatch();
 
 	return {
@@ -14,4 +14,6 @@ export default (): ReturningData => {
 			dispatch(openAuthModal());
 		},
 	};
-};
+}
+
+export default useAuthModal;

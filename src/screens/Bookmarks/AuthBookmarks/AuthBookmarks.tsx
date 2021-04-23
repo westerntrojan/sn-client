@@ -5,9 +5,10 @@ import {makeStyles} from '@material-ui/core/styles';
 import {loader} from 'graphql.macro';
 import {useQuery} from 'react-apollo';
 
-import Loader from '@components/common/loaders/Loader';
-import SmallArticle from '@components/common/SmallArticle';
-import {RootState, IArticle} from '@store/types';
+import SmallArticle from '@/components/common/SmallArticle';
+import SmallArticleSkeleton from '@/components/common/SmallArticle/SmallArticleSkeleton';
+import {RootState, IArticle} from '@/store/types';
+import _ from 'lodash';
 
 const GetUserBookmarks = loader('./gql/GetUserBookmarks.gql');
 
@@ -22,7 +23,9 @@ const AuthBookmarks: React.FC = () => {
 
 	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
 
-	const {loading, data} = useQuery<{userBookmarks: IArticle[]}>(GetUserBookmarks, {
+	const {loading: loadingBookmarks, data: {userBookmarks} = {userBookmarks: []}} = useQuery<{
+		userBookmarks: IArticle[];
+	}>(GetUserBookmarks, {
 		variables: {
 			userId: auth.user._id,
 		},
@@ -31,16 +34,17 @@ const AuthBookmarks: React.FC = () => {
 
 	return (
 		<div className='auth-bookmarks'>
-			{loading && <Loader disableMargin />}
+			{loadingBookmarks && _.isEmpty(userBookmarks) && <SmallArticleSkeleton />}
 
-			{data && !data.userBookmarks.length && (
+			{userBookmarks.map(article => (
+				<SmallArticle key={article._id} article={article} />
+			))}
+
+			{!loadingBookmarks && _.isEmpty(userBookmarks) && (
 				<div className={classes.noInfo}>
 					<Typography variant='h5'>No articles</Typography>
 				</div>
 			)}
-
-			{data &&
-				data.userBookmarks.map(article => <SmallArticle key={article._id} article={article} />)}
 		</div>
 	);
 };

@@ -3,14 +3,10 @@ import logger from 'redux-logger';
 
 import appReducer from './app/reducer';
 import authReducer from './auth/reducer';
-import articlesReducer from './articles/reducer';
-import categoryReducer from './category/reducer';
 
 export const rootReducer = combineReducers({
 	app: appReducer,
 	auth: authReducer,
-	articles: articlesReducer,
-	category: categoryReducer,
 });
 
 const getMiddleware = (): Middleware[] => {

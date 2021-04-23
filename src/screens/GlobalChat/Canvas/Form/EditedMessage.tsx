@@ -6,8 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import EditIcon from '@material-ui/icons/Edit';
 import CloseIcon from '@material-ui/icons/Close';
 
-import CanvasContext from '@screens/GlobalChat/Canvas/CanvasContext';
-import * as types from '@screens/GlobalChat/Canvas/reducer/types';
+import CanvasContext from '@/screens/GlobalChat/Canvas/CanvasContext';
+import * as types from '@/screens/GlobalChat/Canvas/reducer/types';
 
 const useStyles = makeStyles({
 	root: {

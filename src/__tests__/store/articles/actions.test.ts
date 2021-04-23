@@ -3,10 +3,10 @@ import {AnyAction} from 'redux';
 import thunk, {ThunkDispatch} from 'redux-thunk';
 import MockAdapter from 'axios-mock-adapter';
 
-import * as types from '@store/articles/types';
-import * as actions from '@store/articles/actions';
-import {axiosInstance} from '@utils/callApi';
-import {RootState} from '@store/types';
+import * as types from '@/store/articles/types';
+import * as actions from '@/store/articles/actions';
+import {axiosInstance} from '@/utils/callApi';
+import {RootState} from '@/store/types';
 
 type DispatchExts = ThunkDispatch<RootState, void, AnyAction>;
 

@@ -11,10 +11,10 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
-import UserAvatar from '@components/common/avatars/UserAvatar';
-import {IChat} from '@screens/Direct/types';
-import {relativeDate} from '@utils/common';
-import Context from '@screens/Direct/context';
+import UserAvatar from '@/components/common/avatars/UserAvatar';
+import {IChat} from '@/screens/Direct/types';
+import {relativeDate} from '@/utils/common';
+import Context from '@/screens/Direct/context';
 
 const useStyles = makeStyles({
 	root: {

@@ -13,24 +13,24 @@ import {useMutation} from 'react-apollo';
 import {loader} from 'graphql.macro';
 
 import './App.scss';
-import Header from '@components/layouts/Header';
-import {MainDrawer, AlterDrawer, MobileDrawer} from '@components/layouts/drawers';
+import Header from '@/components/layouts/Header';
+import {MainDrawer, AlterDrawer, MobileDrawer} from '@/components/layouts/drawers';
 import {
 	ThemePickerModal,
 	HotKeysModal,
 	SettingsModal,
 	AuthModal,
 	ExitModal,
-} from '@components/layouts/modals';
-import ScrollButton from '@components/layouts/ScrollButton';
-import AdminButton from '@components/layouts/AdminButton';
-import AppSubsciptions from '@components/layouts/AppSubsciptions';
-import NotFound from '@components/common/NotFound';
-import {RootState} from '@store/types';
-import {exit, changeTwoFactorAuth} from '@store/auth/actions';
-import {loadApp, closeAuthModal} from '@store/app/actions';
-import {getCurrentTheme, changeTheme, changeThemeAnimations} from '@utils/theme';
-import {ChangeDrawer, Exit} from '@utils/hotKeys';
+} from '@/components/layouts/modals';
+import ScrollButton from '@/components/layouts/ScrollButton';
+import AdminButton from '@/components/layouts/AdminButton';
+import AppSubsciptions from '@/components/layouts/AppSubsciptions';
+import NotFound from '@/components/common/NotFound';
+import {RootState} from '@/store/types';
+import {exit, changeTwoFactorAuth} from '@/store/auth/actions';
+import {loadApp, closeAuthModal} from '@/store/app/actions';
+import {getCurrentTheme, changeTheme, changeThemeAnimations} from '@/utils/theme';
+import {ChangeDrawer, Exit} from '@/utils/hotKeys';
 import GlobalCss from './GlobalCss';
 import SettingsContext from './SettingsContext';
 import settings from './settings.json';
@@ -169,17 +169,13 @@ const App: React.FC<Props> = ({children}) => {
 	};
 
 	const handleCloseSnackbar = (key: string | number) => {
-		if (notistackRef.current) {
-			notistackRef.current.closeSnackbar(key);
-		}
+		notistackRef.current.closeSnackbar(key);
 	};
 
 	return (
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
 			<GlobalCss />
-
-			<AppSubsciptions />
 
 			<SnackbarProvider
 				ref={notistackRef}
@@ -219,6 +215,8 @@ const App: React.FC<Props> = ({children}) => {
 
 					<main className='content'>
 						<div className={classes.toolbar} />
+
+						<AppSubsciptions />
 
 						{app.notFound ? <NotFound /> : children}
 					</main>

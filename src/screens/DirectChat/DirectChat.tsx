@@ -7,9 +7,9 @@ import {useSnackbar} from 'notistack';
 
 import './DirectChat.scss';
 import Canvas from './Canvas';
-import {RootState} from '@store/types';
-import {IMessage} from '@components/common/chats/types';
-import {getToken} from '@utils/auth';
+import {RootState} from '@/store/types';
+import {IMessage} from '@/components/common/chats/types';
+import {getToken} from '@/utils/auth';
 import Context from './context';
 import reducer, {initialState} from './reducer';
 import * as types from './reducer/types';

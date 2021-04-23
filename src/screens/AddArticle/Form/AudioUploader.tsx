@@ -8,10 +8,10 @@ import {useSnackbar} from 'notistack';
 import {Audio} from 'cloudinary-react';
 import Typography from '@material-ui/core/Typography';
 
-import callApi from '@utils/callApi';
-import {validateAudio} from '@utils/media';
-import {IAudioTrack} from '@store/types';
-import {LinearProgressWithLabel} from '@components/common/loaders';
+import callApi from '@/utils/callApi';
+import {validateAudio} from '@/utils/media';
+import {IAudioTrack} from '@/store/types';
+import {LinearProgressWithLabel} from '@/components/common/loaders';
 
 const useStyles = makeStyles({
 	root: {

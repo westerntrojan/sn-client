@@ -2,7 +2,7 @@ import React, {useState, Suspense, lazy} from 'react';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
-import Loader from '@components/common/loaders/Loader';
+import Loader from '@/components/common/loaders/Loader';
 import ImageUploader from './tabs/ImageUploader';
 
 const VideoUploader = lazy(() => import('./tabs/VideoUploader'));

@@ -1,6 +1,11 @@
 import {createContext} from 'react';
 
-const SettingsContext = createContext<any>(null);
+type ContextValue = {
+	handleChangeTwoFactorAuth: () => void;
+	handleChangeThemeAnimations: () => void;
+};
+
+const SettingsContext = createContext({} as ContextValue);
 
 SettingsContext.displayName = 'SettingsContext';
 

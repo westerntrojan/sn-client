@@ -7,9 +7,9 @@ import ControlPointIcon from '@material-ui/icons/ControlPoint';
 import {useSelector, shallowEqual} from 'react-redux';
 
 import MessageSkeleton from './MessageSkeleton';
-import ZoomTooltip from '@components/common/tooltips/ZoomTooltip';
-import {useAuthModal} from '@utils/hooks';
-import {RootState} from '@store/types';
+import ZoomTooltip from '@/components/common/tooltips/ZoomTooltip';
+import {useAuthModal} from '@/utils/hooks';
+import {RootState} from '@/store/types';
 
 const useStyles = makeStyles({
 	list: {

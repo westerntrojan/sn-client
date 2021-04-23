@@ -5,8 +5,9 @@ import Tab from '@material-ui/core/Tab';
 import {Helmet} from 'react-helmet';
 import {useQuery} from 'react-apollo';
 import {loader} from 'graphql.macro';
+import _ from 'lodash';
 
-import Loader from '@components/common/loaders/Loader';
+import Loader from '@/components/common/loaders/Loader';
 import Dashboard from './tabs/Dashboard';
 import {IDashboardData} from './types';
 
@@ -45,7 +46,7 @@ const Admin: React.FC = () => {
 			</Paper>
 			<div style={{padding: 8 * 3}}>
 				<Suspense fallback={<Loader />}>
-					{loading && <Loader />}
+					{loading && _.isEmpty(data) && <Loader />}
 
 					{data && (
 						<>

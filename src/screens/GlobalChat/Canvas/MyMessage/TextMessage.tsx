@@ -9,7 +9,7 @@ import DoneAllIcon from '@material-ui/icons/DoneAll';
 import moment from 'moment';
 import classNames from 'classnames';
 
-import {IMessage} from '@components/common/chats/types';
+import {IMessage} from '@/components/common/chats/types';
 
 const useStyles = makeStyles(theme => ({
 	root: {

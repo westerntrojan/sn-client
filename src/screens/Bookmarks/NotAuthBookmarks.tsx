@@ -2,7 +2,7 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 
-import SignInButton from '@components/common/SignInButton';
+import SignInButton from '@/components/common/SignInButton';
 
 const useStyles = makeStyles({
 	root: {

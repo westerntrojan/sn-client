@@ -11,7 +11,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import {makeStyles} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 
-import Loader from '@components/common/loaders/Loader';
+import Loader from '@/components/common/loaders/Loader';
 import General from './tabs/General';
 
 const UserSettings = lazy(() => import('./tabs/UserSettings'));

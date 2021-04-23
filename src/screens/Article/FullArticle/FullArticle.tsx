@@ -35,16 +35,15 @@ import _ from 'lodash';
 import {useDispatch} from 'react-redux';
 
 import {useStyles} from './FullArticleStyle';
-import {userLink} from '@utils/users';
-import {getCommentsCount} from '@utils/articles';
-import {IArticle} from '@store/types';
-import {ImageModal} from '@components/common/modals';
-import {UserAvatar} from '@components/common/avatars';
-import Context from '@screens/Article/context';
-import {useAuthModal} from '@utils/hooks';
-import {followToUser} from '@store/auth/actions';
-import ShareMenu from '@components/common/ShareMenu';
-import ImageGallery from '@components/common/ImageGallery';
+import {userLink} from '@/utils/users';
+import {getCommentsCount} from '@/utils/articles';
+import {IArticle} from '@/store/types';
+import {ImageModal} from '@/components/common/modals';
+import {UserAvatar} from '@/components/common/avatars';
+import Context from '@/screens/Article/context';
+import {followToUser} from '@/store/auth/actions';
+import ShareMenu from '@/components/common/ShareMenu';
+import ImageGallery from '@/components/common/ImageGallery';
 
 type Props = {
 	article: IArticle;
@@ -71,8 +70,6 @@ const FullArticle: React.FC<Props> = ({
 
 	const dispatch = useDispatch();
 
-	const {openAuthModal} = useAuthModal();
-
 	const openMoreMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
 		setMoreMenuEl(e.currentTarget);
 	};
@@ -87,10 +84,6 @@ const FullArticle: React.FC<Props> = ({
 	};
 
 	const handleFollowToUser = () => {
-		if (!auth.isAuth) {
-			openAuthModal();
-		}
-
 		dispatch(followToUser(article.user._id));
 	};
 
@@ -101,7 +94,7 @@ const FullArticle: React.FC<Props> = ({
 				action={
 					<>
 						<IconButton onClick={addToBookmarks}>
-							{auth.user.bookmarks.includes(article._id) ? (
+							{auth.isAuth && auth.user.bookmarks.includes(article._id) ? (
 								<BookmarkIcon color='primary' />
 							) : (
 								<BookmarkBorderIcon />
@@ -221,49 +214,50 @@ const FullArticle: React.FC<Props> = ({
 					</div>
 				)}
 
-				{article.user._id !== auth.user._id && !auth.user.following.includes(article.user._id) && (
-					<Box className={classes.author} borderRadius='borderRadius'>
-						<div className={classes.authorInfo}>
-							<Link
-								color='inherit'
-								underline='none'
-								component={RouterLink}
-								to={userLink(article.user)}
-							>
-								<UserAvatar user={article.user} />
-							</Link>
+				{!auth.isAuth ||
+					(article.user._id !== auth.user._id && !auth.user.following.includes(article.user._id) && (
+						<Box className={classes.author} borderRadius='borderRadius'>
+							<div className={classes.authorInfo}>
+								<Link
+									color='inherit'
+									underline='none'
+									component={RouterLink}
+									to={userLink(article.user)}
+								>
+									<UserAvatar user={article.user} />
+								</Link>
 
-							<div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}}>
-								<Typography variant='caption' style={{textTransform: 'uppercase'}}>
-									Written by
-								</Typography>
-
-								<Typography variant='subtitle1'>
-									<Link color='inherit' component={RouterLink} to={userLink(article.user)}>
-										{`${article.user.firstName} ${article.user.lastName}`.trim()}
-									</Link>
-								</Typography>
-
-								{article.user.bio && (
-									<Typography variant='body2'>
-										{article.user.bio.trim().length > 120
-											? article.user.bio.trim().slice(0, 120) + '...'
-											: article.user.bio.trim()}
+								<div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}}>
+									<Typography variant='caption' style={{textTransform: 'uppercase'}}>
+										Written by
 									</Typography>
-								)}
-							</div>
-						</div>
 
-						<Button
-							color='primary'
-							variant='outlined'
-							onClick={handleFollowToUser}
-							startIcon={<AddIcon />}
-						>
-							Follow
-						</Button>
-					</Box>
-				)}
+									<Typography variant='subtitle1'>
+										<Link color='inherit' component={RouterLink} to={userLink(article.user)}>
+											{`${article.user.firstName} ${article.user.lastName}`.trim()}
+										</Link>
+									</Typography>
+
+									{article.user.bio && (
+										<Typography variant='body2'>
+											{article.user.bio.trim().length > 120
+												? article.user.bio.trim().slice(0, 120) + '...'
+												: article.user.bio.trim()}
+										</Typography>
+									)}
+								</div>
+							</div>
+
+							<Button
+								color='primary'
+								variant='outlined'
+								onClick={handleFollowToUser}
+								startIcon={<AddIcon />}
+							>
+								Follow
+							</Button>
+						</Box>
+					))}
 			</CardContent>
 
 			<CardActions className={classes.cardActions}>
@@ -287,7 +281,7 @@ const FullArticle: React.FC<Props> = ({
 					</div>
 
 					<div className={classes.bookmarks}>
-						{auth.user.bookmarks.includes(article._id) ? (
+						{auth.isAuth && auth.user.bookmarks.includes(article._id) ? (
 							<IconButton onClick={addToBookmarks}>
 								<BookmarkIcon color='primary' />
 							</IconButton>
@@ -324,7 +318,7 @@ const FullArticle: React.FC<Props> = ({
 			/>
 
 			<Menu anchorEl={moreMenuEl} keepMounted open={Boolean(moreMenuEl)} onClose={closeMoreMenu}>
-				{(auth.user && auth.user._id === article.user._id) || auth.isAdmin ? (
+				{(auth.isAuth && auth.user._id === article.user._id) || auth.isAdmin ? (
 					<div>
 						<MenuItem onClick={closeMoreMenu}>
 							<ListItemIcon>

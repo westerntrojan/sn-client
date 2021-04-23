@@ -17,12 +17,12 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import ReplyForm from './ReplyForm';
-import UserAvatar from '@components/common/avatars/UserAvatar';
-import ZoomTooltip from '@components/common/tooltips/ZoomTooltip';
-import {userLink} from '@utils/users';
-import {IReply} from '@store/types';
-import {useAuthModal} from '@utils/hooks';
-import Context from '@screens/Article/context';
+import UserAvatar from '@/components/common/avatars/UserAvatar';
+import ZoomTooltip from '@/components/common/tooltips/ZoomTooltip';
+import {userLink} from '@/utils/users';
+import {IReply} from '@/store/types';
+import Context from '@/screens/Article/context';
+import {useAuthModal} from '@/utils/hooks';
 
 type Props = {
 	reply: IReply;
@@ -38,14 +38,19 @@ const Reply: React.FC<Props> = ({reply, addLike, addDislike}) => {
 
 	const {openAuthModal} = useAuthModal();
 
-	const userName = `${reply.user.firstName} ${reply.user.lastName}`.trim();
-
 	const openMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
 		setAnchorEl(e.currentTarget);
 	};
-
 	const closeMenu = () => {
 		setAnchorEl(null);
+	};
+
+	const openReplyForm = () => {
+		if (!auth.isAuth) {
+			return openAuthModal();
+		}
+
+		setReplyForm(true);
 	};
 
 	return (
@@ -56,7 +61,7 @@ const Reply: React.FC<Props> = ({reply, addLike, addDislike}) => {
 				<div className='info'>
 					<Typography className='username' variant='body2'>
 						<Link component={RouterLink} to={userLink(reply.user)} color='inherit'>
-							{userName}
+							{`${reply.user.firstName} ${reply.user.lastName}`.trim()}
 						</Link>
 					</Typography>
 
@@ -88,16 +93,7 @@ const Reply: React.FC<Props> = ({reply, addLike, addDislike}) => {
 						</ZoomTooltip>
 					</div>
 
-					<Button
-						size='small'
-						onClick={() => {
-							if (!auth.isAuth) {
-								return openAuthModal();
-							}
-
-							setReplyForm(true);
-						}}
-					>
+					<Button size='small' onClick={openReplyForm}>
 						Reply
 					</Button>
 				</div>

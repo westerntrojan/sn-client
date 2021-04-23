@@ -6,11 +6,11 @@ import {useHistory} from 'react-router';
 
 import './Group.scss';
 import AddGroupModal from './AddGroupModal';
-import Loader from '@components/common/loaders/Loader';
+import Loader from '@/components/common/loaders/Loader';
 import Header from './Header';
 import GroupList from './GroupList';
-import callApi from '@utils/callApi';
-import {RootState} from '@store/types';
+import callApi from '@/utils/callApi';
+import {RootState} from '@/store/types';
 import {IGroup} from './types';
 
 const Group: React.FC = () => {

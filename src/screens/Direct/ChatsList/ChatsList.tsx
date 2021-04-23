@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import _ from 'lodash';
 
 import ChatItem from './ChatItem';
-import {IChat} from '@screens/Direct/types';
+import {IChat} from '@/screens/Direct/types';
 
 const useStyles = makeStyles(theme => ({
 	root: {

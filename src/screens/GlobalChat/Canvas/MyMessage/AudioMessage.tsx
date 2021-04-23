@@ -13,9 +13,9 @@ import DoneAllIcon from '@material-ui/icons/DoneAll';
 import classNames from 'classnames';
 import moment from 'moment';
 
-import {IMessage} from '@components/common/chats/types';
+import {IMessage} from '@/components/common/chats/types';
 import {formatTime} from './time';
-import GlobalChatContext from '@screens/GlobalChat/GlobalChatContext';
+import GlobalChatContext from '@/screens/GlobalChat/GlobalChatContext';
 
 const useStyles = makeStyles(theme => ({
 	root: {

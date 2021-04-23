@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import {useSnackbar} from 'notistack';
 import Button from '@material-ui/core/Button';
 
-import {IUser} from '@store/types';
+import {IUser} from '@/store/types';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
 
 type Props = {
 	user: IUser;
-	handleSubmit: (user: IUser) => Promise<any>;
+	handleSubmit: (user: IUser) => Promise<{success: boolean; message?: string}>;
 };
 
 const Form: React.FC<Props> = ({user, handleSubmit}) => {

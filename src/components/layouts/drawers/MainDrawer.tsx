@@ -7,7 +7,7 @@ import ListItem from '@material-ui/core/ListItem';
 import Paper from '@material-ui/core/Paper';
 import Skeleton from '@material-ui/lab/Skeleton';
 
-import {RootState} from '@store/types';
+import {RootState} from '@/store/types';
 import Footer from './Footer';
 import BottomTabs from './BottomTabs';
 import {Navigation, Messages, Groups} from './tabs';

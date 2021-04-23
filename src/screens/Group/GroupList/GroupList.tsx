@@ -7,8 +7,8 @@ import IconButton from '@material-ui/core/IconButton';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 import GroupItem from './GroupItem';
-import {IGroup} from '@screens/Group/types';
-import ZoomTooltip from '@components/common/tooltips/ZoomTooltip';
+import {IGroup} from '@/screens/Group/types';
+import ZoomTooltip from '@/components/common/tooltips/ZoomTooltip';
 
 const useStyles = makeStyles(theme => ({
 	root: {

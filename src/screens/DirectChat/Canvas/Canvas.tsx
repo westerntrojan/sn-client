@@ -5,15 +5,15 @@ import {makeStyles} from '@material-ui/core/styles';
 import {useSelector, shallowEqual} from 'react-redux';
 import {Alert} from '@material-ui/lab';
 
-import Loader from '@components/common/loaders/Loader';
-import {RemoveModal} from '@components/common/modals';
-import MyMessage from '@components/common/chats/MyMessage';
-import {IMessage} from '@components/common/chats/types';
+import Loader from '@/components/common/loaders/Loader';
+import {RemoveModal} from '@/components/common/modals';
+import MyMessage from '@/components/common/chats/MyMessage';
+import {IMessage} from '@/components/common/chats/types';
 import AlterHeader from './AlterHeader';
 import Header from './Header';
 import Message from './Message';
 import Form from './Form';
-import {RootState} from '@store/types';
+import {RootState} from '@/store/types';
 
 const useStyles = makeStyles({
 	root: {

@@ -1,4 +1,4 @@
-import {IMessage} from '@components/common/chats/types';
+import {IMessage} from '@/components/common/chats/types';
 
 export const PRE_MESSAGES = 'directChat/preMessages';
 export const NEW_MESSAGE = 'directChat/newMessage';

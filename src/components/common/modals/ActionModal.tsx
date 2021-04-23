@@ -7,7 +7,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {useTheme} from '@material-ui/core/styles';
 
-import {SubmitModal} from '@utils/hotKeys';
+import {SubmitModal} from '@/utils/hotKeys';
 
 type Props = {
 	open: boolean;

@@ -1,6 +1,7 @@
 export const LOADING = 'app/loading';
 export const PRE_LOADING = 'app/preLoading';
 export const APP_ERROR = 'app/error';
+export const NETWORK_ERROR = 'app/networkError';
 export const NOT_FOUND = 'app/notFound';
 export const RESET_APP = 'app/reset';
 export const OPEN_AUTH_MODAL = 'app/openAuthModal';
@@ -17,13 +18,16 @@ type AppError = {
 		error: object;
 	};
 };
+type NetworkError = {
+	type: typeof NETWORK_ERROR;
+};
 
-export type AppActionTypes = NotFound | AppError;
+export type AppActionTypes = NotFound | AppError | NetworkError;
 
 export type AppState = {
 	loading: boolean;
-	preLoading: boolean;
 	error: object | null;
+	networkError: boolean;
 	notFound: boolean;
 	authModal: boolean;
 };

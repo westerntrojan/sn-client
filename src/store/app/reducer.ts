@@ -4,8 +4,8 @@ import * as types from './types';
 
 const initialState: types.AppState = {
 	loading: true,
-	preLoading: true,
 	error: null,
+	networkError: false,
 	notFound: false,
 	authModal: false,
 };
@@ -14,11 +14,11 @@ export default createReducer(initialState, {
 	[types.LOADING]: state => {
 		state.loading = false;
 	},
-	[types.PRE_LOADING]: state => {
-		state.preLoading = false;
-	},
 	[types.APP_ERROR]: (state, action) => {
 		state.error = action.payload.error;
+	},
+	[types.NETWORK_ERROR]: state => {
+		state.networkError = true;
 	},
 	[types.NOT_FOUND]: state => {
 		state.notFound = true;

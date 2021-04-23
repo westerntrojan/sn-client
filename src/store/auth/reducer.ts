@@ -1,12 +1,12 @@
 import {createReducer} from '@reduxjs/toolkit';
 
-import {defaultUser} from './types';
+import {IUser} from '@/store/types';
 import * as types from './types';
 
 const initialState: types.AuthState = {
 	isAuth: false,
 	isAdmin: false,
-	user: defaultUser,
+	user: {} as IUser,
 };
 
 export default createReducer(initialState, {
@@ -18,7 +18,7 @@ export default createReducer(initialState, {
 	[types.EXIT]: state => {
 		state.isAuth = false;
 		state.isAdmin = false;
-		state.user = defaultUser;
+		state.user = {} as IUser;
 	},
 	[types.REPLACE_USER]: (state, action) => {
 		state.user = action.payload.user;

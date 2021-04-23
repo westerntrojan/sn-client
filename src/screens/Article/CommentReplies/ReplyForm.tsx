@@ -5,9 +5,9 @@ import {useSnackbar} from 'notistack';
 import Button from '@material-ui/core/Button';
 import classNames from 'classnames';
 
-import {UserAvatar} from '@components/common/avatars';
-import {IComment} from '@store/types';
-import Context from '@screens/Article/context';
+import {UserAvatar} from '@/components/common/avatars';
+import {IComment} from '@/store/types';
+import Context from '@/screens/Article/context';
 
 const useStyles = makeStyles({
 	root: {

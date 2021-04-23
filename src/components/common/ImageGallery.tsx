@@ -8,7 +8,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import SwipeableViews from 'react-swipeable-views';
 import {autoPlay} from 'react-swipeable-views-utils';
 
-import {ImageModal} from '@components/common/modals';
+import {ImageModal} from '@/components/common/modals';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 

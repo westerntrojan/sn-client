@@ -7,7 +7,7 @@ import MoreHoriz from '@material-ui/icons/MoreHoriz';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 
-import {ICategory} from '@store/types';
+import {ICategory} from '@/store/types';
 
 const useStyles = makeStyles({
 	root: {

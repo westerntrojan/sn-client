@@ -14,10 +14,10 @@ import {TransitionProps} from '@material-ui/core/transitions';
 import {useDispatch} from 'react-redux';
 import {useHistory} from 'react-router';
 
-import Loader from '@components/common/loaders/Loader';
-import {login, sendCode} from '@store/auth/actions';
+import Loader from '@/components/common/loaders/Loader';
+import {login, sendCode} from '@/store/auth/actions';
 import Login from './tabs/Login';
-import callApi from '@utils/callApi';
+import callApi from '@/utils/callApi';
 import {ILoginInputs, IRegisterInputs} from './types';
 import Context from './context';
 

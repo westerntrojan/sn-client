@@ -4,8 +4,8 @@ import Typography from '@material-ui/core/Typography';
 import {Helmet} from 'react-helmet';
 
 import './RegisterVerify.scss';
-import Loader from '@components/common/loaders/Loader';
-import callApi from '@utils/callApi';
+import Loader from '@/components/common/loaders/Loader';
+import callApi from '@/utils/callApi';
 
 const RegisterVerfiy: React.FC = () => {
 	const {token} = useParams<{token: string}>();

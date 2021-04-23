@@ -1,6 +1,6 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress, {CircularProgressProps} from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles(() => ({
 	root: {
@@ -9,11 +9,9 @@ const useStyles = makeStyles(() => ({
 	},
 }));
 
-type Props = {
-	disableMargin?: boolean;
-};
+type Props = CircularProgressProps & {disableMargin?: boolean};
 
-const Loader: React.FC<Props> = ({disableMargin}) => {
+const Loader: React.FC<Props> = ({disableMargin, ...props}) => {
 	const classes = useStyles();
 
 	return (
@@ -21,7 +19,7 @@ const Loader: React.FC<Props> = ({disableMargin}) => {
 			className={classes.root}
 			style={{margin: disableMargin ? 0 : '20px 0', padding: disableMargin ? 0 : '10px'}}
 		>
-			<CircularProgress />
+			<CircularProgress {...props} />
 		</aside>
 	);
 };

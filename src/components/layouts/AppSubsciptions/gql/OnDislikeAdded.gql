@@ -1,5 +1,0 @@
-subscription OnDislikeAdded {
-	dislikeAdded {
-		_id
-	}
-}

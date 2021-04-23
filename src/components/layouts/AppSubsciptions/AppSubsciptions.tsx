@@ -1,46 +1,78 @@
-import React, {useEffect} from 'react';
-import {useDispatch} from 'react-redux';
-import {loader} from 'graphql.macro';
-import {useSubscription} from 'react-apollo';
+import React, {useEffect, useState} from 'react';
+import {useSelector, shallowEqual} from 'react-redux';
+import {useSnackbar} from 'notistack';
+import Alert from '@material-ui/lab/Alert';
+import Button from '@material-ui/core/Button';
+import Collapse from '@material-ui/core/Collapse';
+import {makeStyles} from '@material-ui/core/styles';
 
-import {addView, addLike, addDislike} from '@store/articles/actions';
+import {RootState} from '@/store/types';
 
-const OnViewAdded = loader('./gql/OnViewAdded.gql');
-const OnLikeAdded = loader('./gql/OnLikeAdded.gql');
-const OnDislikeAdded = loader('./gql/OnDislikeAdded.gql');
+const useStyles = makeStyles({
+	alert: {
+		marginBottom: 20,
+	},
+});
 
 const AppSubscriptions: React.FC = () => {
-	const dispatch = useDispatch();
+	const classes = useStyles();
 
-	const onViewAdded = useSubscription(OnViewAdded);
-	const onLikeAdded = useSubscription(OnLikeAdded);
-	const onDislikeAdded = useSubscription(OnDislikeAdded);
+	const app = useSelector((state: RootState) => state.app, shallowEqual);
 
-	useEffect(() => {
-		if (onViewAdded.data) {
-			const {_id} = onViewAdded.data.viewAdded;
+	const [online, setOnline] = useState(true);
 
-			dispatch(addView(_id));
-		}
-	}, [onViewAdded.data]);
+	const {enqueueSnackbar} = useSnackbar();
 
 	useEffect(() => {
-		if (onLikeAdded.data) {
-			const {_id} = onLikeAdded.data.likeAdded;
+		setOnline(navigator.onLine);
 
-			dispatch(addLike(_id));
-		}
-	}, [onLikeAdded.data]);
+		const handleOnline = () => setOnline(true);
+		const handleOffline = () => setOnline(false);
+
+		window.addEventListener('online', handleOnline);
+		window.addEventListener('offline', handleOffline);
+
+		return () => {
+			window.removeEventListener('online', handleOnline);
+			window.removeEventListener('offline', handleOffline);
+		};
+	}, []);
 
 	useEffect(() => {
-		if (onDislikeAdded.data) {
-			const {_id} = onDislikeAdded.data.dislikeAdded;
-
-			dispatch(addDislike(_id));
+		if (app.networkError) {
+			enqueueSnackbar('Something went wrong', {
+				variant: 'warning',
+				anchorOrigin: {
+					vertical: 'bottom',
+					horizontal: 'left',
+				},
+				action: (
+					<Button color='inherit' size='small' onClick={() => window.location.reload()}>
+						Reload
+					</Button>
+				),
+			});
 		}
-	}, [onDislikeAdded.data]);
+	}, [app.networkError]);
 
-	return <div></div>;
+	return (
+		<>
+			<Collapse in={!online}>
+				<Alert
+					className={classes.alert}
+					severity='warning'
+					variant='filled'
+					action={
+						<Button color='inherit' size='small' onClick={() => window.location.reload()}>
+							Reload
+						</Button>
+					}
+				>
+					Internet connection is lost
+				</Alert>
+			</Collapse>
+		</>
+	);
 };
 
 export default AppSubscriptions;

@@ -1,4 +1,4 @@
-import {IMessage} from '@components/common/chats/types';
+import {IMessage} from '@/components/common/chats/types';
 
 export const ACTIVE_USERS = 'chat/activeUsers';
 export const PRE_MESSAGES = 'chat/preMessages';

@@ -2,7 +2,7 @@ import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {Audio} from 'cloudinary-react';
 
-import {IMessage} from '@components/common/chats/types';
+import {IMessage} from '@/components/common/chats/types';
 
 const useStyles = makeStyles({
 	root: {

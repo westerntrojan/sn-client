@@ -1,4 +1,4 @@
-import {IAudioTrack} from '@store/types';
+import {IAudioTrack} from '@/store/types';
 
 export interface IArticleInputs {
 	title: string;

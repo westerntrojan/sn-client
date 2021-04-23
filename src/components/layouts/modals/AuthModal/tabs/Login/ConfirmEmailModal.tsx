@@ -10,8 +10,8 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {useTheme} from '@material-ui/core/styles';
 import {useSnackbar} from 'notistack';
 
-import {SubmitModal} from '@utils/hotKeys';
-import callApi from '@utils/callApi';
+import {SubmitModal} from '@/utils/hotKeys';
+import callApi from '@/utils/callApi';
 
 type Props = {
 	open: boolean;

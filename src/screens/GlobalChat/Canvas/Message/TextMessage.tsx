@@ -8,8 +8,8 @@ import {makeStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 
-import {IMessage} from '@components/common/chats/types';
-import {userLink} from '@utils/users';
+import {IMessage} from '@/components/common/chats/types';
+import {userLink} from '@/utils/users';
 
 const useStyles = makeStyles({
 	username: {

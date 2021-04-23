@@ -5,8 +5,8 @@ import {makeStyles} from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
 import {Link as RouterLink} from 'react-router-dom';
 
-import {userInitials, userLink} from '@utils/users';
-import {IUser} from '@store/types';
+import {userInitials, userLink} from '@/utils/users';
+import {IUser} from '@/store/types';
 
 const useStyles = makeStyles(theme => ({
 	small: {

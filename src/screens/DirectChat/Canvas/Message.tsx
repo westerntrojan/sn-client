@@ -7,8 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 import classNames from 'classnames';
 
-import {IMessage} from '@components/common/chats/types';
-import DayMeta from '@components/common/chats/DayMeta';
+import {IMessage} from '@/components/common/chats/types';
+import DayMeta from '@/components/common/chats/DayMeta';
 
 const useStyles = makeStyles(theme => ({
 	message: {

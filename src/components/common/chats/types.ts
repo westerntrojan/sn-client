@@ -1,4 +1,4 @@
-import {IUser} from '@store/types';
+import {IUser} from '@/store/types';
 
 export interface IMessage {
 	_id: string;

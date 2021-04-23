@@ -9,8 +9,8 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {useTheme, makeStyles} from '@material-ui/core/styles';
 import {useSnackbar} from 'notistack';
 
-import {ICategory} from '@store/types';
-import Context from '@screens/Admin/tabs/Categories/context';
+import {ICategory} from '@/store/types';
+import Context from '@/screens/Admin/tabs/Categories/context';
 
 const useStyles = makeStyles({
 	input: {
@@ -69,15 +69,17 @@ const EditCategoryModal: React.FC<Props> = ({open, closeModal, category}) => {
 
 		setLoading(true);
 
-		const data: any = await handleEditCategory({...category, title, desc});
-
-		setLoading(false);
+		const data = await handleEditCategory({...category, title, desc});
 
 		if (data.success) {
 			enqueueSnackbar('Category updated', {variant: 'success'});
+
+			closeModal();
 		} else {
 			enqueueSnackbar(data.message, {variant: 'error'});
 		}
+
+		setLoading(false);
 	};
 
 	const _handleKeyPressInput = (target: React.KeyboardEvent) => {

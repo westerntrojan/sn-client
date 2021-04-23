@@ -10,9 +10,9 @@ import Zoom from '@material-ui/core/Zoom';
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
 import {useSelector, shallowEqual} from 'react-redux';
 
-import {useAuthModal} from '@utils/hooks';
-import GroupChatContext from '@screens/GroupChat/GroupChatContext';
-import {RootState} from '@store/types';
+import {useAuthModal} from '@/utils/hooks';
+import GroupChatContext from '@/screens/GroupChat/GroupChatContext';
+import {RootState} from '@/store/types';
 
 const useStyles = makeStyles({
 	editedMessage: {

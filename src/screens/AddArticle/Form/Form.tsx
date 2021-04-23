@@ -6,15 +6,17 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import {useSelector, shallowEqual} from 'react-redux';
 import {useSnackbar} from 'notistack';
 import Button from '@material-ui/core/Button';
+import {useQuery} from 'react-query';
 
 import MediaUploader from './MediaUploader';
 import AudioUploader from './AudioUploader';
-import {RootState, IAudioTrack} from '@store/types';
-import {IArticleInputs} from '@screens/AddArticle/types';
-import {BackdropLoader} from '@components/common/loaders';
+import {IAudioTrack, ICategory} from '@/store/types';
+import {IArticleInputs} from '@/screens/AddArticle/types';
+import {BackdropLoader} from '@/components/common/loaders';
+import callApi from '@/utils/callApi';
+import Loader from '@/components/common/loaders/Loader';
 
 const useStyles = makeStyles({
 	input: {
@@ -24,18 +26,16 @@ const useStyles = makeStyles({
 });
 
 type Props = {
-	handleSubmit: (article: IArticleInputs) => void;
+	handleSubmit: (article: IArticleInputs) => Promise<{success: boolean; message?: string}>;
 };
 
 const Form: React.FC<Props> = ({handleSubmit}) => {
 	const classes = useStyles();
 
-	const allCategory = useSelector((state: RootState) => state.category.all, shallowEqual);
-
 	const [title, setTitle] = useState('');
 	const [text, setText] = useState('');
 	const [tags, setTags] = useState<string[]>([]);
-	const [category, setCategory] = useState(allCategory[0]._id);
+	const [category, setCategory] = useState('');
 	const [loading, setLoading] = useState(false);
 	const [disabledButton, setDisabledButton] = useState(true);
 	const [images, setImages] = useState<string[]>([]);
@@ -47,6 +47,15 @@ const Form: React.FC<Props> = ({handleSubmit}) => {
 	const [labelWidth, setLabelWidth] = useState(0);
 
 	const {enqueueSnackbar} = useSnackbar();
+
+	const {isLoading: loadingCategories, data: categories = []} = useQuery<ICategory[]>(
+		'/categories',
+		async () => {
+			const {categories} = await callApi.get('/categories');
+
+			return categories;
+		},
+	);
 
 	const validate = useCallback(() => {
 		if (title.trim() && text.trim() && !loadingMedia) {
@@ -65,6 +74,12 @@ const Form: React.FC<Props> = ({handleSubmit}) => {
 	useEffect(() => {
 		validate();
 	}, [validate]);
+
+	useEffect(() => {
+		if (!loadingCategories) {
+			setCategory(categories[0]._id);
+		}
+	}, [loadingCategories]);
 
 	const _handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setTitle(e.target.value);
@@ -182,7 +197,9 @@ const Form: React.FC<Props> = ({handleSubmit}) => {
 					onChange={_handleChangeCategory}
 					labelWidth={labelWidth}
 				>
-					{allCategory.map(category => (
+					{loadingCategories && <Loader disableMargin />}
+
+					{categories.map(category => (
 						<MenuItem key={category._id} value={category._id}>
 							{category.title}
 						</MenuItem>

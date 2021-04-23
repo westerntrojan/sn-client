@@ -1,4 +1,4 @@
-import {IMessage} from '@components/common/chats/types';
+import {IMessage} from '@/components/common/chats/types';
 
 export const SELECT_MESSAGE = 'chat/canvas/selectMessage';
 export const CLEAR_SELECTED_MESSAGES = 'chat/canvas/clearSelectedMessages';

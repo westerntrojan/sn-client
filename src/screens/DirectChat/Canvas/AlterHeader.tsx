@@ -4,7 +4,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import CloseIcon from '@material-ui/icons/Close';
 import {makeStyles} from '@material-ui/core/styles';
 
-import {RemoveMessage, Close} from '@utils/hotKeys';
+import {RemoveMessage, Close} from '@/utils/hotKeys';
 
 const useStyles = makeStyles({
 	root: {

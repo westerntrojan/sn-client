@@ -1,61 +1,55 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 import {useParams, useHistory} from 'react-router';
 import {Helmet} from 'react-helmet';
+import {useQuery, useMutation} from 'react-query';
 
-import callApi from '@utils/callApi';
-import {getArticles} from '@store/articles/actions';
+import callApi from '@/utils/callApi';
 import Form from './Form';
-import {RootState} from '@store/types';
-import {IFetchData} from './types';
-import {IUser} from '@store/types';
-import {replaceUser} from '@store/auth/actions';
-import Loader from '@components/common/loaders/Loader';
+import {RootState} from '@/store/types';
+import {IUser} from '@/store/types';
+import {replaceUser} from '@/store/auth/actions';
+import Loader from '@/components/common/loaders/Loader';
+import {updateCache} from '@/queryClient';
 
 const EditUser: React.FC = () => {
 	const {userLink} = useParams<{userLink: string}>();
 	const history = useHistory();
 
-	const [user, setUser] = useState<IUser | null>(null);
-	const [loading, setLoading] = useState(true);
-
 	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
 	const dispatch = useDispatch();
 
-	useEffect(() => {
-		const fetchUser = async (): Promise<void> => {
-			const data: IFetchData = await callApi.get(`/users/${userLink}`);
+	const {isLoading: loadingUser, data: user = {} as IUser} = useQuery<IUser>(
+		`/users/${userLink}`,
+		async () => {
+			const {user} = await callApi.get(`/users/${userLink}`);
 
-			if (data.user) {
-				if (data.user._id === auth.user._id || auth.isAdmin) {
-					setUser(data.user);
-					setLoading(false);
-				} else {
-					history.goBack();
+			return user;
+		},
+	);
+
+	const {mutateAsync: editUser} = useMutation(
+		(user: IUser) => callApi.put(`/users/${user._id}`, user),
+		{
+			onSuccess(data) {
+				if (data.success) {
+					updateCache<IUser>(`/users/${userLink}`, user => ({...user, ...data.user}));
+
+					if (auth.user._id === data.user._id) {
+						dispatch(replaceUser(data.user));
+					}
 				}
-			}
-		};
-		fetchUser();
-	}, [userLink, dispatch, auth.user._id, auth.isAdmin, history]);
+			},
+		},
+	);
 
-	if (loading) {
-		return <Loader disableMargin />;
-	}
-
-	const handleSubmit = async (user: IUser): Promise<any> => {
-		const data = await callApi.put(`/users/${user._id}`, user);
-
-		if (data.success) {
-			setUser(data.user);
-
-			if (auth.user._id === user._id) {
-				dispatch(replaceUser(user));
-				dispatch(getArticles());
+	useEffect(() => {
+		if (!loadingUser) {
+			if (user._id !== auth.user._id || !auth.isAdmin) {
+				history.goBack();
 			}
 		}
-
-		return data;
-	};
+	}, [loadingUser]);
 
 	return (
 		<div className='edit-user'>
@@ -63,7 +57,7 @@ const EditUser: React.FC = () => {
 				<title>Edit profile / {process.env.REACT_APP_TITLE}</title>
 			</Helmet>
 
-			{user && <Form user={user} handleSubmit={handleSubmit} />}
+			{loadingUser ? <Loader /> : <Form user={user} handleSubmit={editUser} />}
 		</div>
 	);
 };

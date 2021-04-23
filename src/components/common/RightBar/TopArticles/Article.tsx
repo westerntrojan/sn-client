@@ -7,7 +7,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import {Link as RouterLink} from 'react-router-dom';
 
-import {IArticle} from '@store/types';
+import {IArticle} from '@/store/types';
 
 const useStyles = makeStyles({
 	root: {

@@ -1,53 +1,36 @@
-import React, {useState, useCallback, useEffect} from 'react';
+import React from 'react';
 import {useParams} from 'react-router';
 import Typography from '@material-ui/core/Typography';
-import BottomScrollListener from 'react-bottom-scroll-listener';
 import {Helmet} from 'react-helmet';
+import {useInfiniteQuery} from 'react-query';
 import Skeleton from '@material-ui/lab/Skeleton';
+import BottomScrollListener from 'react-bottom-scroll-listener';
 
 import './Tag.scss';
-import Loader from '@components/common/loaders/Loader';
-import SmallArticle from '@components/common/SmallArticle';
-import RightBar from '@components/common/RightBar';
+import SmallArticle from '@/components/common/SmallArticle';
+import RightBar from '@/components/common/RightBar';
 import About from './About';
-import callApi from '@utils/callApi';
-import {IArticle} from '@store/types';
-import {IFetchData} from './types';
+import callApi from '@/utils/callApi';
+import {IArticle} from '@/store/types';
+import SmallArticleSkeleton from '@/components/common/SmallArticle/SmallArticleSkeleton';
+
+type Page = {
+	articles: IArticle[];
+	skip: number;
+};
 
 const Tag: React.FC = () => {
 	const {slug} = useParams<{slug: string}>();
 
-	const [articles, setArticles] = useState<IArticle[]>([]);
-	const [loading, setLoading] = useState(true);
-	const [end, setEnd] = useState(false);
-
-	const loadMore = useCallback(async () => {
-		const skip = articles.length;
-
-		const data: IFetchData = await callApi.get(`/articles/tag/${slug}?skip=${skip}`);
-
-		if (data.articles.length < 10) {
-			setEnd(true);
-		}
-
-		setArticles(articles.concat(data.articles));
-	}, [slug, articles]);
-
-	const getArticles = useCallback(async () => {
-		const data: IFetchData = await callApi.get(`/articles/tag/${slug}?skip=0`);
-
-		if (data.articles.length < 10) {
-			setEnd(true);
-		}
-
-		setArticles(data.articles);
-
-		setLoading(false);
-	}, [slug]);
-
-	useEffect(() => {
-		getArticles();
-	}, [getArticles, loading]);
+	const {isLoading: loadingTags, data, hasNextPage, fetchNextPage} = useInfiniteQuery<Page>(
+		`/articles/tag/${slug}`,
+		async ({pageParam = 0}) => {
+			return callApi.get(`/articles/tag/${slug}?skip=${pageParam}`);
+		},
+		{
+			getNextPageParam: lastPage => (lastPage.skip !== 0 ? lastPage.skip : null),
+		},
+	);
 
 	return (
 		<section className='tag'>
@@ -60,22 +43,23 @@ const Tag: React.FC = () => {
 			<div className='articles'>
 				<About tag={slug} />
 
-				{loading && <Loader />}
+				{loadingTags && <SmallArticleSkeleton />}
 
-				{!loading && !articles.length && (
+				{!loadingTags && !data?.pages[0].articles.length && (
 					<div className='no-info'>
 						<Typography variant='h5'>No articles</Typography>
 					</div>
 				)}
 
-				{!loading &&
-					articles.map((article: IArticle) => <SmallArticle key={article._id} article={article} />)}
+				{data?.pages.map(page =>
+					page.articles.map(article => <SmallArticle key={article._id} article={article} />),
+				)}
 
-				{Boolean(articles.length) && !end && (
+				{hasNextPage && (
 					<div className='more-loader'>
 						<Skeleton width={200} height={40} />
 
-						<BottomScrollListener onBottom={loadMore} />
+						<BottomScrollListener onBottom={fetchNextPage} />
 					</div>
 				)}
 			</div>

@@ -12,7 +12,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import {makeStyles} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 
-import settings from '@App/settings.json';
+import settings from '@/App/settings.json';
 
 const useStyles = makeStyles(theme => ({
 	dialogTitle: {

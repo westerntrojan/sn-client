@@ -4,14 +4,14 @@ import classNames from 'classnames';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 import {useStyles} from './MyMessageStyle';
-import {IMessage} from '@components/common/chats/types';
+import {IMessage} from '@/components/common/chats/types';
 import TextMessage from './TextMessage';
 import AudioMessage from './AudioMessage';
 import {MessageMenu, SelectedMessageMenu, WithSelectedMessageMenu} from './message-menu';
-import GlobalChatContext from '@screens/GlobalChat/GlobalChatContext';
-import CanvasContext from '@screens/GlobalChat/Canvas/CanvasContext';
-import * as types from '@screens/GlobalChat/Canvas/reducer/types';
-import {RemoveModal} from '@components/common/modals';
+import GlobalChatContext from '@/screens/GlobalChat/GlobalChatContext';
+import CanvasContext from '@/screens/GlobalChat/Canvas/CanvasContext';
+import * as types from '@/screens/GlobalChat/Canvas/reducer/types';
+import {RemoveModal} from '@/components/common/modals';
 
 type Props = {
 	message: IMessage;

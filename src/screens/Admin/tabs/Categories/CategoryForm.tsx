@@ -20,7 +20,7 @@ type Category = {
 };
 
 type Props = {
-	handleAddCategory: (category: Category) => void;
+	handleAddCategory: (category: Category) => Promise<{success: boolean; message?: string}>;
 };
 
 const CategoryForm: React.FC<Props> = ({handleAddCategory}) => {
@@ -60,19 +60,17 @@ const CategoryForm: React.FC<Props> = ({handleAddCategory}) => {
 
 		setLoading(true);
 
-		const error: any = await handleAddCategory({title, desc});
+		const data = await handleAddCategory({title, desc});
 
-		setLoading(false);
-
-		if (error) {
-			enqueueSnackbar(error.msg, {variant: 'error'});
-
-			return;
+		if (data.success) {
+			enqueueSnackbar('Category added', {variant: 'success'});
+			setTitle('');
+			setDesc('');
+		} else {
+			enqueueSnackbar(data.message, {variant: 'error'});
 		}
 
-		enqueueSnackbar('Category added');
-		setTitle('');
-		setDesc('');
+		setLoading(false);
 	};
 
 	const _handleKeyPressInput = (target: React.KeyboardEvent) => {

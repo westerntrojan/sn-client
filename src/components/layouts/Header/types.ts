@@ -1,4 +1,4 @@
-import {IArticle, IUser} from '@store/types';
+import {IArticle, IUser} from '@/store/types';
 
 export interface ISearchResult {
 	articles: IArticle[];

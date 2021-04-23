@@ -1,23 +1,21 @@
 import store from '../store';
-import {AppActionTypes} from '@store/app/types';
-import {AuthActionTypes} from '@store/auth/types';
-import {appError, notFound} from '@store/app/actions';
-import {exit} from '@store/auth/actions';
+import {appError, notFound, newtworkError} from '@/store/app/actions';
+import {exit} from '@/store/auth/actions';
 import {AxiosError} from 'axios';
 
-const handle500Error = (error: AxiosError): AppActionTypes => {
-	return store.dispatch(appError(error));
+const handle500Error = () => {
+	return store.dispatch(newtworkError());
 };
 
-const handle404Error = (): AppActionTypes => {
+const handle404Error = () => {
 	return store.dispatch(notFound());
 };
 
-const handle401Error = (): AuthActionTypes => {
+const handle401Error = () => {
 	return store.dispatch(exit());
 };
 
-export const handleNetworkError = (error: AxiosError): AppActionTypes | AuthActionTypes => {
+export const handleNetworkError = (error: AxiosError) => {
 	if (process.env.NODE_ENV !== 'production') {
 		console.error(error);
 	}
@@ -34,9 +32,9 @@ export const handleNetworkError = (error: AxiosError): AppActionTypes | AuthActi
 		}
 	}
 
-	return handle500Error(error);
+	return handle500Error();
 };
 
-export const handleAppError = (error: Error): AppActionTypes => {
+export const handleAppError = (error: Error) => {
 	return store.dispatch(appError(error));
 };

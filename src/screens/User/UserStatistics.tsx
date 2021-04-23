@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import classNames from 'classnames';
 import ButtonBase from '@material-ui/core/ButtonBase';
 
-import Context from '@screens/User/context';
+import Context from '@/screens/User/context';
 
 const useStyles = makeStyles(() => ({
 	root: {

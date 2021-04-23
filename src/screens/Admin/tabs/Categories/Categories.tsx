@@ -1,73 +1,77 @@
-import React, {useEffect} from 'react';
-import {useDispatch, useSelector, shallowEqual} from 'react-redux';
-import {useSnackbar} from 'notistack';
-import Button from '@material-ui/core/Button';
+import React from 'react';
+import {useQuery, useMutation} from 'react-query';
 
 import './Categories.scss';
-import {
-	addCategory,
-	editCategory,
-	moveCategory,
-	restoreCategory,
-	removeCategory,
-} from '@store/category/actions';
 import CategoryForm from './CategoryForm';
 import CategoryList from './CategoryList';
 import {ICategoryInputs} from './types';
-import {RootState, ICategory} from '@store/types';
+import {ICategory} from '@/store/types';
 import Context from './context';
+import callApi from '@/utils/callApi';
+import {updateCache} from '@/queryClient';
 
 const Categories: React.FC = () => {
-	const allCategory = useSelector((state: RootState) => state.category.all, shallowEqual);
-	const dispatch = useDispatch();
+	const {isLoading: loadingCategories, data: categories = []} = useQuery<ICategory[]>(
+		'/categories',
+		async () => {
+			const {categories} = await callApi.get('/categories');
 
-	const {enqueueSnackbar, closeSnackbar} = useSnackbar();
+			return categories;
+		},
+	);
 
-	useEffect(() => {
-		return () => {
-			dispatch(removeCategory());
-		};
-	}, [dispatch]);
+	const {mutateAsync: addCategory} = useMutation(
+		(category: ICategoryInputs) => callApi.post('/categories', category),
+		{
+			onSuccess(data) {
+				if (data.success) {
+					updateCache<ICategory[]>('/categories', categories => categories.concat(data.category));
+				}
+			},
+		},
+	);
+	const {mutateAsync: editCategory} = useMutation(
+		(category: ICategory) => callApi.put(`/categories/${category._id}`, category),
+		{
+			onSuccess(data) {
+				if (data.success) {
+					updateCache<ICategory[]>('/categories', categories => {
+						return categories.map(category => {
+							if (category._id === data.category._id) {
+								return data.category;
+							}
 
-	const handleAddCategory = async (category: ICategoryInputs): Promise<void> => {
-		const data: any = await dispatch(addCategory(category));
-
-		if (data.errors) {
-			return data.errors[0];
-		}
-	};
-
-	const handleEditCategory = async (category: ICategory): Promise<void> => {
-		const data: any = await dispatch(editCategory(category));
-
-		return data;
-	};
-
-	const handleRemoveCategory = async (categoryId: string): Promise<void> => {
-		dispatch(moveCategory(categoryId));
-
-		const key = enqueueSnackbar('Сategory removed successfully', {
-			action: (
-				<Button
-					onClick={() => {
-						dispatch(restoreCategory(categoryId));
-
-						closeSnackbar(key);
-					}}
-					color='primary'
-				>
-					Cancel
-				</Button>
-			),
-		});
-	};
+							return category;
+						});
+					});
+				}
+			},
+		},
+	);
+	const {mutateAsync: removeCategory} = useMutation(
+		(categoryId: string) => callApi.delete(`/categories/${categoryId}`),
+		{
+			onSuccess(data) {
+				if (data.success) {
+					updateCache<ICategory[]>('/categories', categories =>
+						categories.filter(category => category._id !== data.categoryId),
+					);
+				}
+			},
+		},
+	);
 
 	return (
-		<div className='categories'>
-			<Context.Provider value={{handleAddCategory, handleEditCategory, handleRemoveCategory}}>
-				<CategoryList allCategory={allCategory} />
+		<div className='/categories'>
+			<Context.Provider
+				value={{
+					handleEditCategory: editCategory,
+					handleRemoveCategory: removeCategory,
+				}}
+			>
+				<CategoryList loading={loadingCategories} categories={categories} />
 
-				<CategoryForm handleAddCategory={handleAddCategory} />
+				<CategoryForm handleAddCategory={addCategory} />
 			</Context.Provider>
 		</div>
 	);

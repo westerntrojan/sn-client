@@ -6,28 +6,8 @@
 			{
 				"paths": [
 					{
-						"rootPathPrefix": "&",
+						"rootPathPrefix": "@/",
 						"rootPathSuffix": "src"
-					},
-					{
-						"rootPathPrefix": "@components",
-						"rootPathSuffix": "src/components"
-					},
-					{
-						"rootPathPrefix": "@screens",
-						"rootPathSuffix": "src/screens"
-					},
-					{
-						"rootPathPrefix": "@store",
-						"rootPathSuffix": "src/store"
-					},
-					{
-						"rootPathPrefix": "@utils",
-						"rootPathSuffix": "src/utils"
-					},
-					{
-						"rootPathPrefix": "@App",
-						"rootPathSuffix": "src/App"
 					}
 				]
 			}

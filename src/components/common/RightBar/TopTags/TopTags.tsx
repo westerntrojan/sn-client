@@ -8,7 +8,7 @@ import {Link as RouterLink} from 'react-router-dom';
 import {loader} from 'graphql.macro';
 import {useQuery} from 'react-apollo';
 
-import Loader from '@components/common/loaders/Loader';
+import Loader from '@/components/common/loaders/Loader';
 
 const GetTopTags = loader('./gql/GetTopTags.gql');
 
@@ -44,18 +44,20 @@ const useStyles = makeStyles(theme => ({
 const TopTags: React.FC = () => {
 	const classes = useStyles();
 
-	const {loading, data} = useQuery<{topTags: string[]}>(GetTopTags);
+	const {loading: loadingTags, data: {topTags} = {topTags: []}} = useQuery<{
+		topTags: string[];
+	}>(GetTopTags);
 
 	return (
-		<Paper className={classNames('top-tags', classes.root, {[classes.rootLoading]: loading})}>
+		<Paper className={classNames('top-tags', classes.root, {[classes.rootLoading]: loadingTags})}>
 			<Typography variant='overline' className={classes.title}>
 				Most popular tags
 			</Typography>
 
-			{loading && <Loader />}
-
-			{data &&
-				data.topTags.map((tag: string) => (
+			{loadingTags ? (
+				<Loader />
+			) : (
+				topTags.map((tag: string) => (
 					<Chip
 						label={`#${tag}`}
 						color='primary'
@@ -64,7 +66,8 @@ const TopTags: React.FC = () => {
 						component={RouterLink}
 						to={`/tag/${tag}`}
 					/>
-				))}
+				))
+			)}
 		</Paper>
 	);
 };

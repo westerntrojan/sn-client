@@ -4,10 +4,11 @@ import {makeStyles} from '@material-ui/core/styles';
 import {loader} from 'graphql.macro';
 import {useQuery} from 'react-apollo';
 import {useSelector, shallowEqual} from 'react-redux';
+import _ from 'lodash';
 
-import {IArticle, RootState} from '@store/types';
-import SmallArticle from '@components/common/SmallArticle';
-import Loader from '@components/common/loaders/Loader';
+import {IArticle, RootState} from '@/store/types';
+import SmallArticle from '@/components/common/SmallArticle';
+import SmallArticleSkeleton from '@/components/common/SmallArticle/SmallArticleSkeleton';
 
 const GetUserFeed = loader('./gql/GetUserFeed.gql');
 
@@ -22,7 +23,9 @@ const Feed: React.FC = () => {
 
 	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
 
-	const {loading, data} = useQuery<{userFeed: IArticle[]}>(GetUserFeed, {
+	const {loading: loadingFeed, data: {userFeed} = {userFeed: []}} = useQuery<{
+		userFeed: IArticle[];
+	}>(GetUserFeed, {
 		variables: {
 			userId: auth.user._id,
 		},
@@ -31,15 +34,17 @@ const Feed: React.FC = () => {
 
 	return (
 		<div className='auth-feed'>
-			{loading && <Loader disableMargin />}
+			{loadingFeed && _.isEmpty(userFeed) && <SmallArticleSkeleton />}
 
-			{data && !data.userFeed.length && (
+			{userFeed.map(article => (
+				<SmallArticle key={article._id} article={article} />
+			))}
+
+			{!loadingFeed && _.isEmpty(userFeed) && (
 				<div className={classes.noInfo}>
 					<Typography variant='h5'>No articles</Typography>
 				</div>
 			)}
-
-			{data && data.userFeed.map(article => <SmallArticle key={article._id} article={article} />)}
 		</div>
 	);
 };

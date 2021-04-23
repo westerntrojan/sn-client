@@ -4,12 +4,12 @@ import {useSelector, shallowEqual} from 'react-redux';
 import {Helmet} from 'react-helmet';
 
 import './Direct.scss';
-import Loader from '@components/common/loaders/Loader';
+import Loader from '@/components/common/loaders/Loader';
 import Header from './Header';
 import ChatsList from './ChatsList';
-import {RemoveModal} from '@components/common/modals';
-import callApi from '@utils/callApi';
-import {RootState} from '@store/types';
+import {RemoveModal} from '@/components/common/modals';
+import callApi from '@/utils/callApi';
+import {RootState} from '@/store/types';
 import {IChat} from './types';
 import Context from './context';
 

@@ -3,11 +3,11 @@ import {makeStyles} from '@material-ui/core/styles';
 import classNames from 'classnames';
 import VisibilitySensor from 'react-visibility-sensor';
 
-import UserAvatar from '@components/common/avatars/UserAvatar';
-import {IMessage} from '@components/common/chats/types';
+import UserAvatar from '@/components/common/avatars/UserAvatar';
+import {IMessage} from '@/components/common/chats/types';
 import TextMessage from './TextMessage';
 import AudioMessage from './AudioMessage';
-import GlobalChatContext from '@screens/GlobalChat/GlobalChatContext';
+import GlobalChatContext from '@/screens/GlobalChat/GlobalChatContext';
 
 const useStyles = makeStyles(theme => ({
 	root: {

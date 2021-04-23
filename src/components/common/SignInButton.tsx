@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
-import {useAuthModal} from '@utils/hooks';
+import {useAuthModal} from '@/utils/hooks';
 
 type Props = {
 	marginTop?: number;

@@ -1,4 +1,4 @@
-import {IArticle} from '@store/types';
+import {IArticle} from '@/store/types';
 
 export const getCommentsCount = (article: IArticle): number => {
 	const commentsCount = article.comments.reduce(

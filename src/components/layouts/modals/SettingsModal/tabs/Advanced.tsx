@@ -5,7 +5,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
-import SettingsContext from '@App/SettingsContext';
+import SettingsContext from '@/App/SettingsContext';
 
 const Advanced: React.FC = () => {
 	const [enableAnimations, setEnableAnimations] = useState(

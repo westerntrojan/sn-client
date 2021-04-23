@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import classNames from 'classnames';
 import Divider from '@material-ui/core/Divider';
 
-import {IUser} from '@store/types';
+import {IUser} from '@/store/types';
 
 const useStyles = makeStyles(() => ({
 	root: {

@@ -11,12 +11,12 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import {makeStyles} from '@material-ui/core/styles';
 import {useSnackbar} from 'notistack';
-import callApi from '@utils/callApi';
+import callApi from '@/utils/callApi';
 import {useSelector, shallowEqual} from 'react-redux';
 
-import {RootState, IUser} from '@store/types';
-import UserAvatar from '@components/common/avatars/UserAvatar';
-import Loader from '@components/common/loaders/Loader';
+import {RootState, IUser} from '@/store/types';
+import UserAvatar from '@/components/common/avatars/UserAvatar';
+import Loader from '@/components/common/loaders/Loader';
 
 const useStyles = makeStyles(theme => ({
 	root: {},

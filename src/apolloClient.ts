@@ -4,7 +4,7 @@ import {split, HttpLink} from '@apollo/client';
 import {getMainDefinition} from '@apollo/client/utilities';
 import {setContext} from '@apollo/client/link/context';
 
-import {getToken} from '@utils/auth';
+import {getToken} from '@/utils/auth';
 
 // cache
 const cache = new InMemoryCache();

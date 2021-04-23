@@ -7,11 +7,11 @@ import {ThemeProvider} from '@material-ui/core/styles';
 import BottomScrollListener from 'react-bottom-scroll-listener';
 import {BrowserRouter as Router} from 'react-router-dom';
 
-import Home from '@screens/Home';
-import {getCurrentTheme} from '@utils/theme';
-import Context from '@App/context';
-import {defaultUser} from '@store/auth/types';
-import SmallArticle from '@components/common/SmallArticle';
+import Home from '@/screens/Home';
+import {getCurrentTheme} from '@/utils/theme';
+import Context from '@/App/context';
+import {defaultUser} from '@/store/auth/types';
+import SmallArticle from '@/components/common/SmallArticle';
 
 const getArticles = (count: number): any[] => {
 	let _id = 0;

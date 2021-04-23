@@ -40,7 +40,7 @@ type ReturningData = {
 	updateItem: (name: string, value: any) => Promise<boolean>;
 };
 
-export default (): ReturningData => {
+function useSettings(): ReturningData {
 	const getItem = async (name: string): Promise<string | null> => {
 		const db = await init();
 
@@ -67,4 +67,6 @@ export default (): ReturningData => {
 	};
 
 	return {getItem, updateItem};
-};
+}
+
+export default useSettings;

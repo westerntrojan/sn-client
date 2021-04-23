@@ -1,5 +1,5 @@
-import * as types from '@store/articles/types';
-import reducer from '@store/articles/reducer';
+import * as types from '@/store/articles/types';
+import reducer from '@/store/articles/reducer';
 
 describe('Articles Reducer Test', () => {
 	it(types.FETCH_ARTICLES, () => {

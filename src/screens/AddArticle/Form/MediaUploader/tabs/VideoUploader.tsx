@@ -7,9 +7,9 @@ import {useSnackbar} from 'notistack';
 import {Video} from 'cloudinary-react';
 import VideoCallIcon from '@material-ui/icons/VideoCall';
 
-import {LinearProgressWithLabel, Loader} from '@components/common/loaders';
-import callApi from '@utils/callApi';
-import {validateVideo} from '@utils/media';
+import {LinearProgressWithLabel, Loader} from '@/components/common/loaders';
+import callApi from '@/utils/callApi';
+import {validateVideo} from '@/utils/media';
 
 const useStyles = makeStyles({
 	root: {

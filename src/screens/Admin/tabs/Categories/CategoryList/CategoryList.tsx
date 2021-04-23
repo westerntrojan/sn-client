@@ -2,10 +2,11 @@ import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
-import {ICategory} from '@store/types';
+import {ICategory} from '@/store/types';
 import Paper from '@material-ui/core/Paper';
 
 import CategoryItem from './CategoryItem';
+import Loader from '@/components/common/loaders/Loader';
 
 const useStyles = makeStyles({
 	title: {
@@ -14,10 +15,11 @@ const useStyles = makeStyles({
 });
 
 type Props = {
-	allCategory: ICategory[];
+	loading: boolean;
+	categories: ICategory[];
 };
 
-const CategoryList: React.FC<Props> = ({allCategory}) => {
+const CategoryList: React.FC<Props> = ({loading, categories}) => {
 	const classes = useStyles();
 
 	return (
@@ -26,12 +28,14 @@ const CategoryList: React.FC<Props> = ({allCategory}) => {
 				Categories
 			</Typography>
 
-			{!Boolean(allCategory.length) && <Typography>No categories</Typography>}
+			{loading && <Loader />}
 
-			{Boolean(allCategory.length) && (
+			{!loading && !Boolean(categories.length) && <Typography>No categories</Typography>}
+
+			{Boolean(categories.length) && (
 				<Paper>
 					<List>
-						{allCategory.map(category => (
+						{categories.map(category => (
 							<CategoryItem key={category._id} category={category} />
 						))}
 					</List>

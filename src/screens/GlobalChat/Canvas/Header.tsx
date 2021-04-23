@@ -5,7 +5,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import {makeStyles} from '@material-ui/core/styles';
 import GroupIcon from '@material-ui/icons/Group';
 
-import GlobalChatContext from '@screens/GlobalChat/GlobalChatContext';
+import GlobalChatContext from '@/screens/GlobalChat/GlobalChatContext';
 
 const useStyles = makeStyles({
 	root: {

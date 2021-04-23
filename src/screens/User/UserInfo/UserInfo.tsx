@@ -10,10 +10,9 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import {useQuery, useSubscription} from 'react-apollo';
 import {loader} from 'graphql.macro';
-import Skeleton from '@material-ui/lab/Skeleton';
 import moment from 'moment';
 
-import Context from '@screens/User/context';
+import Context from '@/screens/User/context';
 
 const GetUserOnline = loader('./gql/GetUserOnline.gql');
 const OnUserOnline = loader('./gql/OnUserOnline.gql');
@@ -89,8 +88,6 @@ const UserInfo: React.FC = () => {
 			<CardContent>
 				<div className={classes.titleBlock}>
 					<Typography variant='h5'>{`${user.firstName} ${user.lastName}`.trim()}</Typography>
-
-					{loading && <Skeleton width={60} height={30} />}
 
 					{!loading && userStatus.online && (
 						<Typography variant='subtitle2' color='primary'>

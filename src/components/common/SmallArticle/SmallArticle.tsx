@@ -31,13 +31,13 @@ import {useMutation} from 'react-apollo';
 import {loader} from 'graphql.macro';
 
 import {useStyles} from './SmllArticleStyle';
-import {userLink} from '@utils/users';
-import {getCommentsCount} from '@utils/articles';
-import {IArticle, RootState} from '@store/types';
-import {UserAvatar} from '@components/common/avatars';
-import ShareMenu from '@components/common/ShareMenu';
-import {useAuthModal} from '@utils/hooks';
-import {addToBookmarks, removeFromBookmarks} from '@store/auth/actions';
+import {userLink} from '@/utils/users';
+import {getCommentsCount} from '@/utils/articles';
+import {IArticle, RootState} from '@/store/types';
+import {UserAvatar} from '@/components/common/avatars';
+import ShareMenu from '@/components/common/ShareMenu';
+import {useAuthModal} from '@/utils/hooks';
+import {addToBookmarks, removeFromBookmarks} from '@/store/auth/actions';
 
 const AddToBookmarks = loader('./gql/AddToBookmarks.gql');
 
@@ -83,20 +83,20 @@ const SmallArticle: React.FC<Props> = ({article}) => {
 		return `${process.env.REACT_APP_CLOUD_VIDEO_URI}/ar_2.5,c_crop,q_65/${article.video}.jpg`;
 	};
 
-	const handleAddToBookmarks = async (): Promise<void> => {
+	const handleAddToBookmarks = () => {
 		if (!auth.isAuth) {
 			return openAuthModal();
 		}
 
-		const {data} = await addToBookmarksMutation({
+		if (auth.user.bookmarks.includes(article._id)) {
+			dispatch(removeFromBookmarks(article._id));
+		} else {
+			dispatch(addToBookmarks(article._id));
+		}
+
+		addToBookmarksMutation({
 			variables: {userId: auth.user._id, articleId: article._id},
 		});
-
-		if (data.addToBookmarks) {
-			dispatch(addToBookmarks(article._id));
-		} else {
-			dispatch(removeFromBookmarks(article._id));
-		}
 	};
 
 	return (
@@ -106,7 +106,7 @@ const SmallArticle: React.FC<Props> = ({article}) => {
 				action={
 					<>
 						<IconButton onClick={handleAddToBookmarks}>
-							{auth.user.bookmarks.includes(article._id) ? (
+							{auth.isAuth && auth.user.bookmarks.includes(article._id) ? (
 								<BookmarkIcon color='primary' />
 							) : (
 								<BookmarkBorderIcon />

@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import Fade from '@material-ui/core/Fade';
 
 import PointsLoader from './PointsLoader';
-import Context from '@screens/DirectChat/context';
+import Context from '@/screens/DirectChat/context';
 
 const useStyles = makeStyles(theme => ({
 	root: {

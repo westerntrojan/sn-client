@@ -14,12 +14,12 @@ import BookmarksIcon from '@material-ui/icons/Bookmarks';
 import PersonIcon from '@material-ui/icons/Person';
 import Skeleton from '@material-ui/lab/Skeleton';
 import DynamicFeedIcon from '@material-ui/icons/DynamicFeed';
-import ZoomTooltip from '@components/common/tooltips/ZoomTooltip';
+import ZoomTooltip from '@/components/common/tooltips/ZoomTooltip';
 import Divider from '@material-ui/core/Divider';
 import PublicIcon from '@material-ui/icons/Public';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 
-import {RootState} from '@store/types';
+import {RootState} from '@/store/types';
 
 const useStyles = makeStyles(theme => ({
 	drawer: {

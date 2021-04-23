@@ -10,10 +10,10 @@ import {Link as RouterLink} from 'react-router-dom';
 import lottie from 'lottie-web';
 import _ from 'lodash';
 
-import {userLink} from '@utils/users';
-import callApi from '@utils/callApi';
-import {IArticle, IUser} from '@store/types';
-// import Loader from '@components/common/loaders/Loader';
+import {userLink} from '@/utils/users';
+import callApi from '@/utils/callApi';
+import {IArticle, IUser} from '@/store/types';
+// import Loader from '@/components/common/loaders/Loader';
 
 const useStyles = makeStyles({
 	root: {

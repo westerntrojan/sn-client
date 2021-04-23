@@ -1,20 +1,12 @@
 import {createAction} from '@reduxjs/toolkit';
 
-import {fetchArticles} from '@store/articles/actions';
-import {verify, exit} from '@store/auth/actions';
-import {getCategory} from '@store/category/actions';
-import {AppThunk} from '@store/types';
+import {verify, exit} from '@/store/auth/actions';
+import {AppThunk} from '@/store/types';
 import * as types from './types';
-import callApi from '@utils/callApi';
+import callApi from '@/utils/callApi';
 
 export const loadApp = (): AppThunk => async (dispatch): Promise<void> => {
-	await Promise.all([dispatch(verify()), dispatch(getCategory())]);
-
-	dispatch({
-		type: types.PRE_LOADING,
-	});
-
-	await Promise.all([dispatch(fetchArticles())]);
+	await Promise.all([dispatch(verify())]);
 
 	dispatch({
 		type: types.LOADING,
@@ -41,6 +33,8 @@ export const appError = createAction(types.APP_ERROR, (error: Error) => ({
 		error,
 	},
 }));
+
+export const newtworkError = createAction(types.NETWORK_ERROR);
 
 export const notFound = createAction(types.NOT_FOUND);
 

@@ -1,5 +1,5 @@
-import * as utils from '@utils/users';
-import {defaultUser} from '@store/auth/types';
+import * as utils from '@/utils/users';
+import {defaultUser} from '@/store/auth/types';
 
 describe('Users Utils Test', () => {
 	it(`${utils.userName.name} > 10`, () => {

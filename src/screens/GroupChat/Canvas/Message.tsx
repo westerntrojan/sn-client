@@ -9,9 +9,9 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 
-import UserAvatar from '@components/common/avatars/UserAvatar';
-import {IMessage} from '@components/common/chats/types';
-import {userLink} from '@utils/users';
+import UserAvatar from '@/components/common/avatars/UserAvatar';
+import {IMessage} from '@/components/common/chats/types';
+import {userLink} from '@/utils/users';
 
 const useStyles = makeStyles(theme => ({
 	root: {

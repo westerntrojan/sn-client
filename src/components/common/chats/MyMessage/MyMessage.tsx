@@ -9,8 +9,8 @@ import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 
 import {useStyles} from './MyMessageStyle';
-import {IMessage} from '@components/common/chats/types';
-import DayMeta from '@components/common/chats/DayMeta';
+import {IMessage} from '@/components/common/chats/types';
+import DayMeta from '@/components/common/chats/DayMeta';
 
 type Props = {
 	message: IMessage;

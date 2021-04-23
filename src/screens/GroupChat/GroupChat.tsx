@@ -7,12 +7,12 @@ import {useParams} from 'react-router';
 
 import './GroupChat.scss';
 import Canvas from './Canvas';
-import {RootState} from '@store/types';
-import {IMessage} from '@components/common/chats/types';
+import {RootState} from '@/store/types';
+import {IMessage} from '@/components/common/chats/types';
 import GroupChatContext from './GroupChatContext';
 import reducer, {initialState} from './reducer';
 import * as types from './reducer/types';
-import {getToken} from '@utils/auth';
+import {getToken} from '@/utils/auth';
 
 let socket: SocketIOClient.Socket;
 

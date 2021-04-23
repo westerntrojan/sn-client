@@ -23,11 +23,11 @@ import EditIcon from '@material-ui/icons/Edit';
 import './CommentReplies.scss';
 import ReplyForm from './ReplyForm';
 import Reply from './Reply';
-import UserAvatar from '@components/common/avatars/UserAvatar';
-import {userLink} from '@utils/users';
-import {IComment} from '@store/types';
-import {useAuthModal} from '@utils/hooks';
-import Context from '@screens/Article/context';
+import UserAvatar from '@/components/common/avatars/UserAvatar';
+import {userLink} from '@/utils/users';
+import {IComment} from '@/store/types';
+import Context from '@/screens/Article/context';
+import {useAuthModal} from '@/utils/hooks';
 
 type Props = {
 	comment: IComment;
@@ -47,14 +47,19 @@ const CommentReplies: React.FC<Props> = ({comment, addLike, addDislike, handleRe
 
 	const repliesCount = comment.replies.length;
 
-	const userName = `${comment.user.firstName} ${comment.user.lastName}`.trim();
-
 	const openMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
 		setAnchorEl(e.currentTarget);
 	};
-
 	const closeMenu = () => {
 		setAnchorEl(null);
+	};
+
+	const openReplyForm = () => {
+		if (!auth.isAuth) {
+			return openAuthModal();
+		}
+
+		setReplyForm(true);
 	};
 
 	return (
@@ -66,7 +71,7 @@ const CommentReplies: React.FC<Props> = ({comment, addLike, addDislike, handleRe
 					<div className='info'>
 						<Typography className='username' variant='body2'>
 							<Link component={RouterLink} to={userLink(comment.user)} color='inherit'>
-								{userName}
+								{`${comment.user.firstName} ${comment.user.lastName}`.trim()}
 							</Link>
 						</Typography>
 
@@ -94,16 +99,7 @@ const CommentReplies: React.FC<Props> = ({comment, addLike, addDislike, handleRe
 							</IconButton>
 						</div>
 
-						<Button
-							size='small'
-							onClick={() => {
-								if (!auth.isAuth) {
-									return openAuthModal();
-								}
-
-								setReplyForm(true);
-							}}
-						>
+						<Button size='small' onClick={openReplyForm}>
 							Reply
 						</Button>
 					</div>

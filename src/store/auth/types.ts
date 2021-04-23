@@ -1,4 +1,4 @@
-import {IUser} from '@store/types';
+import {IUser} from '@/store/types';
 
 export const LOGIN = 'auth/login';
 export const REGISTER = 'auth/register';
@@ -24,24 +24,4 @@ export type AuthState = {
 	isAuth: boolean;
 	isAdmin: boolean;
 	user: IUser;
-};
-
-export const defaultUser = {
-	_id: '',
-	firstName: '',
-	lastName: '',
-	username: '',
-	email: '',
-	avatar: {
-		images: [''],
-		color: '',
-	},
-	bio: '',
-	role: 2,
-	bookmarks: [],
-	following: [],
-	emailVerified: true,
-	twoFactorAuth: false,
-	isRemoved: false,
-	created: '',
 };

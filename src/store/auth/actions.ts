@@ -1,10 +1,10 @@
 import {createAction} from '@reduxjs/toolkit';
 
-import callApi from '@utils/callApi';
-import {setToken, removeToken} from '@utils/auth';
-import {AppThunk} from '@store/types';
+import callApi from '@/utils/callApi';
+import {setToken, removeToken} from '@/utils/auth';
+import {AppThunk} from '@/store/types';
 import * as types from './types';
-import {IUser} from '@store/types';
+import {IUser} from '@/store/types';
 
 export const login = (userData: {rememberMe: boolean}): AppThunk => async (
 	dispatch,
@@ -126,26 +126,6 @@ export const replaceUser = createAction(types.REPLACE_USER, (user: IUser) => ({
 	},
 }));
 
-export const removeUser = (userId: string): AppThunk => async (
-	dispatch,
-	getState,
-): Promise<void> => {
-	const data = await callApi.delete(`/users/${userId}`);
-
-	if (data.success) {
-		dispatch({
-			type: types.REMOVE_USER,
-			payload: {
-				userId,
-			},
-		});
-
-		if (getState().auth.user._id === userId) {
-			dispatch(exit());
-		}
-	}
-};
-
 export const followToUser = (userId: string): AppThunk => async (
 	dispatch,
 	getState,
@@ -164,7 +144,6 @@ export const followToUser = (userId: string): AppThunk => async (
 		});
 	}
 };
-
 export const unfollowFromUser = (userId: string): AppThunk => async (
 	dispatch,
 	getState,

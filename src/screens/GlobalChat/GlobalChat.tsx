@@ -8,8 +8,8 @@ import {v4 as uuidv4} from 'uuid';
 
 import './GlobalChat.scss';
 import Canvas from './Canvas';
-import {RootState} from '@store/types';
-import {IMessage, IMessageInputs} from '@components/common/chats/types';
+import {RootState} from '@/store/types';
+import {IMessage, IMessageInputs} from '@/components/common/chats/types';
 import GlobalChatContext from './GlobalChatContext';
 import reducer, {initialState} from './reducer';
 import * as types from './reducer/types';

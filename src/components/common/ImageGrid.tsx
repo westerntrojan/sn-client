@@ -4,7 +4,7 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
-import ImageModal from '@components/common/modals/ImageModal';
+import ImageModal from '@/components/common/modals/ImageModal';
 
 const useStyles = makeStyles(theme => ({
 	root: {

@@ -9,7 +9,7 @@ import {Link as RouterLink} from 'react-router-dom';
 import grey from '@material-ui/core/colors/grey';
 import Avatar from '@material-ui/core/Avatar';
 
-import {IGroup} from '@screens/Group/types';
+import {IGroup} from '@/screens/Group/types';
 
 const getCorrentGroupName = (name: string) => {
 	return name

@@ -5,8 +5,8 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 
-import {ImageModal} from '@components/common/modals';
-import Loader from '@components/common/loaders/Loader';
+import {ImageModal} from '@/components/common/modals';
+import Loader from '@/components/common/loaders/Loader';
 
 const useStyles = makeStyles({
 	uploader: {

@@ -2,7 +2,7 @@ import React from 'react';
 import {Route} from 'react-router-dom';
 import {Location} from 'history';
 
-import NotFound from '@components/common/NotFound';
+import NotFound from '@/components/common/NotFound';
 
 type Props = {
 	children: React.ReactNode;

@@ -13,7 +13,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 
 import ConfirmEmailModal from './ConfirmEmailModal';
 import CodeModal from './CodeModal';
-import {ILoginInputs} from '@components/layouts/modals/AuthModal/types';
+import {ILoginInputs} from '@/components/layouts/modals/AuthModal/types';
 
 const useStyles = makeStyles(() => ({
 	input: {

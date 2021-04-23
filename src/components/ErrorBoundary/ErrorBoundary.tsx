@@ -6,9 +6,9 @@ import Paper from '@material-ui/core/Paper';
 import {ThemeProvider} from '@material-ui/core/styles';
 
 import './ErrorBoundary.scss';
-import {handleAppError} from '@utils/errorHandlers';
-import {RootState} from '@store/types';
-import {getCurrentTheme} from '@utils/theme';
+import {handleAppError} from '@/utils/errorHandlers';
+import {RootState} from '@/store/types';
+import {getCurrentTheme} from '@/utils/theme';
 
 type Props = {
 	error: object;

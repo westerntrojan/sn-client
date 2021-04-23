@@ -9,7 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Zoom from '@material-ui/core/Zoom';
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
 
-import Context from '@screens/DirectChat/context';
+import Context from '@/screens/DirectChat/context';
 
 const useStyles = makeStyles({
 	root: {

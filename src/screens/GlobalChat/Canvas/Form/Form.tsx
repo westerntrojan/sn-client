@@ -15,13 +15,13 @@ import DoneIcon from '@material-ui/icons/Done';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 
 import './Form.scss';
-import {useAuthModal} from '@utils/hooks';
-import GlobalChatContext from '@screens/GlobalChat/GlobalChatContext';
-import CanvasContext from '@screens/GlobalChat/Canvas/CanvasContext';
-import * as types from '@screens/GlobalChat/Canvas/reducer/types';
-import {RootState} from '@store/types';
+import {useAuthModal} from '@/utils/hooks';
+import GlobalChatContext from '@/screens/GlobalChat/GlobalChatContext';
+import CanvasContext from '@/screens/GlobalChat/Canvas/CanvasContext';
+import * as types from '@/screens/GlobalChat/Canvas/reducer/types';
+import {RootState} from '@/store/types';
 import EditedMessage from './EditedMessage';
-import {RemoveModal} from '@components/common/modals';
+import {RemoveModal} from '@/components/common/modals';
 
 const useStyles = makeStyles({
 	editedMessage: {

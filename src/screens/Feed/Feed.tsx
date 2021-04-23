@@ -2,7 +2,7 @@ import React from 'react';
 import {useSelector, shallowEqual} from 'react-redux';
 import {Helmet} from 'react-helmet';
 
-import {RootState} from '@store/types';
+import {RootState} from '@/store/types';
 import AuthFeed from './AuthFeed';
 import NotAuthFeed from './NotAuthFeed';
 

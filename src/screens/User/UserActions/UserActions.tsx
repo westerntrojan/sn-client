@@ -15,10 +15,10 @@ import {useHistory} from 'react-router';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import UserAvatar from './UserAvatar';
-import {userLink} from '@utils/users';
-import {useAuthModal} from '@utils/hooks';
-import Context from '@screens/User/context';
-import callApi from '@utils/callApi';
+import {userLink} from '@/utils/users';
+import {useAuthModal} from '@/utils/hooks';
+import Context from '@/screens/User/context';
+import callApi from '@/utils/callApi';
 
 const useStyles = makeStyles({
 	root: {

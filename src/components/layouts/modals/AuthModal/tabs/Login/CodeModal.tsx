@@ -10,7 +10,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {useTheme} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
-import Context from '@components/layouts/modals/AuthModal/context';
+import Context from '@/components/layouts/modals/AuthModal/context';
 
 type Props = {
 	open: boolean;

@@ -1,86 +1,76 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import {useParams, useHistory} from 'react-router';
 import {Helmet} from 'react-helmet';
+import {useQuery, useMutation} from 'react-query';
 
 import './User.scss';
-import Loader from '@components/common/loaders/Loader';
+import Loader from '@/components/common/loaders/Loader';
 import RemoveUserModal from './RemoveUserModal';
 import UserInfo from './UserInfo';
 import UserActions from './UserActions';
 import UserStatistics from './UserStatistics';
 import RemovedAvatar from './removed/RemovedAvatar';
 import RemovedInfo from './removed/RemovedInfo';
-import callApi from '@utils/callApi';
-import {removeUser} from '@store/auth/actions';
-import {RootState} from '@store/types';
-import {IUserStatistics, IFetchData} from './types';
+import callApi from '@/utils/callApi';
+import {exit} from '@/store/auth/actions';
+import {RootState} from '@/store/types';
 import Context from './context';
-import {followToUser, unfollowFromUser} from '@store/auth/actions';
+import {IUserStatistics} from './types';
+import {followToUser, unfollowFromUser} from '@/store/auth/actions';
+import {updateCache} from '@/queryClient';
 
 const User: React.FC = () => {
 	const {userLink} = useParams<{userLink: string}>();
 	const history = useHistory();
 
-	const [user, setUser] = useState<IUserStatistics | null>(null);
 	const [removeModal, setRemoveModal] = useState(false);
-	const [loading, setLoading] = useState(true);
 
 	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
 	const dispatch = useDispatch();
 
-	useEffect(() => {
-		const fetchUser = async (): Promise<void> => {
-			const data: IFetchData = await callApi.get(`/users/${userLink}`);
+	const {isLoading: loadingUser, data: user = {} as IUserStatistics} = useQuery<IUserStatistics>(
+		`/users/${userLink}`,
+		async () => {
+			const {user} = await callApi.get(`/users/${userLink}`);
 
-			setUser(data.user);
+			return user;
+		},
+	);
 
-			setLoading(false);
-		};
-		fetchUser();
-	}, [userLink]);
+	const {mutate: removeUser} = useMutation(() => callApi.delete(`/users/${user._id}`), {
+		onSuccess(data) {
+			if (data.userId === auth.user._id) {
+				dispatch(exit());
 
-	const openRemoveModal = () => {
-		setRemoveModal(true);
-	};
+				history.push('/');
+			}
+		},
+	});
 
 	const handleFollowToUser = () => {
-		if (user) {
-			if (auth.user.following.includes(user._id)) {
-				dispatch(unfollowFromUser(user._id));
+		if (auth.user.following.includes(user._id)) {
+			dispatch(unfollowFromUser(user._id));
 
-				setUser({
-					...user,
-					statistics: {
-						...user.statistics,
-						followers: user.statistics.followers - 1,
-					},
-				});
-			} else {
-				dispatch(followToUser(user._id));
+			updateCache<IUserStatistics>(`/users/${userLink}`, user => ({
+				...user,
+				statistics: {
+					...user.statistics,
+					followers: user.statistics.followers - 1,
+				},
+			}));
+		} else {
+			dispatch(followToUser(user._id));
 
-				setUser({
-					...user,
-					statistics: {
-						...user.statistics,
-						followers: user.statistics.followers + 1,
-					},
-				});
-			}
+			updateCache<IUserStatistics>(`/users/${userLink}`, user => ({
+				...user,
+				statistics: {
+					...user.statistics,
+					followers: user.statistics.followers + 1,
+				},
+			}));
 		}
 	};
-
-	const handleRemoveUser = async (): Promise<void> => {
-		if (user) {
-			await dispatch(removeUser(user._id));
-
-			history.push('/');
-		}
-	};
-
-	if (loading) {
-		return <Loader disableMargin />;
-	}
 
 	return (
 		<section className='user'>
@@ -92,10 +82,12 @@ const User: React.FC = () => {
 			</Helmet>
 
 			<Context.Provider value={{auth, user}}>
-				{user && !user.isRemoved && (
+				{loadingUser && <Loader />}
+
+				{!loadingUser && !user.isRemoved && (
 					<div className='user-data'>
 						<UserActions
-							handleRemoveUser={openRemoveModal}
+							handleRemoveUser={() => setRemoveModal(true)}
 							handleFollowToUser={handleFollowToUser}
 						/>
 
@@ -106,7 +98,7 @@ const User: React.FC = () => {
 					</div>
 				)}
 
-				{user && user.isRemoved && (
+				{!loadingUser && user.isRemoved && (
 					<div className='user-data'>
 						<RemovedAvatar />
 						<RemovedInfo user={user} />
@@ -117,7 +109,7 @@ const User: React.FC = () => {
 			<RemoveUserModal
 				open={removeModal}
 				closeModal={() => setRemoveModal(false)}
-				action={handleRemoveUser}
+				action={removeUser}
 			/>
 		</section>
 	);

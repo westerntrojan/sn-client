@@ -5,7 +5,7 @@ import {Route, Switch} from 'react-router-dom';
 import PageLoader from './components/PageLoader';
 import PrivateRoute from './components/PrivateRoute';
 import NotFound from './components/common/NotFound';
-import {RootState} from '@store/types';
+import {RootState} from '@/store/types';
 import Home from './screens/Home';
 
 const AddArticle = lazy(() => import('./screens/AddArticle'));
@@ -28,9 +28,9 @@ const Bookmarks = lazy(() => import('./screens/Bookmarks'));
 
 const Routes: React.FC = () => {
 	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
-	const appPreLoading = useSelector((state: RootState) => state.app.preLoading, shallowEqual);
+	const appLoading = useSelector((state: RootState) => state.app.loading, shallowEqual);
 
-	if (appPreLoading) {
+	if (appLoading) {
 		return <PageLoader />;
 	}
 

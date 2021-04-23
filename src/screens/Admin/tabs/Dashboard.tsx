@@ -2,7 +2,7 @@ import React from 'react';
 import {Helmet} from 'react-helmet';
 import {Bar} from 'react-chartjs-2';
 
-import {IDashboardData} from '@screens/Admin/types';
+import {IDashboardData} from '@/screens/Admin/types';
 
 type Props = {
 	data: IDashboardData;
