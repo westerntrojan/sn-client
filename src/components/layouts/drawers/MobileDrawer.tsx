@@ -9,7 +9,7 @@ import {Link as RouterLink} from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 import Drawer from '@material-ui/core/Drawer';
 import {useTheme} from '@material-ui/core/styles';
-import {useLocation} from 'react-router';
+import {useLocation} from 'react-router-dom';
 
 import Footer from './Footer';
 import BottomTabs from './BottomTabs';

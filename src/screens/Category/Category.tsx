@@ -1,5 +1,5 @@
 import React, {useState, useCallback, useEffect} from 'react';
-import {useParams} from 'react-router';
+import {useParams} from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import BottomScrollListener from 'react-bottom-scroll-listener';
 import {useDispatch} from 'react-redux';

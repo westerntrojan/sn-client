@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {useParams, useHistory} from 'react-router';
+import {useParams, useHistory} from 'react-router-dom';
 import {Helmet} from 'react-helmet';
 import {useQuery, useMutation} from 'react-query';
 

@@ -44,6 +44,7 @@ import Context from '@/screens/Article/context';
 import {followToUser} from '@/store/auth/actions';
 import ShareMenu from '@/components/common/ShareMenu';
 import ImageGallery from '@/components/common/ImageGallery';
+import {useAuthModal} from '@/utils/hooks';
 
 type Props = {
 	article: IArticle;
@@ -70,6 +71,12 @@ const FullArticle: React.FC<Props> = ({
 
 	const dispatch = useDispatch();
 
+	const {openAuthModal} = useAuthModal();
+
+	const showCreatorInfo =
+		!auth.isAuth ||
+		(article.user._id !== auth.user._id && !auth.user.following.includes(article.user._id));
+
 	const openMoreMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
 		setMoreMenuEl(e.currentTarget);
 	};
@@ -84,6 +91,10 @@ const FullArticle: React.FC<Props> = ({
 	};
 
 	const handleFollowToUser = () => {
+		if (!auth.isAuth) {
+			return openAuthModal();
+		}
+
 		dispatch(followToUser(article.user._id));
 	};
 
@@ -214,50 +225,49 @@ const FullArticle: React.FC<Props> = ({
 					</div>
 				)}
 
-				{!auth.isAuth ||
-					(article.user._id !== auth.user._id && !auth.user.following.includes(article.user._id) && (
-						<Box className={classes.author} borderRadius='borderRadius'>
-							<div className={classes.authorInfo}>
-								<Link
-									color='inherit'
-									underline='none'
-									component={RouterLink}
-									to={userLink(article.user)}
-								>
-									<UserAvatar user={article.user} />
-								</Link>
-
-								<div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}}>
-									<Typography variant='caption' style={{textTransform: 'uppercase'}}>
-										Written by
-									</Typography>
-
-									<Typography variant='subtitle1'>
-										<Link color='inherit' component={RouterLink} to={userLink(article.user)}>
-											{`${article.user.firstName} ${article.user.lastName}`.trim()}
-										</Link>
-									</Typography>
-
-									{article.user.bio && (
-										<Typography variant='body2'>
-											{article.user.bio.trim().length > 120
-												? article.user.bio.trim().slice(0, 120) + '...'
-												: article.user.bio.trim()}
-										</Typography>
-									)}
-								</div>
-							</div>
-
-							<Button
-								color='primary'
-								variant='outlined'
-								onClick={handleFollowToUser}
-								startIcon={<AddIcon />}
+				{showCreatorInfo && (
+					<Box className={classes.author} borderRadius='borderRadius'>
+						<div className={classes.authorInfo}>
+							<Link
+								color='inherit'
+								underline='none'
+								component={RouterLink}
+								to={userLink(article.user)}
 							>
-								Follow
-							</Button>
-						</Box>
-					))}
+								<UserAvatar user={article.user} />
+							</Link>
+
+							<div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}}>
+								<Typography variant='caption' style={{textTransform: 'uppercase'}}>
+									Written by
+								</Typography>
+
+								<Typography variant='subtitle1'>
+									<Link color='inherit' component={RouterLink} to={userLink(article.user)}>
+										{`${article.user.firstName} ${article.user.lastName}`.trim()}
+									</Link>
+								</Typography>
+
+								{article.user.bio && (
+									<Typography variant='body2'>
+										{article.user.bio.trim().length > 120
+											? article.user.bio.trim().slice(0, 120) + '...'
+											: article.user.bio.trim()}
+									</Typography>
+								)}
+							</div>
+						</div>
+
+						<Button
+							color='primary'
+							variant='outlined'
+							onClick={handleFollowToUser}
+							startIcon={<AddIcon />}
+						>
+							Follow
+						</Button>
+					</Box>
+				)}
 			</CardContent>
 
 			<CardActions className={classes.cardActions}>

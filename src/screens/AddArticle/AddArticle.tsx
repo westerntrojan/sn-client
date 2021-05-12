@@ -1,7 +1,7 @@
 import React from 'react';
 import {useSelector, shallowEqual} from 'react-redux';
 import {Helmet} from 'react-helmet';
-import {useHistory} from 'react-router';
+import {useHistory} from 'react-router-dom';
 import {useMutation} from 'react-query';
 
 import {RootState} from '@/store/types';

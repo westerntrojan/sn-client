@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
-import {useParams, useHistory} from 'react-router';
+import {useParams, useHistory} from 'react-router-dom';
 import {Helmet} from 'react-helmet';
 import {useQuery, useMutation} from 'react-query';
 

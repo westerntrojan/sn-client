@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {useParams} from 'react-router';
+import {useParams} from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import {useSnackbar} from 'notistack';
 import TextField from '@material-ui/core/TextField';

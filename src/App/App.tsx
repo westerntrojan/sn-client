@@ -6,7 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {PaletteOptions} from '@material-ui/core/styles/createPalette';
 import {SnackbarProvider} from 'notistack';
-import {useHistory} from 'react-router';
+import {useHistory} from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import {useMutation} from 'react-apollo';

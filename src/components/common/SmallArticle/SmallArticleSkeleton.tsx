@@ -74,7 +74,7 @@ export const Skeleton: React.FC = () => {
 
 const SkeletonGroup: React.FC = () => (
 	<>
-		{[...new Array(3)].map(i => (
+		{[...Array(3).keys()].map(i => (
 			<Skeleton key={i} />
 		))}
 	</>

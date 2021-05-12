@@ -12,7 +12,7 @@ import Slide from '@material-ui/core/Slide';
 import CloseIcon from '@material-ui/icons/Close';
 import {TransitionProps} from '@material-ui/core/transitions';
 import {useDispatch} from 'react-redux';
-import {useHistory} from 'react-router';
+import {useHistory} from 'react-router-dom';
 
 import Loader from '@/components/common/loaders/Loader';
 import {login, sendCode} from '@/store/auth/actions';

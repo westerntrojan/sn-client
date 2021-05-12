@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch, shallowEqual} from 'react-redux';
 import {Helmet} from 'react-helmet';
 import Typography from '@material-ui/core/Typography';
-import {useParams, useHistory} from 'react-router';
+import {useParams, useHistory} from 'react-router-dom';
 import SortIcon from '@material-ui/icons/Sort';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';

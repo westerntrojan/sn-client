@@ -6,7 +6,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import InfoIcon from '@material-ui/icons/Info';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Skeleton from '@material-ui/lab/Skeleton';
-import {useHistory} from 'react-router';
+import {useHistory} from 'react-router-dom';
 
 const useStyles = makeStyles({
 	root: {

@@ -2,7 +2,7 @@ import React, {useEffect, useCallback, useReducer} from 'react';
 import {useSelector, shallowEqual} from 'react-redux';
 import {Helmet} from 'react-helmet';
 import socketIoClient from 'socket.io-client';
-import {useParams} from 'react-router';
+import {useParams} from 'react-router-dom';
 import {useSnackbar} from 'notistack';
 
 import './DirectChat.scss';

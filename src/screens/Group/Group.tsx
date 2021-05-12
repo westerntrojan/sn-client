@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import Paper from '@material-ui/core/Paper';
 import {useSelector, shallowEqual} from 'react-redux';
 import {Helmet} from 'react-helmet';
-import {useHistory} from 'react-router';
+import {useHistory} from 'react-router-dom';
 
 import './Group.scss';
 import AddGroupModal from './AddGroupModal';

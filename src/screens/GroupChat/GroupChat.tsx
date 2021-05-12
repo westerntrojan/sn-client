@@ -3,7 +3,7 @@ import {useSelector, shallowEqual} from 'react-redux';
 import {Helmet} from 'react-helmet';
 import socketIoClient from 'socket.io-client';
 import {useSnackbar} from 'notistack';
-import {useParams} from 'react-router';
+import {useParams} from 'react-router-dom';
 
 import './GroupChat.scss';
 import Canvas from './Canvas';
