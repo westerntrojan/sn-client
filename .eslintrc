@@ -28,7 +28,7 @@
 		"prettier/prettier": "error",
 		"linebreak-style": "off",
 		"no-console": "off",
-		"no-alert": "error",
+		"no-alert": "off",
 		"indent": [
 			"error",
 			"tab",
@@ -55,7 +55,8 @@
 		"@typescript-eslint/interface-name-prefix": "off",
 		"@typescript-eslint/no-explicit-any": "off",
 		"@typescript-eslint/explicit-function-return-type": "off",
-		"no-alert": "off",
-		"@typescript-eslint/no-non-null-assertion": "off"
+		"@typescript-eslint/no-non-null-assertion": "off",
+		"@typescript-eslint/ban-types": "off",
+		"@typescript-eslint/explicit-module-boundary-types": "off"
 	}
 }

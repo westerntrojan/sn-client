@@ -2,7 +2,7 @@ import {useRef, useEffect} from 'react';
 
 type EventListener = (event: Event) => void;
 
-function useEventListener<T>(
+function useEventListener(
 	eventName: keyof WindowEventMap,
 	handler: EventListener,
 	element = window,

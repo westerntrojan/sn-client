@@ -5,7 +5,7 @@ import {Provider} from 'react-redux';
 import {ApolloProvider} from 'react-apollo';
 import {QueryClientProvider} from 'react-query';
 import {ReactQueryDevtools} from 'react-query/devtools';
-import * as serviceWorker from './serviceWorker';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 import ErrorBoundary from './components/ErrorBoundary';
 
@@ -38,4 +38,4 @@ if (module.hot) {
 	module.hot.accept();
 }
 
-serviceWorker.register();
+serviceWorkerRegistration.register();
