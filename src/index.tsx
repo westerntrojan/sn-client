@@ -10,7 +10,7 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import ErrorBoundary from './components/ErrorBoundary';
 
 import App from './App';
-import Routes from './Routes';
+import Routes from './routes';
 import store from './store';
 import {apolloClient} from './apolloClient';
 import {queryClient} from './queryClient';

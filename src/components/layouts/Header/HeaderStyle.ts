@@ -58,6 +58,13 @@ export const useStyles = makeStyles(theme => ({
 			},
 		},
 	},
+	skipButton: {
+		transform: 'scale(0)',
+
+		'&:focus': {
+			transform: 'scale(1)',
+		},
+	},
 	rightSide: {
 		display: 'flex',
 		alignItems: 'center',

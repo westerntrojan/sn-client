@@ -15,6 +15,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import PaletteIcon from '@material-ui/icons/Palette';
 import {useTheme} from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 import KeyboardIcon from '@material-ui/icons/Keyboard';
 import SettingsIcon from '@material-ui/icons/Settings';
 import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -285,7 +286,13 @@ const Header: React.FC<Props> = ({
 								/>
 							)}
 						</div>
+
+						<Button variant='outlined' href='#content' className={classes.skipButton}>
+							Skip navigation
+						</Button>
+
 						<div className={classes.grow} />
+
 						<div className={classes.sectionDesktop}>
 							<div className={classes.rightSide}>
 								{appLoading ? (
