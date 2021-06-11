@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import {useSnackbar} from 'notistack';
@@ -32,10 +32,7 @@ const useStyles = makeStyles({
 });
 
 const formSchema = yup.object().shape({
-	text: yup
-		.string()
-		.max(3000, 'Max length 3000')
-		.required('This is required field'),
+	text: yup.string().max(3000, 'Max length 3000'),
 });
 
 type FormData = {
@@ -51,6 +48,7 @@ const CommentForm: React.FC<Props> = ({onSubmit}) => {
 
 	const [loading, setLoading] = useState(false);
 	const [showButtons, setShowButtons] = useState(false);
+	const [textEmpty, setTextEmpty] = useState(true);
 
 	const {auth} = useContext(Context);
 
@@ -61,7 +59,6 @@ const CommentForm: React.FC<Props> = ({onSubmit}) => {
 		},
 		mode: 'onChange',
 	});
-
 	const textField = useController({
 		control,
 		name: 'text',
@@ -71,6 +68,14 @@ const CommentForm: React.FC<Props> = ({onSubmit}) => {
 
 	const {enqueueSnackbar} = useSnackbar();
 
+	useEffect(() => {
+		if (textField.field.value.trim()) {
+			setTextEmpty(false);
+		} else {
+			setTextEmpty(true);
+		}
+	}, [textField.field.value]);
+
 	const _handleCancel = () => {
 		reset();
 		setShowButtons(false);
@@ -78,6 +83,10 @@ const CommentForm: React.FC<Props> = ({onSubmit}) => {
 
 	const _handleSubmit = handleSubmit(
 		async ({text}: FormData): Promise<void> => {
+			if (textEmpty) {
+				return;
+			}
+
 			setLoading(true);
 
 			const data = await onSubmit(text);
@@ -137,7 +146,7 @@ const CommentForm: React.FC<Props> = ({onSubmit}) => {
 							color='primary'
 							variant='contained'
 							onClick={_handleSubmit}
-							disabled={!textField.field.value || !!textField.fieldState.error || loading}
+							disabled={textEmpty || !!textField.fieldState.error || loading}
 						>
 							Submit
 						</Button>
