@@ -70,7 +70,12 @@ const CommentReplies: React.FC<Props> = ({comment, addLike, addDislike, handleRe
 				<CardContent className='content'>
 					<div className='info'>
 						<Typography className='username' variant='body2'>
-							<Link component={RouterLink} to={userLink(comment.user)} color='inherit'>
+							<Link
+								underline='none'
+								component={RouterLink}
+								to={userLink(comment.user)}
+								color='inherit'
+							>
 								{`${comment.user.firstName} ${comment.user.lastName}`.trim()}
 							</Link>
 						</Typography>

@@ -4,7 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import {useSnackbar} from 'notistack';
 import Button from '@material-ui/core/Button';
 import classNames from 'classnames';
-import {useForm} from 'react-hook-form';
+import {useForm, useController} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
@@ -35,7 +35,7 @@ const formSchema = yup.object().shape({
 	text: yup
 		.string()
 		.max(3000, 'Max length 3000')
-		.required('This field is required'),
+		.required('This is required field'),
 });
 
 type FormData = {
@@ -49,22 +49,22 @@ type Props = {
 const CommentForm: React.FC<Props> = ({onSubmit}) => {
 	const classes = useStyles();
 
-	const [disabledButton, setDisabledButton] = useState(true);
 	const [loading, setLoading] = useState(false);
 	const [showButtons, setShowButtons] = useState(false);
 
 	const {auth} = useContext(Context);
 
-	const {
-		register,
-		reset,
-		handleSubmit,
-		formState: {errors},
-	} = useForm<FormData>({
+	const {handleSubmit, reset, control} = useForm({
 		resolver: yupResolver(formSchema),
 		defaultValues: {
 			text: '',
 		},
+		mode: 'onChange',
+	});
+
+	const textField = useController({
+		control,
+		name: 'text',
 	});
 
 	const {openAuthModal} = useAuthModal();
@@ -74,34 +74,27 @@ const CommentForm: React.FC<Props> = ({onSubmit}) => {
 	const _handleCancel = () => {
 		reset();
 		setShowButtons(false);
-		setDisabledButton(true);
 	};
 
-	const _handleChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
-		if (e.target.value) {
-			setDisabledButton(false);
-		} else {
-			setDisabledButton(true);
-		}
-	};
+	const _handleSubmit = handleSubmit(
+		async ({text}: FormData): Promise<void> => {
+			setLoading(true);
 
-	const _handleSubmit = async ({text}: FormData): Promise<void> => {
-		setLoading(true);
+			const data = await onSubmit(text);
 
-		const data = await onSubmit(text);
+			if (data.success) {
+				_handleCancel();
+			} else {
+				enqueueSnackbar(data.message, {variant: 'error'});
+			}
 
-		if (data.success) {
-			_handleCancel();
-		} else {
-			enqueueSnackbar(data.message, {variant: 'error'});
-		}
-
-		setLoading(false);
-	};
+			setLoading(false);
+		},
+	);
 
 	const _handleKeyPressTextarea = (target: React.KeyboardEvent) => {
 		if (target.ctrlKey && target.charCode === 13) {
-			handleSubmit(_handleSubmit)();
+			_handleSubmit();
 		}
 	};
 
@@ -120,10 +113,8 @@ const CommentForm: React.FC<Props> = ({onSubmit}) => {
 			) : (
 				<NotAuthAvatar className={classes.avatar} />
 			)}
-			<form className={classNames('form', classes.form)} onSubmit={handleSubmit(_handleSubmit)}>
+			<div className={classNames('form', classes.form)}>
 				<TextField
-					name='text'
-					inputRef={register}
 					placeholder='Add a public comment...'
 					className={classes.input}
 					multiline
@@ -131,9 +122,9 @@ const CommentForm: React.FC<Props> = ({onSubmit}) => {
 					onKeyPress={_handleKeyPressTextarea}
 					disabled={loading}
 					onMouseDown={_handleMouseDown}
-					helperText={errors.text?.message}
-					error={!!errors.text}
-					onChange={_handleChangeText}
+					helperText={textField.fieldState.error?.message}
+					error={!!textField.fieldState.error}
+					{...textField.field}
 				/>
 
 				{showButtons && (
@@ -143,16 +134,16 @@ const CommentForm: React.FC<Props> = ({onSubmit}) => {
 						</Button>
 
 						<Button
-							type='submit'
 							color='primary'
 							variant='contained'
-							disabled={disabledButton || loading}
+							onClick={_handleSubmit}
+							disabled={!textField.field.value || !!textField.fieldState.error || loading}
 						>
 							Submit
 						</Button>
 					</div>
 				)}
-			</form>
+			</div>
 		</div>
 	);
 };

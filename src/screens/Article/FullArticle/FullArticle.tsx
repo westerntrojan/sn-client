@@ -123,7 +123,12 @@ const FullArticle: React.FC<Props> = ({
 				}
 				title={
 					<Typography variant='body2' style={{display: 'inline'}}>
-						<Link color='inherit' component={RouterLink} to={userLink(article.user)}>
+						<Link
+							underline='none'
+							color='inherit'
+							component={RouterLink}
+							to={userLink(article.user)}
+						>
 							{`${article.user.firstName} ${article.user.lastName}`.trim()}
 						</Link>
 					</Typography>
@@ -205,7 +210,7 @@ const FullArticle: React.FC<Props> = ({
 
 				<Typography>
 					Category:{' '}
-					<Link component={RouterLink} to={`/category/${article.category.slug}`}>
+					<Link underline='none' component={RouterLink} to={`/category/${article.category.slug}`}>
 						{article.category.title}
 					</Link>
 				</Typography>
@@ -243,7 +248,12 @@ const FullArticle: React.FC<Props> = ({
 								</Typography>
 
 								<Typography variant='subtitle1'>
-									<Link color='inherit' component={RouterLink} to={userLink(article.user)}>
+									<Link
+										underline='none'
+										color='inherit'
+										component={RouterLink}
+										to={userLink(article.user)}
+									>
 										{`${article.user.firstName} ${article.user.lastName}`.trim()}
 									</Link>
 								</Typography>

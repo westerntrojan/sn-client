@@ -60,7 +60,7 @@ const Reply: React.FC<Props> = ({reply, addLike, addDislike}) => {
 			<div className='content'>
 				<div className='info'>
 					<Typography className='username' variant='body2'>
-						<Link component={RouterLink} to={userLink(reply.user)} color='inherit'>
+						<Link underline='none' component={RouterLink} to={userLink(reply.user)} color='inherit'>
 							{`${reply.user.firstName} ${reply.user.lastName}`.trim()}
 						</Link>
 					</Typography>

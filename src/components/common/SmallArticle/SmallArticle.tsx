@@ -124,7 +124,12 @@ const SmallArticle: React.FC<Props> = ({article}) => {
 				}
 				title={
 					<Typography variant='body2' style={{display: 'inline', marginRight: 10}}>
-						<Link color='inherit' component={RouterLink} to={userLink(article.user)}>
+						<Link
+							underline='none'
+							color='inherit'
+							component={RouterLink}
+							to={userLink(article.user)}
+						>
 							{`${article.user.firstName} ${article.user.lastName}`.trim()}
 						</Link>
 					</Typography>

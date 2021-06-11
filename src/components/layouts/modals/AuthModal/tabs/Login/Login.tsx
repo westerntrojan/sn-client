@@ -142,6 +142,7 @@ const Login: React.FC<Props> = ({submit}) => {
 						color='primary'
 						onClick={() => setConfirmEmailModal(true)}
 						style={{cursor: 'pointer', marginBottom: 5}}
+						underline='none'
 					>
 						Forgot password ?
 					</Link>
