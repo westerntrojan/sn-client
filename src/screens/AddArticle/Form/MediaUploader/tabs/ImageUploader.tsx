@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 
 import {LinearProgressWithLabel} from '@/components/common/loaders';
 import ImageGrid from '@/components/common/ImageGrid';
+import {getImageLink} from '@/utils/media';
 
 const useStyles = makeStyles({
 	root: {
@@ -122,9 +123,7 @@ const ImageUploader: React.FC<Props> = ({
 
 			<div className={classes.preview}>
 				{!!images.length && (
-					<ImageGrid
-						images={images.map(image => `${process.env.REACT_APP_CLOUD_IMAGE_URI}/q_65/${image}`)}
-					/>
+					<ImageGrid images={images.map(image => getImageLink({imageId: image}))} />
 				)}
 
 				{loadingImages && (

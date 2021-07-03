@@ -45,6 +45,7 @@ import {followToUser} from '@/store/auth/actions';
 import ShareMenu from '@/components/common/ShareMenu';
 import ImageGallery from '@/components/common/ImageGallery';
 import {useAuthModal} from '@/utils/hooks';
+import {getImageLink} from '@/utils/media';
 
 type Props = {
 	article: IArticle;
@@ -139,9 +140,7 @@ const FullArticle: React.FC<Props> = ({
 			{/* images */}
 			{!!article.images.length && (
 				<ImageGallery
-					images={article.images.map(
-						image => `${process.env.REACT_APP_CLOUD_IMAGE_URI}/q_65/${image}`,
-					)}
+					images={article.images.map(image => getImageLink({imageId: image}))}
 					withModal
 				/>
 			)}
@@ -151,7 +150,7 @@ const FullArticle: React.FC<Props> = ({
 				<CardMedia
 					component='img'
 					alt={article.title}
-					image={`${process.env.REACT_APP_CLOUD_IMAGE_URI}/ar_1.8,c_crop,q_65,fl_progressive/${article.image}`}
+					image={getImageLink({imageId: article.image})}
 					title={article.title}
 					className={classes.image}
 					onClick={() => setImageModal(true)}
@@ -327,14 +326,14 @@ const FullArticle: React.FC<Props> = ({
 
 			<ImageModal
 				open={imageModal}
-				image={`${process.env.REACT_APP_CLOUD_IMAGE_URI}/q_65,fl_progressive/${article.image}`}
+				image={getImageLink({imageId: article.image})}
 				closeModal={() => setImageModal(false)}
 			/>
 
 			<ShareMenu
 				anchorEl={shareMenuEl}
 				closeMenu={closeShareMenu}
-				url={`https://delo.westerntrojan.now.sh/article/${article.slug}`}
+				url={`${window.location.origin}/article/${article.slug}`}
 			/>
 
 			<Menu anchorEl={moreMenuEl} keepMounted open={Boolean(moreMenuEl)} onClose={closeMoreMenu}>

@@ -7,6 +7,7 @@ import {Link as RouterLink} from 'react-router-dom';
 
 import {userInitials, userLink} from '@/utils/users';
 import {IUser} from '@/store/types';
+import {getImageLink} from '@/utils/media';
 
 const useStyles = makeStyles(theme => ({
 	small: {
@@ -35,16 +36,16 @@ const UserAvatar: React.FC<Props> = ({
 }) => {
 	const classes = useStyles();
 
+	const currentAvatar = !!user.avatar.images.length
+		? getImageLink({imageId: user.avatar.images[0], width: 50, height: 50, crop: 'fill'})
+		: '';
+
 	if (link) {
 		return (
 			<Link underline='none' component={RouterLink} to={userLink(user)}>
 				<Avatar
 					className={classNames('avatar', className, {[classes.small]: small})}
-					src={
-						user.avatar.images.length
-							? `${process.env.REACT_APP_CLOUD_IMAGE_URI}/c_fill,h_50,w_50,q_65/${user.avatar.images[0]}`
-							: ''
-					}
+					src={currentAvatar}
 					style={{backgroundColor: user.avatar.color, ...style}}
 					onClick={onClick}
 				>
@@ -57,11 +58,7 @@ const UserAvatar: React.FC<Props> = ({
 	return (
 		<Avatar
 			className={classNames('avatar', className, {[classes.small]: small})}
-			src={
-				user.avatar.images.length
-					? `${process.env.REACT_APP_CLOUD_IMAGE_URI}/c_fill,h_50,w_50,q_65/${user.avatar.images[0]}`
-					: ''
-			}
+			src={currentAvatar}
 			style={{backgroundColor: user.avatar.color, ...style}}
 			onClick={onClick}
 		>

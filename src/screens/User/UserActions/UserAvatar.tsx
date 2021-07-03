@@ -12,7 +12,7 @@ import axios from 'axios';
 
 import {addAvatar, removeAvatar} from '@/store/auth/actions';
 import {userInitials} from '@/utils/users';
-import {validateImage} from '@/utils/media';
+import {validateImage, getImageLink} from '@/utils/media';
 import {ImageModal} from '@/components/common/modals';
 import {CircularProgressWithLabel} from '@/components/common/loaders';
 import Context from '@/screens/User/context';
@@ -124,8 +124,10 @@ const UserAvatar: React.FC = () => {
 	};
 
 	const isMe = auth.user._id === user._id;
-	const allAvatars = isMe ? auth.user.avatar.images : user.avatar.images;
-	const currentAvatar = isMe ? auth.user.avatar.images[0] : user.avatar.images[0];
+	const allAvatars = user.avatar.images.map((avatar: string) => getImageLink({imageId: avatar}));
+	const currentAvatar = !!user.avatar.images.length
+		? getImageLink({imageId: user.avatar.images[0], width: 240, height: 240, crop: 'fill'})
+		: '';
 
 	return (
 		<div
@@ -138,20 +140,14 @@ const UserAvatar: React.FC = () => {
 				className={classNames(classes.avatar, 'avatar')}
 				style={{backgroundColor: user.avatar.color, cursor: currentAvatar ? 'pointer' : 'default'}}
 				onClick={() => setImageModal(true)}
-				src={
-					currentAvatar
-						? `${process.env.REACT_APP_CLOUD_IMAGE_URI}/c_fill,h_240,w_240,q_65/${currentAvatar}`
-						: ''
-				}
+				src={currentAvatar}
 			>
 				<Typography variant='h2'>{userInitials(user)}</Typography>
 			</Avatar>
 
 			<ImageModal
 				open={imageModal && isMe}
-				images={allAvatars.map(
-					(avatar: string) => `${process.env.REACT_APP_CLOUD_IMAGE_URI}/q_65/${avatar}`,
-				)}
+				images={allAvatars}
 				handleRemoveImage={handleRemoveImage}
 				loading={loading}
 				closeModal={() => setImageModal(false)}
@@ -159,9 +155,7 @@ const UserAvatar: React.FC = () => {
 
 			<ImageModal
 				open={imageModal && !isMe}
-				images={allAvatars.map(
-					(avatar: string) => `${process.env.REACT_APP_CLOUD_IMAGE_URI}/q_65/${avatar}`,
-				)}
+				images={allAvatars}
 				closeModal={() => setImageModal(false)}
 			/>
 

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import moment from 'moment';
 import {Link as RouterLink} from 'react-router-dom';
 import Link from '@material-ui/core/Link';
@@ -38,6 +38,7 @@ import {UserAvatar} from '@/components/common/avatars';
 import ShareMenu from '@/components/common/ShareMenu';
 import {useAuthModal} from '@/utils/hooks';
 import {addToBookmarks, removeFromBookmarks} from '@/store/auth/actions';
+import {getImageLink} from '@/utils/media';
 
 const AddToBookmarks = loader('./gql/AddToBookmarks.gql');
 
@@ -50,6 +51,10 @@ const SmallArticle: React.FC<Props> = ({article}) => {
 
 	const [moreMenuEl, setMoreMenuEl] = useState<HTMLElement | null>(null);
 	const [shareMenuEl, setShareMenuEl] = useState<HTMLElement | null>(null);
+	const [preview, setPreview] = useState<{imageId: string; sourceType: 'image' | 'video'}>({
+		imageId: '',
+		sourceType: 'image',
+	});
 
 	const {openAuthModal} = useAuthModal();
 
@@ -57,6 +62,16 @@ const SmallArticle: React.FC<Props> = ({article}) => {
 
 	const auth = useSelector((state: RootState) => state.auth, shallowEqual);
 	const dispatch = useDispatch();
+
+	useEffect(() => {
+		if (article.image) {
+			setPreview(preview => ({...preview, imageId: article.image}));
+		} else if (!!article.images.length) {
+			setPreview(preview => ({...preview, imageId: article.images[0]}));
+		} else if (article.video) {
+			setPreview(preview => ({...preview, imageId: article.video, sourceType: 'video'}));
+		}
+	}, []);
 
 	const openMoreMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
 		setMoreMenuEl(e.currentTarget);
@@ -69,18 +84,6 @@ const SmallArticle: React.FC<Props> = ({article}) => {
 	};
 	const closeShareMenu = () => {
 		setShareMenuEl(null);
-	};
-
-	const getPreviewLink = (): string => {
-		if (article.image) {
-			return `${process.env.REACT_APP_CLOUD_IMAGE_URI}/ar_2.5,c_crop,q_65/${article.image}`;
-		}
-
-		if (!!article.images.length) {
-			return `${process.env.REACT_APP_CLOUD_IMAGE_URI}/ar_2.5,c_crop,q_65/${article.images[0]}`;
-		}
-
-		return `${process.env.REACT_APP_CLOUD_VIDEO_URI}/ar_2.5,c_crop,q_65/${article.video}.jpg`;
 	};
 
 	const handleAddToBookmarks = () => {
@@ -137,7 +140,7 @@ const SmallArticle: React.FC<Props> = ({article}) => {
 				subheader={moment(article.created).fromNow()}
 			/>
 
-			{(article.image || !!article.images.length || article.video) && (
+			{preview.imageId && (
 				<CardActionArea className={classes.imageWrapper}>
 					<Link
 						underline='none'
@@ -146,17 +149,23 @@ const SmallArticle: React.FC<Props> = ({article}) => {
 						color='inherit'
 					>
 						<LazyLoadImage
-							src={getPreviewLink()}
-							title={article.title}
+							src={getImageLink({...preview, width: 1400, height: 400})}
+							// браузер автоматически выбирает нужное изображение (ссылку на него), в зависимости от размера экрана
+							srcSet={`${getImageLink({...preview, width: 300, height: 400})} 300w,
+											${getImageLink({...preview, width: 600, height: 400})} 600w,
+											${getImageLink({...preview, width: 900, height: 400})} 900w,
+											${getImageLink({...preview, width: 1200, height: 400})} 1200w,
+											${getImageLink({...preview, width: 1400, height: 400})} 1400w`}
 							width='100%'
-							height='400px'
-							effect='blur'
+							height='400'
+							title={article.title}
 							alt={article.title}
 							className={classes.image}
+							effect='blur'
 						/>
-					</Link>
 
-					{!!article.images.length && <PhotoLibraryIcon className={classes.galleryIcon} />}
+						{!!article.images.length && <PhotoLibraryIcon className={classes.galleryIcon} />}
+					</Link>
 				</CardActionArea>
 			)}
 
@@ -203,7 +212,7 @@ const SmallArticle: React.FC<Props> = ({article}) => {
 			<ShareMenu
 				anchorEl={shareMenuEl}
 				closeMenu={closeShareMenu}
-				url={`https://delo.westerntrojan.now.sh/article/${article.slug}`}
+				url={`${window.location.origin}/article/${article.slug}`}
 			/>
 
 			<Menu anchorEl={moreMenuEl} keepMounted open={Boolean(moreMenuEl)} onClose={closeMoreMenu}>

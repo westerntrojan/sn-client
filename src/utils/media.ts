@@ -39,3 +39,32 @@ export const validateAudio = (file: File): {success: boolean; message?: string} 
 
 	return {success: true};
 };
+
+type ImageLinkProps = {
+	imageId: string;
+	width?: number;
+	height?: number;
+	quality?: number;
+	crop?: string;
+	sourceType?: 'image' | 'video';
+};
+
+export const getImageLink = ({
+	imageId,
+	width,
+	height,
+	crop = 'crop',
+	quality = 65,
+	sourceType = 'image',
+}: ImageLinkProps) => {
+	switch (sourceType) {
+		case 'video':
+			return `${process.env.REACT_APP_CLOUD_VIDEO_URI}/${width ? `w_${width},` : ''}${
+				height ? `h_${height},` : ''
+			}${width || height ? `c_${crop},` : ''}q_${quality}/${imageId}.webp`;
+		default:
+			return `${process.env.REACT_APP_CLOUD_IMAGE_URI}/${width ? `w_${width},` : ''}${
+				height ? `h_${height},` : ''
+			}${width || height ? `c_${crop},` : ''}q_${quality}/${imageId}.webp`;
+	}
+};
